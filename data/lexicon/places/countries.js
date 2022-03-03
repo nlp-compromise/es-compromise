@@ -61,7 +61,7 @@ export default [
   'francia',//france
   'gabón',//gabon
   'gambia',//gambia
-  'georgia',//georgia
+  // 'georgia',//georgia
   'alemania',//germany
   'ghana',//ghana
   'grecia',//greece
@@ -106,7 +106,7 @@ export default [
   'malta',//malta
   'islas marshall',//marshall islands
   'mauritania',//mauritania
-  'mauricio',//mauritius
+  // 'mauricio',//mauritius
   'méxico',//mexico
   'micronesia',//micronesia
   'moldavia',//moldova

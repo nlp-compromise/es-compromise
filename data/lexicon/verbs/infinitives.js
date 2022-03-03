@@ -635,5 +635,5 @@ export default [
   "proseguir",
   "ensuciar",
   "merecer",
-  "llover"
+  "llover",
 ]

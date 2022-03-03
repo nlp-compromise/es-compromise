@@ -130,5 +130,94 @@ export default [
 
   'ron',
 
-  'militar', 'altar', 'bienestar'
+  'militar', 'altar', 'bienestar',
+
+  'principales', 'locales', 'generales',
+  'profesionales', 'laterales', 'centrales',
+  'finales', 'liberales', 'radicales',
+  'minerales', 'intelectuales', 'vocales',
+  'terminales', 'ideales', 'capitales',
+  'rituales', 'cereales', 'animales',
+  'materiales', 'canales', 'señales',
+  'metales', 'semifinales', 'concejales',
+  'rivales', 'festivales', 'tribunales',
+  'cristales', 'sales', 'hospitales',
+  'cardenales', 'orbitales', 'gales',
+
+  'políticos', 'británicos',
+  'clásicos', 'físicos',
+  'católicos', 'soviéticos',
+  'médicos', 'gráficos',
+  'críticos', 'científicos',
+  'músicos', 'juegos olímpicos',
+  'periódicos', 'picos',
+  'chicos',
+
+  'matemáticas',
+  'prácticas',
+  'críticas',
+  'técnicas',
+  'características',
+  'crónicas',
+  'estadísticas',
+  'fábricas',
+  'día de las américas',
+  'repúblicas',
+  'chicas',
+
+  'político',
+  'crítico',
+  'matemático',
+  'atlántico',
+  'plástico',
+  'diagnóstico',
+  'pórtico',
+  'catedrático',
+  'océano atlántico',
+  'neolítico',
+
+  'política', 'matemática',
+  'práctica', 'lingüística',
+  'característica', 'crítica',
+  'estética', 'estadística',
+  'informática', 'táctica',
+  'ética', 'temática',
+  'gramática', 'unión soviética',
+
+  'variable', 'responsable', 'cable', 'sable',
+  'muebles',
+
+  'ejecutivo',
+  'atractivo',
+  'motivo',
+  'cultivo',
+  'dispositivo',
+  'adjetivo',
+
+  'maquinaria', 'bulgaria',
+
+  'negativa', 'alternativa', 'iniciativa', 'perspectiva',
+
+  'cantante', 'gigante',
+  'gobernante', 'visitante',
+  'amante', 'estudiante',
+  'representante', 'variante',
+  'comandante', 'alicante',
+  'fabricante', 'dante',
+  'infante', 'almirante',
+  'instante', 'dibujante',
+  'restaurante', 'ayudante',
+  'comerciante', 'levante',
+
+  'bando', 'fernando', 'comando', 'cuando',
+
+  'décadas',
+  'temporadas',
+  'coordenadas',
+  'entradas',
+  'espadas',
+  'jornadas',
+  'fuerzas armadas',
+
+  'diputado', 'atentado', 'costado'
 ]

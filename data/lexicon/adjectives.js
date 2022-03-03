@@ -645,5 +645,15 @@ export default [
   'inesperada', 'delicada',
   'nómada', 'inacabada',
   'inadecuada', 'malvada',
-  'ilimitada'
+  'ilimitada',
+
+  'violento',
+  'amarillento',
+  'sangriento',
+  'contento',
+  'exento',
+  'atento',
+  'turbulento',
+  'nómadas', 'sagradas', 'delgadas', 'lanceoladas', 'delicadas',
+  'ilimitado'
 ]

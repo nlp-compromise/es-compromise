@@ -162,4 +162,5 @@ export default [
   "estrechamente",
   "allá",
   "sucesivamente",
+
 ]

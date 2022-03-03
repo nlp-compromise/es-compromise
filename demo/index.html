@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>es-compromise Demo</title>
+  <style>
+    textarea {
+      width: 50%;
+      margin-top: 5%;
+      margin-bottom: 1rem;
+      padding: 10px;
+      font-size: 15px;
+      color: grey;
+      min-height: 200px;
+      border-radius: 5px;
+    }
+
+    #result {
+      color: steelblue;
+      font-size: 16px;
+      margin: 20px;
+      margin-left: 15%;
+      line-height: 1.2rem;
+      margin-top: 3rem;
+    }
+
+    .title {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      text-align: center;
+      flex-wrap: wrap;
+      align-self: stretch;
+    }
+
+    .tags {
+      width: 50%;
+      margin-left: 25%;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      text-align: center;
+      flex-wrap: wrap;
+      align-self: stretch;
+
+    }
+
+    @media only screen and (max-width:600px) {
+      textarea {
+        margin-left: 5%;
+        width: 90%;
+      }
+
+      #result {
+        margin-left: 5%;
+      }
+
+      .tags {
+        margin-left: 5%;
+      }
+    }
+
+
+    h3 {
+      color: steelblue
+    }
+
+    .nouns {
+      color: #6393b9;
+    }
+
+    .verbs {
+      color: palevioletred;
+    }
+
+    .det {
+      color: #d3c0b3;
+    }
+
+    .adj {
+      color: #b3d3c6;
+    }
+
+    .conj {
+      color: #c8c9cf;
+    }
+
+    .adv {
+      color: #9794a8;
+    }
+
+    .prep {
+      color: grey;
+    }
+
+    .num {
+      color: #f39c73;
+    }
+
+    .tag {
+      margin-right: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="title">
+    <h3>Procesamiento de lenguaje natural en Español</h3>
+    <div style="color:cornflowerblue;">
+      (part-of-speech tagging in spanish)
+      <a href="https://github.com/nlp-compromise/es-compromise"
+        style="margin-left:100px; color:steelblue; white-space: nowrap;">
+        es-compromise</a>
+    </div>
+    <textarea type="text" id="text" onKeyPress="tagger()" onKeyUp="tagger()">
+Sí, sabes que ya llevo un rato mirándote
+Tengo que bailar contigo hoy
+Vi que tu mirada ya estaba llamándome
+Muéstrame el camino que yo voy
+Oh, tú, tú eres el imán y yo soy el metal
+Me voy acercando y voy armando el plan
+Solo con pensarlo se acelera el pulso
+Ya, ya me estás gustando más de lo normal
+Todos mis sentidos van pidiendo más
+Esto hay que tomarlo sin ningún apuro
+
+Quiero respirar tu cuello despacito
+Deja que te diga cosas al oído
+Para que te acuerdes si no estás conmigo
+
+Quiero desnudarte a besos despacito
+Firmar las paredes de tu laberinto
+Y hacer de tu cuerpo todo un manuscrito
+
+Quiero ver bailar tu pelo
+Quiero ser tu ritmo
+Que le enseñes a mi boca
+Tus lugares favoritos
+Déjame sobrepasar tus zonas de peligro
+Hasta provocar tus gritos
+Y que olvides tu apellido
+Yo sé que estás pensándolo
+Llevo tiempo intentándolo
+Mami, esto es dando y dándolo
+Sabes que tu corazón conmigo te hace bam bam
+Sabe que esa beba 'tá buscando de mi bam bam
+Ven prueba de mi boca para ver cómo te sabe
+Quiero, quiero, quiero ver cuánto amor a ti te cabe
+Yo no tengo prisa, yo me quiero dar el viaje
+Empezamo' lento, después salvaje
+Pasito a pasito, suave suavecito
+Nos vamos pegando poquito a poquito
+Cuando tú me besas con esa destreza
+Veo que eres malicia con delicadeza
+Pasito a pasito, suave suavecito
+Nos vamos pegando, poquito a poquito
+Y es que esa belleza es un rompecabezas
+Pero pa' montarlo aquí tengo la pieza
+      </textarea>
+    <div class="tags">
+      <div class="tag nouns">Sustantivo </div>
+      <div class="tag verbs">Verbo</div>
+      <div class="tag adj">Adjectivo</div>
+      <div class="tag adv">Adverbio</div>
+      <div class="tag det">Determinante</div>
+      <div class="tag conj">Conjunción</div>
+      <div class="tag prep">Preposición</div>
+      <div class="tag num">Número</div>
+    </div>
+  </div>
+  <pre id="result">-</pre>
+
+  <!-- <script type="text/javascript" src="https://unpkg.com/de-compromise"></script> -->
+  <script type="text/javascript" src="../builds/es-compromise.min.js"></script>
+  <script type="text/javascript" language="javascript">
+    var nlp = window.frCompromise;
+    function tagger() {
+      var present = document.getElementById('text').value || '';
+      var doc = nlp(present)
+      doc.debug()
+      let highlight = {
+        nouns: doc.match('#Noun'),
+        verbs: doc.match('#Verb'),
+        adj: doc.match('#Adjective'),
+        adv: doc.match('#Adverb'),
+        det: doc.match('#Determiner'),
+        conj: doc.match('#Conjunction'),
+        prep: doc.match('#Preposition'),
+        num: doc.match('#Value'),
+      }
+      document.getElementById('result').innerHTML = doc.html(highlight)
+    }
+    tagger();//fire!
+  </script>
+
+</body>
+
+</html>

@@ -61,7 +61,7 @@ export default [
     ncia: nn,
     'sión': nn,
     ando: vb,
-    ados: vb,
+    // ados: vb,
     aron: vb,
     adas: vb,
     tado: vb,
