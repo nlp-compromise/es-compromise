@@ -23,7 +23,7 @@ export default [
   'beethoven',
   'bennett',
   'bhang',
-  'blanco',
+  // 'blanco',
   'boyko',
   'brooks',
   'bryant',

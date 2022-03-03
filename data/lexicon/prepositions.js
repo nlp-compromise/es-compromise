@@ -3,7 +3,7 @@ export default [
 
   'a',//	at, to
   'ante',//	before, in the face of, in the presence of
-  'bajo',//	under, below
+  // 'bajo',//	under, below
   'con',//	with
   'contra',//	against, in exchange for
   'de',//	of, about, from
