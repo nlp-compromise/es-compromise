@@ -5,10 +5,19 @@ nlp.verbose(false)
 
 test('match:', function (t) {
   let arr = [
-    ['Wir gehen in den Park', '#Pronoun #Verb in #Determiner #Noun'],
-    ['Kanada ist sehr kalt', '#Noun #Verb #Adverb #Adjective'],
-    ['hinterm', '#Adverb #Determiner'],// contraction
-    ['Spencer geht zum Laden ', '#Person #Verb #Determiner #Noun'],
+    ['spencer', '#Person'],
+    ['lloramos', '#Verb'],
+    ['lloraríais', '#Verb'],
+    ['lloraste', '#Verb'],
+    ['lloráis', '#PresentTense'],
+    ['junio', '#Month'],
+    ['domingo', '#WeekDay'],
+    ['234', '#Value'],
+    ['chicago', '#City'],
+    ['Jamaica', '#Country'],
+    ['colorado', '#Place'],
+    ['contra', '#Preposition'],
+    ['y', '#Conjunction'],
     // ['', ''],
   ]
   arr.forEach(function (a) {

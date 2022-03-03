@@ -9,7 +9,9 @@ export default {
   },
   methods: {
     one: {
-      conjugate
+      transform: {
+        conjugate
+      }
     }
-  }
+  },
 }

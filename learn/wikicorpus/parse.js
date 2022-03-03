@@ -3,17 +3,17 @@ const path = `/Users/spencer/data/tagged.es`
 import fs from 'fs'
 
 const mapping = {
-  A: 'Adjective,',
-  C: 'Conjunction,',
+  A: 'Adjective',
+  C: 'Conjunction',
   D: 'Determiner',
   N: 'Noun',
   P: 'Pronoun',
   V: 'Verb',
   I: 'Interjection',
   W: 'Date',
-  Z: 'Number',
+  Z: 'Value',
   R: 'Adverb',
-  S: 'Adposition',
+  S: 'Preposition',//'Adposition',
   F: 'Punctuation',
 }
 // https://freeling-user-manual.readthedocs.io/en/latest/tagsets/
@@ -31,11 +31,11 @@ const parse = function (num) {
   let tmp = []
   lines.forEach(line => {
     if (!line) {
-      let txt = tmp.map(t => t.txt).join(' ')
+      let txt = tmp.map(t => t.word).join(' ')
       txt = txt.replace(/ (\)|"|,|:|;) g/, '$1 ')
       txt = txt.replace(/ \( /g, ' (')
-      txt = txt.replace(/ .$/, '.')
-      tmp = tmp.filter(t => t.txt !== ',' && t.txt !== '.')
+      txt = txt.replace(/ \.$/, '.')
+      tmp = tmp.filter(t => t.tag !== 'Punctuation')
       out.push({ txt, words: tmp })
       tmp = []
       return

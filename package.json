@@ -23,7 +23,7 @@
     "testb": "TESTENV=prod npm run test",
     "build": "rollup -c --silent",
     "pack": "node ./scripts/pack.js",
-    "score": "node ./learn/test/index.js",
+    "score": "node ./learn/wikicorpus/test.js",
     "watch": "amble ./scratch.js"
   },
   "files": [
