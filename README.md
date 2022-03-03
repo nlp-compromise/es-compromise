@@ -56,7 +56,7 @@ o en el navegador:
 <script>
   let txt = 'Oh, tú, tú eres el imán y yo soy el metal'
   let doc = esCompromise(txt) // window.esCompromise
-  console.log(doc.sentences(1).json())
+  console.log(doc.json())
   // { text:'Oh, tú...', terms:[ ... ] }
 </script>
 ```
