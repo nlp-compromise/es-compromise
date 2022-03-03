@@ -9,6 +9,8 @@ const percent = (part, total) => {
 
 let right = 0
 let wrong = 0
+
+let bad = {}
 for (let i = 1; i < 2; i += 1) {
   parse(i).forEach(s => {
     let doc = nlp(s.txt)
@@ -32,11 +34,26 @@ for (let i = 1; i < 2; i += 1) {
           wrong += 1
           // console.log('\n', str, want[str])
           // t.debug()
+          bad[str] = bad[str] || 0
+          bad[str] += 1
         }
       }
     })
   })
 }
+
+// print most-common issues
+bad = Object.entries(bad).sort((a, b) => {
+  if (a[1] > b[1]) {
+    return -1
+  } else if (a[1] < b[1]) {
+    return 1
+  }
+  return 0
+}).slice(0, 100)
+console.log(bad)
+
+
 
 console.log(right, ' right ' + percent(right, right + wrong) + '%')
 console.log(wrong, ' wrong ' + percent(wrong, right + wrong) + '%')

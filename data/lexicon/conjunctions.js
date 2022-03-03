@@ -7,6 +7,6 @@ export default [
   'mas',
   'sino',
   'entonces',
+  'aunque',
   'ni',
-  'sea',
 ]

@@ -1,6 +1,6 @@
 // https://lingvist.com/course/learn-spanish-online/resources/spanish-prepositions/
 export default [
-
+  'que',//what
   'a',//	at, to
   'ante',//	before, in the face of, in the presence of
   // 'bajo',//	under, below

@@ -7,6 +7,7 @@ import adjectives from './adjectives.js'
 
 import infinitives from './verbs/infinitives.js'
 import modals from './verbs/modals.js'
+import copulas from './verbs/copula.js'
 
 import months from './dates/months.js'
 import weekdays from './dates/weekdays.js'
@@ -33,7 +34,7 @@ const data = [
   [conjunctions, 'Conjunction'],
   [determiners, 'Determiner'],
   [prepositions, 'Preposition'],
-  [pronouns, 'Pronouns'],
+  [pronouns, 'Pronoun'],
   [adverbs, 'Adverb'],
   [adjectives, 'Adjective'],
 
@@ -47,6 +48,7 @@ const data = [
 
   [infinitives, 'Infinitive'],
   [modals, 'Modal'],
+  [copulas, 'Copula'],
 
   [months, 'Month'],
   [weekdays, 'WeekDay'],

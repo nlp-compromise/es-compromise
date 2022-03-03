@@ -8,7 +8,6 @@ export default [
   "su",
   "sus",
   "este",
-  "lo",
   "esta",
   "otros",
   "cada",

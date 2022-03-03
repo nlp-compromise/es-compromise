@@ -1,4 +1,8 @@
 export default [
+  'le',
+  'forma',
+  'estado',
+  'gobierno',
   // exceptions to suffixes
   'mundial',
   'local',

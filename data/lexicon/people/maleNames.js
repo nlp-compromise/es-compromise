@@ -810,7 +810,7 @@ export default [
   'scottie',
   'scotty',
   'seamus',
-  'sean',
+  // 'sean',
   'sebastian',
   'sekou',
   'selim',
