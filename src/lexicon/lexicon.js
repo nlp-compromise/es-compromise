@@ -1,12 +1,14 @@
 import lexData from './_data.js'
 import { unpack } from 'efrt'
 import conjugate from './methods/conjugate.js'
+import misc from './misc.js'
 
-let lexicon = {}
+
+let lexicon = misc
 
 const addWords = function (obj, tag, lex) {
   Object.values(obj).forEach(w => {
-    lex[w] = tag
+    lex[w] = lex[w] || tag
   })
 }
 

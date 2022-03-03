@@ -11,10 +11,10 @@ export default [
   "esta",
   "otros",
   "cada",
-  "estos",
+  // "estos",
   "otras",
   "todos",
-  "todo",
+
   "algunos",
   "estas",
   "unos",

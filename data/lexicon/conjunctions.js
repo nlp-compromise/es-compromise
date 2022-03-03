@@ -9,4 +9,5 @@ export default [
   'entonces',
   'aunque',
   'ni',
+  'porque',
 ]

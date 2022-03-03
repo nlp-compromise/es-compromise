@@ -1,9 +1,12 @@
 export default [
+  "todo",
+  "conocido",
   "gran",
   "mismo",
   "mayor",
   "primera",
   "primer",
+  "nombrado",
   "externos",
   "grandes",
   "importante",

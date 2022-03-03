@@ -25,7 +25,7 @@ for (let i = 1; i < 2; i += 1) {
     doc.terms().forEach(t => {
       let str = t.text('normal')
       if (want[str]) {
-        if (t.has('@hasContraction')) {
+        if (t.has('@hasContraction') || t.has('#QuestionWord')) {
           return
         }
         if (t.has('#' + want[str])) {

@@ -42,9 +42,9 @@ El objetivo de este proyecto es proporcionar un etiquetador de POS pequeño, bá
 ```js
 import pln from 'es-compromise'
 
-let dok = pln('Sí, sabes que ya llevo un rato mirándote. Tengo que bailar contigo hoy')
-dok.match('#Noun').out('array')
-// [ 'rato', 'hoy' ]
+let doc = nlp('Tengo que bailar contigo hoy')
+doc.match('#Verb').out('array')
+// [ 'Tengo', 'bailar' ]
 ```
 
 <!-- spacer -->

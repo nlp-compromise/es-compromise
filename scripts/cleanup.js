@@ -1,5 +1,5 @@
-import keep from '../data/lexicon/nouns/nouns.js'
-import og from '../data/lexicon/data/neutralNouns.js'
+import keep from '../data/lexicon/places/countries.js'
+import og from '../data/lexicon/nouns/nouns.js'
 
 // import messy from '../data/lexicon/verbs.js'
 // const unique = function (arr) {
@@ -16,12 +16,12 @@ import og from '../data/lexicon/data/neutralNouns.js'
 let loose = og.filter(str => {
   let found = keep.find(s => s === str)
   if (found) {
-    console.log(str)
+    // console.log(str)
     return false
   }
   return true
 })
 
-console.log(og.length)
-console.log(loose.length)
-// console.log(JSON.stringify(loose, null, 2))
+// console.log(og.length)
+// console.log(loose.length)
+console.log(JSON.stringify(loose, null, 2))

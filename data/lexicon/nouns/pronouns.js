@@ -15,4 +15,6 @@ export default [
   "cuyo",
   "nos",
   "ellas",
+  "otros",
+  "alguna",
 ]
