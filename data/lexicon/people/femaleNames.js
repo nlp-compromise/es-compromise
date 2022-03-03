@@ -443,7 +443,6 @@ export default [
   'elise',
   'eliza',
   'elizabeth',
-  'ella',
   'ellen',
   'ellie',
   'elly',
