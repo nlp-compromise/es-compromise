@@ -3,13 +3,11 @@ import nlp from './src/index.js'
 // nlp.verbose('tagger')
 
 let txt = 'Sí, sabes que ya llevo un rato mirándote. Tengo que bailar contigo hoy'
-txt = 'spencer'
-txt = 'lloramos'
+txt = 'el es muy bueno '
 let doc = nlp(txt)
 doc.debug()
 
 
 // proof-of-concept verb-conjugation
-let conjugate = doc.methods.one.transform.conjugate
-// console.log(conjugate.toPast('llorar'))
-console.log(conjugate.toPresent('llorar'))
+// let conjugate = doc.methods.one.transform.conjugate
+// console.log(conjugate.toPresent('llorar'))

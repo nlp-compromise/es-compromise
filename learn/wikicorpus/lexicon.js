@@ -1,6 +1,6 @@
 import parse from './parse.js'
 
-const want = 'Conjunction'
+const want = 'Adjective'
 
 const topk = function (arr) {
   let obj = {}
@@ -14,7 +14,7 @@ const topk = function (arr) {
 
 let all = []
 
-for (let i = 1; i < 2; i += 1) {
+for (let i = 1; i < 4; i += 1) {
   parse(i).forEach(s => {
     s.words.forEach(t => {
       if (t.tag === want) {
@@ -24,5 +24,5 @@ for (let i = 1; i < 2; i += 1) {
   })
 }
 
-all = topk(all).filter(a => a[1] > 5).map(a => a[0])
+all = topk(all).filter(a => a[1] > 205).map(a => a[0])
 console.log(JSON.stringify(all, null, 2))

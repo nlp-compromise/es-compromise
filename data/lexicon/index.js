@@ -2,6 +2,8 @@ import conjunctions from './conjunctions.js'
 import determiners from './determiners.js'
 import prepositions from './prepositions.js'
 import pronouns from './pronouns.js'
+import adverbs from './adverbs.js'
+import adjectives from './adjectives.js'
 
 import infinitives from './verbs/infinitives.js'
 import modals from './verbs/modals.js'
@@ -32,6 +34,8 @@ const data = [
   [determiners, 'Determiner'],
   [prepositions, 'Preposition'],
   [pronouns, 'Pronouns'],
+  [adverbs, 'Adverb'],
+  [adjectives, 'Adjective'],
 
   [ordinals, 'Ordinal'],
   [cardinals, 'Cardinal'],
