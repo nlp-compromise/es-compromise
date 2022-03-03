@@ -12,9 +12,9 @@ export default [
   {
     // two-letter suffixes
     al: jj,
-    no: jj,
-    do: vb,
-    ar: vb,
+    // no: jj,
+    // do: vb,
+    // ar: vb,
     an: vb,
     'ió': vb,
     en: vb,
@@ -25,22 +25,22 @@ export default [
   {
     // three-letter suffixes
     ico: jj,
-    ica: jj,
+    // ica: jj,
     ble: jj,
     nal: jj,
     ial: jj,
     oso: jj,
     ana: jj,
-    ado: vb,
+    // ado: vb,
     ndo: vb,
     ada: vb,
     ron: vb,
-    ido: vb,
+    // ido: vb,
     aba: vb,
     tar: vb,
     'ían': vb,
     rar: vb,
-    ida: vb,
+    // ida: vb,
   },
   {
     // four-letter suffixes

@@ -625,5 +625,25 @@ export default [
   "técnico",
   "teatral",
   "deportivas",
-  "cantante"
+  "cantante",
+
+  'rococó',
+  'san',
+  'aborigen',
+
+  'jemer', 'super',
+  'bereber', 'súper',
+  'charter', 'inter',
+
+  'blando',
+  'redondo', 'rotundo',
+  'tremendo', 'oriundo',
+  'hondo', 'moribundo',
+
+  'inusitada', 'sagrada',
+  'delgada', 'renombrada',
+  'inesperada', 'delicada',
+  'nómada', 'inacabada',
+  'inadecuada', 'malvada',
+  'ilimitada'
 ]
