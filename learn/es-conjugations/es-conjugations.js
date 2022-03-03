@@ -46412,48 +46412,7 @@ export default {
       firstPlural: 'recomendábamos',
     },
   },
-  doler: {
-    Preterite: {
-      thirdPlural: 'dolieron',
-      third: 'dolió',
-    },
-    Conditional: {
-      thirdPlural: 'dolerían',
-      third: 'dolería',
-    },
-    Present: {
-      third: 'duele',
-      thirdPlural: 'duelen',
-    },
-    Future: {
-      thirdPlural: 'dolerán',
-      third: 'dolerá',
-    },
-    Imperfect: {
-      third: 'dolía',
-      thirdPlural: 'dolían',
-    },
-    'Present Perfect': {
-      third: 'dolido',
-      thirdPlural: 'dolido',
-    },
-    'Future Perfect': {
-      third: 'dolido',
-      thirdPlural: 'dolido',
-    },
-    'Past Perfect': {
-      third: 'dolido',
-      thirdPlural: 'dolido',
-    },
-    'Preterite (Archaic)': {
-      third: 'dolido',
-      thirdPlural: 'dolido',
-    },
-    'Conditional Perfect': {
-      third: 'dolido',
-      thirdPlural: 'dolido',
-    },
-  },
+
   divorciar: {
     Conditional: {
       secondPlural: 'divorciaríais',
@@ -50472,38 +50431,7 @@ export default {
       third: 'gustó',
     },
   },
-  nevar: {
-    Conditional: {
-      third: 'nevaría',
-    },
-    Present: {
-      third: 'nieva',
-    },
-    Future: {
-      third: 'nevará',
-    },
-    Imperfect: {
-      third: 'nevaba',
-    },
-    Preterite: {
-      third: 'nevó',
-    },
-    'Present Perfect': {
-      third: 'nevado',
-    },
-    'Future Perfect': {
-      third: 'nevado',
-    },
-    'Past Perfect': {
-      third: 'nevado',
-    },
-    'Preterite (Archaic)': {
-      third: 'nevado',
-    },
-    'Conditional Perfect': {
-      third: 'nevado',
-    },
-  },
+
   charlar: {
     Conditional: {
       first: 'charlaría',
@@ -51242,48 +51170,6 @@ export default {
       thirdPlural: 'emigrado',
     },
   },
-  ocurrir: {
-    Conditional: {
-      third: 'ocurriría',
-      thirdPlural: 'ocurrirían',
-    },
-    Imperfect: {
-      thirdPlural: 'ocurrían',
-      third: 'ocurría',
-    },
-    Present: {
-      thirdPlural: 'ocurren',
-      third: 'ocurre',
-    },
-    Future: {
-      third: 'ocurrirá',
-      thirdPlural: 'ocurrirán',
-    },
-    Preterite: {
-      thirdPlural: 'ocurrieron',
-      third: 'ocurrió',
-    },
-    'Present Perfect': {
-      third: 'ocurrido',
-      thirdPlural: 'ocurrido',
-    },
-    'Future Perfect': {
-      third: 'ocurrido',
-      thirdPlural: 'ocurrido',
-    },
-    'Past Perfect': {
-      third: 'ocurrido',
-      thirdPlural: 'ocurrido',
-    },
-    'Preterite (Archaic)': {
-      third: 'ocurrido',
-      thirdPlural: 'ocurrido',
-    },
-    'Conditional Perfect': {
-      third: 'ocurrido',
-      thirdPlural: 'ocurrido',
-    },
-  },
   fascinar: {
     Preterite: {
       thirdPlural: 'fascinaron',
@@ -52020,38 +51906,6 @@ export default {
       first: 'mereceré',
       firstPlural: 'mereceremos',
       thirdPlural: 'merecerán',
-    },
-  },
-  llover: {
-    Preterite: {
-      third: 'llovió',
-    },
-    Imperfect: {
-      third: 'llovía',
-    },
-    'Present Perfect': {
-      third: 'llovido',
-    },
-    'Future Perfect': {
-      third: 'llovido',
-    },
-    'Past Perfect': {
-      third: 'llovido',
-    },
-    'Preterite (Archaic)': {
-      third: 'llovido',
-    },
-    'Conditional Perfect': {
-      third: 'llovido',
-    },
-    Conditional: {
-      third: 'llovería',
-    },
-    Future: {
-      third: 'lloverá',
-    },
-    Present: {
-      third: 'llueve',
     },
   },
 }

@@ -1,16 +1,18 @@
 import data from './es-conjugations.js'
-import { find } from 'suffix-thumb'
+import { learn } from 'suffix-thumb'
 // https://github.com/ghidinelli/fred-jehle-spanish-verbs
 
-let tense = 'Future'
-let subj = 'thirdPlural'
-let all = []
+
+let tense = 'Conditional'
+
+let subj = 'first'
+let all = {}
 Object.keys(data).forEach(inf => {
-  let obj = data[inf][tense]
-  if (obj && obj[subj]) {
-    all.push([inf, obj[subj]])
+  all[inf] = Object.values(data[inf][tense])
+  if (all[inf].length !== 6) {
+    console.log(inf)
   }
 })
 // console.log(all)
-let model = find(all)
-console.log(model)
+// let model = learn(all)
+console.log(JSON.stringify(all, null, 2))

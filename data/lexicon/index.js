@@ -1,4 +1,6 @@
 
+import infinitives from './verbs/infinitives.js'
+
 import femaleNames from './people/femaleNames.js'
 import maleNames from './people/maleNames.js'
 import firstNames from './people/firstNames.js'
@@ -9,6 +11,8 @@ import people from './people/people.js'
 
 const data = [
 
+
+  [infinitives, 'Infinitive'],
 
   [femaleNames, 'FemaleName'],
   [maleNames, 'MaleName'],

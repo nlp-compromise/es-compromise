@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import fs from 'fs'
 import { pack } from 'efrt'
-import { compress } from 'suffix-thumb'
+import { learn, compress } from 'suffix-thumb'
 import lexicon from '../data/lexicon/index.js'
 import models from '../data/models/index.js'
 // import switches from '../lib/switches/index.js'
@@ -31,16 +31,23 @@ const steps = [
       return packed
     },
   },
-  // {
-  //   label: 'models',
-  //   path: './src/lexicon/methods/_data.js',
-  //   compress: function () {
-  //     Object.keys(models).forEach(k => {
-  //       models[k] = compress(models[k])
-  //     })
-  //     return models
-  //   },
-  // }
+  {
+    label: 'models',
+    path: './src/lexicon/methods/_data.js',
+    compress: function () {
+      let packed = {}
+      Object.keys(models).forEach(k => {
+        packed[k] = {}
+        Object.keys(models[k]).forEach(form => {
+          let pairs = models[k][form]
+          console.log(k, form)
+          packed[k][form] = learn(pairs)
+          packed[k][form] = compress(packed[k][form])
+        })
+      })
+      return packed
+    },
+  }
 ]
 
 // run through all our steps

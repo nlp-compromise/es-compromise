@@ -1,4 +1,5 @@
 import lexicon from './lexicon.js'
+import conjugate from './methods/conjugate.js'
 
 export default {
   model: {
@@ -6,4 +7,9 @@ export default {
       lexicon
     }
   },
+  methods: {
+    one: {
+      conjugate
+    }
+  }
 }
