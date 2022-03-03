@@ -50,27 +50,27 @@ dok.match('#Noun').out('array')
 <!-- spacer -->
 <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
-oder im Browser:
+o en el navegador:
 ```html
 <script src="https://unpkg.com/es-compromise"></script>
 <script>
-  let txt = 'Hast du etwas Zeit für mich? Dann singe ich ein Lied für dich'
-  let doc = deCompromise(txt) //globalen Namensraum
+  let txt = 'Oh, tú, tú eres el imán y yo soy el metal'
+  let doc = esCompromise(txt) // window.esCompromise
   console.log(doc.sentences(1).json())
-  // { text:'Dann singe...', terms:[ ... ] }
+  // { text:'Oh, tú...', terms:[ ... ] }
 </script>
 ```
 
 see [en-compromise/api](https://github.com/spencermountain/compromise#api) for full API documentation.
 
-Bitte beitreten, um zu helfen! - please join to help!
+únete para ayudar! - please join to help!
 
 <!-- spacer -->
 <img height="85px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
-<h2 align="center">
+<!-- <h2 align="center">
   <a href="https://rawgit.com/nlp-compromise/es-compromise/master/demo/index.html">Demo</a>
-</h2>
+</h2> -->
 
 
 ###  Contributing
