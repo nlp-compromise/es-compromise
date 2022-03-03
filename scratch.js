@@ -1,9 +1,9 @@
 import nlp from './src/index.js'
 
-// nlp.verbose('tagger')
+nlp.verbose('tagger')
 
 let txt = 'Sí, sabes que ya llevo un rato mirándote. Tengo que bailar contigo hoy'
-txt = 'el es muy bueno '
+txt = 'el es muy bueno asdfial'
 let doc = nlp(txt)
 doc.debug()
 
