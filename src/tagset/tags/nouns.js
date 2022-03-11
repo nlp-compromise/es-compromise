@@ -101,4 +101,13 @@ export default {
     is: 'Noun',
   },
 
+  FemaleNoun: {
+    is: 'Noun',
+    not: ['MaleNoun']
+  },
+  MaleNoun: {
+    is: 'Noun',
+    not: ['FemaleNoun']
+  },
+
 }

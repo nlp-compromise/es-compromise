@@ -4,9 +4,11 @@ import titleCase from './1st-pass/titlecase.js'
 import checkYear from './1st-pass/year.js'
 // 2nd pass
 import acronym from './2nd-pass/acronym.js'
-// import neighbours from './2nd-pass/neighbours.js'
 import fallback from './2nd-pass/fallback.js'
 import suffixCheck from './2nd-pass/suffix-lookup.js'
+// 3rd
+import guessNounGender from './3rd-pass/guess-gender.js'
+
 
 // these methods don't care about word-neighbours
 const firstPass = function (terms, world) {
@@ -28,12 +30,19 @@ const secondPass = function (terms, world) {
   }
 }
 
+const thirdPass = function (terms, world) {
+  for (let i = 0; i < terms.length; i += 1) {
+    guessNounGender(terms, i, world)
+  }
+}
+
 
 const tagger = function (view) {
   let world = view.world
   view.docs.forEach(terms => {
     firstPass(terms, world)
     secondPass(terms, world)
+    thirdPass(terms, world)
   })
   return view
 }
