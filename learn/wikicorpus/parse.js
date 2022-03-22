@@ -78,8 +78,17 @@ const mapping = {
 }
 // https://freeling-user-manual.readthedocs.io/en/latest/tagsets/
 const parseTag = function (str = '') {
-  let c = str.substring(0, 1)
-  return mapping[c]
+  let tag = mapping[str.substring(0, 1)]
+  let plural, gender = null
+  if (tag === 'Noun') {
+    plural = str.substring(3, 4).toLowerCase() === 'p' ? true : false
+    gender = str.substring(2, 3).toLowerCase()
+  }
+  return {
+    tag,
+    plural,
+    gender,
+  }
 }
 
 const parse = function (num) {
@@ -100,10 +109,13 @@ const parse = function (num) {
       return
     }
     let a = line.split(/ /g)
+    let { tag, gender, plural } = parseTag(a[2])
     tmp.push({
       word: (a[0] || '').replace(/_/g, ' '),
       lemma: (a[1] || '').replace(/_/g, ' '),
-      tag: parseTag(a[2]),
+      tag: tag,
+      gender,
+      plural,
       sense: a[3]
     })
   })

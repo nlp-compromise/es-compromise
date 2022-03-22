@@ -5,7 +5,7 @@ nlp.verbose('tagger')
 let txt = 'Sí, sabes que ya llevo un rato mirándote. Tengo que bailar contigo hoy'
 txt = 'el es muy bueno asdfial'
 txt = 'Sí, sabes que ya llevo un rato mirándote. Tengo que bailar contigo hoy'
-txt = 'como'
+txt = 'comotio'
 let doc = nlp(txt)
 doc.debug()
 
