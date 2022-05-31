@@ -18,6 +18,38 @@ test('match:', function (t) {
     ['colorado', '#Place'],
     ['contra', '#Preposition'],
     ['y', '#Conjunction'],
+
+    // present tense
+    ['señalo', '(#PresentTense && #FirstPerson)'],
+    ['señalas', '(#PresentTense && #SecondPerson)'],
+    ['señalan', '(#PresentTense && #ThirdPersonPlural)'],
+    // ['señalamos', '(#PresentTense && #FirstPersonPlural)'],
+    ['señaláis', '(#PresentTense && #SecondPersonPlural)'],
+    ['señala', '(#PresentTense && #ThirdPerson)'],
+
+    // conditional
+    ['señalaríamos', '(#Conditional && #FirstPersonPlural)'],
+    ['señalaríais', '(#Conditional && #SecondPersonPlural)'],
+    // ['señalaría', '(#Conditional && #FirstPerson)'],
+    // ['señalaría', '(#Conditional && #ThirdPerson)'],
+    ['señalarían', '(#Conditional && #ThirdPersonPlural)'],
+    ['señalarías', '(#Conditional && #SecondPerson)'],
+
+    // future
+    ['señalaré', '(#FutureTense && #FirstPerson)'],
+    ['señalarás', '(#FutureTense && #SecondPerson)'],
+    ['señalará', '(#FutureTense && #ThirdPerson)'],
+    ['señalaremos', '(#FutureTense && #FirstPersonPlural)'],
+    ['señalaréis', '(#FutureTense && #SecondPersonPlural)'],
+    ['señalarán', '(#FutureTense && #ThirdPersonPlural)'],
+
+    // past
+    ['señalé', '(#PastTense && #FirstPerson)'],
+    ['señaló', '(#PastTense && #ThirdPerson)'],
+    ['señalaste', '(#PastTense && #SecondPerson)'],
+    ['señalamos', '#FirstPersonPlural'],
+    ['señalasteis', '(#PastTense && #SecondPersonPlural)'],
+    ['señalaron', '(#PastTense && #ThirdPersonPlural)'],
     // ['', ''],
   ]
   arr.forEach(function (a) {

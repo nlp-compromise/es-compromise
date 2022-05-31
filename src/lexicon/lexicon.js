@@ -44,10 +44,8 @@ Object.keys(lexData).forEach(tag => {
       addWords(obj, 'FutureTense', lexicon)
       // add conditional
       obj = conjugate.toConditional(w)
-      addWords(obj, 'Verb', lexicon)
-      if (w === 'señalar') {
-        console.log(obj)
-      }
+      addWords(obj, 'Conditional', lexicon)
+
       // {
       //   first: 'señalaríamos',
       //   second: 'señalaríais',
