@@ -49,4 +49,35 @@ export default {
     is: 'Verb',
     not: ['PastTense', 'PresentTense', 'Gerund', 'Conjunction'],
   },
+  Conditional: {
+    is: 'Verb',
+    not: ['Infinitive', 'Imperative'],
+  },
+
+
+  // 
+  FirstPerson: {
+    is: 'Verb',
+    not: ['SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural']
+  },
+  SecondPerson: {
+    is: 'Verb',
+    not: ['FirstPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural']
+  },
+  ThirdPerson: {
+    is: 'Verb',
+    not: ['FirstPerson', 'SecondPerson', 'FirstPersonPlural', 'SecondPersonPlural', 'ThirdPersonPlural']
+  },
+  FirstPersonPlural: {
+    is: 'Verb',
+    not: ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'SecondPersonPlural', 'ThirdPersonPlural']
+  },
+  SecondPersonPlural: {
+    is: 'Verb',
+    not: ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'ThirdPersonPlural']
+  },
+  ThirdPersonPlural: {
+    is: 'Verb',
+    not: ['FirstPerson', 'SecondPerson', 'ThirdPerson', 'FirstPersonPlural', 'SecondPersonPlural']
+  },
 }

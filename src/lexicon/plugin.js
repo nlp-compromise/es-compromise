@@ -1,5 +1,6 @@
 import lexicon from './lexicon.js'
-import conjugate from './methods/conjugate.js'
+import methods from './methods/index.js'
+import root from './compute/root.js'
 
 export default {
   model: {
@@ -7,11 +8,10 @@ export default {
       lexicon
     }
   },
+  compute: { root: root },
   methods: {
-    one: {
-      transform: {
-        conjugate
-      }
+    two: {
+      transform: methods
     }
   },
 }

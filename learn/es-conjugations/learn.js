@@ -3,12 +3,19 @@ import { learn } from 'suffix-thumb'
 // https://github.com/ghidinelli/fred-jehle-spanish-verbs
 
 
-let tense = 'Conditional'
+let tense = 'Future'
 
 let subj = 'first'
 let all = {}
+const vbOrder = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural']
 Object.keys(data).forEach(inf => {
-  all[inf] = Object.values(data[inf][tense])
+  all[inf] = []
+  vbOrder.forEach(form => {
+    all[inf].push(data[inf][tense][form] || '')
+    // if (data[inf][tense][form]) {
+    // }
+  })
+
   if (all[inf].length !== 6) {
     console.log(inf)
   }

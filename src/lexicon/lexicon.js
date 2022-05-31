@@ -6,9 +6,23 @@ import misc from './misc.js'
 
 let lexicon = misc
 
+
+const tagMap = {
+  first: 'FirstPerson',
+  second: 'SecondPerson',
+  third: 'ThirdPerson',
+  firstPlural: 'FirstPersonPlural',
+  secondPlural: 'SecondPersonPlural',
+  thirdPlural: 'ThirdPersonPlural',
+}
+
 const addWords = function (obj, tag, lex) {
-  Object.values(obj).forEach(w => {
-    lex[w] = lex[w] || tag
+
+  Object.keys(obj).forEach(k => {
+    let w = obj[k]
+    if (!lex[w]) {
+      lex[w] = [tag, tagMap[k]]
+    }
   })
 }
 
@@ -16,6 +30,7 @@ Object.keys(lexData).forEach(tag => {
   let wordsObj = unpack(lexData[tag])
   Object.keys(wordsObj).forEach(w => {
     lexicon[w] = tag
+
     // add conjugations for our verbs
     if (tag === 'Infinitive') {
       // add present tense
@@ -30,6 +45,17 @@ Object.keys(lexData).forEach(tag => {
       // add conditional
       obj = conjugate.toConditional(w)
       addWords(obj, 'Verb', lexicon)
+      if (w === 'señalar') {
+        console.log(obj)
+      }
+      // {
+      //   first: 'señalaríamos',
+      //   second: 'señalaríais',
+      //   third: 'señalaría',
+      //   firstPlural: 'señalaría',
+      //   secondPlural: 'señalarían',
+      //   thirdPlural: 'señalarías'
+      // }
     }
   })
 })

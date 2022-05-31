@@ -8,8 +8,6 @@ const vbOrder = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thi
 const todo = {
   presentTense: { data: presentTense, keys: vbOrder },
   pastTense: { data: pastTense, keys: vbOrder },
-  pastTense: { data: pastTense, keys: vbOrder },
-  futureTense: { data: futureTense, keys: vbOrder },
   futureTense: { data: futureTense, keys: vbOrder },
   conditional: { data: conditional, keys: vbOrder },
 }
