@@ -1,5 +1,5 @@
 import { convert } from 'suffix-thumb'
-import model from './models.js'
+import model from '../models.js'
 
 let { presentTense, pastTense, futureTense, conditional } = model
 // =-=-

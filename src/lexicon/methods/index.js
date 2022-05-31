@@ -1,10 +1,16 @@
-import conjugate from './conjugate.js'
-import verb from './toRoot/verb.js'
+import conjugate from './verbs/conjugate.js'
+import toRoot from './verbs/toRoot.js'
+import toSingular from './nouns/toSingular.js'
+import toPlural from './nouns/toPlural.js'
 
 
 export default {
-  conjugate,
-  toRoot: {
-    verb
+  verb: {
+    conjugate,
+    toRoot
+  },
+  noun: {
+    toPlural,
+    toSingular,
   }
 }

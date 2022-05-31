@@ -1,6 +1,6 @@
 import lexData from './_data.js'
 import { unpack } from 'efrt'
-import conjugate from './methods/conjugate.js'
+import conjugate from './methods/verbs/conjugate.js'
 import misc from './misc.js'
 
 

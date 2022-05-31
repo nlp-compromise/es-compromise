@@ -5,8 +5,8 @@ nlp.verbose(false)
 
 test('root-match:', function (t) {
   let arr = [
-    ['tiramos nuestros zapatos', '{tirar} nuestros zapatos'],
-    // "seguir": ["seguí", "seguiste", "siguió", "seguimos", "seguisteis", "siguieron"],
+    ['tiramos nuestros zapatos', '{tirar} nuestros {zapato}'],
+    // verb toRoots
     ['seguir', '{seguir}'],//same
     ['seguí', '{seguir}'],//
     ['seguiste', '{seguir}'],//
@@ -14,6 +14,25 @@ test('root-match:', function (t) {
     ['seguimos', '{seguir}'],//
     ['seguisteis', '{seguir}'],//
     ['siguieron', '{seguir}'],//
+    ['seguirán', '{seguir}'],
+    ['seguiremos', '{seguir}'],
+    ['seguirás', '{seguir}'],
+    ['seguiré', '{seguir}'],
+    ['seguirá', '{seguir}'],
+    ['seguiréis', '{seguir}'],
+    ['sigue', '{seguir}'],
+    ['sigues', '{seguir}'],
+    ['siguen', '{seguir}'],
+    ['sigo', '{seguir}'],
+    ['seguís', '{seguir}'],
+    ['seguimos', '{seguir}'],
+    ['seguiríamos', '{seguir}'],
+    ['seguiría', '{seguir}'],
+    ['seguiría', '{seguir}'],
+    ['seguirían', '{seguir}'],
+    ['seguirías', '{seguir}'],
+    ['seguiríais', '{seguir}'],
+
   ]
   arr.forEach(function (a) {
     let [str, match] = a
