@@ -18,7 +18,7 @@ let doc = nlp(txt)
 // console.log(doc.json()[0].terms.map(t => t.root))
 
 
-import pairs from './plurals.js'
+import pairs from './adjectives.js'
 import toPlural from './src/lexicon/methods/nouns/toPlural.js'
 import toSingular from './src/lexicon/methods/nouns/toSingular.js'
 

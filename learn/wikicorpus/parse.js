@@ -84,6 +84,12 @@ const parseTag = function (str = '') {
     plural = str.substring(3, 4).toLowerCase() === 'p' ? true : false
     gender = str.substring(2, 3).toLowerCase()
   }
+  if (tag === 'Adjective') {
+    gender = str.substring(3, 4).toLowerCase()
+    plural = str.substring(4, 5).toLowerCase() === 'p' ? true : false
+    // console.log(str, gender, plural)
+  }
+
   return {
     tag,
     plural,
@@ -110,6 +116,10 @@ const parse = function (num) {
     }
     let a = line.split(/ /g)
     let { tag, gender, plural } = parseTag(a[2])
+    if (tag === 'Adjective') {
+      // console.log(a)
+      // console.log(line)
+    }
     tmp.push({
       word: (a[0] || '').replace(/_/g, ' '),
       lemma: (a[1] || '').replace(/_/g, ' '),
