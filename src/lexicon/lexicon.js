@@ -46,14 +46,6 @@ Object.keys(lexData).forEach(tag => {
       obj = conjugate.toConditional(w)
       addWords(obj, 'Conditional', lexicon)
 
-      // {
-      //   first: 'señalaríamos',
-      //   second: 'señalaríais',
-      //   third: 'señalaría',
-      //   firstPlural: 'señalaría',
-      //   secondPlural: 'señalarían',
-      //   thirdPlural: 'señalarías'
-      // }
     }
   })
 })

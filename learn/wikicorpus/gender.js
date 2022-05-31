@@ -20,6 +20,7 @@ for (let i = 1; i < 30; i += 1) {
   parse(i).forEach(s => {
     s.words.forEach(t => {
       if (t.tag === want) {
+        console.log(t)
         if (t.gender === 'm') {
           masc.push(t.word.toLowerCase())
         } else if (t.gender === 'f') {
