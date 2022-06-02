@@ -10,5 +10,7 @@ Object.keys(data).forEach(k => {
     toNumber[card] = num
   })
 })
+// add extras
+toNumber['cien'] = 100
 
 export { toCardinal, toNumber }

@@ -103,6 +103,10 @@ let arr = [
   [79, 'setenta y nueve'],
   [84, 'ochenta y cuatro'],
   [98, 'noventa y ocho'],
+  [1000000, 'un millón'],
+  [2000000, 'dos millón'],
+  [100000000, 'cien millones'],
+
 ]
 test('number-parse:', function (t) {
   arr.forEach(a => {

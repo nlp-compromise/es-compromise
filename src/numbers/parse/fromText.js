@@ -2,7 +2,9 @@ import { toCardinal, toNumber } from './_data.js'
 
 let multiples = {
   ciento: 100,
-  mil: 1000
+  mil: 1000,
+  millones: 1000000,
+  millón: 1000000
 }
 
 const fromText = function (terms) {
@@ -27,7 +29,7 @@ const fromText = function (terms) {
     }
     // 'cent'
     if (multiples.hasOwnProperty(w)) {
-      let mult = toNumber[w] || 1
+      let mult = multiples[w] || 1
       if (carry === 0) {
         carry = 1
       }

@@ -51,5 +51,6 @@ export default [
   'ochocientos',//800
   'novecientos',//900
   'mil',//1,000
+  'millón',//1,000,000
   'millones',//1,000,000
 ]
