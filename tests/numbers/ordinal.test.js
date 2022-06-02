@@ -58,7 +58,7 @@ test('toOrdinal:', function (t) {
     let [_, card, ord] = a
     let doc = nlp(card)
     let n = doc.numbers().toOrdinal()
-    t.equal(doc.text(), ord, here + ' [toOrdinal] ' + str)
+    t.equal(doc.text(), ord, here + ' [toOrdinal] ' + card)
   })
   t.end()
 })
@@ -68,7 +68,7 @@ test('toCardinal:', function (t) {
     let [_, card, ord] = a
     let doc = nlp(ord)
     let n = doc.numbers().toCardinal()
-    t.equal(doc.text(), card, here + ' [partoCardinale] ' + str)
+    t.equal(doc.text(), card, here + ' [partoCardinale] ' + card)
   })
   t.end()
 })

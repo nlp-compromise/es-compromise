@@ -1,11 +1,15 @@
 import toText from './toText.js'
-// import { toOrdinal } from '../parse/_data.js'
+import { toOrdinal } from './_data.js'
 
 const formatNumber = function (parsed, fmt) {
   if (fmt === 'TextOrdinal') {
     let words = toText(parsed.num)
-    // let last = words[words.length - 1]
-    // words[words.length - 1] = toOrdinal[last]
+    words = words.map(w => {
+      if (toOrdinal.hasOwnProperty) {
+        return toOrdinal[w]
+      }
+      return w
+    })
     return words.join(' ')
   }
   if (fmt === 'TextCardinal') {

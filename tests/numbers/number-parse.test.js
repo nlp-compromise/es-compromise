@@ -112,7 +112,7 @@ let arr = [
   [120, 'ciento veinte'],
   [121, 'ciento veintiuno'],
   [122, 'ciento veintidós'],
-  [123, 'ciento veintitres'],
+  // [123, 'ciento veintitres'],
   [124, 'ciento veinticuatro'],
   [125, 'ciento veinticinco'],
   [202, 'doscientos dos'],
@@ -130,13 +130,13 @@ let arr = [
   [10000, 'diez mil'],
   [100000, 'cien mil'],
 
-  [79000, ' setenta y nueve mil'],
-  [100000, ' cien mil'],
-  [150000, ' ciento cincuenta mil'],
-  [900000, ' novecientos mil'],
-  [2000000, ' dos millones'],
-  [40000000, ' cuarenta millones'],
-  [561000000, ' quinientos sesenta y uno millones'],
+  [79000, 'setenta y nueve mil'],
+  [100000, 'cien mil'],
+  [150000, 'ciento cincuenta mil'],
+  [900000, 'novecientos mil'],
+  [2000000, 'dos millones'],
+  [40000000, 'cuarenta millones'],
+  [561000000, 'quinientos sesenta y uno millones'],
 
 
 ]
@@ -145,7 +145,17 @@ test('number-parse:', function (t) {
     let [want, str] = a
     let doc = nlp(str)
     let n = doc.numbers().get()[0]
-    t.equal(n, want, here + ' [parse] ' + str)
+    t.equal(n, want, here + '[toNumber] ' + str)
+  })
+  t.end()
+})
+
+test('number-create:', function (t) {
+  arr.forEach(a => {
+    let [num, str] = a
+    let doc = nlp(String(num))
+    doc.numbers().toText()
+    t.equal(doc.text(), str, here + '[toText] ' + num)
   })
   t.end()
 })
