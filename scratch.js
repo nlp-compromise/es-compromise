@@ -12,6 +12,7 @@ txt = `Nosotras comimos los zapatos calientes`
 txt = `Ellas comen el zapato, nosotras comimos`
 txt = `tiramos nuestros zapatos al río`
 
-let doc = nlp('treinta y uno')
-doc.numbers().toOrdinal()
-doc.debug()
+let doc = nlp('tengo cuarenta dolares')
+doc.numbers().minus(50)
+doc.text()
+// tengo moins diez dolares

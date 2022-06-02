@@ -61,6 +61,24 @@ o en el navegador:
 </script>
 ```
 
+### Los Números
+puede analizar números escritos o numéricos
+```js
+let doc = nlp('tengo cuarenta dolares')
+doc.numbers().minus(50)
+doc.text()
+// tengo moins diez dolares
+```
+
+### Lematización
+puede conjugar la raíz de las palabras
+```js
+let doc = nlp('tiramos nuestros zapatos')
+doc.compute('root')
+doc.has('{tirar} nuestros {zapato}')
+//true
+```
+
 see [en-compromise/api](https://github.com/spencermountain/compromise#api) for full API documentation.
 
 únete para ayudar! - please join to help!
