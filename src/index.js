@@ -1,13 +1,17 @@
 import nlp from 'compromise/one'
 // import nlp from '/Users/spencer/mountain/compromise/src/one.js'
 import lexicon from './lexicon/plugin.js'
-import tagger from './preTagger/plugin.js'
+import preTagger from './preTagger/plugin.js'
+import postTagger from './postTagger/plugin.js'
 import tagset from './tagset/plugin.js'
 import tokenizer from './tokenizer/plugin.js'
+import numbers from './numbers/plugin.js'
 nlp.plugin(tokenizer)
 nlp.plugin(tagset)
 nlp.plugin(lexicon)
-nlp.plugin(tagger)
+nlp.plugin(preTagger)
+nlp.plugin(postTagger)
+nlp.plugin(numbers)
 
 
 const de = function (txt, lex) {

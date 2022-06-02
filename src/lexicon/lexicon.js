@@ -45,7 +45,12 @@ Object.keys(lexData).forEach(tag => {
       // add conditional
       obj = conjugate.toConditional(w)
       addWords(obj, 'Conditional', lexicon)
-
+    }
+    if (tag === 'Cardinal') {
+      lexicon[w] = ['Cardinal', 'TextValue']
+    }
+    if (tag === 'Ordinal') {
+      lexicon[w] = ['Ordinal', 'TextValue']
     }
   })
 })

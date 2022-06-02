@@ -16,6 +16,7 @@ import weekdays from './dates/weekdays.js'
 
 import cardinals from './numbers/cardinals.js'
 import ordinals from './numbers/ordinals.js'
+import units from './numbers/units.js'
 
 // people
 import femaleNames from './people/femaleNames.js'
@@ -44,6 +45,7 @@ const data = [
 
   [ordinals, 'Ordinal'],
   [cardinals, 'Cardinal'],
+  [units, 'Unit'],
 
   [cities, 'City'],
   [countries, 'Country'],

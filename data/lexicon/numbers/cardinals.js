@@ -1,5 +1,6 @@
 export default [
   'uno',//1
+  'una',//1
   'dos',//2
   'tres',//3
   'cuatro',//4
@@ -40,6 +41,7 @@ export default [
   'noventa',//90
 
   'cien',//100
+  'ciento',//100
   'doscientos',//200
   'trescientos',//300
   'cuatrocientos',//400
