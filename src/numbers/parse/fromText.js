@@ -1,7 +1,7 @@
 import { toCardinal, toNumber } from './_data.js'
 
 let multiples = {
-  ciento: 100,
+  // ciento: 100,
   mil: 1000,
   millones: 1000000,
   millón: 1000000
@@ -33,6 +33,7 @@ const fromText = function (terms) {
       if (carry === 0) {
         carry = 1
       }
+      // console.log('carry', carry, 'mult', mult, 'sum', sum)
       sum += mult * carry
       carry = 0
       continue

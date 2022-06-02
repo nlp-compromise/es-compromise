@@ -12,6 +12,6 @@ txt = `Nosotras comimos los zapatos calientes`
 txt = `Ellas comen el zapato, nosotras comimos`
 txt = `tiramos nuestros zapatos al río`
 
-let doc = nlp('dos millón')
+let doc = nlp('ciento cincuenta mil')
 doc.numbers().toNumber()
 doc.debug()

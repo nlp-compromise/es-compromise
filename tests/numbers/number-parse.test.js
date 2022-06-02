@@ -107,6 +107,38 @@ let arr = [
   [2000000, 'dos millón'],
   [100000000, 'cien millones'],
 
+
+
+  [120, 'ciento veinte'],
+  [121, 'ciento veintiuno'],
+  [122, 'ciento veintidós'],
+  [123, 'ciento veintitres'],
+  [124, 'ciento veinticuatro'],
+  [125, 'ciento veinticinco'],
+  [202, 'doscientos dos'],
+  [203, 'doscientos tres'],
+  [204, 'doscientos cuatro'],
+  [1000, 'mil'],
+  [2000, 'dos mil'],
+  [3000, 'tres mil'],
+  [4000, 'cuatro mil'],
+  [5000, 'cinco mil'],
+  [6000, 'seis mil'],
+  [7000, 'siete mil'],
+  [8000, 'ocho mil'],
+  [9000, 'nueve mil'],
+  [10000, 'diez mil'],
+  [100000, 'cien mil'],
+
+  [79000, ' setenta y nueve mil'],
+  [100000, ' cien mil'],
+  [150000, ' ciento cincuenta mil'],
+  [900000, ' novecientos mil'],
+  [2000000, ' dos millones'],
+  [40000000, ' cuarenta millones'],
+  [561000000, ' quinientos sesenta y uno millones'],
+
+
 ]
 test('number-parse:', function (t) {
   arr.forEach(a => {
