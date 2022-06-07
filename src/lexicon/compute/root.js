@@ -12,7 +12,7 @@ const verbForm = function (term) {
 }
 
 const root = function (view) {
-  const { verb, noun } = view.world.methods.two.transform
+  const { verb, noun, adjective } = view.world.methods.two.transform
   view.docs.forEach(terms => {
     terms.forEach(term => {
       let str = term.implicit || term.normal || term.text
@@ -33,9 +33,21 @@ const root = function (view) {
           term.root = verb.toRoot.fromConditional(str, form)
         }
       }
+
       // nouns -> singular masculine form
       if (term.tags.has('Noun') && term.tags.has('Plural')) {
         term.root = noun.toSingular(str)
+      }
+
+      // nouns -> singular masculine form
+      if (term.tags.has('Adjective')) {
+        if (term.tags.has('PluralAdjective')) {
+          str = adjective.adjToSingular(str)
+        }
+        if (term.tags.has('FemaleAdjective')) {
+          str = adjective.adjToMasculine(str)
+        }
+        term.root = str
       }
     })
   })

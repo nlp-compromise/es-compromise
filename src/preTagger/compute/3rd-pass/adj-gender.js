@@ -24,13 +24,3 @@ const guessAdjGender = function (terms, i, world) {
 }
 export default guessAdjGender
 
-// import list from '/Users/spencer/mountain/es-compromise/data/models/adjectives.js'
-// let count = 0
-// list.forEach(a => {
-//   let [m, f, mp, fp] = a
-//   if (guessGender(fp) !== 'f') {
-//     console.log(fp)
-//     count += 1
-//   }
-// })
-// console.log(count)
