@@ -9,6 +9,8 @@ import suffixCheck from './2nd-pass/suffix-lookup.js'
 // 3rd
 import guessNounGender from './3rd-pass/noun-gender.js'
 import guessPlural from './3rd-pass/noun-plural.js'
+import adjPlural from './3rd-pass/adj-plural.js'
+import adjGender from './3rd-pass/adj-gender.js'
 
 
 // these methods don't care about word-neighbours
@@ -35,6 +37,8 @@ const thirdPass = function (terms, world) {
   for (let i = 0; i < terms.length; i += 1) {
     guessNounGender(terms, i, world)
     guessPlural(terms, i, world)
+    adjPlural(terms, i, world)
+    adjGender(terms, i, world)
   }
 }
 

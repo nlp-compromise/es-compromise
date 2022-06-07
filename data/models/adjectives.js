@@ -575,14 +575,7 @@ export default [
   ["protocolario", "protocolaria", "protocolarios", "protocolarias"],
   ["publicador", "publicadora", "publicadores", "publicadoras"],
   ["marchito", "marchita", "marchitos", "marchitas"],
-  null,
-  [
-    "bibliográfico",
-    "bibliográfica",
-    "bibliográficos",
-    "bibliográficas",
-    551
-  ],
+  ["bibliográfico", "bibliográfica", "bibliográficos", "bibliográficas"],
   ["robusto", "robusta", "robustos", "robustas"],
   ["riguroso", "rigurosa", "rigurosos", "rigurosas"],
   ["melódico", "melódica", "melódicos", "melódicas"],

@@ -4,6 +4,22 @@ export default {
   Adjective: {
     not: ['Noun', 'Verb', 'Adverb', 'Value'],
   },
+  FemaleAdjective: {
+    is: 'Adjective',
+    not: ['MaleAdjective'],
+  },
+  MaleAdjective: {
+    is: 'Adjective',
+    not: ['FemaleAdjective'],
+  },
+  PluralAdjective: {
+    is: 'Adjective',
+    not: ['SingularAdjective'],
+  },
+  SingularAdjective: {
+    is: 'Adjective',
+    not: ['PluralAdjective'],
+  },
   Comparable: {
     is: 'Adjective',
   },
