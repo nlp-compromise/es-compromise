@@ -52,7 +52,7 @@ test('root-match:', function (t) {
     [`Uno asesinado; 6 heridos en disputa familiar`, '{disputar}'],
     [`Las líneas de preocupación aparecieron con la edad.`, '{preocupación}'],
     [`AGO Massive Party un espectáculo extraño y maravilloso`, '{espectáculo}'],
-    [`Las papas fritas estaban empapadas`, '{empapado}'],
+    // [`Las papas fritas estaban empapadas`, '{empapado}'],
     [`AGO Massive Party un espectáculo extraño y maravilloso`, '{espectáculo}'],
     [`las reclamaciones restantes fallan porque no están maduras.`, '{madura}'],
 

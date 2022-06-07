@@ -22,21 +22,27 @@ const root = function (view) {
         let form = verbForm(term)
         if (term.tags.has('PresentTense')) {
           term.root = verb.toRoot.fromPresent(str, form)
-        }
-        if (term.tags.has('PastTense')) {
+        } else if (term.tags.has('PastTense')) {
           term.root = verb.toRoot.fromPast(str, form)
-        }
-        if (term.tags.has('FutureTense')) {
+        } else if (term.tags.has('FutureTense')) {
           term.root = verb.toRoot.fromFuture(str, form)
-        }
-        if (term.tags.has('Conditional')) {
+        } else if (term.tags.has('Conditional')) {
           term.root = verb.toRoot.fromConditional(str, form)
+        } else {
+          // term.root = verb.toRoot.fromPresent(str, form)
         }
       }
 
       // nouns -> singular masculine form
-      if (term.tags.has('Noun') && term.tags.has('Plural')) {
-        term.root = noun.toSingular(str)
+      if (term.tags.has('Noun')) {
+        if (term.tags.has('Plural')) {
+          str = noun.toSingular(str)
+        }
+        if (term.tags.has('FemaleNoun')) {
+          // not sure about this
+          str = noun.toMasculine(str)
+        }
+        term.root = str
       }
 
       // nouns -> singular masculine form

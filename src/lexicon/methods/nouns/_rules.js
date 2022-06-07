@@ -18,6 +18,7 @@ export default [
   // ['ueña', 'ueños'],
 
   // male nouns
+  ['che', 'ches'],
   ['den', 'denes'],
   ['dén', 'denes'],
   ['ués', 'ueses'],

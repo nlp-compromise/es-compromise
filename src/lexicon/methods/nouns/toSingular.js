@@ -17,3 +17,16 @@ const toSingular = function (str) {
 export default toSingular
 
 // console.log(toSingular('convoyes'))
+
+// import list from '/Users/spencer/mountain/es-compromise/nouns.js'
+// let count = 0
+// list.forEach(a => {
+//   let [m, f, mp, fp] = a
+//   if (mp && m && f && fp) {
+//     if (toSingular(mp) !== m) {
+//       count += 1
+//       console.log(mp, m)
+//     }
+//   }
+// })
+// console.log(count)
