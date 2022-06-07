@@ -1,6 +1,9 @@
 import nlp from './src/index.js'
 
-nlp.verbose('tagger')
+// nlp.verbose('tagger')
+/*
+0.0.2 - tagger 87%
+*/
 
 let txt = 'Sí, sabes que ya llevo un rato mirándote. Tengo que bailar contigo hoy'
 txt = 'el es muy bueno asdfial'
@@ -25,11 +28,14 @@ nos habremos dispersado
 os habréis dispersado
 se habrán dispersado`
 txt = `Determina si has estado abusando del alcohol`
+txt = `Uno asesinado; 6 heridos en disputa familiar`
+txt = ` porque no están maduras.`
+txt = `la compañía se dispersó`
 let doc = nlp(txt)
 doc.compute('root')
-doc.match('{abusar}').debug()
+doc.match('{condescender}').debug()
 doc.debug()
-// console.log(doc.docs[0])
+console.log(doc.docs[0])
 // doc.numbers().minus(50)
 // doc.text()
 // tengo moins diez dolares

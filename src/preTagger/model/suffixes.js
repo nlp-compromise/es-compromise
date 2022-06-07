@@ -5,6 +5,7 @@ const jj = 'Adjective'
 const cond = 'Conditional'
 const fut = 'FutureTense'
 const inf = 'Infinitive'
+const g = 'Gerund'
 
 export default [
   null,
@@ -71,7 +72,8 @@ export default [
     ento: nn,
     ncia: nn,
     'sión': nn,
-    ando: vb,
+    ando: g,
+    endo: g,
     // ados: vb,
     aron: vb,
     adas: vb,
@@ -87,8 +89,10 @@ export default [
     'ación': nn,
     mente: rb,
     iendo: vb,
+    yendo: g,
     ieron: vb,
     remos: fut,
+    iente: jj,
   },
   {
     // six-letter suffixes
