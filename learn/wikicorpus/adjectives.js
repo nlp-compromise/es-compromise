@@ -52,5 +52,5 @@ all = all.filter(a => {
 // all = all.map(a => [a[0], a[2]])
 
 // // lemmas = Object.entries(lemmas)
-fs.writeFileSync('./plurals.js', 'export default ' + JSON.stringify(all, null, 2))
+fs.writeFileSync('./adjectives.js', 'export default ' + JSON.stringify(all, null, 2))
 

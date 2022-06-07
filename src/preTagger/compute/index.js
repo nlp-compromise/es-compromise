@@ -7,8 +7,8 @@ import acronym from './2nd-pass/acronym.js'
 import fallback from './2nd-pass/fallback.js'
 import suffixCheck from './2nd-pass/suffix-lookup.js'
 // 3rd
-import guessNounGender from './3rd-pass/guess-gender.js'
-import guessPlural from './3rd-pass/guess-plural.js'
+import guessNounGender from './3rd-pass/noun-gender.js'
+import guessPlural from './3rd-pass/noun-plural.js'
 
 
 // these methods don't care about word-neighbours

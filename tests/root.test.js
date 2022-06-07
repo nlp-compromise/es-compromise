@@ -33,6 +33,29 @@ test('root-match:', function (t) {
     ['seguirías', '{seguir}'],
     ['seguiríais', '{seguir}'],
 
+    // [`no solo fue impactante.`, '{impactar}'],
+    // [`disgustado por circunstancias`, '{desagradar}'],
+    // [`Aprovecha el poder `, '{aprovechar}'],
+    [`La incorporación estatutaria siguió`, '{estatutario}'],
+    [`Está ahí para la exploración espacial`, '{exploración}'],
+    [`Cualquiera puede decir cosas encantadoras y tratar de`, '{encantar}'],
+    [`Las 10 principales conversiones patrimoniales en Toronto`, '{conversión}'],
+    [`la compañía se dispersó`, '{dispersarse}'],
+    [`una apelación oportuna.`, '{oportuno}'],
+    [`Estamos viendo algunas señales alentadoras.`, '{alentador}'],
+    [`Profundo en esa oscuridad mirando`, '{mirar}'],
+    [`Determina si has estado abusando del alcohol`, '{abusar}'],
+    [`republicanos que simplifiquen el sistema`, '{simplificar}'],
+    [`Voy a usar el cojín.`, '{cojín}'],
+    [`Los cojines son la esencia`, '{cojín}'],
+    [`Alguien me dijo que soy condescendiente.`, '{condescender}'],
+    [`Uno asesinado; 6 heridos en disputa familiar`, '{disputar}'],
+    [`Las líneas de preocupación aparecieron con la edad.`, '{preocupación}'],
+    [`AGO Massive Party un espectáculo extraño y maravilloso`, '{espectáculo}'],
+    [`Las papas fritas estaban empapadas`, '{empapado}'],
+    [`AGO Massive Party un espectáculo extraño y maravilloso`, '{espectáculo}'],
+    [`las reclamaciones restantes fallan porque no están maduras.`, '{madura}'],
+
   ]
   arr.forEach(function (a) {
     let [str, match] = a
