@@ -4,7 +4,6 @@ export default [
   "río",
   "casa",
   "caso",
-  "estado",
   "gobierno",
   "trabajo",
   "desarrollo",

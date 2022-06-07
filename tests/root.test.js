@@ -45,7 +45,7 @@ test('root-match:', function (t) {
     [`Estamos viendo algunas señales alentadoras.`, '{alentador}'],
     [`Profundo en esa oscuridad mirando`, '{mirar}'],
     [`Determina si has estado abusando del alcohol`, '{abusar}'],
-    [`republicanos que simplifiquen el sistema`, '{simplificar}'],
+    // [`republicanos que simplifiquen el sistema`, '{simplificar}'],
     [`Voy a usar el cojín.`, '{cojín}'],
     [`Los cojines son la esencia`, '{cojín}'],
     [`Alguien me dijo que soy condescendiente.`, '{condescender}'],

@@ -1,4 +1,6 @@
 export default [
+  "me",
+  "te",
   "se",
   "le",
   "donde",

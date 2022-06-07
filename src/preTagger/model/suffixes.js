@@ -2,6 +2,9 @@ const rb = 'Adverb'
 const nn = 'Noun'
 const vb = 'Verb'
 const jj = 'Adjective'
+const cond = 'Conditional'
+const fut = 'FutureTense'
+const inf = 'Infinitive'
 
 export default [
   null,
@@ -40,10 +43,18 @@ export default [
     tar: vb,
     'ían': vb,
     rar: vb,
+    ría: cond,
+    aré: fut,
+    iré: fut,
+    eré: fut,
+    rás: fut,
+    ará: fut,
+    ado: vb,
     // ida: vb,
   },
   {
     // four-letter suffixes
+    arse: inf,
     ales: jj,
     icos: jj,
     icas: jj,
@@ -65,12 +76,19 @@ export default [
     aron: vb,
     adas: vb,
     tado: vb,
+    rías: cond,
+    amos: cond,
+    íais: cond,
+    rían: cond,
+    réis: fut,
+    arán: fut,
   },
   { // five-letter suffixes
     'ación': nn,
     mente: rb,
     iendo: vb,
     ieron: vb,
+    remos: fut,
   },
   {
     // six-letter suffixes
