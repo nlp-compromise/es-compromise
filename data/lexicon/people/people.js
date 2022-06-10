@@ -52,7 +52,7 @@ export default [
   'inez',
   'jaime',
   'jefferson',
-  'lee',
+  // 'lee',
   'nettie',
   'ora',
   'palmer',

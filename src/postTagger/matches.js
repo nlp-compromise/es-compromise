@@ -7,5 +7,7 @@ const postTagger = function (doc) {
   doc.match('#Value y #Value').tag('TextValue', 'num-y-num')
   // minus eight
   doc.match('menos #Value').tag('TextValue', 'minus-val')
+  // 3 pintas de cerveza
+  doc.match('#Value [#PresentTense] de #Noun', 0).tag('Plural', '3-pintas')
 }
 export default postTagger
