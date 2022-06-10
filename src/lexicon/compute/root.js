@@ -11,12 +11,23 @@ const verbForm = function (term) {
   return want.find(tag => term.tags.has(tag))
 }
 
+//relajarse -> relajar
+const stripReflexive = function (str) {
+  str = str.replace(/se$/, '')
+  str = str.replace(/te$/, '')
+  str = str.replace(/me$/, '')
+  return str
+}
+
 const root = function (view) {
   const { verb, noun, adjective } = view.world.methods.two.transform
   view.docs.forEach(terms => {
     terms.forEach(term => {
       let str = term.implicit || term.normal || term.text
 
+      if (term.tags.has('Reflexive')) {
+        str = stripReflexive(str)
+      }
       // get infinitive form of the verb
       if (term.tags.has('Verb')) {
         let form = verbForm(term)

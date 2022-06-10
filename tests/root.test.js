@@ -74,15 +74,15 @@ test('root-match:', function (t) {
     [`creerse`, '{creer}'],// (to believe)
     [`reunirse`, '{reunir}'],// (to meet up or reunite)
     [`cuidarse`, '{cuidar}'],// (to take care)
-    ['¡vámonos!', '{vámon}'],
-    ['¡siéntense!', '{sentar}'],
     ['relajarse', '{relajar}'],
-    ['acostándose', '{acostar}'],
     ['bañarme', '{bañar}'],
     ['vestirte', '{vestir}'],
-    ['vistiéndose', '{vestir}'],
-    ['duchándote', '{duchar}'],
     ['compondríamos', '{componer}'],
+    // ['¡vámonos!', '{ir}'],
+    // ['¡siéntense!', '{sentar}'],
+    // ['acostándose', '{acostar}'],
+    // ['vistiéndose', '{vestir}'],
+    // ['duchándote', '{duchar}'],
   ]
   arr.forEach(function (a) {
     let [str, match] = a

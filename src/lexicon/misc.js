@@ -119,6 +119,7 @@ let lex = {
   'había': 'Verb',
   'sido': 'Verb',
 
+  irse: ['Reflexive', 'Infinitive']
 }
 copulas.forEach(str => {
   lex[str] = 'Copula'

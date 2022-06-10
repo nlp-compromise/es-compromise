@@ -46,6 +46,10 @@ let forms = [
   'FirstPersonPlural',
   'SecondPersonPlural',
   'ThirdPersonPlural',
+  'PresentTense',
+  'PastTense',
+  'FutureTense',
+  'Conditional'
 ]
 
 //relajarse -> relajar
@@ -61,8 +65,8 @@ const guessVerbForm = function (terms, i, world) {
   const setTag = world.methods.one.setTag
   let term = terms[i]
   if (term.tags.has('Verb') && !term.tags.has('Infinitive')) {
-    // do we already have one?
-    if (forms.find(tag => term.tags.has(tag))) {
+    // do we already have both?
+    if (forms.filter(tag => term.tags.has(tag)).length >= 2) {
       return
     }
     let str = term.machine || term.normal
@@ -72,7 +76,7 @@ const guessVerbForm = function (terms, i, world) {
     for (let i = 0; i < rules.length; i += 1) {
       let [suff, tag] = rules[i]
       if (str.endsWith(suff)) {
-        setTag([term], tag, world, false, '3-guessForm')
+        setTag([term], tag, world, true, '3-guessForm')
         break
       }
     }
