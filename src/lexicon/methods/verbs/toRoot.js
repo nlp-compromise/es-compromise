@@ -15,6 +15,18 @@ let pastRev = revAll(pastTense)
 let futureRev = revAll(futureTense)
 let conditionalRev = revAll(conditional)
 
+//relajarse -> relajar
+const stripReflexive = function (str) {
+  str = str.replace(/arse$/, 'ar')
+  str = str.replace(/arte$/, 'ir')
+  str = str.replace(/arme$/, 'ar')
+
+  str = str.replace(/irse$/, 'ir')
+  str = str.replace(/irte$/, 'ir')
+
+  str = str.replace(/erse$/, 'er')
+  return str
+}
 
 const fromPresent = (str, form) => {
   let forms = {
@@ -28,7 +40,7 @@ const fromPresent = (str, form) => {
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
   }
-  return str
+  return stripReflexive(str)
 }
 
 const fromPast = (str, form) => {
@@ -43,7 +55,7 @@ const fromPast = (str, form) => {
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
   }
-  return str
+  return stripReflexive(str)
 }
 
 const fromFuture = (str, form) => {
@@ -58,7 +70,7 @@ const fromFuture = (str, form) => {
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
   }
-  return str
+  return stripReflexive(str)
 }
 
 const fromConditional = (str, form) => {
@@ -73,7 +85,7 @@ const fromConditional = (str, form) => {
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
   }
-  return str
+  return stripReflexive(str)
 }
 
 

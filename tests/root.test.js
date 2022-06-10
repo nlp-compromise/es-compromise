@@ -56,6 +56,32 @@ test('root-match:', function (t) {
     // [`Cualquiera puede decir cosas encantadoras y tratar de`, '{encantar}'],
     // [`la compañía se dispersó`, '{dispersarse}'],
 
+    // reflexive forms
+    [`irse`, '{ir}'],// (to leave)
+    [`acordarse`, '{acordar}'],// (to remember)
+    [`olvidarse`, '{olvidar}'],// (to forget)
+    [`sentirse`, '{sentir}'],// (to feel)
+    [`darse`, '{dar}'],// (to give oneself)
+    [`encontrarse`, '{encontrar}'],// (to find oneself)
+    [`preocuparse`, '{preocupar}'],// (to worry)
+    [`fijarse`, '{fijar}'],// (to take notice)
+    [`casarse`, '{casar}'],// (to marry)
+    [`sentarse`, '{sentar}'],// (to sit down)
+    [`levantarse`, '{levantar}'],// (to get up)
+    [`despertarse`, '{despertar}'],// (to wake up oneself)
+    [`preguntarse`, '{preguntar}'],// (to wonder)
+    [`llamarse`, '{llamar}'],// (to call oneself)
+    [`creerse`, '{creer}'],// (to believe)
+    [`reunirse`, '{reunir}'],// (to meet up or reunite)
+    [`cuidarse`, '{cuidar}'],// (to take care)
+    ['¡vámonos!', '{vámon}'],
+    ['¡siéntense!', '{sentar}'],
+    ['relajarse', '{relajar}'],
+    ['acostándose', '{acostar}'],
+    ['bañarme', '{bañar}'],
+    ['vestirte', '{vestir}'],
+    ['vistiéndose', '{vestir}'],
+    ['duchándote', '{duchar}'],
   ]
   arr.forEach(function (a) {
     let [str, match] = a

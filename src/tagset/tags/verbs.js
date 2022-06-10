@@ -54,6 +54,10 @@ export default {
     not: ['Infinitive', 'Imperative'],
   },
 
+  Reflexive: {
+    is: 'Verb',
+  },
+
 
   // 
   FirstPerson: {

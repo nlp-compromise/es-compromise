@@ -100,18 +100,22 @@ txt = `Tortúrame, dijo el masoquista.`
 // 'electrón'
 // txt = `¿Cómo se pueden emparejar electrones sin iones que los mantengan juntos, lo que permite un superconductor de mayor`
 
+txt = ' ¡Vámonos!'
+txt = ' ¡Siéntense!'
+txt = ' Acaba de irse.'
+txt = 'acostándose'
+// txt = 'Acostándose'
+// txt = 'bañarme'
+// txt = 'vestirte'
+// txt = 'vistiéndose'
+// txt = 'duchándote'
+// txt = ' a quejarse de dolores'
 
-txt = 'registro'
-txt = 'registras'
-txt = 'registra'
-txt = 'registramos'
-txt = 'registráis'
-txt = 'registran'
 
 
 let doc = nlp(txt)
 doc.compute('root')
-doc.match('{registrarse}').debug()
+doc.match('{vestir}').debug()
 doc.debug()
 console.log(doc.docs[0])
 // doc.numbers().minus(50)

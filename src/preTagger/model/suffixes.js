@@ -6,6 +6,7 @@ const cond = 'Conditional'
 const fut = 'FutureTense'
 const inf = 'Infinitive'
 const g = 'Gerund'
+const first = 'FirstPerson'
 
 export default [
   null,
@@ -36,7 +37,7 @@ export default [
     oso: jj,
     ana: jj,
     // ado: vb,
-    ndo: vb,
+    ndo: first,
     ada: vb,
     ron: vb,
     // ido: vb,
@@ -56,6 +57,7 @@ export default [
   {
     // four-letter suffixes
     arse: inf,
+    irse: inf,
     ales: jj,
     icos: jj,
     icas: jj,
@@ -77,13 +79,21 @@ export default [
     // ados: vb,
     aron: vb,
     adas: vb,
-    tado: vb,
+    tado: first,
     rías: cond,
     amos: cond,
     íais: cond,
     rían: cond,
     réis: fut,
     arán: fut,
+    // refexive verbs
+    arse: inf,
+    arte: inf,
+    arme: inf,
+    irse: inf,
+    irte: inf,
+    erse: inf,
+    dose: vb,
   },
   { // five-letter suffixes
     'ación': nn,
