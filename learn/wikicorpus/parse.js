@@ -89,6 +89,9 @@ const parseTag = function (str = '') {
     plural = str.substring(4, 5).toLowerCase() === 'p' ? true : false
     // console.log(str, gender, plural)
   }
+  if (tag === 'Verb') {
+    // console.log(str)
+  }
 
   return {
     tag,
@@ -116,7 +119,10 @@ const parse = function (num) {
     }
     let a = line.split(/ /g)
     let { tag, gender, plural } = parseTag(a[2])
-    if (tag === 'Adjective') {
+    if (tag === 'Verb') {
+      if (a[2].startsWith('VMG')) {
+        tag = 'Gerund'
+      }
       // console.log(a)
       // console.log(line)
     }

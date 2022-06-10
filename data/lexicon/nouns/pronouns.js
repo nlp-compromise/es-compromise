@@ -27,5 +27,4 @@ export default [
   'suyo', 'suya', 'suyos', 'suyas',//	his; hers; its; yours (belonging to usted)
   'nuestro', 'nuestra', 'nuestros', 'nuestras',//	ours
   'vuestro', 'vuestra', 'vuestros', 'vuestras',//	yours (belonging to vosotros/vosotras)
-  'suyo', 'suya', 'suyos', 'suyas',//	theirs; yours (belonging to ustedes)
 ]

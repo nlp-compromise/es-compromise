@@ -105,7 +105,7 @@ txt = ' ¡Siéntense!'
 txt = ' Acaba de irse.'
 txt = 'acostándose'
 txt = 'siéntense'
-txt = 'esa oscuridad mirando'
+txt = 'granulando'
 // txt = 'vistiéndo'
 // txt = 'Acostándose'
 // txt = 'bañarme'
@@ -118,7 +118,7 @@ txt = 'esa oscuridad mirando'
 
 let doc = nlp(txt)
 doc.compute('root')
-doc.match('{vestir}').debug()
+doc.match('{granular}').debug()
 doc.debug()
 console.log(doc.docs[0])
 // doc.numbers().minus(50)

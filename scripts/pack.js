@@ -46,11 +46,11 @@ const steps = [
         })
       })
       // console.log('plural nouns')
-      // let plurals = learn(models.nouns.plurals)
-      // plurals = compress(plurals)
-      // packed.nouns = {
-      //   plurals
-      // }
+      let gerunds = learn(models.gerunds)
+      gerunds = compress(gerunds)
+      packed.gerunds = {
+        gerunds
+      }
       return packed
     },
   }

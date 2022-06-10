@@ -78,6 +78,7 @@ test('root-match:', function (t) {
     ['bañarme', '{bañar}'],
     ['vestirte', '{vestir}'],
     ['compondríamos', '{componer}'],
+    ['granulando', '{granular}'],
     // ['¡vámonos!', '{ir}'],
     // ['¡siéntense!', '{sentar}'],
     // ['acostándose', '{acostar}'],

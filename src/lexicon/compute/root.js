@@ -31,7 +31,9 @@ const root = function (view) {
       // get infinitive form of the verb
       if (term.tags.has('Verb')) {
         let form = verbForm(term)
-        if (term.tags.has('PresentTense')) {
+        if (term.tags.has('Gerund')) {
+          term.root = verb.fromGerund(str, form)
+        } else if (term.tags.has('PresentTense')) {
           term.root = verb.toRoot.fromPresent(str, form)
         } else if (term.tags.has('PastTense')) {
           term.root = verb.toRoot.fromPast(str, form)
