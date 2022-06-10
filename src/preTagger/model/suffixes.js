@@ -6,6 +6,7 @@ const cond = 'Conditional'
 const fut = 'FutureTense'
 const inf = 'Infinitive'
 const g = 'Gerund'
+const ref = 'Reflexive'
 const first = 'FirstPerson'
 
 export default [
@@ -93,7 +94,7 @@ export default [
     irse: inf,
     irte: inf,
     erse: inf,
-    dose: vb,
+    dose: ref,
   },
   { // five-letter suffixes
     'ación': nn,

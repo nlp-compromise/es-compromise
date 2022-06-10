@@ -11,6 +11,7 @@ import guessNounGender from './3rd-pass/noun-gender.js'
 import guessPlural from './3rd-pass/noun-plural.js'
 import adjPlural from './3rd-pass/adj-plural.js'
 import adjGender from './3rd-pass/adj-gender.js'
+import verbForm from './3rd-pass/verb-form.js'
 
 
 // these methods don't care about word-neighbours
@@ -39,6 +40,7 @@ const thirdPass = function (terms, world) {
     guessPlural(terms, i, world)
     adjPlural(terms, i, world)
     adjGender(terms, i, world)
+    verbForm(terms, i, world)
   }
 }
 

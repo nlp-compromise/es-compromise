@@ -82,6 +82,7 @@ test('root-match:', function (t) {
     ['vestirte', '{vestir}'],
     ['vistiéndose', '{vestir}'],
     ['duchándote', '{duchar}'],
+    ['compondríamos', '{componer}'],
   ]
   arr.forEach(function (a) {
     let [str, match] = a

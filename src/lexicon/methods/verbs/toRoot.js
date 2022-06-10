@@ -25,6 +25,7 @@ const stripReflexive = function (str) {
   str = str.replace(/irte$/, 'ir')
 
   str = str.replace(/erse$/, 'er')
+  str = str.replace(/ose$/, 'o')
   return str
 }
 

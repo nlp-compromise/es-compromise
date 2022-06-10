@@ -104,6 +104,7 @@ txt = ' ¡Vámonos!'
 txt = ' ¡Siéntense!'
 txt = ' Acaba de irse.'
 txt = 'acostándose'
+txt = 'vistiéndose'
 // txt = 'Acostándose'
 // txt = 'bañarme'
 // txt = 'vestirte'
@@ -111,7 +112,7 @@ txt = 'acostándose'
 // txt = 'duchándote'
 // txt = ' a quejarse de dolores'
 
-
+// Está vistiéndose or Se está vistiendo.
 
 let doc = nlp(txt)
 doc.compute('root')
