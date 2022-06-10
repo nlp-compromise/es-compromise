@@ -99,7 +99,7 @@ export default [
   { // five-letter suffixes
     'ación': nn,
     mente: rb,
-    iendo: vb,
+    iendo: g,
     yendo: g,
     ieron: vb,
     remos: fut,

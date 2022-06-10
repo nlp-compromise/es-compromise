@@ -17,6 +17,18 @@ import nlp from './src/index.js'
 //   })
 // })
 
+import list from '/Users/spencer/mountain/es-compromise/data/models/gerunds.js'
+let miss = 0
+list.forEach(a => {
+  let doc = nlp(a[1])
+  doc.compute('root')
+  if (!doc.has(`{${a[0]}}`)) {
+    miss += 1
+    console.log(a)
+  }
+})
+console.log(list.length)
+console.log(miss)
 
 
 let txt = 'Sí, sabes que ya llevo un rato mirándote. Tengo que bailar contigo hoy'
@@ -105,7 +117,7 @@ txt = ' ¡Siéntense!'
 txt = ' Acaba de irse.'
 txt = 'acostándose'
 txt = 'siéntense'
-txt = 'granulando'
+txt = 'suscribiendo'
 // txt = 'vistiéndo'
 // txt = 'Acostándose'
 // txt = 'bañarme'
@@ -119,7 +131,7 @@ txt = 'granulando'
 let doc = nlp(txt)
 doc.compute('root')
 doc.match('{granular}').debug()
-doc.debug()
+// doc.debug()
 console.log(doc.docs[0])
 // doc.numbers().minus(50)
 // doc.text()

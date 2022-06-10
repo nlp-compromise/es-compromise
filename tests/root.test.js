@@ -51,7 +51,7 @@ test('root-match:', function (t) {
 
     // [`Alguien me dijo que soy condescendiente.`, '{condescender}'],
     // [`Uno asesinado; 6 heridos en disputa familiar`, '{disputar}'],
-    [`las reclamaciones restantes fallan porque no están maduras.`, '{mûr}'],
+    // [`no están maduras.`, '{mûr}'],
     [`Profundo en esa oscuridad mirando`, '{mirar}'],
     // [`Cualquiera puede decir cosas encantadoras y tratar de`, '{encantar}'],
     // [`la compañía se dispersó`, '{dispersarse}'],
@@ -78,7 +78,18 @@ test('root-match:', function (t) {
     ['bañarme', '{bañar}'],
     ['vestirte', '{vestir}'],
     ['compondríamos', '{componer}'],
+    // gerunds
     ['granulando', '{granular}'],
+    ["combatiendo", "{combatir}"],
+    ["dominando", "{dominar}"],
+    ["capturando", "{capturar}"],
+    ["proclamando", "{proclamar}"],
+    ["bebiendo", "{beber}"],
+    ["fumando", "{fumar}"],
+    ["apareciendo", "{aparecer}"],
+    ["obligando", "{obligar}"],
+    ["disparando", "{disparar}"],
+
     // ['¡vámonos!', '{ir}'],
     // ['¡siéntense!', '{sentar}'],
     // ['acostándose', '{acostar}'],
