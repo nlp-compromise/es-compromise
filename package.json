@@ -13,6 +13,7 @@
       "require": "./builds/es-compromise.cjs"
     }
   },
+  "types": "types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/nlp-compromise/es-compromise.git"
@@ -20,7 +21,8 @@
   "scripts": {
     "test": "tape \"./tests/**/*.test.js\" | tap-dancer",
     "testb": "TESTENV=prod npm run test",
-    "build": "rollup -c --silent",
+    "build": "npm run version && rollup -c --silent",
+    "version": "node ./scripts/version.js",
     "pack": "node ./scripts/pack.js",
     "score": "node ./learn/wikicorpus/test.js",
     "watch": "amble ./scratch.js"
