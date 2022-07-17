@@ -48,7 +48,7 @@ El objetivo de este proyecto es proporcionar un etiquetador de POS pequeño, bá
 <img height="15px" src="https://user-images.githubusercontent.com/399657/68221862-17ceb980-ffb8-11e9-87d4-7b30b6488f16.png"/>
 
 ```js
-import pln from 'es-compromise'
+import nlp from 'es-compromise'
 
 let doc = nlp('Tengo que bailar contigo hoy')
 doc.match('#Verb').out('array')
@@ -273,7 +273,7 @@ npm watch
   <img src="https://user-images.githubusercontent.com/399657/68221731-e8b84800-ffb7-11e9-8453-6395e0e903fa.png"/>
 </div>
 
-## Voir aussi
+## Ver también
 - &nbsp; **[opennlp-spanish](https://opennlp.apache.org/)** - Java tagger w/ spanish model
 - &nbsp; **[TreeTagger](https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/)** - Perl tagger w/ spanish model
 
