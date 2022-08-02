@@ -26,7 +26,7 @@
   </div>
   <div align="center">
     <sub>
-     ver: <a href="https://github.com/nlp-compromise/es-compromise">italian</a> • <a href="https://github.com/nlp-compromise/de-compromise">german</a>  •<a href="https://github.com/nlp-compromise/fr-compromise">french</a>  • <a href="https://github.com/spencermountain/compromise">english</a>
+     ver: <a href="https://github.com/nlp-compromise/es-compromise">italian</a> • <a href="https://github.com/nlp-compromise/de-compromise">german</a> • <a href="https://github.com/nlp-compromise/fr-compromise">french</a> • <a href="https://github.com/spencermountain/compromise">english</a>
     </sub>
   </div>
 </div>

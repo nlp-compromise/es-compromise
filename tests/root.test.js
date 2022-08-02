@@ -95,6 +95,8 @@ test('root-match:', function (t) {
     // ['acostándose', '{acostar}'],
     // ['vistiéndose', '{vestir}'],
     // ['duchándote', '{duchar}'],
+
+
   ]
   arr.forEach(function (a) {
     let [str, match] = a

@@ -21,6 +21,12 @@ const de = function (txt, lex) {
   return dok
 }
 
+de.world = () => nlp.world()
+de.model = () => nlp.model()
+de.methods = () => nlp.methods()
+de.hooks = () => nlp.hooks()
+de.plugin = (plg) => nlp.plugin(plg)
+
 /** log the decision-making to console */
 de.verbose = function (set) {
   let env = typeof process === 'undefined' ? self.env || {} : process.env //use window, in browser
