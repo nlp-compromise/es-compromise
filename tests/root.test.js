@@ -100,6 +100,7 @@ test('root-match:', function (t) {
     ["nos olvidamos muchas veces", "{olvidar}"],
     ["las ligas menores", "{menor}"], //adj
     ["las capacidades que Dios les ha dado", "{capacidad}"], // noun
+    ["contemplaciones", "{contemplación}"], // noun
 
   ]
   arr.forEach(function (a) {

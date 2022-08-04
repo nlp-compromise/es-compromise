@@ -16,9 +16,8 @@ nlp.verbose('tagger')
 
 */
 
-
-let txt = `PlayWood a présenté suffisamment de preuves`
+let txt = `contemplaciones`
 let doc = nlp(txt)
 doc.compute('root')
 doc.debug()
-doc.match(`{suffisant}`).debug()
+doc.match(`{contemplación}`).debug()
