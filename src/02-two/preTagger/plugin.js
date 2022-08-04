@@ -11,5 +11,5 @@ export default {
     two: model
   },
   methods,
-  // hooks: ['preTagger']
+  hooks: ['preTagger']
 }

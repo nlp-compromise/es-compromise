@@ -1,3 +1,6 @@
+### 0.1.2 [August 2022]
+- **[fix]** - fixes for inflections in toRoot
+
 ### 0.1.1 [July 2022]
 - **[change]** - add 'browser' field in package.json
 

@@ -95,6 +95,13 @@ test('root-match:', function (t) {
     // ['acostándose', '{acostar}'],
     // ['vistiéndose', '{vestir}'],
     // ['duchándote', '{duchar}'],
+
+    ["Olvidas tu cumpleaños", "{olvidar}"], //verb
+    ["nos olvidamos muchas veces", "{olvidar}"],
+    ["las ligas menores", "{menor}"], //adj
+    ["las capacidades que Dios les ha dado", "{capacidad}"], // noun
+    ["contemplaciones", "{contemplación}"], // noun
+
   ]
   arr.forEach(function (a) {
     let [str, match] = a

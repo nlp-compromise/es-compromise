@@ -391,7 +391,7 @@
   Object.assign(View.prototype, api$d);
   var View$1 = View;
 
-  var version$1 = '14.4.0';
+  var version$1 = '14.4.4';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -1787,7 +1787,7 @@
   };
   var numberRange$1 = numberRange;
 
-  const numUnit = /^([0-9.,+-]+)([a-z°²³µ/]+)$/i;
+  const numUnit = /^([+-]?[0-9][.,0-9]*)([a-z°²³µ/]+)$/i;
 
   const notUnit = new Set([
     'st',
@@ -2994,6 +2994,9 @@
 
   const addVerbs = function (token, world) {
     let { verbConjugate } = world.methods.two.transform;
+    if (!verbConjugate) {
+      return []
+    }
     let res = verbConjugate(token.root, world.model);
     delete res.FutureTense;
     return Object.values(res).filter(str => str)
@@ -3002,6 +3005,9 @@
   const addNoun = function (token, world) {
     let { nounToPlural } = world.methods.two.transform;
     let res = [token.root];
+    if (!nounToPlural) {
+      return res
+    }
     res.push(nounToPlural(token.root, world.model));
     return res
   };
@@ -3009,6 +3015,9 @@
   const addAdjective = function (token, world) {
     let { adjToSuperlative, adjToComparative, adjToAdverb } = world.methods.two.transform;
     let res = [token.root];
+    if (!adjToSuperlative || !adjToComparative || !adjToAdverb) {
+      return res
+    }
     res.push(adjToSuperlative(token.root, world.model));
     res.push(adjToComparative(token.root, world.model));
     res.push(adjToAdverb(token.root, world.model));
@@ -3018,10 +3027,11 @@
   // turn '{walk}' into 'walking', 'walked', etc
   const inflectRoot = function (regs, world) {
     // do we have compromise/two?
-    if (world.methods.two && world.methods.two.transform) {
-      regs = regs.map(token => {
-        // a reg to convert '{foo}'
-        if (token.root) {
+    regs = regs.map(token => {
+      // a reg to convert '{foo}'
+      if (token.root) {
+        // check if compromise/two is loaded
+        if (world.methods.two && world.methods.two.transform && world.methods.two.transform.verbConjugate) {
           let choices = [];
           if (!token.pos || token.pos === 'Verb') {
             choices = choices.concat(addVerbs(token, world));
@@ -3038,10 +3048,16 @@
             token.operator = 'or';
             token.fastOr = new Set(choices);
           }
+        } else {
+          // if no compromise/two, drop down into 'machine' lookup
+          token.machine = token.root;
+          delete token.id;
+          delete token.root;
         }
-        return token
-      });
-    }
+      }
+      return token
+    });
+
     return regs
   };
   var inflectRoot$1 = inflectRoot;
@@ -3685,12 +3701,40 @@
   const doNegative = function (state) {
     const { regs } = state;
     let reg = regs[state.r];
+
+
+
+    // match *anything* but this term
     let tmpReg = Object.assign({}, reg);
     tmpReg.negative = false; // try removing it
-    let foundNeg = matchTerm(state.terms[state.t], tmpReg, state.start_i + state.t, state.phrase_length);
-    if (foundNeg === true) {
-      return null //bye!
+    let found = matchTerm(state.terms[state.t], tmpReg, state.start_i + state.t, state.phrase_length);
+    if (found) {
+      return false//die
     }
+
+    // should we skip the term too?
+    // "before after"
+    //  match("before !foo? after")
+    if (reg.optional) {
+      // does the next reg match the this term?
+      let nextReg = regs[state.r + 1];
+      if (nextReg) {
+        let fNext = matchTerm(state.terms[state.t], nextReg, state.start_i + state.t, state.phrase_length);
+        if (fNext) {
+          state.r += 1;
+        } else if (nextReg.optional && regs[state.r + 2]) {
+          // ugh. ok,
+          // support "!foo? extra? need"
+          // but don't scan ahead more than that.
+          let fNext2 = matchTerm(state.terms[state.t], regs[state.r + 2], state.start_i + state.t, state.phrase_length);
+          if (fNext2) {
+            state.r += 2;
+          }
+        }
+      }
+    }
+
+    state.t += 1;
     return true
   };
   var doNegative$1 = doNegative;
@@ -3822,6 +3866,7 @@
    * starting at this certain term.
    */
   const tryHere = function (terms, regs, start_i, phrase_length) {
+    // console.log(`\n\n:start: '${terms[0].text}':`)
     if (terms.length === 0 || regs.length === 0) {
       return null
     }
@@ -3884,6 +3929,10 @@
       }
       // support '.' as any-single
       if (reg.anything === true) {
+        // '!.' negative anything should insta-fail
+        if (reg.negative && reg.anything) {
+          return null
+        }
         let alive = simpleMatch$1(state);
         if (!alive) {
           return null
@@ -3898,7 +3947,17 @@
         }
         continue
       }
+      // ok, it doesn't match - but maybe it wasn't *supposed* to?
+      if (reg.negative) {
+        // we want *anything* but this term
+        let alive = doNegative$1(state);
+        if (!alive) {
+          return null
+        }
+        continue
+      }
       // ok, finally test the term-reg
+      // console.log('   - ' + state.terms[state.t].text)
       let hasMatch = matchTerm(state.terms[state.t], reg, state.start_i + state.t, state.phrase_length);
       if (hasMatch === true) {
         let alive = simpleMatch$1(state);
@@ -3907,13 +3966,8 @@
         }
         continue
       }
-      // ok, it doesn't match - but maybe it wasn't *supposed* to?
-      if (reg.negative) {
-        let alive = doNegative$1(state);
-        if (!alive) {
-          return null
-        }
-      }
+      // console.log('=-=-=-= here -=-=-=-')
+
       //ok who cares, keep going
       if (reg.optional === true) {
         continue
@@ -5728,7 +5782,7 @@
   };
   var unTag$1 = unTag;
 
-  const e=function(e){return e.children=e.children||[],e._cache=e._cache||{},e.props=e.props||{},e._cache.parents=e._cache.parents||[],e._cache.children=e._cache.children||[],e},t=/^ *(#|\/\/)/,n=function(t){let n=t.trim().split(/->/),r=[];n.forEach((t=>{r=r.concat(function(t){if(!(t=t.trim()))return null;if(/^\[/.test(t)&&/\]$/.test(t)){let n=(t=(t=t.replace(/^\[/,"")).replace(/\]$/,"")).split(/,/);return n=n.map((e=>e.trim())).filter((e=>e)),n=n.map((t=>e({id:t}))),n}return [e({id:t})]}(t));})),r=r.filter((e=>e));let i=r[0];for(let e=1;e<r.length;e+=1)i.children.push(r[e]),i=r[e];return r[0]},r=(e,t)=>{let n=[],r=[e];for(;r.length>0;){let e=r.pop();n.push(e),e.children&&e.children.forEach((n=>{t&&t(e,n),r.push(n);}));}return n},i=e=>"[object Array]"===Object.prototype.toString.call(e),c=e=>(e=e||"").trim(),s=function(c=[]){return "string"==typeof c?function(r){let i=r.split(/\r?\n/),c=[];i.forEach((e=>{if(!e.trim()||t.test(e))return;let r=(e=>{const t=/^( {2}|\t)/;let n=0;for(;t.test(e);)e=e.replace(t,""),n+=1;return n})(e);c.push({indent:r,node:n(e)});}));let s=function(e){let t={children:[]};return e.forEach(((n,r)=>{0===n.indent?t.children=t.children.concat(n.node):e[r-1]&&function(e,t){let n=e[t].indent;for(;t>=0;t-=1)if(e[t].indent<n)return e[t];return e[0]}(e,r).node.children.push(n.node);})),t}(c);return s=e(s),s}(c):i(c)?function(t){let n={};t.forEach((e=>{n[e.id]=e;}));let r=e({});return t.forEach((t=>{if((t=e(t)).parent)if(n.hasOwnProperty(t.parent)){let e=n[t.parent];delete t.parent,e.children.push(t);}else console.warn(`[Grad] - missing node '${t.parent}'`);else r.children.push(t);})),r}(c):(r(s=c).forEach(e),s);var s;},h=e=>"[31m"+e+"[0m",o=e=>"[2m"+e+"[0m",l=function(e,t){let n="-> ";t&&(n=o("→ "));let i="";return r(e).forEach(((e,r)=>{let c=e.id||"";if(t&&(c=h(c)),0===r&&!e.id)return;let s=e._cache.parents.length;i+="    ".repeat(s)+n+c+"\n";})),i},a=function(e){let t=r(e);t.forEach((e=>{delete(e=Object.assign({},e)).children;}));let n=t[0];return n&&!n.id&&0===Object.keys(n.props).length&&t.shift(),t},p={text:l,txt:l,array:a,flat:a},d=function(e,t){return "nested"===t||"json"===t?e:"debug"===t?(console.log(l(e,!0)),null):p.hasOwnProperty(t)?p[t](e):e},u=e=>{r(e,((e,t)=>{e.id&&(e._cache.parents=e._cache.parents||[],t._cache.parents=e._cache.parents.concat([e.id]));}));},f$2=(e,t)=>(Object.keys(t).forEach((n=>{if(t[n]instanceof Set){let r=e[n]||new Set;e[n]=new Set([...r,...t[n]]);}else {if((e=>e&&"object"==typeof e&&!Array.isArray(e))(t[n])){let r=e[n]||{};e[n]=Object.assign({},t[n],r);}else i(t[n])?e[n]=t[n].concat(e[n]||[]):void 0===e[n]&&(e[n]=t[n]);}})),e),j=/\//;class g$1{constructor(e={}){Object.defineProperty(this,"json",{enumerable:!1,value:e,writable:!0});}get children(){return this.json.children}get id(){return this.json.id}get found(){return this.json.id||this.json.children.length>0}props(e={}){let t=this.json.props||{};return "string"==typeof e&&(t[e]=!0),this.json.props=Object.assign(t,e),this}get(t){if(t=c(t),!j.test(t)){let e=this.json.children.find((e=>e.id===t));return new g$1(e)}let n=((e,t)=>{let n=(e=>"string"!=typeof e?e:(e=e.replace(/^\//,"")).split(/\//))(t=t||"");for(let t=0;t<n.length;t+=1){let r=e.children.find((e=>e.id===n[t]));if(!r)return null;e=r;}return e})(this.json,t)||e({});return new g$1(n)}add(t,n={}){if(i(t))return t.forEach((e=>this.add(c(e),n))),this;t=c(t);let r=e({id:t,props:n});return this.json.children.push(r),new g$1(r)}remove(e){return e=c(e),this.json.children=this.json.children.filter((t=>t.id!==e)),this}nodes(){return r(this.json).map((e=>(delete(e=Object.assign({},e)).children,e)))}cache(){return (e=>{let t=r(e,((e,t)=>{e.id&&(e._cache.parents=e._cache.parents||[],e._cache.children=e._cache.children||[],t._cache.parents=e._cache.parents.concat([e.id]));})),n={};t.forEach((e=>{e.id&&(n[e.id]=e);})),t.forEach((e=>{e._cache.parents.forEach((t=>{n.hasOwnProperty(t)&&n[t]._cache.children.push(e.id);}));})),e._cache.children=Object.keys(n);})(this.json),this}list(){return r(this.json)}fillDown(){var e;return e=this.json,r(e,((e,t)=>{t.props=f$2(t.props,e.props);})),this}depth(){u(this.json);let e=r(this.json),t=e.length>1?1:0;return e.forEach((e=>{if(0===e._cache.parents.length)return;let n=e._cache.parents.length+1;n>t&&(t=n);})),t}out(e){return u(this.json),d(this.json,e)}debug(){return u(this.json),d(this.json,"debug"),this}}const _=function(e){let t=s(e);return new g$1(t)};_.prototype.plugin=function(e){e(this);};
+  const e=function(e){return e.children=e.children||[],e._cache=e._cache||{},e.props=e.props||{},e._cache.parents=e._cache.parents||[],e._cache.children=e._cache.children||[],e},t=/^ *(#|\/\/)/,n=function(t){let n=t.trim().split(/->/),r=[];n.forEach((t=>{r=r.concat(function(t){if(!(t=t.trim()))return null;if(/^\[/.test(t)&&/\]$/.test(t)){let n=(t=(t=t.replace(/^\[/,"")).replace(/\]$/,"")).split(/,/);return n=n.map((e=>e.trim())).filter((e=>e)),n=n.map((t=>e({id:t}))),n}return [e({id:t})]}(t));})),r=r.filter((e=>e));let i=r[0];for(let e=1;e<r.length;e+=1)i.children.push(r[e]),i=r[e];return r[0]},r=(e,t)=>{let n=[],r=[e];for(;r.length>0;){let e=r.pop();n.push(e),e.children&&e.children.forEach((n=>{t&&t(e,n),r.push(n);}));}return n},i=e=>"[object Array]"===Object.prototype.toString.call(e),c=e=>(e=e||"").trim(),s=function(c=[]){return "string"==typeof c?function(r){let i=r.split(/\r?\n/),c=[];i.forEach((e=>{if(!e.trim()||t.test(e))return;let r=(e=>{const t=/^( {2}|\t)/;let n=0;for(;t.test(e);)e=e.replace(t,""),n+=1;return n})(e);c.push({indent:r,node:n(e)});}));let s=function(e){let t={children:[]};return e.forEach(((n,r)=>{0===n.indent?t.children=t.children.concat(n.node):e[r-1]&&function(e,t){let n=e[t].indent;for(;t>=0;t-=1)if(e[t].indent<n)return e[t];return e[0]}(e,r).node.children.push(n.node);})),t}(c);return s=e(s),s}(c):i(c)?function(t){let n={};t.forEach((e=>{n[e.id]=e;}));let r=e({});return t.forEach((t=>{if((t=e(t)).parent)if(n.hasOwnProperty(t.parent)){let e=n[t.parent];delete t.parent,e.children.push(t);}else console.warn(`[Grad] - missing node '${t.parent}'`);else r.children.push(t);})),r}(c):(r(s=c).forEach(e),s);var s;},h=e=>"[31m"+e+"[0m",o=e=>"[2m"+e+"[0m",l=function(e,t){let n="-> ";t&&(n=o("→ "));let i="";return r(e).forEach(((e,r)=>{let c=e.id||"";if(t&&(c=h(c)),0===r&&!e.id)return;let s=e._cache.parents.length;i+="    ".repeat(s)+n+c+"\n";})),i},a=function(e){let t=r(e);t.forEach((e=>{delete(e=Object.assign({},e)).children;}));let n=t[0];return n&&!n.id&&0===Object.keys(n.props).length&&t.shift(),t},p={text:l,txt:l,array:a,flat:a},d=function(e,t){return "nested"===t||"json"===t?e:"debug"===t?(console.log(l(e,!0)),null):p.hasOwnProperty(t)?p[t](e):e},u=e=>{r(e,((e,t)=>{e.id&&(e._cache.parents=e._cache.parents||[],t._cache.parents=e._cache.parents.concat([e.id]));}));},f$3=(e,t)=>(Object.keys(t).forEach((n=>{if(t[n]instanceof Set){let r=e[n]||new Set;e[n]=new Set([...r,...t[n]]);}else {if((e=>e&&"object"==typeof e&&!Array.isArray(e))(t[n])){let r=e[n]||{};e[n]=Object.assign({},t[n],r);}else i(t[n])?e[n]=t[n].concat(e[n]||[]):void 0===e[n]&&(e[n]=t[n]);}})),e),j=/\//;class g$1{constructor(e={}){Object.defineProperty(this,"json",{enumerable:!1,value:e,writable:!0});}get children(){return this.json.children}get id(){return this.json.id}get found(){return this.json.id||this.json.children.length>0}props(e={}){let t=this.json.props||{};return "string"==typeof e&&(t[e]=!0),this.json.props=Object.assign(t,e),this}get(t){if(t=c(t),!j.test(t)){let e=this.json.children.find((e=>e.id===t));return new g$1(e)}let n=((e,t)=>{let n=(e=>"string"!=typeof e?e:(e=e.replace(/^\//,"")).split(/\//))(t=t||"");for(let t=0;t<n.length;t+=1){let r=e.children.find((e=>e.id===n[t]));if(!r)return null;e=r;}return e})(this.json,t)||e({});return new g$1(n)}add(t,n={}){if(i(t))return t.forEach((e=>this.add(c(e),n))),this;t=c(t);let r=e({id:t,props:n});return this.json.children.push(r),new g$1(r)}remove(e){return e=c(e),this.json.children=this.json.children.filter((t=>t.id!==e)),this}nodes(){return r(this.json).map((e=>(delete(e=Object.assign({},e)).children,e)))}cache(){return (e=>{let t=r(e,((e,t)=>{e.id&&(e._cache.parents=e._cache.parents||[],e._cache.children=e._cache.children||[],t._cache.parents=e._cache.parents.concat([e.id]));})),n={};t.forEach((e=>{e.id&&(n[e.id]=e);})),t.forEach((e=>{e._cache.parents.forEach((t=>{n.hasOwnProperty(t)&&n[t]._cache.children.push(e.id);}));})),e._cache.children=Object.keys(n);})(this.json),this}list(){return r(this.json)}fillDown(){var e;return e=this.json,r(e,((e,t)=>{t.props=f$3(t.props,e.props);})),this}depth(){u(this.json);let e=r(this.json),t=e.length>1?1:0;return e.forEach((e=>{if(0===e._cache.parents.length)return;let n=e._cache.parents.length+1;n>t&&(t=n);})),t}out(e){return u(this.json),d(this.json,e)}debug(){return u(this.json),d(this.json,"debug"),this}}const _=function(e){let t=s(e);return new g$1(t)};_.prototype.plugin=function(e){e(this);};
 
   // i just made these up
   const colors = {
@@ -6038,8 +6092,12 @@
     lib: lib$1
   };
 
-  const initSplit = /(\S.+?[.!?\u203D\u2E18\u203C\u2047-\u2049])(?=\s|$)/g; //!TODO: speedup this regex
+  // split by periods, question marks, unicode ⁇, etc
+  const initSplit = /([.!?\u203D\u2E18\u203C\u2047-\u2049]+\s)/g;
+  // merge these back into prev sentence
+  const splitsOnly = /^[.!?\u203D\u2E18\u203C\u2047-\u2049]+\s$/;
   const newLine = /((?:\r?\n|\r)+)/; // Match different new-line formats
+
   // Start with a regex:
   const basicSplit = function (text) {
     let all = [];
@@ -6049,7 +6107,14 @@
       //split by period, question-mark, and exclamation-mark
       let arr = lines[i].split(initSplit);
       for (let o = 0; o < arr.length; o++) {
-        all.push(arr[o]);
+        // merge 'foo' + '.'
+        if (arr[o + 1] && splitsOnly.test(arr[o + 1]) === true) {
+          arr[o] += arr[o + 1];
+          arr[o + 1] = '';
+        }
+        if (arr[o] !== '') {
+          all.push(arr[o]);
+        }
       }
     }
     return all
@@ -6106,6 +6171,114 @@
   };
   var smartMerge$1 = smartMerge;
 
+  // merge embedded quotes into 1 sentence
+  // like - 'he said "no!" and left.' 
+  const MAX_QUOTE = 280;// ¯\_(ツ)_/¯
+
+  // don't support single-quotes for multi-sentences
+  const pairs = {
+    '\u0022': '\u0022', // 'StraightDoubleQuotes'
+    '\uFF02': '\uFF02', // 'StraightDoubleQuotesWide'
+    // '\u0027': '\u0027', // 'StraightSingleQuotes'
+    '\u201C': '\u201D', // 'CommaDoubleQuotes'
+    // '\u2018': '\u2019', // 'CommaSingleQuotes'
+    '\u201F': '\u201D', // 'CurlyDoubleQuotesReversed'
+    // '\u201B': '\u2019', // 'CurlySingleQuotesReversed'
+    '\u201E': '\u201D', // 'LowCurlyDoubleQuotes'
+    '\u2E42': '\u201D', // 'LowCurlyDoubleQuotesReversed'
+    '\u201A': '\u2019', // 'LowCurlySingleQuotes'
+    '\u00AB': '\u00BB', // 'AngleDoubleQuotes'
+    '\u2039': '\u203A', // 'AngleSingleQuotes'
+    '\u2035': '\u2032', // 'PrimeSingleQuotes'
+    '\u2036': '\u2033', // 'PrimeDoubleQuotes'
+    '\u2037': '\u2034', // 'PrimeTripleQuotes'
+    '\u301D': '\u301E', // 'PrimeDoubleQuotes'
+    // '\u0060': '\u00B4', // 'PrimeSingleQuotes'
+    '\u301F': '\u301E', // 'LowPrimeDoubleQuotesReversed'
+  };
+  const openQuote = RegExp('(' + Object.keys(pairs).join('|') + ')', 'g');
+  const closeQuote = RegExp('(' + Object.values(pairs).join('|') + ')', 'g');
+
+  const closesQuote = function (str) {
+    if (!str) {
+      return false
+    }
+    let m = str.match(closeQuote);
+    if (m !== null && m.length === 1) {
+      return true
+    }
+    return false
+  };
+
+  // allow micro-sentences when inside a quotation, like:
+  // the doc said "no sir. i will not beg" and walked away.
+  const quoteMerge = function (splits) {
+    let arr = [];
+    for (let i = 0; i < splits.length; i += 1) {
+      let split = splits[i];
+      // do we have an open-quote and not a closed one?
+      let m = split.match(openQuote);
+      if (m !== null && m.length === 1) {
+
+        // look at the next sentence for a closing quote,
+        if (closesQuote(splits[i + 1]) && splits[i + 1].length < MAX_QUOTE) {
+          splits[i] += splits[i + 1];// merge them
+          arr.push(splits[i]);
+          splits[i + 1] = '';
+          i += 1;
+          continue
+        }
+        // look at n+2 for a closing quote,
+        if (closesQuote(splits[i + 2])) {
+          let toAdd = splits[i + 1] + splits[i + 2];// merge them all
+          //make sure it's not too-long
+          if (toAdd.length < MAX_QUOTE) {
+            splits[i] += toAdd;
+            arr.push(splits[i]);
+            splits[i + 1] = '';
+            splits[i + 2] = '';
+            i += 2;
+            continue
+          }
+        }
+      }
+      arr.push(splits[i]);
+    }
+    return arr
+  };
+  var quoteMerge$1 = quoteMerge;
+
+  const MAX_LEN = 250;// ¯\_(ツ)_/¯
+
+  // support unicode variants?
+  // https://stackoverflow.com/questions/13535172/list-of-all-unicodes-open-close-brackets
+  const hasOpen = /\(/g;
+  const hasClosed = /\)/g;
+  const mergeParens = function (splits) {
+    let arr = [];
+    for (let i = 0; i < splits.length; i += 1) {
+      let split = splits[i];
+      let m = split.match(hasOpen);
+      if (m !== null && m.length === 1) {
+        // look at next sentence, for closing parenthesis
+        if (splits[i + 1] && splits[i + 1].length < MAX_LEN) {
+          let m2 = splits[i + 1].match(hasClosed);
+          if (m2 !== null && m.length === 1 && !hasOpen.test(splits[i + 1])) {
+            // merge in 2nd sentence
+            splits[i] += splits[i + 1];
+            arr.push(splits[i]);
+            splits[i + 1] = '';
+            i += 1;
+            continue
+          }
+        }
+      }
+      arr.push(splits[i]);
+    }
+    return arr
+  };
+  var parensMerge = mergeParens;
+
   //(Rule-based sentence boundary segmentation) - chop given text into its proper sentences.
   // Ignore periods/questions/exclamations used in acronyms/abbreviations/numbers, etc.
   //regs-
@@ -6124,9 +6297,13 @@
     // First do a greedy-split..
     let splits = simpleSplit(text);
     // Filter-out the crap ones
-    let chunks = simpleMerge(splits);
+    let sentences = simpleMerge(splits);
     //detection of non-sentence chunks:
-    let sentences = smartMerge$1(chunks, world);
+    sentences = smartMerge$1(sentences, world);
+    // allow 'he said "no sir." and left.'
+    sentences = quoteMerge$1(sentences);
+    // allow 'i thought (no way!) and left.'
+    sentences = parensMerge(sentences);
     //if we never got a sentence, return the given text
     if (sentences.length === 0) {
       return [text]
@@ -6292,38 +6469,60 @@
   };
   var splitTerms = splitWords;
 
+  const allowBefore = [
+    '#', //#hastag
+    '@', //@atmention
+    '_',//underscore
+    '\\-',//-4  (escape)
+    '+',//+4
+    '.',//.4
+  ];
+  const allowAfter = [
+    '%',//88%
+    '_',//underscore
+    // '\'',// \u0027
+  ];
+
   //all punctuation marks, from https://en.wikipedia.org/wiki/Punctuation
+  let beforeReg = new RegExp(`[${allowBefore.join('')}]+$`, '');
+  let afterReg = new RegExp(`^[${allowAfter.join('')}]+`, '');
+
   //we have slightly different rules for start/end - like #hashtags.
-  const startings =
-    /^[ \n\t.[\](){}⟨⟩:,،、‒–—―…!‹›«»‐\-?‘’;/⁄·&*•^†‡¡¿※№÷×ºª%‰+−=‱¶′″‴§~|‖¦©℗®℠™¤₳฿\u0022\uFF02\u0027\u201C\u201F\u201B\u201E\u2E42\u201A\u2035\u2036\u2037\u301D\u0060\u301F]+/;
-  const endings =
-    /[ \n\t.'[\](){}⟨⟩:,،、‒–—―…!‹›«»‐\-?‘’;/⁄·&*@•^†‡°¡¿※#№÷×ºª‰+−=‱¶′″‴§~|‖¦©℗®℠™¤₳฿\u0022\uFF02\u201D\u00B4\u301E]+$/;
+  const endings = /[\p{Punctuation}\s]+$/u;
+  const startings = /^[\p{Punctuation}\s]+/u;
   const hasApostrophe$1 = /['’]/;
   const hasAcronym = /^[a-z]\.([a-z]\.)+/i;
-  const minusNumber = /^[-+.][0-9]/;
   const shortYear = /^'[0-9]{2}/;
 
   const normalizePunctuation = function (str) {
     let original = str;
     let pre = '';
     let post = '';
-    // number cleanups
+    // adhoc cleanup for pre
     str = str.replace(startings, found => {
-      pre = found;
-      // support '-40'
-      if ((pre === '-' || pre === '+' || pre === '.') && minusNumber.test(str)) {
-        pre = '';
-        return found
+      // punctuation symboles like '@' to allow at start of term
+      let m = found.match(beforeReg);
+      if (m) {
+        pre = found.replace(beforeReg, '');
+        return m
       }
       // support years like '97
       if (pre === `'` && shortYear.test(str)) {
         pre = '';
         return found
       }
+      pre = found; //keep it
       return ''
     });
+    // ad-hoc cleanup for post 
     str = str.replace(endings, found => {
-      post = found;
+      // punctuation symboles like '@' to allow at start of term
+      let m = found.match(afterReg);
+      if (m) {
+        post = found.replace(afterReg, '');
+        return m
+      }
+
       // keep s-apostrophe - "flanders'" or "chillin'"
       if (hasApostrophe$1.test(found) && /[sn]['’]$/.test(original) && hasApostrophe$1.test(pre) === false) {
         post = post.replace(hasApostrophe$1, '');
@@ -6331,9 +6530,10 @@
       }
       //keep end-period in acronym
       if (hasAcronym.test(str) === true) {
-        post = post.replace(/\./, '');
+        post = found.replace(/^\./, '');
         return '.'
       }
+      post = found;//keep it
       return ''
     });
     //we went too far..
@@ -6477,9 +6677,10 @@
   };
   var fromString = parse$1;
 
-  const isAcronym$1 = /[ .][A-Z]\.? *$/i;
-  const hasEllipse = /(?:\u2026|\.{2,}) *$/;
+  const isAcronym$1 = /[ .][A-Z]\.? *$/i; //asci - 'n.s.a.'
+  const hasEllipse = /(?:\u2026|\.{2,}) *$/; // '...'
   const hasLetter = /\p{L}/u;
+  const leadInit = /^[A-Z]\. $/; // "W. Kensington"
 
   /** does this look like a sentence? */
   const isSentence = function (str, abbrevs) {
@@ -6489,6 +6690,10 @@
     }
     // check for 'F.B.I.'
     if (isAcronym$1.test(str) === true) {
+      return false
+    }
+    // check for leading initial - "W. Kensington"
+    if (str.length === 3 && leadInit.test(str)) {
       return false
     }
     //check for '...'
@@ -6637,7 +6842,7 @@
 
   var months = ['jan', 'feb', 'mar', 'apr', 'jun', 'jul', 'aug', 'sep', 'sept', 'oct', 'nov', 'dec'];
 
-  var nouns$1 = [
+  var nouns$2 = [
     'ad',
     'al',
     'arc',
@@ -6755,7 +6960,7 @@
   let list = [
     [misc$2],
     [units, 'Unit'],
-    [nouns$1, 'Noun'],
+    [nouns$2, 'Noun'],
     [honorifics, 'Honorific'],
     [months, 'Month'],
     [organizations, 'Organization'],
@@ -7549,6 +7754,30 @@
 
   // generated in ./lib/models
   var model$1 = {
+    "nouns": {
+      "plurals": {
+        "rules": "ctava|4itas,arranca|5quillas,ivisa|4ones,alega|4ones,uínola|1inolonas,erpa|3etas,uaja|3onas,iralda|5illas,hapera|5onas,hiíta|2itas,unna|3itas,acerola|7zos,uija|3ones,hasca|4ones,uata|3ones,a|1s,agot|4es,imut|4es,t|1s,aís|3es,celonés|5esas,ompás|3ases,eonés|3esas,als|3es,iamés|3esas,avanés|4esas,ienés|3esas,ypass|5es,us|2es,ís|ises,ós|oses,es|2es,as|2es,is|2es,os|2es,bús|1uses,és|eses,magen|1ágenes,ren|3es,égimen|egímenes,irgen|írgenes,oven|óvenes,argen|árgenes,rimen|1ímenes,anon|ánones,iquen|íquenes,ermen|érmenes,olmen|ólmenes,itin|ítines,ocón|2onotes,rin|3es,ewton|5s,bdomen|2ómenes,risón|3onas,ien|3es,origen|2ígenes,rn|2s,tún|1unes,orden|órdenes,amen|ámenes,umen|úmenes,on|2es,in|2s,an|2es,én|enes,án|anes,ín|ines,ón|ones,lamenco|6as,hico|3as,awaiano|6as,rimero|5as,randero|6as,itónico|6as,éltico|5as,fermero|6as,onífero|6as,gentino|6as,nsajero|6as,liaco|1íacas,xterno|5as,udicado|6as,olaco|4as,uminado|6as,enciano|6as,sociado|6as,scamoso|6as,pectivo|6as,ontáneo|6as,izcocho|6itos,vencito|6as,eñorito|6as,lorruso|6as,ucanero|6as,ameluco|6as,iudo|3as,éptimo|5as,rusiano|6as,ufrido|5as,vantino|6as,riundo|5as,erdido|5as,yordomo|6as,ubano|4as,amporro|6azos,abañero|6as,ontero|5uelos,esurado|6as,donesio|6as,drújulo|6as,apoteco|6as,ntonero|6as,glicano|6as,lagueño|6as,uineo|4itos,aginero|6as,oblazo|6nes,litrero|6as,ertario|6as,oscano|5as,renaico|6as,ardiaco|3íacas,aviero|5as,ampano|5azos,licáceo|6as,eigo|3as,jodalgo|2sdalgo,aneco|4illos,aderero|6as,ntojo|4itos,aternio|7nes,hijado|5as,oiranio|6as,mandiño|6as,ceañero|6as,ejío|2itos,rvecero|6as,uplo|3as,céutico|6as,rofano|5as,abastro|7nes,uaestio|7nes,aquillo|6azos,otelero|6as,rensano|6as,stalero|6as,fuciano|6as,edófilo|6as,lvético|6as,a-museo|1s-museo,ndiviso|6as,rójimo|5as,moniado|6as,ruchero|6as,rbiáceo|6as,ltimato|7nes,utáceo|5as,ochino|5itos,trevido|6as,scobero|6as,negrino|6as,eladero|6as,nterino|6as,irtáceo|6as,dianero|6as,racioso|6as,déntico|6as,rillizo|6as,rqueo|5citos,querizo|6as,atuo|3as,allao|4icos,uapo|3as,lmáceo|5as,onésimo|6as,ledóneo|6as,anáceo|5as,láceo|4as,o|1s,urú|3s,ambú|4s,hampú|5s,enú|3s,ulú|3s,mú|2s,ú|1es,anzador|7as,arácter|2acteres,gurador|7as,repador|7as,river|5s,ámster|amsters,cavador|7as,uscador|7as,cusador|7as,over|4s,remier|6s,uffer|5s,our|3s,scar|4s,ponsor|6s,arrador|7as,railer|6s,aster|5s,inuador|7as,oemisor|7as,hupador|7as,cooter|6s,deñador|7as,uásar|1asars,óer|3s,mateur|6s,hriller|7s,áster|5s,peaker|6s,roker|5s,atidor|6as,adeador|7as,printer|7s,nchador|7as,resador|7as,lldozer|7s,vasador|7as,ostador|7as,altador|7as,forador|7as,umper|5s,rreador|7as,tter|4s,nior|4s,seller|6s,ger|3s,r|1es,eb|2s,oulomb|6s,club|4es,lbum|4es,ogrom|5s,eréndum|7s,rículum|5a,uántum|1anta,mam|3es,irham|5s,irhem|5es,órum|orums,édium|5s,uantum|4as,dem|3s,tem|3es,film|4s,ríjol|1ijoles,-mail|5s,olegial|7as,ocktail|7s,ool|3s,appel|5s,ll|2s,l|1es,owboy|5s,erry|3is,onvoy|5es,ally|3ies,ady|2ies,hisky|4ies,ersey|5s,ry|1ies,ty|1ies,obby|3ies,ay|2s,ey|2es,ied|3er,aid|3s,nd|2s,rd|2s,d|1es,squí|4s,arandí|6s,ufí|3s,opurrí|6s,olibrí|6s,í|1es,oleá|3ares,á|1s,atollah|7s,lysch|5s,romlech|7s,h|1es,aori|4es,i|1s,lató|4s,eu|1i,u|1s,heriff|6s,ruque|4itos,e|1s,bcomité|6es,é|1s,j|1es,ow|2s,x|1es,c|1s,p|1s,g|1s,k|1s,z|ces",
+        "exceptions": "gato|3itos,tío|2as,chino|4as,fin|3es,socio|4as,fan|3s,computador|10as,abuelo|5as,desaparecido|11as,ciego|4as,privilegiado|11as,nopal|5itos,recolector|10as,mulo|3as,gen|3es,cadera|6zos,led|3s,competidor|10as,africano|7as,picor|5cillos,extranjero|9as,jugo|4nes,neutralizador|13as,grafo|4icos,libio|4as,yen|3es,costero|6as,descuidado|9as,denunciado|9as,son|3s,sardinero|8as,discreto|7as,mota|3illas,calero|5as,irlandés|6esas,mandado|6as,maquilador|10as,lord|3es,jara|3illas,biso|4nes,prisa|4ones,calla|4ejas,gitano|5as,soriano|6as,pub|3s,seductor|8as,alimentador|11as,sentada|6illas,billetero|8as,ruda|3itas,mocito|5as,reumático|8as,presentador|11as,triplo|5etas,majo|3as,implosivo|8as,ánulo|anulocitos,a|1es,fresero|6as,obligatorio|10as,sevillano|8as,wáter|1aters,unitario|7as,b|1es,té|1etes,mero|3itos,faca|3ones,caparra|6etas,norirlandés|9esas,metropolitano|12as,máser|5s,luge|3ones,bort|4es,chato|4as,gordo|4itas,ordinario|8as,casero|5as,celador|7as,cortador|8as,ce|1ones,n|1azas,prometido|8as,hercio|3tzios,libre|4itos,braco|4itos,ilustrador|10as,hila|3otas,vasco|4as,pana|3uchas,eslogan|slogans,m|1ucas,c|1es,cha|2ones,rad|3s,no|1ejos,canilla|6itas,l|1ucas,amado|4as,star|4s,consignatario|12as,penta|4ones,fon|3s,librado|6as,apoderado|8as,flechero|7as,torio|4tos,camal|5otes,lob|3itos,canana|5itas,marisquero|9as,manco|4as,rem|3s,taque|4itos,clina|4icas,mará|3ones,job|3s,partero|6as,irreligioso|10as,preparador|10as,cavernario|9as,contento|7as,extorsionador|13as,llorón|4onas,erre|3ones,páter|1aters,taca|3itas,lotero|5as,cojo|3as,ranchero|7as,talle|4itos,r|1ucas,botón|3oncillos,tosco|4as,bostoniano|9as,cerero|5as,raspa|4ones,jopo|3illos,expendedor|10as,d|1es,mes|3es,tren|4es,chico|4as,plan|4es,régimen|1egímenes,gas|3es,tory|3ies,clan|4es,bus|3es,curandero|8as,don|3es,dios|4es,rol|3es,asegurador|10as,argentino|8as,coz|2ces,dos|3es,valenciano|9as,barranca|6quillas,haz|2ces,tos|3es,ion|3es,despectivo|9as,espontáneo|9as,divisa|5ones,vid|3es,hoz|2ces,pan|3es,excavador|9as,ros|3es,buscador|8as,res|3es,levantino|8as,non|3es,can|3es,cabañero|7as,montero|6uelos,rail|4es,lápiz|4ces,flan|4es,esdrújulo|8as,quínola|2inolonas,zapoteco|7as,cantonero|8as,narrador|8as,poblazo|7nes,camarín|5ines,continuador|11as,radioemisor|11as,salicáceo|8as,clon|4es,giralda|6illas,caneco|5illos,vals|4es,inch|4es,farmacéutico|11as,crin|4es,ch|2es,quaestio|8nes,as|2es,taquillo|7azos,hotelero|7as,costalero|8as,ranunculáceo|11as,guija|4ones,chasca|5ones,planchador|10as,truchero|7as,primuláceo|9as,ultimato|8nes,tostador|8as,montenegrino|11as,saltador|8as,kan|3es,jan|3es,perforador|10as,heladero|7as,ron|3es,arqueo|6citos,fatuo|4as,mas|3es",
+        "rev": "tavitas|3a,agotes|4,aíses|3,mágenes|1agen,amencas|5o,ujeres|4,elojes|4,atitos|2o,írgenes|irgen,apices|3z,óvenes|oven,óstoles|5,endices|4z,atices|3z,dwiches|5,árgenes|argen,iliones|5,fíboles|5,ráteres|5,waianas|5o,rimeras|5o,tónicas|5o,élticas|5o,ocias|3o,ártires|5,buelas|4o,levines|3ín,rímenes|1imen,ánones|anon,réboles|5,acteres|ácter,egiadas|5o,ercedes|5,aroles|4,ermeras|5o,níferas|5o,ntroles|5,sajeras|5o,lbumes|4,lonesas|3és,ehenes|2én,xternas|5o,ecuaces|4z,derazos|4,dicadas|5o,olacas|4o,minadas|5o,camosas|5o,anatíes|5,ricanas|5o,mbrices|4z,amsters|ámster,anjeras|5o,álices|3z,lashes|4,rubines|3ín,raficos|3o,íquenes|iquen,rroces|3z,apires|4,rijoles|1íjol,ochitos|3o,osteras|5o,ndenes|2én,gutíes|4,encitas|5o,uidadas|5o,ñoritas|5o,orrusas|5o,caneras|5o,scretas|5o,melucas|5o,iudas|3o,éptimas|5o,ompases|3ás,erdices|4z,usianas|5o,aivenes|3én,rozales|5,érmenes|ermen,ufridas|5o,ieses|3,riundas|5o,bañiles|5,ólmenes|olmen,nises|1ís,erdidas|5o,ordomas|5o,risones|3a,legones|3a,allejas|3a,erris|3y,ubanas|4o,orrazos|3o,mejenes|3én,lfoces|3z,eonesas|3és,onvoyes|5,orianas|5o,allies|3y,cáneres|5,suradas|5o,leteras|5o,uditas|2a,onesias|5o,oeles|3,ocitas|4o,adies|2y,ipletas|3o,idioses|3ós,ítines|itin,enhires|5,losivas|5o,licanas|5o,agueñas|5o,ineitos|3o,arenes|2én,ambises|3ís,gineras|5o,ecires|4,reseras|5o,dazoles|5,pataces|4z,itreras|5o,rtarias|5o,illanas|5o,isires|4,oscanas|5o,itarias|5o,jíes|2,zahares|5,erpetas|3a,enaicas|5o,mames|3,stures|4,hatas|3o,avieras|5o,oxales|4,zudes|3,unguses|5,panazos|3o,orditas|3o,conotes|1ón,hiskies|4y,cabuces|4z,uajonas|3a,eigas|3o,bades|3,aúles|3,veniles|5,peronas|3a,ertzios|2cio,ibritos|3e,racitos|3o,tojitos|3o,rniones|4,lóganes|5,ñadoras|5,oleares|3á,hijadas|5o,ilotas|2a,hiitas|2íta,unnitas|3a,iranias|5o,andiñas|5o,eañeras|5o,aories|4,ejitos|2ío,anuchas|2a,egialas|5,auzales|5,veceras|5o,uplas|3o,iamesas|3és,oláceas|5o,uasars|1ásar,aíles|3,rolazos|4,oatíes|4,vanesas|3és,illitas|3a,rofanas|5o,strones|4,ienesas|3és,atarias|5o,ensanas|5o,lbures|4,arvales|5,ahúres|4,oseles|4,ibradas|5o,esdenes|3én,lfiles|4,ucianas|5o,deradas|5o,casines|3ín,dófilas|5o,arcajes|5,malotes|3,obitos|2,nanitas|3a,véticas|5o,radoses|3ós,hóferes|5,divisas|5o,ancines|3ín,aquitos|3e,aqueles|5,ondeles|5,venires|5,linicas|3a,irhemes|5,caduces|4z,rójimas|5o,oniadas|5o,orums|órum,apiaces|4z,etzales|5,biáceas|5o,núfares|5,igiosas|5o,utáceas|5o,bacines|3ín,rnarias|5o,hinitos|3o,revidas|5o,coberas|5o,tarines|3ín,ntentas|5o,únkeres|5,achines|3ín,loronas|3ón,untries|4y,darines|3ín,terinas|5o,acitas|2a,rdides|4,rtáceas|5o,ypasses|5,ianeras|5o,aciosas|5o,eslices|4z,hiíes|3,roaches|5,yeres|3,énticas|5o,dómenes|1omen,illizas|5o,lixires|5,onianas|5o,aravíes|5,aspones|3a,risonas|3ón,uantas|4um,uerizas|5o,uquitos|3e,llaicos|3o,dedoras|5,éjeles|4,uapas|3o,comites|5é,lmáceas|5o,uatones|3a,ienes|3,rígenes|1igen,pales|3,ivales|4,rfiles|4,urines|2ín,cenes|1én,veres|3,zadoras|5,biles|3,races|2z,ctoras|4,ruces|2z,íacas|iaco,aludes|4,arices|3z,goles|3,padoras|5,ciadas|4o,tidoras|5,tunes|1ún,nésimas|5o,ezales|4,xeles|3,rnices|3z,aúdes|3,edóneas|5o,pines|1ín,nteres|4,jines|1ín,mines|1ín,ties|1y,andesas|3és,azales|4,añares|4,coholes|5,éspedes|5,rzales|4,erines|2ín,itanas|4o,émures|4,tches|3,lenes|1én,míes|2,temes|3,imutes|4,aters|áter,obbies|3y,anáceas|5o,ereras|4o,clubes|4,beles|3,árboles|5,felices|4z,eadoras|5,ieres|3,ayales|4,lides|3,orines|2ín,dines|1ín,redes|3,viles|3,xes|1,seres|3,ñoles|3,gures|3,órdenes|orden,íces|1z,voces|2z,coles|3,diles|3,cares|3,meres|3,rdeles|4,ogenes|2én,sadoras|5,hales|3,uares|3,moles|3,bares|3,paces|2z,vares|3,mires|3,pares|3,fenoles|5,síes|2,eroles|4,peles|3,geles|3,ises|2,larines|3ín,ñales|3,fines|1ín,jales|3,luces|2z,faces|2z,avales|4,sares|3,ules|2,izales|4,reles|3,díes|2,miles|3,ciles|3,éteres|4,tenes|1én,gares|3,veles|3,ieles|3,neles|3,buses|1ús,leres|3,eales|3,dares|3,ámenes|amen,bíes|2,steres|4,jares|3,zares|3,beres|3,bales|3,iares|3,celes|3,gales|3,deres|3,soles|3,úmenes|umen,eyes|2,siles|3,úes|1,riles|3,líes|2,uíes|2,quines|2ín,ceres|3,tares|3,níes|2,mares|3,ríes|2,trices|3z,lines|1ín,males|3,tades|3,uales|3,dales|3,sales|3,nares|3,teles|3,tines|1ín,tiles|3,tudes|3,eces|1z,cales|3,iales|3,rales|3,tales|3,lares|3,nales|3,anes|án,eses|és,dades|3,ores|2,ones|ón,s|,ieder|3,rrícula|6um,uanta|1ántum,osdalgo|1dalgo,s-museo|-museo,ei|1u"
+      }
+    },
+    "adjectives": {
+      "f": {
+        "rules": "uen|3a,ín|ina,án|ana,ón|ona,iejo|3ísima,ptísimo|2a,oreno|4ita,ártaro|artarica,enísimo|2a,arísimo|2ia,ilósofo|2osofica,obito|2a,ctísimo|2a,últiplo|ultiplaza,ambito|3a,drófilo|2ofílica,ofítico|ófita,icólogo|2ológica,legiaco|3íaca,o|a,ndaluz|6a,ugonote|6a,l|1a,és|esa,r|1a",
+        "exceptions": "mago|3ica,pino|3illa,britano|6ica,paso|3illa,tártaro|1artarica,mallorquín|8ina,bobito|3a,múltiplo|1ultiplaza,musicólogo|5ológica",
+        "rev": "rimera|5,spañola|6,uena|3,ercera|5,nglesa|3és,ejísima|2o,atalana|4án,sulmana|4án,ndaluza|6,brupta|5ísimo,ilarina|4ín,agica|2o,itriona|4ón,inilla|2o,orenita|4o,ipona|2ón,legiala|6,mena|3ísimo,ardiana|4án,ndarina|4ín,umaria|4ísimo,ormona|3ón,osofica|ósofo,eñora|4,adrona|3ón,ugonota|6e,marrona|4ón,rgoñona|4ón,octa|3ísimo,lorona|3ón,amba|3ito,itanica|4o,risona|3ón,asilla|2o,ofílica|ófilo,erófita|2ofítico,iamesa|3és,bequesa|4és,legíaca|3iaco,ulzona|3ón,eutona|3ón,irolesa|4és,ltarina|4ín,cesa|1és,ampeona|4ón,ñesa|1és,sajona|3ón,tesa|1és,ascona|3ón,alemana|4án,galesa|3és,etona|2ón,lona|1ón,guesa|2és,andesa|3és,idora|4,nesa|1és,edora|4,sora|3,tora|3,adora|4,a|o"
+      },
+      "mp": {
+        "rules": "uen|3os,ín|ines,án|anes,ón|ones,ndaluz|5ces,ctavo|1havos,ptísimo|2os,enísimo|2os,arísimo|2ios,ilósofo|6icos,obito|2os,ctísimo|2os,trófilo|2ofílicos,ambito|3os,icólogo|2ológicos,legiaco|3íacos,horo|4tes,o|1s,ugonote|7s,er|2os,or|2es,l|1es,és|eses",
+        "exceptions": "amigo|4uitos,lato|3azos,lacio|4tos,cano|4nes,bobito|3os,electrófilo|6ofílicos,musicólogo|5ológicos",
+        "rev": "rimeros|5,uenos|3,erceros|5,daluces|4z,chavos|1tavo,bruptos|5ísimo,iguitos|2o,menos|3ísimo,umarios|4ísimo,soficos|3o,octos|3ísimo,ambos|3ito,egíacos|2iaco,atazos|2o,acitos|3o,horotes|4,anones|3,les|1,ines|ín,anes|án,ones|ón,eses|és,ores|2,s|"
+      },
+      "fp": {
+        "rules": "uen|3as,ín|inas,án|anas,ón|onas,ndaluz|6as,ctavo|1havas,ptísimo|2as,inónimo|2onímicas,uerdo|4ecillas,enísimo|2as,arísimo|2ias,obito|2as,ctísimo|2as,últiplo|ultiplazas,almo|3ucas,ambito|3as,drófilo|2ofílicas,ofítico|ófitas,icólogo|2ológicas,holo|3itas,orboso|5ísimas,legiaco|3íacas,o|as,ugonote|6as,l|1as,és|esas,r|1as",
+        "exceptions": "vano|3itas,gordo|4itas,mago|3icas,tordo|4ejas,sinónimo|3onímicas,mallorquín|8inas,bobito|3as,múltiplo|1ultiplazas,hidrófilo|4ofílicas,musicólogo|5ológicas",
+        "rev": "rimeras|5,pañolas|5,uenas|3,erceras|5,nglesas|3és,talanas|3án,ulmanas|3án,daluzas|5,chavas|1tavo,anitas|2o,bruptas|5ísimo,orditas|3o,ecillas|o,larinas|3ín,agicas|2o,trionas|3ón,iponas|2ón,egialas|5,menas|3ísimo,rdianas|3án,darinas|3ín,umarias|4ísimo,ormonas|3ón,eñoras|4,adronas|3ón,gonotas|5e,arronas|3ón,goñonas|3ón,octas|3ísimo,loronas|3ón,almucas|3o,ambas|3ito,risonas|3ón,rófitas|1ofítico,holitas|3o,iamesas|3és,ordejas|3o,equesas|3és,sísimas|1o,egíacas|2iaco,ulzonas|3ón,eutonas|3ón,rolesas|3és,tarinas|3ín,cesas|1és,lemanas|3án,mpeonas|3ón,ñesas|1és,sajonas|3ón,tesas|1és,asconas|3ón,galesas|3és,etonas|2ón,lonas|1ón,guesas|2és,andesas|3és,idoras|4,nesas|1és,edoras|4,soras|3,toras|3,adoras|4,as|o"
+      }
+    },
     "presentTense": {
       "first": {
         "rules": "omenzar|2ienzo,raduar|3úo,spertar|2ierto,onfiar|3ío,ufrir|3o,ensar|ienso,omper|3o,orcer|uerzo,ormir|uermo,nviar|2ío,obernar|2ierno,uebrar|1iebro,uerer|1iero,gorar|1üero,isfacer|4go,trever|4o,oñar|ueño,contrar|1uentro,olgar|uelgo,jercer|3zo,aciar|2ío,enovar|2uevo,onfesar|3ieso,ruñir|3o,over|uevo,ehusar|2úso,aler|2go,ogar|uego,rohibir|3íbo,alir|2go,burrir|4o,orir|uero,oder|uedo,ntinuar|4úo,lmorzar|2uerzo,mpartir|5o,añer|2o,erder|ierdo,ravesar|3ieso,estir|isto,efender|2iendo,eber|2o,uiar|1ío,rrer|2o,pezar|1iezo,endar|iendo,tinguir|4o,meter|3o,cender|1iendo,hacer|2go,cordar|1uerdo,riar|1ío,eñir|iño,alentar|2iento,probar|2uebo,mitir|3o,eer|1o,mer|1o,vencer|3zo,vivir|3o,venir|3go,batir|3o,mostrar|1uestro,lir|1o,mir|1o,egir|ijo,edir|ido,reír|1ío,ostar|uesto,etir|ito,olver|uelvo,tender|1iendo,aer|1igo,decir|1igo,sistir|4o,tuar|1úo,brir|2o,entir|iento,vertir|1ierto,ger|jo,erir|iero,seguir|1igo,gir|jo,dir|1o,bir|1o,ducir|2zco,der|1o,uir|1yo,ner|1go,cer|zco,ar|o,omit|4o",
@@ -8004,108 +8233,19 @@
     fromConditional
   };
 
-  var rules$1 = [
-    // female nouns
-    ['dad', 'dades'],
-    ['eche', 'eches'],
-    ['az', 'aces'],
-    // ['ana', 'anos'],
-    // ['stra', 'stros'],
-    // ['ora', 'ores'],
-    // ['gra', 'gros'],
-    // ['oras', 'ores'],
-    // ['rona', 'res'],
-    // ['umna', 'umnos'],
-    // ['ñola', 'ñoles'],
-    // ['ñera', 'ñeros'],
-    // ['gada', 'gados'],
-    // ['aria', 'arios'],
-    // ['jera', 'jeros'],
-    // ['ueña', 'ueños'],
+  let pRev = reverse$1(model$1.nouns.plurals);
 
-    // male nouns
-    ['jín', 'jines'],
-    ['den', 'denes'],
-    ['dén', 'denes'],
-    ['ués', 'ueses'],
-    ['tín', 'tines'],
-    ['rín', 'rines'],
-    ['lín', 'lines'],
-    ['pás', 'pases'],
-    ['aís', 'aíses'],
-    ['che', 'ches'],
-    ['or', 'ores'],
-    ['ón', 'ones'],
-    ['al', 'ales'],
-    ['il', 'iles'],
-    ['el', 'eles'],
-    ['er', 'eres'],
-    ['ar', 'ares'],
-    ['um', 'umes'],
-    ['us', 'uses'],
-    ['en', 'enes'],
-    ['és', 'eses'],
-    ['án', 'anes'],
-    ['ol', 'oles'],
-    ['oy', 'oyes'],
-    ['ós', 'oses'],
-    ['ir', 'ires'],
-    ['is', 'ises'],
-    ['sh', 'shes'],
-    ['ry', 'ries'],
-    ['iz', 'ices'],
-    ['oj', 'ojes'],
-    ['bú', 'búes'],
-    ['ch', 'ches'],
-    ['lm', 'lmes'],
+  const toPlural$1 = (str) => convert$1(str, model$1.nouns.plurals);
+  const fromPlural$1 = (str) => convert$1(str, pRev);
 
-    // ['erra', 'erros'],
-    // ['um', 'as'],
-  ];
-
-  const toSingular = function (str) {
-    for (let i = 0; i < rules$1.length; i += 1) {
-      let a = rules$1[i];
-      if (str.endsWith(a[1])) {
-        str = str.substr(0, str.length - a[1].length);
-        str += a[0];
-        return str
-      }
-    }
-    if (str.endsWith('s')) {
-      return str = str.substr(0, str.length - 1)
-    }
-    return str
+  var nouns$1 = {
+    toPlural: toPlural$1,
+    fromPlural: fromPlural$1,
   };
-  var toSingular$1 = toSingular;
-
-  // console.log(toSingular('convoyes'))
-
-  // import list from '/Users/spencer/mountain/es-compromise/nouns.js'
-  // let count = 0
-  // list.forEach(a => {
-  //   let [m, f, mp, fp] = a
-  //   if (mp && m && f && fp) {
-  //     if (toSingular(mp) !== m) {
-  //       count += 1
-  //       console.log(mp, m)
-  //     }
-  //   }
-  // })
-  // console.log(count)
-
-  const toPlural = function (str) {
-    for (let i = 0; i < rules$1.length; i += 1) {
-      let a = rules$1[i];
-      if (str.endsWith(a[0])) {
-        str = str.substr(0, str.length - a[0].length);
-        str += a[1];
-        return str
-      }
-    }
-    return str + 's'
-  };
-  var toPlural$1 = toPlural;
+  // console.log(toFemale("principesco") === "principesca")
+  // console.log(fromFemale("principesca") === "principesco")
+  // console.log(toPlural("principesco") === "principescos")
+  // console.log(fromPlural("principescos") === "principesco")
 
   const toMasculine = function (str) {
     let arr = [
@@ -8167,64 +8307,22 @@
   // })
   // console.log(count)
 
-  // adjective to masculine and to singular
+  let { f: f$2, mp, fp } = model$1.adjectives;
 
-  const adjToSingular = function (str) {
-    let arr = [
-      ['ueses', 'ués'],
-      ['eses', 'és'],
-      ['ines', 'ín'],
-      ['anes', 'án'],
-      ['ores', 'or'],
-      ['ones', 'ón'],
-      ['es', ''],
-      ['s', ''],
-    ];
-    for (let i = 0; i < arr.length; i += 1) {
-      let [suff, repl] = arr[i];
-      if (str.endsWith(suff)) {
-        str = str.substr(0, str.length - suff.length);
-        return str += repl
-      }
-    }
-    return str
-  };
+  let fRev = reverse$1(f$2);
+  let mpRev = reverse$1(mp);
+  let fpRev = reverse$1(fp);
 
-  const adjToMasculine = function (str) {
-    let arr = [
-      ['onas', 'ones'],
-      ['uesas', 'ueses'],
-      ['nota', 'note'],
-      ['esa', 'és'],
-      ['ona', 'ón'],
-      ['oras', 'ores'],
-      ['ora', 'or'],
-      ['as', 'os'],
-      ['a', 'o'],
-    ];
-    for (let i = 0; i < arr.length; i += 1) {
-      let [suff, repl] = arr[i];
-      if (str.endsWith(suff)) {
-        str = str.substr(0, str.length - suff.length);
-        return str += repl
-      }
-    }
-    return str
-  };
-
-  // import list from '/Users/spencer/mountain/es-compromise/data/models/adjectives.js'
-  // let count = 0
-  // list.forEach(a => {
-  //   let [m, f, mp, fp] = a
-  //   if (toMasculine(f) !== m) {
-  //     count += 1
-  //     console.log(f, m, '  -  ', toMasculine(f))
-  //   }
-  // })
-  // console.log(count)
-
-  // monteses montés monté
-  // console.log(toSingular('monteses'))
+  const toFemale = (str) => convert$1(str, f$2);
+  const toPlural = (str) => convert$1(str, mp);
+  const toFemalePlural = (str) => convert$1(str, fp);
+  const fromFemale = (str) => convert$1(str, fRev);
+  const fromPlural = (str) => convert$1(str, mpRev);
+  const fromFemalePlural = (str) => convert$1(str, fpRev);
+  // console.log(toFemale("principesco") === "principesca")
+  // console.log(fromFemale("principesca") === "principesco")
+  // console.log(toPlural("principesco") === "principescos")
+  // console.log(fromPlural("principescos") === "principesco")
 
   let { gerunds } = model$1;
   // =-=-
@@ -8263,13 +8361,17 @@
       toGerund
     },
     noun: {
-      toPlural: toPlural$1,
-      toSingular: toSingular$1,
+      toPlural: nouns$1.toPlural,
+      toSingular: nouns$1.fromPlural,
       toMasculine: toMasculine$1,
     },
     adjective: {
-      adjToMasculine,
-      adjToSingular
+      toFemale,
+      toPlural,
+      toFemalePlural,
+      fromFemale,
+      fromPlural,
+      fromFemalePlural,
     }
   };
 
@@ -8333,10 +8435,14 @@
         // nouns -> singular masculine form
         if (term.tags.has('Adjective')) {
           if (term.tags.has('PluralAdjective')) {
-            str = adjective.adjToSingular(str);
+            if (term.tags.has('FemaleAdjective')) {
+              str = adjective.fromFemalePlural(str);
+            } else {
+              str = adjective.fromPlural(str);
+            }
           }
           if (term.tags.has('FemaleAdjective')) {
-            str = adjective.adjToMasculine(str);
+            str = adjective.fromFemale(str);
           }
           term.root = str;
         }
@@ -8358,6 +8464,78 @@
         transform: methods$1
       }
     },
+  };
+
+  //a hugely-ignorant, and widely subjective transliteration of latin, cryllic, greek unicode characters to english ascii.
+  //approximate visual (not semantic or phonetic) relationship between unicode and ascii characters
+  //http://en.wikipedia.org/wiki/List_of_Unicode_characters
+  //https://docs.google.com/spreadsheet/ccc?key=0Ah46z755j7cVdFRDM1A2YVpwa1ZYWlpJM2pQZ003M0E
+
+
+  // á	Alt + 0225
+  // é	Alt + 0233
+  // í	Alt + 0237
+  // ó	Alt + 024
+  // ú	Alt + 0250
+  // ü	Alt + 0252
+  // ñ	Alt + 0241
+  // ¿	Alt + 0191
+  // ¡	Alt + 0161
+
+  let compact = {
+    '?': 'Ɂ',
+    '"': '“”"❝❞',
+    "'": '‘‛❛❜’',
+    '-': '—–',
+    a: 'ªÃÅãåĀāĂăĄąǍǎǞǟǠǡǺǻȀȁȂȃȦȧȺΆΑΔΛάαλАаѦѧӐӑӒӓƛæ',
+    b: 'þƀƁƂƃƄƅɃΒβϐϦБВЪЬвъьѢѣҌҍ',
+    c: '¢©ĆćĈĉĊċČčƆƇƈȻȼͻͼϲϹϽϾСсєҀҁҪҫ',
+    d: 'ÐĎďĐđƉƊȡƋƌ',
+    e: 'ĒēĔĕĖėĘęĚěƐȄȅȆȇȨȩɆɇΈΕΞΣέεξϵЀЁЕеѐёҼҽҾҿӖӗ',
+    f: 'ƑƒϜϝӺӻҒғſ',
+    g: 'ĜĝĞğĠġĢģƓǤǥǦǧǴǵ',
+    h: 'ĤĥĦħƕǶȞȟΉΗЂЊЋНнђћҢңҤҥҺһӉӊ',
+    i: 'ĨĩĪīĬĭĮįİıƖƗȈȉȊȋΊΐΪίιϊІЇії',
+    j: 'ĴĵǰȷɈɉϳЈј',
+    k: 'ĶķĸƘƙǨǩΚκЌЖКжкќҚқҜҝҞҟҠҡ',
+    l: 'ĹĺĻļĽľĿŀŁłƚƪǀǏǐȴȽΙӀӏ',
+    m: 'ΜϺϻМмӍӎ',
+    n: 'ŃńŅņŇňŉŊŋƝƞǸǹȠȵΝΠήηϞЍИЙЛПийлпѝҊҋӅӆӢӣӤӥπ',
+    o: 'ÕØðõøŌōŎŏŐőƟƠơǑǒǪǫǬǭǾǿȌȍȎȏȪȫȬȭȮȯȰȱΌΘΟθοσόϕϘϙϬϴОФоѲѳӦӧӨөӪӫ',
+    p: 'ƤΡρϷϸϼРрҎҏÞ',
+    q: 'Ɋɋ',
+    r: 'ŔŕŖŗŘřƦȐȑȒȓɌɍЃГЯгяѓҐґ',
+    s: 'ŚśŜŝŞşŠšƧƨȘșȿЅѕ',
+    t: 'ŢţŤťŦŧƫƬƭƮȚțȶȾΓΤτϮТт',
+    u: 'µŨũŪūŬŭŮůŰűŲųƯưƱƲǓǔǕǖǗǘǙǚǛǜȔȕȖȗɄΰμυϋύ',
+    v: 'νѴѵѶѷ',
+    w: 'ŴŵƜωώϖϢϣШЩшщѡѿ',
+    x: '×ΧχϗϰХхҲҳӼӽӾӿ',
+    y: 'ÝýÿŶŷŸƳƴȲȳɎɏΎΥΫγψϒϓϔЎУучўѰѱҮүҰұӮӯӰӱӲӳ',
+    z: 'ŹźŻżŽžƵƶȤȥɀΖ',
+  };
+  //decompress data into two hashes
+  let unicode = {};
+  Object.keys(compact).forEach(function (k) {
+    compact[k].split('').forEach(function (s) {
+      unicode[s] = k;
+    });
+  });
+  var unicode$1 = unicode;
+
+  var contractions = [
+
+  ];
+
+  var tokenizer = {
+    mutate: (world) => {
+      world.model.one.unicode = unicode$1;
+
+      world.model.one.contractions = contractions;
+
+      // 'que' -> 'quebec'
+      delete world.model.one.lexicon.que;
+    }
   };
 
   const hasApostrophe = /['‘’‛‵′`´]/;
@@ -9226,7 +9404,7 @@
       two: model
     },
     methods,
-    // hooks: ['preTagger']
+    hooks: ['preTagger']
   };
 
   const postTagger$1 = function (doc) {
@@ -9628,78 +9806,6 @@
 
   var tagset = {
     tags
-  };
-
-  //a hugely-ignorant, and widely subjective transliteration of latin, cryllic, greek unicode characters to english ascii.
-  //approximate visual (not semantic or phonetic) relationship between unicode and ascii characters
-  //http://en.wikipedia.org/wiki/List_of_Unicode_characters
-  //https://docs.google.com/spreadsheet/ccc?key=0Ah46z755j7cVdFRDM1A2YVpwa1ZYWlpJM2pQZ003M0E
-
-
-  // á	Alt + 0225
-  // é	Alt + 0233
-  // í	Alt + 0237
-  // ó	Alt + 024
-  // ú	Alt + 0250
-  // ü	Alt + 0252
-  // ñ	Alt + 0241
-  // ¿	Alt + 0191
-  // ¡	Alt + 0161
-
-  let compact = {
-    '?': 'Ɂ',
-    '"': '“”"❝❞',
-    "'": '‘‛❛❜’',
-    '-': '—–',
-    a: 'ªÃÅãåĀāĂăĄąǍǎǞǟǠǡǺǻȀȁȂȃȦȧȺΆΑΔΛάαλАаѦѧӐӑӒӓƛæ',
-    b: 'þƀƁƂƃƄƅɃΒβϐϦБВЪЬвъьѢѣҌҍ',
-    c: '¢©ĆćĈĉĊċČčƆƇƈȻȼͻͼϲϹϽϾСсєҀҁҪҫ',
-    d: 'ÐĎďĐđƉƊȡƋƌ',
-    e: 'ĒēĔĕĖėĘęĚěƐȄȅȆȇȨȩɆɇΈΕΞΣέεξϵЀЁЕеѐёҼҽҾҿӖӗ',
-    f: 'ƑƒϜϝӺӻҒғſ',
-    g: 'ĜĝĞğĠġĢģƓǤǥǦǧǴǵ',
-    h: 'ĤĥĦħƕǶȞȟΉΗЂЊЋНнђћҢңҤҥҺһӉӊ',
-    i: 'ĨĩĪīĬĭĮįİıƖƗȈȉȊȋΊΐΪίιϊІЇії',
-    j: 'ĴĵǰȷɈɉϳЈј',
-    k: 'ĶķĸƘƙǨǩΚκЌЖКжкќҚқҜҝҞҟҠҡ',
-    l: 'ĹĺĻļĽľĿŀŁłƚƪǀǏǐȴȽΙӀӏ',
-    m: 'ΜϺϻМмӍӎ',
-    n: 'ŃńŅņŇňŉŊŋƝƞǸǹȠȵΝΠήηϞЍИЙЛПийлпѝҊҋӅӆӢӣӤӥπ',
-    o: 'ÕØðõøŌōŎŏŐőƟƠơǑǒǪǫǬǭǾǿȌȍȎȏȪȫȬȭȮȯȰȱΌΘΟθοσόϕϘϙϬϴОФоѲѳӦӧӨөӪӫ',
-    p: 'ƤΡρϷϸϼРрҎҏÞ',
-    q: 'Ɋɋ',
-    r: 'ŔŕŖŗŘřƦȐȑȒȓɌɍЃГЯгяѓҐґ',
-    s: 'ŚśŜŝŞşŠšƧƨȘșȿЅѕ',
-    t: 'ŢţŤťŦŧƫƬƭƮȚțȶȾΓΤτϮТт',
-    u: 'µŨũŪūŬŭŮůŰűŲųƯưƱƲǓǔǕǖǗǘǙǚǛǜȔȕȖȗɄΰμυϋύ',
-    v: 'νѴѵѶѷ',
-    w: 'ŴŵƜωώϖϢϣШЩшщѡѿ',
-    x: '×ΧχϗϰХхҲҳӼӽӾӿ',
-    y: 'ÝýÿŶŷŸƳƴȲȳɎɏΎΥΫγψϒϓϔЎУучўѰѱҮүҰұӮӯӰӱӲӳ',
-    z: 'ŹźŻżŽžƵƶȤȥɀΖ',
-  };
-  //decompress data into two hashes
-  let unicode = {};
-  Object.keys(compact).forEach(function (k) {
-    compact[k].split('').forEach(function (s) {
-      unicode[s] = k;
-    });
-  });
-  var unicode$1 = unicode;
-
-  var contractions = [
-
-  ];
-
-  var tokenizer = {
-    mutate: (world) => {
-      world.model.one.unicode = unicode$1;
-
-      world.model.one.contractions = contractions;
-
-      // 'que' -> 'quebec'
-      delete world.model.one.lexicon.que;
-    }
   };
 
   const findNumbers = function (view) {
@@ -10278,7 +10384,7 @@
     api: api$1
   };
 
-  var version = '0.1.1';
+  var version = '0.1.2';
 
   nlp$1.plugin(tokenizer);
   nlp$1.plugin(tagset);
@@ -10289,9 +10395,15 @@
 
 
   const de = function (txt, lex) {
-    let dok = nlp$1(txt, lex);
-    return dok
+    let doc = nlp$1(txt, lex);
+    return doc
   };
+
+  de.world = () => nlp$1.world();
+  de.model = () => nlp$1.model();
+  de.methods = () => nlp$1.methods();
+  de.hooks = () => nlp$1.hooks();
+  de.plugin = (plg) => nlp$1.plugin(plg);
 
   /** log the decision-making to console */
   de.verbose = function (set) {

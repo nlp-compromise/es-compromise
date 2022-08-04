@@ -1,11 +1,11 @@
 import nlp from 'compromise/one'
 // import nlp from '/Users/spencer/mountain/compromise/src/one.js'
-import lexicon from './lexicon/plugin.js'
-import preTagger from './preTagger/plugin.js'
-import postTagger from './postTagger/plugin.js'
-import tagset from './tagset/plugin.js'
-import tokenizer from './tokenizer/plugin.js'
-import numbers from './numbers/plugin.js'
+import lexicon from './01-one/lexicon/plugin.js'
+import tokenizer from './01-one/tokenizer/plugin.js'
+import preTagger from './02-two/preTagger/plugin.js'
+import postTagger from './02-two/postTagger/plugin.js'
+import tagset from './01-one/tagset/plugin.js'
+import numbers from './03-three/numbers/plugin.js'
 import version from './_version.js'
 
 nlp.plugin(tokenizer)
@@ -17,9 +17,15 @@ nlp.plugin(numbers)
 
 
 const de = function (txt, lex) {
-  let dok = nlp(txt, lex)
-  return dok
+  let doc = nlp(txt, lex)
+  return doc
 }
+
+de.world = () => nlp.world()
+de.model = () => nlp.model()
+de.methods = () => nlp.methods()
+de.hooks = () => nlp.hooks()
+de.plugin = (plg) => nlp.plugin(plg)
 
 /** log the decision-making to console */
 de.verbose = function (set) {
