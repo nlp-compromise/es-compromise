@@ -96,6 +96,10 @@ test('root-match:', function (t) {
     // ['vistiéndose', '{vestir}'],
     // ['duchándote', '{duchar}'],
 
+    ["Olvidas tu cumpleaños", "{olvidar}"], //verb
+    ["nos olvidamos muchas veces", "{olvidar}"],
+    ["las ligas menores", "{menor}"], //adj
+    ["las capacidades que Dios les ha dado", "{capacidad}"], // noun
 
   ]
   arr.forEach(function (a) {

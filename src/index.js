@@ -17,8 +17,8 @@ nlp.plugin(numbers)
 
 
 const de = function (txt, lex) {
-  let dok = nlp(txt, lex)
-  return dok
+  let doc = nlp(txt, lex)
+  return doc
 }
 
 de.world = () => nlp.world()
