@@ -6842,7 +6842,7 @@
 
   var months = ['jan', 'feb', 'mar', 'apr', 'jun', 'jul', 'aug', 'sep', 'sept', 'oct', 'nov', 'dec'];
 
-  var nouns$1 = [
+  var nouns$2 = [
     'ad',
     'al',
     'arc',
@@ -6960,7 +6960,7 @@
   let list = [
     [misc$2],
     [units, 'Unit'],
-    [nouns$1, 'Noun'],
+    [nouns$2, 'Noun'],
     [honorifics, 'Honorific'],
     [months, 'Month'],
     [organizations, 'Organization'],
@@ -8233,108 +8233,19 @@
     fromConditional
   };
 
-  var rules$1 = [
-    // female nouns
-    ['dad', 'dades'],
-    ['eche', 'eches'],
-    ['az', 'aces'],
-    // ['ana', 'anos'],
-    // ['stra', 'stros'],
-    // ['ora', 'ores'],
-    // ['gra', 'gros'],
-    // ['oras', 'ores'],
-    // ['rona', 'res'],
-    // ['umna', 'umnos'],
-    // ['ñola', 'ñoles'],
-    // ['ñera', 'ñeros'],
-    // ['gada', 'gados'],
-    // ['aria', 'arios'],
-    // ['jera', 'jeros'],
-    // ['ueña', 'ueños'],
+  let pRev = reverse$1(model$1.nouns.plurals);
 
-    // male nouns
-    ['jín', 'jines'],
-    ['den', 'denes'],
-    ['dén', 'denes'],
-    ['ués', 'ueses'],
-    ['tín', 'tines'],
-    ['rín', 'rines'],
-    ['lín', 'lines'],
-    ['pás', 'pases'],
-    ['aís', 'aíses'],
-    ['che', 'ches'],
-    ['or', 'ores'],
-    ['ón', 'ones'],
-    ['al', 'ales'],
-    ['il', 'iles'],
-    ['el', 'eles'],
-    ['er', 'eres'],
-    ['ar', 'ares'],
-    ['um', 'umes'],
-    ['us', 'uses'],
-    ['en', 'enes'],
-    ['és', 'eses'],
-    ['án', 'anes'],
-    ['ol', 'oles'],
-    ['oy', 'oyes'],
-    ['ós', 'oses'],
-    ['ir', 'ires'],
-    ['is', 'ises'],
-    ['sh', 'shes'],
-    ['ry', 'ries'],
-    ['iz', 'ices'],
-    ['oj', 'ojes'],
-    ['bú', 'búes'],
-    ['ch', 'ches'],
-    ['lm', 'lmes'],
+  const toPlural$1 = (str) => convert$1(str, model$1.nouns.plurals);
+  const fromPlural$1 = (str) => convert$1(str, pRev);
 
-    // ['erra', 'erros'],
-    // ['um', 'as'],
-  ];
-
-  const toSingular = function (str) {
-    for (let i = 0; i < rules$1.length; i += 1) {
-      let a = rules$1[i];
-      if (str.endsWith(a[1])) {
-        str = str.substr(0, str.length - a[1].length);
-        str += a[0];
-        return str
-      }
-    }
-    if (str.endsWith('s')) {
-      return str = str.substr(0, str.length - 1)
-    }
-    return str
+  var nouns$1 = {
+    toPlural: toPlural$1,
+    fromPlural: fromPlural$1,
   };
-  var toSingular$1 = toSingular;
-
-  // console.log(toSingular('convoyes'))
-
-  // import list from '/Users/spencer/mountain/es-compromise/nouns.js'
-  // let count = 0
-  // list.forEach(a => {
-  //   let [m, f, mp, fp] = a
-  //   if (mp && m && f && fp) {
-  //     if (toSingular(mp) !== m) {
-  //       count += 1
-  //       console.log(mp, m)
-  //     }
-  //   }
-  // })
-  // console.log(count)
-
-  const toPlural$1 = function (str) {
-    for (let i = 0; i < rules$1.length; i += 1) {
-      let a = rules$1[i];
-      if (str.endsWith(a[0])) {
-        str = str.substr(0, str.length - a[0].length);
-        str += a[1];
-        return str
-      }
-    }
-    return str + 's'
-  };
-  var nounToPlural = toPlural$1;
+  // console.log(toFemale("principesco") === "principesca")
+  // console.log(fromFemale("principesca") === "principesco")
+  // console.log(toPlural("principesco") === "principescos")
+  // console.log(fromPlural("principescos") === "principesco")
 
   const toMasculine = function (str) {
     let arr = [
@@ -8450,8 +8361,8 @@
       toGerund
     },
     noun: {
-      toPlural: nounToPlural,
-      toSingular: toSingular$1,
+      toPlural: nouns$1.toPlural,
+      toSingular: nouns$1.fromPlural,
       toMasculine: toMasculine$1,
     },
     adjective: {
@@ -10473,7 +10384,7 @@
     api: api$1
   };
 
-  var version = '0.1.1';
+  var version = '0.1.2';
 
   nlp$1.plugin(tokenizer);
   nlp$1.plugin(tagset);
