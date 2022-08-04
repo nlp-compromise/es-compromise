@@ -9,7 +9,6 @@ for (let i = 1; i < 30; i += 1) {
   parse(i).forEach(s => {
     s.words.forEach(t => {
       if (t.tag === want) {
-        // console.log(t)
         lemmas[t.lemma] = lemmas[t.lemma] || ['', '', '', '', 0]
         lemmas[t.lemma][4] += 1
         if (t.gender === 'm') {

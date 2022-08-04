@@ -36,16 +36,31 @@ const steps = [
     path: './src/lexicon/methods/_data.js',
     compress: function () {
       let packed = {}
+      console.log('adjectives')
+      packed.adjectives = {
+        f: [],
+        mp: [],
+        fp: [],
+      }
+      models.adjectives.forEach(a => {
+        packed.adjectives.f.push([a[0], a[1]])
+        packed.adjectives.mp.push([a[0], a[2]])
+        packed.adjectives.fp.push([a[0], a[3]])
+      })
+      Object.keys(packed.adjectives).forEach(k => {
+        packed.adjectives[k] = compress(learn(packed.adjectives[k]))
+      })
+      console.log('verbs')
       Object.keys(models.verbs).forEach(k => {
         packed[k] = {}
         Object.keys(models.verbs[k]).forEach(form => {
           let pairs = models.verbs[k][form]
-          console.log(k, form)
+          console.log('-', k, form)
           packed[k][form] = learn(pairs)
           packed[k][form] = compress(packed[k][form])
         })
       })
-      // console.log('plural nouns')
+      console.log('gerunds')
       let gerunds = learn(models.gerunds)
       gerunds = compress(gerunds)
       packed.gerunds = {

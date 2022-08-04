@@ -61,10 +61,14 @@ const root = function (view) {
       // nouns -> singular masculine form
       if (term.tags.has('Adjective')) {
         if (term.tags.has('PluralAdjective')) {
-          str = adjective.adjToSingular(str)
+          if (term.tags.has('FemaleAdjective')) {
+            str = adjective.fromFemalePlural(str)
+          } else {
+            str = adjective.fromPlural(str)
+          }
         }
         if (term.tags.has('FemaleAdjective')) {
-          str = adjective.adjToMasculine(str)
+          str = adjective.fromFemale(str)
         }
         term.root = str
       }

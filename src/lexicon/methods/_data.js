@@ -1,5 +1,22 @@
 // generated in ./lib/models
 export default {
+  "adjectives": {
+    "f": {
+      "rules": "uen|3a,ín|ina,án|ana,ón|ona,iejo|3ísima,ptísimo|2a,oreno|4ita,ártaro|artarica,enísimo|2a,arísimo|2ia,ilósofo|2osofica,obito|2a,ctísimo|2a,últiplo|ultiplaza,ambito|3a,drófilo|2ofílica,ofítico|ófita,icólogo|2ológica,legiaco|3íaca,o|a,ndaluz|6a,ugonote|6a,l|1a,és|esa,r|1a",
+      "exceptions": "mago|3ica,pino|3illa,britano|6ica,paso|3illa,tártaro|1artarica,mallorquín|8ina,bobito|3a,múltiplo|1ultiplaza,musicólogo|5ológica",
+      "rev": "rimera|5,spañola|6,uena|3,ercera|5,nglesa|3és,ejísima|2o,atalana|4án,sulmana|4án,ndaluza|6,brupta|5ísimo,ilarina|4ín,agica|2o,itriona|4ón,inilla|2o,orenita|4o,ipona|2ón,legiala|6,mena|3ísimo,ardiana|4án,ndarina|4ín,umaria|4ísimo,ormona|3ón,osofica|ósofo,eñora|4,adrona|3ón,ugonota|6e,marrona|4ón,rgoñona|4ón,octa|3ísimo,lorona|3ón,amba|3ito,itanica|4o,risona|3ón,asilla|2o,ofílica|ófilo,erófita|2ofítico,iamesa|3és,bequesa|4és,legíaca|3iaco,ulzona|3ón,eutona|3ón,irolesa|4és,ltarina|4ín,cesa|1és,ampeona|4ón,ñesa|1és,sajona|3ón,tesa|1és,ascona|3ón,alemana|4án,galesa|3és,etona|2ón,lona|1ón,guesa|2és,andesa|3és,idora|4,nesa|1és,edora|4,sora|3,tora|3,adora|4,a|o"
+    },
+    "mp": {
+      "rules": "uen|3os,ín|ines,án|anes,ón|ones,ndaluz|5ces,ctavo|1havos,ptísimo|2os,enísimo|2os,arísimo|2ios,ilósofo|6icos,obito|2os,ctísimo|2os,trófilo|2ofílicos,ambito|3os,icólogo|2ológicos,legiaco|3íacos,horo|4tes,o|1s,ugonote|7s,er|2os,or|2es,l|1es,és|eses",
+      "exceptions": "amigo|4uitos,lato|3azos,lacio|4tos,cano|4nes,bobito|3os,electrófilo|6ofílicos,musicólogo|5ológicos",
+      "rev": "rimeros|5,uenos|3,erceros|5,daluces|4z,chavos|1tavo,bruptos|5ísimo,iguitos|2o,menos|3ísimo,umarios|4ísimo,soficos|3o,octos|3ísimo,ambos|3ito,egíacos|2iaco,atazos|2o,acitos|3o,horotes|4,anones|3,les|1,ines|ín,anes|án,ones|ón,eses|és,ores|2,s|"
+    },
+    "fp": {
+      "rules": "uen|3as,ín|inas,án|anas,ón|onas,ndaluz|6as,ctavo|1havas,ptísimo|2as,inónimo|2onímicas,uerdo|4ecillas,enísimo|2as,arísimo|2ias,obito|2as,ctísimo|2as,últiplo|ultiplazas,almo|3ucas,ambito|3as,drófilo|2ofílicas,ofítico|ófitas,icólogo|2ológicas,holo|3itas,orboso|5ísimas,legiaco|3íacas,o|as,ugonote|6as,l|1as,és|esas,r|1as",
+      "exceptions": "vano|3itas,gordo|4itas,mago|3icas,tordo|4ejas,sinónimo|3onímicas,mallorquín|8inas,bobito|3as,múltiplo|1ultiplazas,hidrófilo|4ofílicas,musicólogo|5ológicas",
+      "rev": "rimeras|5,pañolas|5,uenas|3,erceras|5,nglesas|3és,talanas|3án,ulmanas|3án,daluzas|5,chavas|1tavo,anitas|2o,bruptas|5ísimo,orditas|3o,ecillas|o,larinas|3ín,agicas|2o,trionas|3ón,iponas|2ón,egialas|5,menas|3ísimo,rdianas|3án,darinas|3ín,umarias|4ísimo,ormonas|3ón,eñoras|4,adronas|3ón,gonotas|5e,arronas|3ón,goñonas|3ón,octas|3ísimo,loronas|3ón,almucas|3o,ambas|3ito,risonas|3ón,rófitas|1ofítico,holitas|3o,iamesas|3és,ordejas|3o,equesas|3és,sísimas|1o,egíacas|2iaco,ulzonas|3ón,eutonas|3ón,rolesas|3és,tarinas|3ín,cesas|1és,lemanas|3án,mpeonas|3ón,ñesas|1és,sajonas|3ón,tesas|1és,asconas|3ón,galesas|3és,etonas|2ón,lonas|1ón,guesas|2és,andesas|3és,idoras|4,nesas|1és,edoras|4,soras|3,toras|3,adoras|4,as|o"
+    }
+  },
   "presentTense": {
     "first": {
       "rules": "omenzar|2ienzo,raduar|3úo,spertar|2ierto,onfiar|3ío,ufrir|3o,ensar|ienso,omper|3o,orcer|uerzo,ormir|uermo,nviar|2ío,obernar|2ierno,uebrar|1iebro,uerer|1iero,gorar|1üero,isfacer|4go,trever|4o,oñar|ueño,contrar|1uentro,olgar|uelgo,jercer|3zo,aciar|2ío,enovar|2uevo,onfesar|3ieso,ruñir|3o,over|uevo,ehusar|2úso,aler|2go,ogar|uego,rohibir|3íbo,alir|2go,burrir|4o,orir|uero,oder|uedo,ntinuar|4úo,lmorzar|2uerzo,mpartir|5o,añer|2o,erder|ierdo,ravesar|3ieso,estir|isto,efender|2iendo,eber|2o,uiar|1ío,rrer|2o,pezar|1iezo,endar|iendo,tinguir|4o,meter|3o,cender|1iendo,hacer|2go,cordar|1uerdo,riar|1ío,eñir|iño,alentar|2iento,probar|2uebo,mitir|3o,eer|1o,mer|1o,vencer|3zo,vivir|3o,venir|3go,batir|3o,mostrar|1uestro,lir|1o,mir|1o,egir|ijo,edir|ido,reír|1ío,ostar|uesto,etir|ito,olver|uelvo,tender|1iendo,aer|1igo,decir|1igo,sistir|4o,tuar|1úo,brir|2o,entir|iento,vertir|1ierto,ger|jo,erir|iero,seguir|1igo,gir|jo,dir|1o,bir|1o,ducir|2zco,der|1o,uir|1yo,ner|1go,cer|zco,ar|o,omit|4o",

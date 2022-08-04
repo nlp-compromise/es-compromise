@@ -5,7 +5,6 @@ import nlp from './src/index.js'
 0.0.2 - tagger 87%
 */
 
-let doc = nlp("Las personas con hipertensión deben hacer dieta y limitar su consumo de alcohol y este elemento químico")
 // let world = nlp.world()
 // console.log(world.methods.two)
 // let { verbConjugate } = world.methods.two.transform
@@ -26,3 +25,16 @@ las ligas menores  {menor} //adj
 
 las capacidades que Dios les ha dado  {capacidad} // noun
 */
+
+let txt = `hidrodinámicas`
+let doc = nlp(txt).tag(['PluralAdjective', 'FemaleAdjective'])
+doc.compute('root')
+doc.debug()
+console.log(doc.docs[0])
+doc.match(`{hidrodinámico}`).debug()
+
+// let txt = `La incorporación estatutaria siguió`
+// let doc = nlp(txt)
+// doc.compute('root')
+// doc.debug()
+// doc.match(`{estatutario}`).debug()
