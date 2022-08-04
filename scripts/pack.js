@@ -10,7 +10,7 @@ import models from '../data/models/index.js'
 const steps = [
   {
     label: 'lexicon',
-    path: './src/lexicon/_data.js',
+    path: './src/01-one/lexicon/_data.js',
     compress: function () {
       let packed = {}
       //turn them into a series of flat-arrays
@@ -33,9 +33,15 @@ const steps = [
   },
   {
     label: 'models',
-    path: './src/lexicon/methods/_data.js',
+    path: './src/01-one/lexicon/methods/_data.js',
     compress: function () {
       let packed = {}
+      console.log('plurals')
+      let plurals = learn(models.plurals)
+      plurals = compress(plurals)
+      packed.nouns = {
+        plurals
+      }
       console.log('adjectives')
       packed.adjectives = {
         f: [],
