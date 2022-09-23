@@ -53,7 +53,7 @@ const root = function (view) {
         }
         if (term.tags.has('FemaleNoun')) {
           // not sure about this
-          str = noun.toMasculine(str)
+          // str = noun.toMasculine(str)
         }
         term.root = str
       }

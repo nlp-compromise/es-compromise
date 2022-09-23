@@ -1,6 +1,6 @@
 import nlp from './src/index.js'
 
-nlp.verbose('tagger')
+// nlp.verbose('tagger')
 /*
 0.0.2 - tagger 87%
 */
@@ -13,11 +13,12 @@ nlp.verbose('tagger')
 // doc.match(`{persona}`).debug()
 
 /*
-
 */
 
-let txt = `contemplaciones`
+let txt = `trabajadores de las sombras`
 let doc = nlp(txt)
 doc.compute('root')
-doc.debug()
-doc.match(`{contemplación}`).debug()
+// doc.debug()
+// doc.nouns().toSingular()
+doc.match(`{sombra}`).debug()
+// doc.debug()

@@ -14,3 +14,4 @@ export default {
 // console.log(fromFemale("principesca") === "principesco")
 // console.log(toPlural("principesco") === "principescos")
 // console.log(fromPlural("principescos") === "principesco")
+// console.log(fromPlural("sombras") === "sombra")
