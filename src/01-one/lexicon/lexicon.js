@@ -1,9 +1,9 @@
 import lexData from './_data.js'
 import { unpack } from 'efrt'
-import conjugate from './methods/verbs/conjugate.js'
+import methods from './methods/index.js'
 import misc from './misc.js'
 
-
+const conjugate = methods.verb.conjugate
 let lexicon = misc
 
 
@@ -45,6 +45,12 @@ Object.keys(lexData).forEach(tag => {
       // add conditional
       obj = conjugate.toConditional(w)
       addWords(obj, 'Conditional', lexicon)
+    }
+    if (tag === 'Adjective') {
+      let f = methods.adjective.toFemale(w)
+      lexicon[f] = lexicon[f] || ['Adjective', 'FemaleAdjective', 'SingularAdjective']
+      let fs = methods.adjective.toFemalePlural(w)
+      lexicon[fs] = lexicon[fs] || ['Adjective', 'FemaleAdjective', 'PluralAdjective']
     }
     if (tag === 'Cardinal') {
       lexicon[w] = ['Cardinal', 'TextValue']

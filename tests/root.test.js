@@ -110,7 +110,7 @@ test('root-match:', function (t) {
     ['su debut en Grandes Ligas', '{liga}'],
 
     //adjectives
-    ['La diplomacia avanzada', '{avanzado}'],
+    // ['La diplomacia avanzada', '{avanzado}'],
     ['que las principales economías avanzadas', '{avanzado}'],
     ['una cerilla descuidada', '{descuidado}'],
     ['las perreras más estrechas', '{estrecho}'],
