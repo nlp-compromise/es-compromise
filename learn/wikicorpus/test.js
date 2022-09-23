@@ -9,6 +9,7 @@ const percent = (part, total) => {
 
 let right = 0
 let wrong = 0
+let oops = []
 
 let bad = {}
 for (let i = 1; i < 2; i += 1) {
@@ -32,7 +33,10 @@ for (let i = 1; i < 2; i += 1) {
           right += 1
         } else {
           wrong += 1
-          // console.log('\n', str, want[str])
+          if (want[str] === 'Adjective' && t.has('#Noun')) {
+            // console.log(str, ',')
+            oops.push(str)
+          }
           // t.debug()
           bad[str] = bad[str] || 0
           bad[str] += 1
@@ -57,3 +61,19 @@ console.log(bad)
 
 console.log(right, ' right ' + percent(right, right + wrong) + '%')
 console.log(wrong, ' wrong ' + percent(wrong, right + wrong) + '%')
+
+
+
+const topk = function (arr) {
+  let obj = {}
+  arr.forEach(a => {
+    obj[a] = obj[a] || 0
+    obj[a] += 1
+  })
+  let res = Object.keys(obj).map(k => [k, obj[k]])
+  return res.sort((a, b) => (a[1] > b[1] ? -1 : 0))
+}
+
+
+let todo = topk(oops).slice(0, 100)//.map(a => a[0])
+console.log(JSON.stringify(todo, null, 2))
