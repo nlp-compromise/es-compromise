@@ -1705,6 +1705,8 @@ export default [
   "quebequés",
   "montañés",
   "coruñés",
-  "andaluz"
-
+  "andaluz",
+  "alentador",
+  "avanzado",
+  "descuidado"
 ]

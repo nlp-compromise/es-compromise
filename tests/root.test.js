@@ -115,7 +115,7 @@ test('root-match:', function (t) {
     ['una cerilla descuidada', '{descuidado}'],
     ['las perreras más estrechas', '{estrecho}'],
     ['una estrecha victoria ', '{estrecho}'],
-    ['un acto defensivo estratégico', '{defensiva}'],
+    ['un acto defensivo estratégico', '{defensivo}'],
     ['en direcciones opuestas', '{opuesto}'],
     ['una situación conmovedora', '{conmovedor}'],
     ['La delgada atmósfera', '{delgado}'],

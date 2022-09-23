@@ -38,10 +38,10 @@ import data from '/Users/spencer/mountain/es-compromise/data/models/adjectives.j
 
 // console.log(JSON.stringify(suffixSort(missing), null, 2))
 
-let txt = `una apelación oportuna`
+let txt = `una cerilla descuidada`
 let doc = nlp(txt)
-// doc.compute('root')
+doc.compute('root')
 doc.debug()
 // // doc.nouns().toSingular()
-// doc.match(`{oportuno}`).debug()
+doc.match(`{avanzado}`).debug()
 // doc.debug()
