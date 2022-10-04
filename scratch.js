@@ -16,10 +16,12 @@ import data from '/Users/spencer/mountain/es-compromise/data/models/adjectives.j
 /*
 */
 
-let txt = `en direcciones opuestas`
+// let txt = `pseudocientífico`
+let txt = `pseudocientífica`
 let doc = nlp(txt)
-doc.compute('root')
-doc.debug()
+console.log(doc.adjectives().conjugate())
+// doc.compute('root')
+// doc.debug()
 // // doc.nouns().toSingular()
-doc.match(`{opuesto}`).debug()
+// doc.match(`{opuesto}`).debug()
 // doc.debug()

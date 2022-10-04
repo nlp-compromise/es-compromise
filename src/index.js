@@ -7,6 +7,7 @@ import postTagger from './02-two/postTagger/plugin.js'
 import tagset from './01-one/tagset/plugin.js'
 import numbers from './03-three/numbers/plugin.js'
 import nouns from './03-three/nouns/plugin.js'
+import adjectives from './03-three/adjectives/plugin.js'
 import version from './_version.js'
 
 nlp.plugin(tokenizer)
@@ -15,6 +16,7 @@ nlp.plugin(lexicon)
 nlp.plugin(preTagger)
 nlp.plugin(postTagger)
 nlp.plugin(nouns)
+nlp.plugin(adjectives)
 nlp.plugin(numbers)
 
 
