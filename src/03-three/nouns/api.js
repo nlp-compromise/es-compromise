@@ -20,16 +20,16 @@ const api = function (View) {
     conjugate(n) {
       const methods = this.methods.two.transform.noun
       return getNth(this, n).map(m => {
-        let singular = m.text()
-        let plural = singular
-        if (m.has('#Plural')) {
-          singular = methods.toSingular(singular)
-        } else if (m.has('Singular')) {
-          plural = methods.toPlural(plural)
+        let str = m.text()
+        if (m.has('#PluralNoun')) {
+          return {
+            plural: str,
+            singular: methods.toSingular(str)
+          }
         }
         return {
-          singular,
-          plural
+          singular: str,
+          plural: methods.toPlural(str)
         }
       }, [])
     }

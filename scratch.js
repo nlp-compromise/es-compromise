@@ -17,9 +17,9 @@ import data from '/Users/spencer/mountain/es-compromise/data/models/adjectives.j
 */
 
 // let txt = `pseudocientífico`
-let txt = `pseudocientífica`
+let txt = `problema`
 let doc = nlp(txt)
-console.log(doc.adjectives().conjugate())
+console.log(doc.nouns().conjugate())
 // doc.compute('root')
 // doc.debug()
 // // doc.nouns().toSingular()
