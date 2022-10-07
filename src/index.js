@@ -32,6 +32,7 @@ de.model = () => nlp.model()
 de.methods = () => nlp.methods()
 de.hooks = () => nlp.hooks()
 de.plugin = (plg) => nlp.plugin(plg)
+de.buildNet = (matches) => nlp.buildNet(matches)
 
 /** log the decision-making to console */
 de.verbose = function (set) {
