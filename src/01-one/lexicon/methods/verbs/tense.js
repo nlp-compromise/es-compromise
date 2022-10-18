@@ -1,6 +1,7 @@
 import { convert } from 'suffix-thumb'
 import model from '../models.js'
 
+
 let { presentTense, pastTense, futureTense, conditional } = model
 // =-=-
 
@@ -20,9 +21,20 @@ const toPast = (str) => doEach(str, pastTense)
 const toFuture = (str) => doEach(str, futureTense)
 const toConditional = (str) => doEach(str, conditional)
 
-
+// an array of every inflection, for '{inf}' syntax
+const all = function (str) {
+  let res = [str].concat(
+    Object.values(toPresent(str)),
+    Object.values(toPast(str)),
+    Object.values(toFuture(str)),
+    Object.values(toConditional(str)),
+  ).filter(s => s)
+  res = new Set(res)
+  return Array.from(res)
+}
 
 export {
+  all,
   toPresent,
   toPast,
   toFuture,

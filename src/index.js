@@ -1,5 +1,5 @@
-import nlp from 'compromise/one'
-// import nlp from '/Users/spencer/mountain/compromise/src/one.js'
+// import nlp from 'compromise/one'
+import nlp from '/Users/spencer/mountain/compromise/src/one.js'
 import lexicon from './01-one/lexicon/plugin.js'
 import tokenizer from './01-one/tokenizer/plugin.js'
 import preTagger from './02-two/preTagger/plugin.js'
@@ -22,19 +22,18 @@ nlp.plugin(verbs)
 nlp.plugin(numbers)
 
 
-const de = function (txt, lex) {
-  let doc = nlp(txt, lex)
-  return doc
+const es = function (txt, lex) {
+  return nlp(txt, lex)
 }
 
 // copy constructor methods over
 Object.keys(nlp).forEach(k => {
   if (nlp.hasOwnProperty(k)) {
-    de[k] = nlp[k]
+    es[k] = nlp[k]
   }
 })
 
-de.world = () => nlp.world()
+es.world = () => nlp.world()
 // de.model = () => nlp.model()
 // de.methods = () => nlp.methods()
 // de.hooks = () => nlp.hooks()
@@ -42,7 +41,7 @@ de.world = () => nlp.world()
 // de.buildNet = (matches) => nlp.buildNet(matches)
 
 /** log the decision-making to console */
-de.verbose = function (set) {
+es.verbose = function (set) {
   let env = typeof process === 'undefined' ? self.env || {} : process.env //use window, in browser
   env.DEBUG_TAGS = set === 'tagger' || set === true ? true : ''
   env.DEBUG_MATCH = set === 'match' || set === true ? true : ''
@@ -50,6 +49,6 @@ de.verbose = function (set) {
   return this
 }
 
-de.version = version
+es.version = version
 
-export default de
+export default es
