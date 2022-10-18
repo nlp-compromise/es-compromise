@@ -22,7 +22,7 @@ const toConditional = (str) => doEach(str, conditional)
 
 
 
-export default {
+export {
   toPresent,
   toPast,
   toFuture,

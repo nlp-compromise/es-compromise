@@ -1,6 +1,5 @@
 import nlp from './src/index.js'
-import data from '/Users/spencer/mountain/es-compromise/data/models/adjectives.js'
-
+// console.log(nlp.world().methods.two.transform)
 // nlp.verbose('tagger')
 /*
 0.0.2 - tagger 87%
@@ -17,9 +16,11 @@ import data from '/Users/spencer/mountain/es-compromise/data/models/adjectives.j
 */
 
 // let txt = `pseudocientífico`
-let txt = `problema`
-let doc = nlp(txt)
-console.log(doc.nouns().conjugate())
+// let txt = `problema`
+// let doc = nlp(txt)
+// console.log(doc.nouns().conjugate())
+
+console.log(nlp.parseMatch(`{socavarlos}`))
 // doc.compute('root')
 // doc.debug()
 // // doc.nouns().toSingular()

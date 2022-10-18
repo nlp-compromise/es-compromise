@@ -27,12 +27,19 @@ const de = function (txt, lex) {
   return doc
 }
 
+// copy constructor methods over
+Object.keys(nlp).forEach(k => {
+  if (nlp.hasOwnProperty(k)) {
+    de[k] = nlp[k]
+  }
+})
+
 de.world = () => nlp.world()
-de.model = () => nlp.model()
-de.methods = () => nlp.methods()
-de.hooks = () => nlp.hooks()
-de.plugin = (plg) => nlp.plugin(plg)
-de.buildNet = (matches) => nlp.buildNet(matches)
+// de.model = () => nlp.model()
+// de.methods = () => nlp.methods()
+// de.hooks = () => nlp.hooks()
+// de.plugin = (plg) => nlp.plugin(plg)
+// de.buildNet = (matches) => nlp.buildNet(matches)
 
 /** log the decision-making to console */
 de.verbose = function (set) {

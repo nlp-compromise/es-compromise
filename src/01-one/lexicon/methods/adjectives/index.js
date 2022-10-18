@@ -14,7 +14,7 @@ const fromFemale = (str) => convert(str, fRev)
 const fromPlural = (str) => convert(str, mpRev)
 const fromFemalePlural = (str) => convert(str, fpRev)
 
-export {
+export default {
   toFemale,
   toPlural,
   toFemalePlural,
