@@ -11,18 +11,29 @@ const toFemale = (str) => convert(str, f)
 const toPlural = (str) => convert(str, mp)
 const toFemalePlural = (str) => convert(str, fp)
 const fromFemale = (str) => convert(str, fRev)
-const fromPlural = (str) => convert(str, mpRev)
+const toSingular = (str) => convert(str, mpRev)
 const fromFemalePlural = (str) => convert(str, fpRev)
 
+const all = function (str) {
+  let arr = [str]
+  arr.push(toFemale(str))
+  arr.push(toPlural(str))
+  arr.push(toFemalePlural(str))
+  arr = arr.filter(s => s)
+  arr = new Set(arr)
+  return Array.from(arr)
+}
+
 export default {
+  all,
   toFemale,
   toPlural,
   toFemalePlural,
   fromFemale,
-  fromPlural,
+  toSingular,
   fromFemalePlural,
 }
 // console.log(toFemale("principesco") === "principesca")
 // console.log(fromFemale("principesca") === "principesco")
 // console.log(toPlural("principesco") === "principescos")
-// console.log(fromPlural("principescos") === "principesco")
+// console.log(toSingular("principescos") === "principesco")

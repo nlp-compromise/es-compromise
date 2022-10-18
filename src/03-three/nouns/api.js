@@ -5,7 +5,7 @@ const getRoot = function (m) {
   let str = m.text('normal')
   let isPlural = m.has('Plural')
   if (isPlural) {
-    return transform.adjective.fromPlural(str)
+    return transform.adjective.toSingular(str)
   }
   return str
 }

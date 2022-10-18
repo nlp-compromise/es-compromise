@@ -4,14 +4,14 @@ import model from '../models.js'
 let pRev = reverse(model.nouns.plurals)
 
 const toPlural = (str) => convert(str, model.nouns.plurals)
-const fromPlural = (str) => convert(str, pRev)
+const toSingular = (str) => convert(str, pRev)
 
-export default {
+export {
   toPlural,
-  fromPlural,
+  toSingular,
 }
 // console.log(toFemale("principesco") === "principesca")
 // console.log(fromFemale("principesca") === "principesco")
 // console.log(toPlural("principesco") === "principescos")
-// console.log(fromPlural("principescos") === "principesco")
-// console.log(fromPlural("sombras") === "sombra")
+// console.log(toSingular("principescos") === "principesco")
+// console.log(toSingular("sombras") === "sombra")

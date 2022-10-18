@@ -19,7 +19,12 @@ import nlp from './src/index.js'
 // let doc = nlp(txt)
 // console.log(doc.nouns().conjugate())
 
-console.log(nlp.parseMatch(`{exagerar}`))
+
+let doc = nlp('relajarse')
+doc.compute('root')
+console.log(doc.docs)
+doc.match('{relajar}').debug()
+console.log(nlp.parseMatch(`{relajar}`))
 // doc.compute('root')
 // doc.debug()
 // // doc.nouns().toSingular()

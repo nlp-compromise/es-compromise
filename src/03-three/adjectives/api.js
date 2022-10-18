@@ -10,7 +10,7 @@ const getRoot = function (m, methods) {
   } else if (isFemale) {
     return methods.fromFemale(str)
   } else if (isPlural) {
-    return methods.fromPlural(str)
+    return methods.toSingular(str)
   }
   return str
 }

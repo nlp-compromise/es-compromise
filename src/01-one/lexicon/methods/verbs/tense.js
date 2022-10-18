@@ -1,9 +1,8 @@
 import { convert } from 'suffix-thumb'
 import model from '../models.js'
-
-
+import { toGerund } from './gerund.js'
+import { toReflexive } from './reflexive.js'
 let { presentTense, pastTense, futureTense, conditional } = model
-// =-=-
 
 const doEach = function (str, m) {
   return {
@@ -28,6 +27,8 @@ const all = function (str) {
     Object.values(toPast(str)),
     Object.values(toFuture(str)),
     Object.values(toConditional(str)),
+    toGerund(str),
+    toReflexive(str),
   ).filter(s => s)
   res = new Set(res)
   return Array.from(res)
