@@ -34,15 +34,15 @@ const root = function (view) {
         if (term.tags.has('Gerund')) {
           term.root = verb.fromGerund(str, form)
         } else if (term.tags.has('PresentTense')) {
-          term.root = verb.toRoot.fromPresent(str, form)
+          term.root = verb.fromPresent(str, form)
         } else if (term.tags.has('PastTense')) {
-          term.root = verb.toRoot.fromPast(str, form)
+          term.root = verb.fromPast(str, form)
         } else if (term.tags.has('FutureTense')) {
-          term.root = verb.toRoot.fromFuture(str, form)
+          term.root = verb.fromFuture(str, form)
         } else if (term.tags.has('Conditional')) {
-          term.root = verb.toRoot.fromConditional(str, form)
+          term.root = verb.fromConditional(str, form)
         } else {
-          // term.root = verb.toRoot.fromPresent(str, form)
+          // term.root = verb.fromPresent(str, form)
         }
       }
 
