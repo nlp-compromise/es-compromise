@@ -20,11 +20,17 @@ import nlp from './src/index.js'
 // console.log(doc.nouns().conjugate())
 
 
-let doc = nlp('relajarse')
-doc.compute('root')
-console.log(doc.docs)
-doc.match('{relajar}').debug()
-console.log(nlp.parseMatch(`{relajar}`))
+let doc = nlp('millón').debug()
+// let doc = nlp('dos mil').debug()
+doc.numbers().toOrdinal().debug()
+console.log(doc.text())
+console.log(doc.numbers().get())
+
+// let doc = nlp('relajarse')
+// doc.compute('root')
+// console.log(doc.docs)
+// doc.match('{relajar}').debug()
+// console.log(nlp.parseMatch(`{relajar}`))
 // doc.compute('root')
 // doc.debug()
 // // doc.nouns().toSingular()

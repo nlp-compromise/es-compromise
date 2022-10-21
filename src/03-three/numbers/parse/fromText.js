@@ -4,7 +4,8 @@ let multiples = {
   // ciento: 100,
   mil: 1000,
   millones: 1000000,
-  millón: 1000000
+  millón: 1000000,
+  billones: 1000000000,
 }
 
 const fromText = function (terms) {
