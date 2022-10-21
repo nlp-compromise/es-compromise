@@ -20,11 +20,11 @@ import nlp from './src/index.js'
 // console.log(doc.nouns().conjugate())
 
 
-let doc = nlp('millón').debug()
+let doc = nlp('centésimo')
 // let doc = nlp('dos mil').debug()
-doc.numbers().toOrdinal().debug()
+doc.numbers().toCardinal()
 console.log(doc.text())
-console.log(doc.numbers().get())
+// console.log(doc.numbers().get())
 
 // let doc = nlp('relajarse')
 // doc.compute('root')

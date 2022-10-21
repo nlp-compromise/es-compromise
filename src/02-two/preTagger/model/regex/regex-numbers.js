@@ -43,7 +43,7 @@ export default [
   //numbers
   // 50 | -50 | 3.23  | 5,999.0  | 10+
   [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?\+?$/, ['Cardinal', 'NumericValue'], '5,999'],
-  [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(st|nd|rd|r?th)$/, ['Ordinal', 'NumericValue'], '53rd'],
+  [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(st|nd|rd|r?th|°)$/, ['Ordinal', 'NumericValue'], '53rd'],
   // .73th
   [/^\.[0-9]+\+?$/, ['Cardinal', 'NumericValue'], '.73th'],
   //percent

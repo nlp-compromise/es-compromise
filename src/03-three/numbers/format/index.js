@@ -17,7 +17,7 @@ const formatNumber = function (parsed, fmt) {
   }
   // numeric formats
   if (fmt === 'Ordinal') {
-
+    return String(parsed.num) + '°'
   }
   if (fmt === 'Cardinal') {
     return String(parsed.num)
