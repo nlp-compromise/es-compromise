@@ -1,5 +1,6 @@
 // https://www.cs.upc.edu/~nlp/wikicorpus/
 const path = `/Users/spencer/data/tagged.es`
+// const path = `/Volumes/5tb/corpus/tagged.es`
 import fs from 'fs'
 
 let files = [

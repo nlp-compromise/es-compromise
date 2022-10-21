@@ -1,9 +1,9 @@
 import lexData from './_data.js'
 import { unpack } from 'efrt'
-import conjugate from './methods/verbs/conjugate.js'
+import methods from './methods/index.js'
 import misc from './misc.js'
 
-
+const { toPresent, toPast, toFuture, toConditional, toGerund } = methods.verb
 let lexicon = misc
 
 
@@ -34,17 +34,23 @@ Object.keys(lexData).forEach(tag => {
     // add conjugations for our verbs
     if (tag === 'Infinitive') {
       // add present tense
-      let obj = conjugate.toPresent(w)
+      let obj = toPresent(w)
       addWords(obj, 'PresentTense', lexicon)
       // add past tense
-      obj = conjugate.toPast(w)
+      obj = toPast(w)
       addWords(obj, 'PastTense', lexicon)
       // add future tense
-      obj = conjugate.toFuture(w)
+      obj = toFuture(w)
       addWords(obj, 'FutureTense', lexicon)
       // add conditional
-      obj = conjugate.toConditional(w)
+      obj = toConditional(w)
       addWords(obj, 'Conditional', lexicon)
+    }
+    if (tag === 'Adjective') {
+      let f = methods.adjective.toFemale(w)
+      lexicon[f] = lexicon[f] || ['Adjective', 'FemaleAdjective', 'SingularAdjective']
+      let fs = methods.adjective.toFemalePlural(w)
+      lexicon[fs] = lexicon[fs] || ['Adjective', 'FemaleAdjective', 'PluralAdjective']
     }
     if (tag === 'Cardinal') {
       lexicon[w] = ['Cardinal', 'TextValue']

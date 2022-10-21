@@ -263,7 +263,7 @@
 
   // aliases
   methods$n.get = methods$n.eq;
-  var api$d = methods$n;
+  var api$j = methods$n;
 
   class View {
     constructor(document, pointer, groups = {}) {
@@ -388,10 +388,10 @@
       return m
     }
   }
-  Object.assign(View.prototype, api$d);
+  Object.assign(View.prototype, api$j);
   var View$1 = View;
 
-  var version$1 = '14.4.4';
+  var version$1 = '14.6.0';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -426,6 +426,54 @@
     return model
   }
 
+  const addIrregulars = function (model, conj) {
+    let m = model.two.models || {};
+    Object.keys(conj).forEach(k => {
+      // verb forms
+      if (conj[k].pastTense) {
+        if (m.toPast) {
+          m.toPast.exceptions[k] = conj[k].pastTense;
+        }
+        if (m.fromPast) {
+          m.fromPast.exceptions[conj[k].pastTense] = k;
+        }
+      }
+      if (conj[k].presentTense) {
+        if (m.toPresent) {
+          m.toPresent.exceptions[k] = conj[k].presentTense;
+        }
+        if (m.fromPresent) {
+          m.fromPresent.exceptions[conj[k].presentTense] = k;
+        }
+      }
+      if (conj[k].gerund) {
+        if (m.toGerund) {
+          m.toGerund.exceptions[k] = conj[k].gerund;
+        }
+        if (m.fromGerund) {
+          m.fromGerund.exceptions[conj[k].gerund] = k;
+        }
+      }
+      // adjective forms
+      if (conj[k].comparative) {
+        if (m.toComparative) {
+          m.toComparative.exceptions[k] = conj[k].comparative;
+        }
+        if (m.fromComparative) {
+          m.fromComparative.exceptions[conj[k].comparative] = k;
+        }
+      }
+      if (conj[k].superlative) {
+        if (m.toSuperlative) {
+          m.toSuperlative.exceptions[k] = conj[k].superlative;
+        }
+        if (m.fromSuperlative) {
+          m.fromSuperlative.exceptions[conj[k].superlative] = k;
+        }
+      }
+    });
+  };
+
   const extend = function (plugin, world, View, nlp) {
     const { methods, model, compute, hooks } = world;
     if (plugin.methods) {
@@ -433,6 +481,9 @@
     }
     if (plugin.model) {
       mergeDeep(model, plugin.model);
+    }
+    if (plugin.irregulars) {
+      addIrregulars(model, plugin.irregulars);
     }
     // shallow-merge compute
     if (plugin.compute) {
@@ -661,7 +712,7 @@
   const addAPI$3 = function (View) {
     Object.assign(View.prototype, methods$l);
   };
-  var api$c = addAPI$3;
+  var api$i = addAPI$3;
 
   var compute$7 = {
     cache: function (view) {
@@ -670,7 +721,7 @@
   };
 
   var cache$1 = {
-    api: api$c,
+    api: api$i,
     compute: compute$7,
     methods: methods$m,
   };
@@ -891,7 +942,7 @@
   // are we inserting inside a contraction?
   // expand it first
   const expand$2 = function (m) {
-    if (m.has('@hasContraction')) {//&& m.after('^.').has('@hasContraction')
+    if (m.has('@hasContraction') && typeof m.contractions === 'function') {//&& m.after('^.').has('@hasContraction')
       let more = m.grow('@hasContraction');
       more.contractions().expand();
     }
@@ -916,7 +967,7 @@
     }
     //allow a view object
     if (typeof input === 'object' && input.isView) {
-      return input.clone().docs[0] //assume one sentence
+      return input.clone().docs[0] || [] //assume one sentence
     }
     //allow an array of terms, too
     if (isArray$7(input)) {
@@ -937,6 +988,10 @@
       // add-in the words
       let home = document[n];
       let terms = getTerms(input, world);
+      // are we inserting nothing?
+      if (terms.length === 0) {
+        return
+      }
       terms = addIds$2(terms);
       if (prepend) {
         expand$2(view.update([ptr]).firstTerm());
@@ -1063,6 +1118,7 @@
     if (!m.found) {
       return this
     }
+    this.soften();
     return m.replaceWith(input, keep)
   };
   var replace = fns$2;
@@ -1172,9 +1228,10 @@
         self = this;
         not = this.match(reg);
       }
+      let isFull = !self.ptrs;
       // is it part of a contraction?
-      if (self.has('@hasContraction') && self.contractions) {
-        let more = self.grow('@hasContraction');
+      if (not.has('@hasContraction') && not.contractions) {
+        let more = not.grow('@hasContraction');
         more.contractions().expand();
       }
 
@@ -1185,11 +1242,14 @@
       // repair our pointers
       let gonePtrs = indexN(nots);
       ptrs = fixPointers$1(ptrs, gonePtrs);
-
       // clean up our original inputs
       self.ptrs = ptrs;
       self.document = document;
       self.compute('index');
+      // if we started zoomed-out, try to end zoomed-out
+      if (isFull) {
+        self.ptrs = undefined;
+      }
       if (!reg) {
         this.ptrs = [];
         return self.none()
@@ -1540,7 +1600,7 @@
   const addAPI$2 = function (View) {
     Object.assign(View.prototype, methods$h);
   };
-  var api$b = addAPI$2;
+  var api$h = addAPI$2;
 
   const compute$5 = {
     id: function (view) {
@@ -1557,7 +1617,7 @@
   var compute$6 = compute$5;
 
   var change = {
-    api: api$b,
+    api: api$h,
     compute: compute$6,
   };
 
@@ -1787,7 +1847,7 @@
   };
   var numberRange$1 = numberRange;
 
-  const numUnit = /^([+-]?[0-9][.,0-9]*)([a-z°²³µ/]+)$/i;
+  const numUnit = /^([+-]?[0-9][.,0-9]*)([a-z°²³µ/]+)$/; //(must be lowercase)
 
   const notUnit = new Set([
     'st',
@@ -1796,7 +1856,10 @@
     'th',
     'am',
     'pm',
-    'max'
+    'max',
+    '°',
+    's', // 1990s
+    'e' // 18e - french/spanish ordinal
   ]);
 
   const numberUnit = function (terms, i) {
@@ -2268,7 +2331,7 @@
     return Object.prototype.toString.call(val) === '[object Object]'
   };
 
-  function api$a (View) {
+  function api$g (View) {
 
     /** find all matches in this document */
     View.prototype.lookup = function (input, opts = {}) {
@@ -2326,7 +2389,7 @@
   lib$4.compile = lib$4.buildTrie;
 
   var lookup = {
-    api: api$a,
+    api: api$g,
     lib: lib$4
   };
 
@@ -2686,7 +2749,7 @@
   const matchAPI = function (View) {
     Object.assign(View.prototype, methods$e);
   };
-  var api$9 = matchAPI;
+  var api$f = matchAPI;
 
   // match  'foo /yes/' and not 'foo/no/bar'
   const bySlashes = /(?:^|\s)([![^]*(?:<[^<]*>)?\/.*?[^\\/]\/[?\]+*$~]*)(?:\s|$)/;
@@ -2992,36 +3055,35 @@
   };
   var splitHyphens$2 = splitHyphens$1;
 
+  // add all conjugations of this verb
   const addVerbs = function (token, world) {
-    let { verbConjugate } = world.methods.two.transform;
-    if (!verbConjugate) {
+    let { all } = world.methods.two.transform.verb || {};
+    let str = token.root;
+    // if (toInfinitive) {
+    //   str = toInfinitive(str, world.model)
+    // }
+    if (!all) {
       return []
     }
-    let res = verbConjugate(token.root, world.model);
-    delete res.FutureTense;
-    return Object.values(res).filter(str => str)
+    return all(str, world.model)
   };
 
+  // add all inflections of this noun
   const addNoun = function (token, world) {
-    let { nounToPlural } = world.methods.two.transform;
-    let res = [token.root];
-    if (!nounToPlural) {
-      return res
+    let { all } = world.methods.two.transform.noun || {};
+    if (!all) {
+      return [token.root]
     }
-    res.push(nounToPlural(token.root, world.model));
-    return res
+    return all(token.root, world.model)
   };
 
+  // add all inflections of this adjective
   const addAdjective = function (token, world) {
-    let { adjToSuperlative, adjToComparative, adjToAdverb } = world.methods.two.transform;
-    let res = [token.root];
-    if (!adjToSuperlative || !adjToComparative || !adjToAdverb) {
-      return res
+    let { all } = world.methods.two.transform.adjective || {};
+    if (!all) {
+      return [token.root]
     }
-    res.push(adjToSuperlative(token.root, world.model));
-    res.push(adjToComparative(token.root, world.model));
-    res.push(adjToAdverb(token.root, world.model));
-    return res
+    return all(token.root, world.model)
   };
 
   // turn '{walk}' into 'walking', 'walked', etc
@@ -3031,16 +3093,21 @@
       // a reg to convert '{foo}'
       if (token.root) {
         // check if compromise/two is loaded
-        if (world.methods.two && world.methods.two.transform && world.methods.two.transform.verbConjugate) {
+        if (world.methods.two && world.methods.two.transform) {
           let choices = [];
-          if (!token.pos || token.pos === 'Verb') {
+          // have explicitly set from POS - '{sweet/adjective}'
+          if (token.pos) {
+            if (token.pos === 'Verb') {
+              choices = choices.concat(addVerbs(token, world));
+            } else if (token.pos === 'Noun') {
+              choices = choices.concat(addNoun(token, world));
+            } else if (token.pos === 'Adjective') {
+              choices = choices.concat(addAdjective(token, world));
+            }
+          } else {
+            // do verb/noun/adj by default
             choices = choices.concat(addVerbs(token, world));
-          }
-          if (!token.pos || token.pos === 'Noun') {
             choices = choices.concat(addNoun(token, world));
-          }
-          // don't run these by default
-          if (!token.pos || token.pos === 'Adjective') {
             choices = choices.concat(addAdjective(token, world));
           }
           choices = choices.filter(str => str);
@@ -3292,7 +3359,7 @@
   const endQuote = /([\u0022\uFF02\u0027\u201D\u2019\u00BB\u203A\u2032\u2033\u2034\u301E\u00B4])/;
 
   const hasHyphen$1 = /^[-–—]$/;
-  const hasDash$1 = / [-–—] /;
+  const hasDash$1 = / [-–—]{1,3} /;
 
   /** search the term's 'post' punctuation  */
   const hasPost = (term, punct) => term.post.indexOf(punct) !== -1;
@@ -3314,6 +3381,8 @@
     hasEllipses: term => hasPost(term, '..') || hasPost(term, '…') || hasPre(term, '..') || hasPre(term, '…'),
     /** is there a semicolon after term word? */
     hasSemicolon: term => hasPost(term, ';'),
+    /** is there a colon after term word? */
+    hasColon: term => hasPost(term, ':'),
     /** is there a slash '/' in term word? */
     hasSlash: term => /\//.test(term.text),
     /** a hyphen connects two words like-term */
@@ -3696,26 +3765,60 @@
   };
   var doAndBlock = andBlock;
 
+  const negGreedy = function (state, reg, nextReg) {
+    let skip = 0;
+    for (let t = state.t; t < state.terms.length; t += 1) {
+      let found = matchTerm(state.terms[t], reg, state.start_i + state.t, state.phrase_length);
+      // we don't want a match, here
+      if (found) {
+        break//stop going
+      }
+      // are we doing 'greedy-to'?
+      // - "!foo+ after"  should stop at 'after'
+      if (nextReg) {
+        found = matchTerm(state.terms[t], nextReg, state.start_i + state.t, state.phrase_length);
+        if (found) {
+          break
+        }
+      }
+      skip += 1;
+      // is it max-length now?
+      if (reg.max !== undefined && skip === reg.max) {
+        break
+      }
+    }
+    if (skip === 0) {
+      return false //dead
+    }
+    // did we satisfy min for !foo{min,max}
+    if (reg.min && reg.min > skip) {
+      return false//dead
+    }
+    state.t += skip;
+    // state.r += 1
+    return true
+  };
+
+  var negGreedy$1 = negGreedy;
+
   // '!foo' should match anything that isn't 'foo'
   // if it matches, return false
   const doNegative = function (state) {
     const { regs } = state;
     let reg = regs[state.r];
 
-
-
     // match *anything* but this term
     let tmpReg = Object.assign({}, reg);
     tmpReg.negative = false; // try removing it
+
+    // found it? if so, we die here
     let found = matchTerm(state.terms[state.t], tmpReg, state.start_i + state.t, state.phrase_length);
     if (found) {
-      return false//die
+      return false//bye
     }
-
     // should we skip the term too?
-    // "before after"
-    //  match("before !foo? after")
     if (reg.optional) {
+      // "before after" - "before !foo? after"
       // does the next reg match the this term?
       let nextReg = regs[state.r + 1];
       if (nextReg) {
@@ -3733,7 +3836,10 @@
         }
       }
     }
-
+    // negative greedy - !foo+  - super hard!
+    if (reg.greedy) {
+      return negGreedy$1(state, tmpReg, regs[state.r + 1])
+    }
     state.t += 1;
     return true
   };
@@ -4132,7 +4238,7 @@
   };
 
   var match = {
-    api: api$9,
+    api: api$f,
     methods: methods$c,
     lib: lib$3,
   };
@@ -4822,7 +4928,7 @@
       if (fmt && typeof fmt === 'string' && fmts$1.hasOwnProperty(fmt)) {
         opts = Object.assign({}, fmts$1[fmt]);
       } else if (fmt && isObject$1(fmt)) {
-        opts = Object.assign({}, fmt, opts);//todo: fixme
+        opts = Object.assign({}, opts, fmt);//todo: fixme
       }
       if (this.pointer) {
         opts.keepSpace = false;
@@ -4844,10 +4950,10 @@
   const addAPI$1 = function (View) {
     Object.assign(View.prototype, methods$8);
   };
-  var api$8 = addAPI$1;
+  var api$e = addAPI$1;
 
   var output = {
-    api: api$8,
+    api: api$e,
     methods: {
       one: {
         hash: md5
@@ -4983,7 +5089,7 @@
 
   var splitAll$1 = splitAll;
 
-  const max$1 = 4;
+  const max$1 = 20;
 
   // sweep-around looking for our start term uuid
   const blindSweep = function (id, doc, n) {
@@ -5259,11 +5365,11 @@
     // add set/intersection/union
     Object.assign(View.prototype, methods$6);
   };
-  var api$7 = addAPI;
+  var api$d = addAPI;
 
   var pointers = {
     methods: methods$7,
-    api: api$7,
+    api: api$d,
   };
 
   var lib$2 = {
@@ -5276,7 +5382,7 @@
     }
   };
 
-  const api$5 = function (View) {
+  const api$b = function (View) {
 
     /** speedy match a sequence of matches */
     View.prototype.sweep = function (net, opts = {}) {
@@ -5320,7 +5426,7 @@
     };
 
   };
-  var api$6 = api$5;
+  var api$c = api$b;
 
   // extract the clear needs for an individual match token
   const getTokenNeeds = function (reg) {
@@ -5480,7 +5586,7 @@
       });
       // ensure nothing matches in our 'ifNo' property
       list = list.filter(obj => {
-        if (obj.ifNo !== undefined && obj.ifNo.some(no => docCache[n].has(no)) === true) {
+        if (obj.ifNo !== undefined && obj.ifNo.some(no => haves.has(no)) === true) {
           return false
         }
         return true
@@ -5501,7 +5607,7 @@
 
   // finally,
   // actually run these match-statements on the terms
-  const runMatch = function (maybeList, document, methods, opts) {
+  const runMatch = function (maybeList, document, docCache, methods, opts) {
     let results = [];
     for (let n = 0; n < maybeList.length; n += 1) {
       for (let i = 0; i < maybeList[n].length; i += 1) {
@@ -5510,9 +5616,23 @@
         let res = methods.one.match([document[n]], m);
         // found something.
         if (res.ptrs.length > 0) {
-          // let index=document[n][0].index
           res.ptrs.forEach(ptr => {
             ptr[0] = n; // fix the sentence pointer
+            // check ifNo
+            // if (m.ifNo !== undefined) {
+            //   let terms = document[n].slice(ptr[1], ptr[2])
+            //   for (let k = 0; k < m.ifNo.length; k += 1) {
+            //     const no = m.ifNo[k]
+            //     // quick-check cache
+            //     if (docCache[n].has(no)) {
+            //       // console.log(no)
+            //       if (terms.find(t => t.normal === no || t.tags.has(no))) {
+            //         // console.log('+' + no)
+            //         return
+            //       }
+            //     }
+            //   }
+            // }
             let todo = Object.assign({}, m, { pointer: ptr });
             if (m.unTag !== undefined) {
               todo.unTag = m.unTag;
@@ -5554,16 +5674,8 @@
     // if we don't have enough words
     maybeList = tooSmall(maybeList, document);
 
-    // maybeList.forEach((arr, i) => {
-    //   let txt = document[i].map(t => t.text).join(' ')
-    //   console.log(`==== ${txt} ====`)
-    //   arr.forEach(m => {
-    //     console.log(`    - ${m.match}`)
-    //   })
-    // })
-
     // now actually run the matches
-    let results = runMatch$1(maybeList, document, methods, opts);
+    let results = runMatch$1(maybeList, document, docCache, methods, opts);
     // console.dir(results, { depth: 5 })
     return results
   };
@@ -5591,6 +5703,7 @@
   const tagger$1 = function (list, document, world) {
     const { model, methods } = world;
     const { getDoc, setTag, unTag } = methods.one;
+    const looksPlural = methods.two.looksPlural;
     if (list.length === 0) {
       return list
     }
@@ -5619,9 +5732,12 @@
       if (todo.tag !== undefined) {
         setTag(terms, todo.tag, world, todo.safe, `[post] '${reason}'`);
         // quick and dirty plural tagger
-        if (terms.length === 1 && todo.tag === 'Noun') {
-          if (terms[0].text && terms[0].text.match(/..s$/) !== null) {
-            setTag(terms, 'Plural', world, todo.safe, 'quick-plural');
+        if (todo.tag === 'Noun') {
+          let term = terms[terms.length - 1];
+          if (looksPlural(term.text)) {
+            setTag([term], 'Plural', world, todo.safe, 'quick-plural');
+          } else {
+            setTag([term], 'Singular', world, todo.safe, 'quick-singular');
           }
         }
       }
@@ -5644,7 +5760,7 @@
 
   var sweep = {
     lib: lib$2,
-    api: api$6,
+    api: api$c,
     methods: {
       one: methods$5,
     }
@@ -5743,6 +5859,10 @@
     }
     if (isArray$2(tag) === true) {
       tag.forEach(tg => setTag(terms, tg, world, isSafe));
+      return
+    }
+    if (typeof tag !== 'string') {
+      console.warn(`compromise: Invalid tag '${tag}'`);// eslint-disable-line
       return
     }
     tag = tag.trim();
@@ -6034,7 +6154,7 @@
   const tagAPI = function (View) {
     Object.assign(View.prototype, tag$1);
   };
-  var api$4 = tagAPI;
+  var api$a = tagAPI;
 
   // wire-up more pos-tags to our model
   const addTags = function (tags) {
@@ -6088,7 +6208,7 @@
       tagRank: tagRank$1
     },
     methods: methods$4,
-    api: api$4,
+    api: api$a,
     lib: lib$1
   };
 
@@ -6403,7 +6523,7 @@
   const isBoundary = /^[!?.]+$/;
   const naiiveSplit = /(\S+)/;
 
-  let notWord = ['.', '?', '!', ':', ';', '-', '–', '—', '--', '...', '(', ')', '[', ']', '"', "'", '`'];
+  let notWord = ['.', '?', '!', ':', ';', '-', '–', '—', '--', '...', '(', ')', '[', ']', '"', "'", '`', '«', '»', '*'];
   notWord = notWord.reduce((h, c) => {
     h[c] = true;
     return h
@@ -6473,13 +6593,14 @@
     '#', //#hastag
     '@', //@atmention
     '_',//underscore
-    '\\-',//-4  (escape)
+    // '\\-',//-4  (escape)
     '+',//+4
     '.',//.4
   ];
   const allowAfter = [
     '%',//88%
     '_',//underscore
+    '°',//degrees, italian ordinal
     // '\'',// \u0027
   ];
 
@@ -6493,6 +6614,7 @@
   const hasApostrophe$1 = /['’]/;
   const hasAcronym = /^[a-z]\.([a-z]\.)+/i;
   const shortYear = /^'[0-9]{2}/;
+  const isNumber = /^-[0-9]/;
 
   const normalizePunctuation = function (str) {
     let original = str;
@@ -6509,6 +6631,10 @@
       // support years like '97
       if (pre === `'` && shortYear.test(str)) {
         pre = '';
+        return found
+      }
+      // support prefix negative signs like '-45'
+      if (found === '-' && isNumber.test(str)) {
         return found
       }
       pre = found; //keep it
@@ -6814,7 +6940,6 @@
     'lt',
     'maj',
     'messrs',
-    'mister',
     'mlle',
     'mme',
     'mr',
@@ -6835,7 +6960,7 @@
     'sir',
     'sr',
     'supt',
-    'surg',
+    'surg'
     //miss
     //misses
   ];
@@ -7326,10 +7451,10 @@
     return this
   };
 
-  const api$2 = function (View) {
+  const api$8 = function (View) {
     View.prototype.autoFill = autoFill;
   };
-  var api$3 = api$2;
+  var api$9 = api$8;
 
   // generate all the possible prefixes up-front
   const getPrefixes = function (arr, opts, world) {
@@ -7411,7 +7536,7 @@
   };
   var typeahead = {
     model: model$2,
-    api: api$3,
+    api: api$9,
     lib,
     compute,
     hooks: ['typeahead']
@@ -7435,27 +7560,27 @@
   var lexData = {
     "Conjunction": "true¦aun2e1mas,ni,o,p0sino,u,y;ero,or1;!ntonces;que",
     "Determiner": "true¦algun8c7e3l2muchos,otr1su6tod2un0vari8;!os;a4o;a3os;l,s0;e,t0;a0e;!s;ada,ualquier;as,os",
-    "Cardinal": "true¦cMdEmilCnAo8quin7s5tre4un3veint0;e,i0;c0dós,nuJoIsGtrés,uno;inco,uatro;a,o;ce,inOsJ;e0iD;isHsLte4;ce,iH;ch0nM;enJoE;ove0uA;ciDnH;!l0;ones,ón;ie1o0;ce,s8;ci0z;nu3o2s0;i0éis;ete;cho;eve;ator8i3ua0;r4tro0;!ci0;entos;en3nc0;o,u0;en0;ta;!to;ce",
+    "Cardinal": "true¦billoWcMdEmilCnAo8quin7s5tre4un3veint0;e,i0;c0dós,nuJoIsGtrés,uno;inco,uatro;a,o;ce,inOsJ;e0iD;isHsLte4;ce,iH;ch0nM;enJoE;ove0uA;ciDnH;!l0;oIón;ie1o0;ce,s8;ci0z;nu3o2s0;i0éis;ete;cho;eve;ator8i3ua0;r4tro0;!ci0;entos;en3nc0;o,u0;en0;ta;!to;ce;nes",
     "Pronoun": "true¦alguna,cu8donde,e5le7m4n2otros,quien,s1t1vu3é0;l,ste;e,uy4;os,u0;estr2;e,í1;ll0sto;a0o0;!s;al0yo;!es",
     "Preposition": "true¦aGcBd8e5f3ha2junEmedi9p1que,s0tras;egún,in,ob6;aBor;cia,sta;rente 0uerB;a,de;n0xcepto;!cim8t0;re;e1ur0;ante;! acuerdo con,baj8lante Antr8sA;erc3on0;! respec1t0;ra;to a;a 5;! pesa3demás 4l1nte0;!s 3; lad0rededo1;o 1;r 0;de",
     "Adverb": "true¦0:1P;1:1Q;a14b12c0Qd0Ne0Ff0Cg0Ah09i06jam1Okm²,l02mYnVoTpFquizáErBs7t2usu0ya,ún13;a3o2radicTíp12;!davía,t0;m3n2rde;!to;bién,pL;egu0Ui3ola1u2í,óI;ce0Afic01pues0S;empre,gnifica1Dm2quie1B;p0Oultánea1;a0Qe2ápi0Y;al1ci2la1Aspec1A;e0Xén;!s;arDerf0Ao5r2u0Mylori,úbl0P;e3incip0o2áct0O;b0Gfun0Sgre01p0Z;cisa1v0Y;co7pAr 3s2;ib0Eter0V;e3lo 2supues08;menKt06;jemp2l contrario,ntonces;lo;! a p2;oco;ci0tic2;ular1;cas2fiTrigin0;ion0;atur0eces7o3u2;e0Rn06;!rm0t00;a3en8u2ás;cho,y;l,yorit2;ar0F;e3i2oc0uego;geYt9;j2nW;os;gu0n2;!cluso,depend2iFmediaT;ie02;abi0HistórVoy;en2radu0;er0;in0orm0recueYu2ácil1;er2ndament0;a,te1;conómPn 8s4ven0Bx2;acKclu2treS;si06;en4pec3tr2;echa1icH;i0ífK;ci0;consecuencia,gran medida,línea;e3ir2;ecC;finiXla04masia06ntro,spués;asi,erClaBo4u2;an2;to;m6n2;cre6jun6s2tinJ;ider2taF;ab2;le1;ple2ún1;ta1;ra1;ca;astaRien,ás2;ica1; Qbajo,cMdHhFlDmplCn7p3quí,rriba,s2trLun,ún;imismo,í;are4enas,roxi2;ma2;da1;nte1;t2u0;e3ig2;ua1;r2s;ior1;ia1;go,l2ta1;á,í;o2í;ra;e4ministra2;ti2;va1;la6m2;ás;tu0;al1;me2;nte;bor2la vez;do",
-    "Adjective": "true¦0:6I;1:60;2:6C;3:6H;4:64;5:4H;6:46;7:5R;a5Qb5Ec40d3Ke2Xf2Mg2Gh2Ei1Yj1Vl1Pm17n0Zo0Wp0Fquím5Ir06sStHuFv9web,árabe3ú8;ltim4n3Ht3K;ari4JeAi8;ej0ol5Or35s8t1vo3;ib4Iu1;cKr8;d8t08;ader0e3;ni8rb3X;for2Kvers1;eChe,ill,oBrAur9é8íp38;cni5Ermi4X;bul5Fco,íst36;adi63emen5;do,t1;atr1mpCr8;cerAr8;estre3i8;to1U;!a;or1r4P;aJeHiEoAu8úp52;a4Yfi3Lper8;!fi2Pi5G;cialAl8vié4M;a8itLo;!r;!es,is40;g9m8;il0Op2Y;nifica0Aui6;c8gun1Encill0ptentr3Oxu2;o,undari3A;gr30n8;!gri4T;adFeAi49o9u8ápid0;r2s0;cocó,j0m43t0E;al5IcBdon5gAl9nomb14spons3Jvolucion8;ario;a2Uigios4;i5Cular48;i6tang3R;ic1;arMeKl3ToHr8u27úbl4A;eEiBo8ác2UóxZ;b3Bced6f9pi4v8;eni6in21;esi55und0;m8nZ;a48er8;!a3os;s8vi0;en56iden4E;b2Jderos0lít40pDs8;i8te4J;b27tiv0;or,queñ4r8;man7s4Vteneci6ua4B;ci1tic8;ulT;ccide10fi46peraFr8scur0;al,i8;e0Ygin2un5;aDeAo9u8óm25;cleOev4meros1W;b1Xmbra5rm2tab1X;cesari4g8rvioso;a8r2A;tivo;ci4Jt8v1zi;al,ur2;aLeIiGoDu9áx8édi3Pín8óv1Lúltipl3D;im0;n9s8;c2Uic2;di1i8;cip2;dern4r8;al,ib8;un5;lit8sm4;ar4A;di9j3Sn8rid28tropolit2Yx3U;or48t1u5;a,ev1o;gné2WlArítimo,s9te8y3P;mática3ri1;culi3Hi1J;a,vaS;aBeAi8oc2;b8ne1terari0;er1re3;g2n3O;nceoladas,rg4t8;er2in0;aponGem2Zov42u8óven2P;d8nt37s3K;i0Mí0;de1gu2lMmpJn8tali1Ezquierd0;aGdFespeEfDglCi0Kmedia3Hte8usitaH;lec0Fns0r8;!es3Si1Tn8;a8o3;!ci3Ls;e0Gés;ant0Ne34;raA;epe1Cividu2ustri2ígena3;caba8decua8;da;e9o8;rt3Isib1I;ri1;imitad0ustr27;abitu2istór2Bo8um1Xúme5;n5rizo2Y;eBig2Alob1r8;a8ieg0;n8ve3;!de3;n8ográfi1V;er2é0P;aGeFiDorm1rBu8ác06ísic30;er37n8tu0T;c12dame8;nt2;anc8ecu6í0;esa3és;el,n1r8;me;der1menin0;lPm8vor0X;ili1Hos4;conóm1SfTlQnOquival7sEurope4vid7x8;!ac10cel7en2Iist6perime2Ft8;eAr8;anjer8em0;a,os;ns0r8;i27n0A;caGenFpAt8;a8rWánd18;b0Ndounidense3t2;aAec9iri8;tu1;i2ífG;ci2ñol8;!a3es;ci1;sa;orme3te8;ro;ect8éctr1L;or1rón8;icV;ecMicaz;eGiBoAu9éb8;il;lce,r0;b06min13;fBgit1rect0s9vers8;as,os;ponib8tint4;le3;er6íc0B;finiClAportiv9r8;echa;as,o;g8ic8;ada3;ti8;va;a0Ee09h06i02l01oFrBu9éleb8;re;arWltur2án8;ti0C;eAisti8;an8;a,o3;ci7;loSmOnDr9ste8;ra;por1re8t4;ct0spo8;ndi6;en1H;oci5sAt8;en11in8;e0Xu0;ervadDiAt8;an1Cituc8;ion1;der8st7;ab8;le;or;do;er0DpleAun8ún;es,is8;ta;j0t0;mbia0Bni1;ar0ás07;eArc9v8;il0V;ulG;ntíf03rt4;artVi8;l8no;en0;lAntr2r8;c8ebr1;an4;es01ul8;ar;li7ntJpBracterísAstell9tóli8;ca;ana;tiM;a8it1;c8z;es;aHerebGinaFlanEr9uen8ásB;!a3o3;eBi8;ll9tán8;ic4;anN;ve;c4do;ria;er;j4rro8;co;b02ctZdVgrícola3lRmLnHpar7r9t8utónoma,zul,ére0;enP;gentiCqueológicBt8;ifi9íst8;ic0;ci2;os;no;en8;te;t8u2;e8igu4;ri8;orO;arillBbie9er8pli0;ican0;nt1;al;a,en8o;to;em9t4;a3o3;an8án;a3es;i9ministrativ8;a3o;ci8;on2;iv0u2;al8;!es;origCsolut0und8;an8;te3;!s;a,o;en",
+    "Adjective": "true¦0:LF;1:M7;2:LX;3:KL;4:M2;5:M4;6:LH;7:JZ;8:JG;9:L0;A:KJ;B:LU;C:LK;D:LW;E:L7;F:JY;G:K6;H:JC;I:F6;J:KH;K:JT;aJ3bHXcEZdDSeC6fBDgAShACi8Fj87kur1l7Km67n5Lo58p3Squ3Qr2Rs1Et0Mu0HvXweb,xeWyUzSáQíNóMúL;ltimFnDLtDS;pA8s7;be3gn7nL;fiM7tL;eg3iM6;ci1l2MrLs3Tto0ur7vi1;abe4i1;aLur1;moKKpoAMragoza0;erM1uL;caAKgoslaH;nófoI0róCW;aWeRiNáMíL;tr7vi1;li1ndaK;ejEWguEkinDlG0olIrNsLtAu1vo4zcI4;iLuA;bFMgo1;tuAulI;cOllu1nezoFWrMsperJEtL;eK8us2;an4LdLsátD7t33;ader5e4;i0to9F;cRgQlPno,q42riOsL;alKcLto;oLón;!nLY;abFBop8U;lisoleHJón;abB6o;u0ío;bF4ltraJKmbrI2nNrMteKQzbeL;co,ko;b7Hug44;iLíCB;forF8versA;a0Ae03he,i00oWrQuNárta3éMíL;mi1pCJ;cni8rmKC;cuHDnHArL;bLco,ístCG;io,ulI;aLemBKilobuL0oGMun8;cOdiciL0nMsLvieC;e3lúEX;quiKsL;grJAlúEVmC6vKR;io,t9;do,leFBn2rNscMtL;al,ona8;a0o;do,e3;bMer0ll,n2roL;id7lE;eGTio;atrAba0mpQn71rLsal6utG;cNmóBMrL;eLito8Gáqu7;no,s8H;erLio;!a;orArJ8;iwWng2ZrLuJVí0;as8dH6t7R;a0Ne0Di08oZuMíHPóLúpGX;li1rB0;ave4bVcTdSeRficiICje2mQpMrc3YsL;odicIXtitu2;erMreL;mo,s9;!doDEfLiILvBI;iB2lJ;er6o;co,l2vo;anE;es9iLulI;n2o;alLcampeGdesarrolK1maJGu6K;pi0t9F;bQcialPlMmLno3r1viéFB;brGPe3;aLemne,it0Qo;!rL;!ieD;!es,isE0;erMrL;ehuG2io;a0b6;amEgOlNmMnLr6;ce3ieILóAV;il4DpBK;v9Tíc7;nifica3FuiD0;cTdSguRmiPnOptentrDDrNvMxuBñL;e3or;e3ilDR;b6e0io;cill5egalEsa2;cLdesnu1áB5;on0CáBJ;n0Ero;iIuG0;o4retoCSundariCG;b6crTgrBVjGlRmQnMrL;do,race0;!gMjuani0o,tL;afeIHiagIFo;riIuL;inolIín7;a42oa0;iLtFWvo;no,tG3;o,íleD;a0FeTiSoNuMápid5íL;gi1;a0b3do,ma0rBs5;b9BcOd6jNmMn8q1HsaLt8R;do,ri0;anFo;a,iblan8o4;ie3ke3ocó;ca,oja0;a03cZdYfleXgVlUmo2nRpNsponsCNtMvolucionL;ar6;iB8rógG3;le2rL;esMoL;duFA;alD5or;aMombraL;da;centisCPno;aB5igiosFle0;ioLularDX;!nB;ct9jo,xiH;on1uF1;e50honcGZiNoleMtLípro8;ang2JilCAor;ct9to;enINo;c6lL;!eL;nDs;dNlo,ncMquíd7ro,sL;o,tF5;he3io;icA;eLie2ímE1;bequEchua;a0Oe0Ii0Gl0Do04rPuNáA4éMíLóstuI3úblDZ;ca3o;nduKtr7;d8Her8lc3ntiagu1rLto;iE1o,p93ulI;eWiToNáctH3óL;diDsLximAY;pe3;bBNcedB6duEFfOgen9BliEOmNn2pMteEFvL;eniB5in8M;enCiFuls9;iscJot9;a0esiHPuL;nd5so;e2mLn1V;aDWerLigF7o;!a4os;cMdecFXmatu3r6MsLvi5;enHVidenF0o,to,un2;olombi0urs9;bA9deros5lQp08rOsLtoGP;iMtL;e4Lre3;b99tiv5;ci0tL;u2Qát8W;a8iMvo5SíL;c1RfaDgaHCtD8;c1Qn4K;aMeL;be02n5;no,ye3;cu1gm7nL;na1o,t9;cu6Ydun9KlPnOor,queñFrMsqL;ue3;egGFla1manF0pLsH1teneciAEua0vGV;etJleDV;tá8Gúl50;i43u1;ga0lTmpGCrMso,tLuGD;er0r6óFY;aOciAdNeDQiG3tiL;cLsa0;ul1H;o,us8;gLleK;uaL;yo;aLesEDme3;cLti0;ieD;bTcRfiE2mnBVpOrMsc5TtoCUvL;i0oid7ípa3;al,iLtodoAK;e5SginBun1;a8era09oMrEUuL;es2lI;r38s7X;ciLhava1ul2;de5Nta0;eClNre3sLtuCv6;cLole2;e0u3;icJonD;a02eWiVoPuLí6Bóm8S;cleMevFlo,merosL;as,os;aLó74;do,rGA;b7YcPmbDFrMtLva2;ab7Xo;cMmaLueD;lG6n1;orFE;iHtur0;pGtrogeG6;cPfas2gMoLrvioCto,ut3;grana4NyorqF1;aMrL;a,o4uz8;tiH;esariFio;ciFQpoliBUtNvMzL;are0i;al,ie3;al,o,urB;a0He0Bi06oWuPáxOédi8íNóMúltiplL;e4o;r7Xv74;nLse3;im5;do,la2nOsLtJ;cMicLulmAJ;alFLóDK;ulAE;dMiL;cipB;a0iA;deTlSnNrLzo;al,iLmGo,u0;b50s8;ocOtMóL;gaF8to0;aLevidEKés;no,ñE;roF5;daHes2;rnFs2;emb3lNsMxtL;e8il8Wo;mFógi0;anEitL;arF2;dOjD7nNrLtropolitDLxicDLzqE1;id8LoL;!vA2;orEYtAu1;iLo;a,evAo;cZdYeDKgWlTnRrQsPtMuLyD1;riAS;eLuCC;mática4rL;iAno;cuE0i77;aga2inC3í2K;cheDdB9ifiCFso,uL;eDXfacBF;aMig0lorquB8o,tLv2FéB0;r16és;!yo;nLo,ro;o,é9N;eBAu3;ab3edB3;a03eZiTlSoPuMáct7íLú87;m4Qqui1;sMteCRxemburL;guE;iA9o;buE3cLmbar1ngeH;alE9oL;!mB7;a0e0orG;bOgNmp6nMs2tL;erari5ua0;do,eAgua1;e3ue3;anEerLio,re4;al,ti0;cNgMja0n2oE3tL;ra1ón;alDYo,í1T;he3t9;cNdrGnMrgFsciHtLxo;erBin5o;ceolad63u1;io,rimóCP;aPeOoNuLóven91;dLguetGnto4s2ven55;i4Eí6N;r7ZvDZ;mA0ró4N;cobMponL;esa,és;eo,i0;be3d1GguBl19mp13nPrNsMtaliLzquierd5;an6G;abeCSomorC0raelí,óBQ;aLredI;c32n6;a0Wc0Sd0Ie0Gf0Dg0Ah09i08just07m03na2o01quie2sXtNus17vL;as9erLá5B;so6M;eMrL;auteCJuCé3Ní36;lec3RnRrL;!cePesDEiOmed6nMuLvent9;rba0;aLo4;!ciD0s;no,or;pt9;cA3s5;atMeLospe54;ct85gu3nsa2r2;isfLuA6;ecBE;cJdo3porL;tu0;aNeMunL;do,osuprB2;dia2nCrC;cuCMdu3;ifiBQo;ciAnterrum33;abi5Pu8T;enJlLra2;esLés;a,es;ant40eMraLun4Q;rro9A;riAQ;quí3Fsper0CxpL;er2lo9O;eSiNoLustriBígena4;e78lo3nL;es6;ferenc6Qg0o,sLviduB;cMtL;in2;rLu28;e2iC7;bi1fLpe5Fs4AterC6;enCi8G;i47oLruIul2ómo1;lo3mpMnLrp9S;cluCe60troBY;le2ren2K;cabWdLlte99ni3Uprop6F;ecuVv1Y;ar,ePoOrMuLío;ls9ro;eLop6;s9vis2;rtC2sib5M;riA;ePiMusL;tre4;mLr6;itL;ad5;gíLso;tiBL;eAón7;aXeUiSoNuMíb35úL;me1n8N;e8gono9Fm69racaBOér35;cicu1mNnMrL;izoA6r1W;do,es2;ogQóL;fo0loDniBC;d27rsu2sL;pano09tór76;br7chi8Qle0rb6HteroL;do57gL;én7;bituBlóMmbLr2;riI;fiKge0;a00eYiXlVoUrOuLé34;aLerrill48ipuzcoa0;po,rdi62temalL;te8;aNecoMiLose3ueC;eg5s;!la8KrX;nLso,to,ve4;!aLde4;di0;do,r1;aLobAút7;b3u8;g6Nta0;meKnLográf9Ur6Wst9;erBui0ét9T;di6PlLr2WscGuc96;lNoLés;!rL;ro6R;ar1eD;a09e07i02lYoWrRuNác20éLísicAC;rLti1;r7t1Y;erAPnMtL;ur5;c42dameLes2;ntB;aMecu3MisGug5JíL;a,o4voK;ncMtLudulI;er0;es9Iis7Zo,és;lclór9BrL;mAni1;aMexiHoL;jo,ri1;co,mL;en8íge3;brad7Icticias,dedig0eOjo,lNnLr3Y;aLo;l,nciero4;ipi0óso8J;lA0ro;cLderAli0menin5o;un1;lNmLríng7sci28vor3L;iLosF;li4P;lo,s5;br6conóm5Ld15f13g12l0Xm0Wn0Up0Rqu0Orrón7s03t02uropeFvid7MxL;!ac3RcZen2haYiXpVtLó8O;eSin2rL;aOem5ovMíL;nse8;erL;ti1;ct9njerMterrL;est27;a4os;ns5rL;i7On2F;erLreC;ime83to;gJst2M;us2;elLret9;en76so;er0rus8ér7;bel2cZenYlWpPquiHtL;aNel43on6r1HupMánd43úL;pi1;en1;b2Vdounidense4n8tB;aPeNiriMlénLur6;di1;tuA;cLso;iBíf08;ciBr4YñolL;!a4es;aHovL;a8e0;ciA;aPlMoLue2;cEl3O;aHeL;róL;fiK;ndinaHs1N;iMíL;vo8;no,val6G;icMóL;ni8H;úr7;a0dLemiDfer8Forme4reve6Ete3;oc7Qó7E;is9;ectLéctr5Q;orNróL;fiKnL;ic1A;!al;eo,ipc6;ec0Qicaz,íL;me3;it9;a0Qe02iQoOruCuMébL;il;lLr5;ce,zG;b1SloLmin3W;ri1;e6QfUgTminu2oce5DploSrect19sOur0vMáL;fa0;ersLi0;as,o4;cNj7OpLtintF;erConibL;le4;apaci0Tre2;ma1;itAno;er0YuLíc20;n2so0Z;c07f04l01nZportivYrXsLvo2;aUcRdiQemplPhon5FiOnu1pMtru44vaL;li1;iLre3T;aPer2;er2;ea1;cha1;alMontIuiL;da1;zo;fo6XperciL;bi1;ech5;as,o;so,tiL;cu72;gMicL;ad6X;ada4;ens9iniL;tiL;va;a0idJ;nEñi0;a1Ve1Mh1Ei18l16o00rSuOáNélebMóL;mo1ncaHrn7;re;li1ntab3;aNba0er1ltMrvLstod6ánt5X;il0Mo;o,urB;d3r0S;an61eQiMoa0RuL;do,en2;olKstL;a5ZiL;anLno;a,o4;ci4FsL;ta1;l0Nm0HnXorde6Nque2rNsL;a8tL;era;a5RdTea0int6nu1pRreMso,tLuñE;a4e3So4;ctNspoL;ndiL;en6J;a,oL;!r;orAulIór7;en2;a1ille4M;c03du2Ne02f00j5Ymoved9oZsQtNvL;eLulC;rCxo;en2iL;gJnL;e4Pu5;aRerv55iOpNtLult9;an66itucLri2G;ionA;icJ;derLst3Q;abL;le;bi1nguL;ín7;ci1;orLuC;me;xo;ienzu1re2;ar3Ber2YpNunLún;es,isL;ta;leMosteL;la0;j5t5;e1XoL;mbiLniA;a0no;aLo2Kás2O;ndes2Wr5;clóp7ePlOmarrGrcuNudaMvL;il5B;da0;l03nv19;ia1;go,ntíf2HrtF;aQecOiMoLur3;lo,ro;lLno;en5lG;he0oL;!slova8;rLto;ro,t1B;lRnNrL;cLebrA;anF;s9trL;al4UoeMíL;fuDpe2;urop7;es2Ltíbe3ulL;ar;duc06l05m02nZpVrPsNtLu2;alLól3P;án;e3tL;ell35o;acterísPc3FnOoMroñe3tL;ag0Uu18;!lL;ing6;ívo3;ti8;aMitalLri0uchi0;!i0;cLz;es;an7cerí36i0o,tL;an23oL;nEr;boMpeL;ro,si0ón;ya0;cár7i1Xmo,vo;ifol6o;a0Je0Bi04lan01oXrQuNáMíLúl13;fi1pe1;rba3sSva3;enMfo,rL;do,guElG;!a4o4;aHeQiMuL;jo,s8to;llNtL;a0ánL;icF;an1L;tGve;goNhem6mMol2YrLsn6to,vi0;goñGrac23;bo;ta0;cMdo,quL;eci0;a4o4uz8;eOlbNnaMrLzar3;ma0;ria;aí0;lorruCnL;veL;ni1;a2lKnOoc6rL;ber0UebMlL;inE;er;eMig0éL;voK;dic0OfaL;ct9;bilQilOjFldNrMstLyo;ar1o;a2bu1cel0Qroco4í1V;ío;arL;ín;on6;b30c2Rd2Je2Hf2Eg2Cje2Al1Pm1Dn0Sp0Mqu7r04sZteYuRvNzuMére5ñeL;jo;caNl2U;aNenL;tuL;re3;n25ro;strohúnQtL;oMóL;c1Hgra15nom5;gestMmLpropul0H;ot9;io2N;ga3;n2o,rciope2B;esOiMtu2íL;ncro0;dJlvestLr6;ra1;i0or;aZbYca0dJenWgSio,mRqueológicQroPtLábiD;eNifiMístL;ic5;ciB;sa0;ce3;os;en6;eMiH;vo;li0nL;ti0;is8;co;ór7;gMm7uL;ca0;onE;aMuLócrifo4;es2;iNrL;enL;te;sa1;a04c03d01e00fiYgXhid3isóWtOuBáNóL;maKni1J;lo;loD;ePiL;aér7guFsubL;ma0Q;a4o4;eo;cMriL;or1E;es9;tropo;evi0losajGos2;b6triG;ón;jo,xo;aluz,i0orL;ra0;ho;e0Plfabe2ranja1;arUbiOeriMiDorLpli5;fo;cLnd6;an5;dieOeMgJ;uo;ntA;al;st3;ro;go,illL;a,en2o;a04b02ca01d00eUfonTgQoPpi0tOucMócL;to0;inóL;ge0;a4er0o4;ca1;ebraMonqL;ui0;ica;si0;jandPmNntL;ad9;or;anLán;a4es;ri0;ea0;li0;anEi0;és;do,no;dreLno;za1;rLudo4;io,ícola4ónoZ;ga0oL;rtu04;no;rob6;io;iPjOministrativNul2vL;erC;so;a4o;un2;ciMnteL;la1;onB;ampaSep2iaDorazoStNuMérriL;mo;miQ;iv5uB;alL;!es;go;to;na1;neRorigQsOundL;anL;te4;!s;olut5ur1;a,o;en;ga1;do",
     "Noun": "true¦0:2I;1:29;2:1V;3:26;4:2G;5:23;6:1T;7:1Q;8:1U;a28b25c1Ad15e0Vf0Qg0Mh0Ki0Fj0Dl0Bm03n01oXpQrKsGtCunión sovié0Yv9web2é0Y;ar1Jenta6iAo9;c1lum0;rg0si0F;a1WeAr9ác0Uécn19;abajo,en,ibun1áf5;m9rmin1ór5;po0Wá0R;aBe9oviét1J;m9ñ1;a6ifina7;b1Tl27ntand2;adica7eCiAo9égim0ío;b1Rn;tu1v9;al23er;p9stau26;o0Kresen01úbl0W;aEerDiMlBo9ráct0Vuerto r5órt5;rta9tenci3;da,l;a9ur3á0N;c2n;iódiHspec1Y;cCn,r8;céano Ar9so,t1I;b17d0ig0;atl1Jpac9;íf5;e9inten1K;ga1Rolít5;aDeCiBo1UuAéd0Wúsi9;co10;eb7j2n1G;ner1r8;mbra6nest2t1;drug8nAquinaria,rg0te9ña6;mát5ria7;u3za6;a6eva4i9leg8ás2íd2;bera7ngüísUtor3;orna01u9úpit2;egos olímp0Lg8;d0Hmag0n9;fBicia1DsAte9;gr3lectua7;ta4;a4orD;a9erma6imml2ospit1;ba6rry pott2;a7en,obBr9;a9áf0C;máI;erna4ierno;aCestiv1iBoAu9ábrVís09;erzas armYner3;n0Trma;li3na7;bri11ch8;ditori3jecu12mHnFs9xam0;pCt9;ad06udiAé9;tica;a4oA;aEo9;so;a6t9;raB;baj8ir;esCiAocument3éca9ía de las amérG;daY;agnó9buja4pu0Dsposi0Q;st5;arrollo,ord0;aNerMhicLientífPlKoErAu9ánc2;an0Al0M;iBát2íticAón9;icD;aQoQ;m0st1;mBnceja7orden9s04;ad9;as;andAbustibTerc9;ia4;a4o;an,ásD;as,oH;ea7;bNdáv2lz8mpa6nIpGrDsCt9ud3;edrAól9;icW;al,át5;a,o;acter9den1m0nav3áct2;ística9;!s;ita7;les;alRci9;ll2;na;ada;er;le;a9ienestar;nFtm9;an;bdom0djePlJma4nGquellFrsen3t9yuda4;enBl9racO;ánt5;ico;ta9;do;al;os;a,im1;al9;!es;iCmiBt9;ar,erna9;tiva;ra4;ca4;nte;tivo;en",
-    "Ordinal": "true¦cVdKmilJnoIoctHpGquinEs8t2unMvigésimo0;! 0;cuRpEs5teM;eLr0;esTi0;ceWgésimo0;! 0;p9s0;eg5;e1é0;ptTtT;g2pt1x0;agQcePto;iNu2;undo;cu0geMto;agM;rim8;aCingKogK;nGv8;lonIésJ;ecimo2osCu0écI;ceFo0;décG;c4nov3quinAs2te0;rc0;ero;ex7éptC;eno;ta1u0;ar4;vo;e5ua0;dr2r1tro0;mil4;to;ag2i0;nge0;nt0;és0;imo",
+    "LastName": "true¦0:33;1:3A;2:38;3:2X;4:2D;5:2Z;a3Ab30c2Nd2De2Af25g1Zh1Pi1Kj1Ek17l0Zm0Nn0Jo0Gp05rYsMtHvFwCxBy8zh6;a6ou,u;ng,o;a6eun2Toshi1Kun;ma6ng;da,guc1Zmo26sh21zaR;iao,u;a7il6o3right,u;li3As2;gn0lk0ng,tanabe;a6ivaldi;ssilj36zqu1;a9h8i2Fo7r6sui,urn0;an,ynisJ;lst0Prr1Uth;atch0omps2;kah0Vnaka,ylor;aEchDeChimizu,iBmiAo9t7u6zabo;ar1lliv29zuE;a6ein0;l22rm0;sa,u3;rn4th;lva,mmo23ngh;mjon4rrano;midt,neid0ulz;ito,n7sa6to;ki;ch1dLtos,z;amBeag1Yi9o7u6;bio,iz,sD;b6dri1LgIj0Tme23osevelt,ssi,ux;erts,ins2;c6ve0F;ci,hards2;ir1os;aEeAh8ic6ow1Z;as6hl0;so;a6illips;m,n1S;ders5et8r7t6;e0Nr4;ez,ry;ers;h20rk0t6vl4;el,te0J;baBg0Blivei01r6;t6w1N;ega,iz;a6eils2guy5ix2owak,ym1D;gy,ka6var1J;ji6muW;ma;aEeCiBo8u6;ll0n6rr0Bssolini,ñ6;oz;lina,oKr6zart;al0Me6r0T;au,no;hhail4ll0;rci0ssi6y0;!er;eWmmad4r6tsu07;in6tin1;!o;aCe8i6op1uo;!n6u;coln,dholm;fe7n0Pr6w0I;oy;bv6v6;re;mmy,rs5u;aBennedy,imuAle0Ko8u7wo6;k,n;mar,znets4;bay6vacs;asY;ra;hn,rl9to,ur,zl4;aAen9ha3imen1o6u3;h6nYu3;an6ns2;ss2;ki0Ds5;cks2nsse0C;glesi9ke8noue,shik7to,vano6;u,v;awa;da;as;aBe8itchcock,o7u6;!a3b0ghNynh;a3ffmann,rvat;mingw7nde6rM;rs2;ay;ns5rrPs7y6;asDes;an4hi6;moI;a9il,o8r7u6;o,tierr1;ayli3ub0;m1nzal1;nd6o,rcia;hi;er9lor8o7uj6;ita;st0urni0;es;nand1;d7insteHsposi6vaL;to;is2wards;aCeBi9omin8u6;bo6rand;is;gu1;az,mitr4;ov;lgado,vi;nkula,rw7vi6;es,s;in;aFhBlarkAo6;h5l6op0rbyn,x;em7li6;ns;an;!e;an8e7iu,o6ristens5u3we;i,ng,u3w,y;!n,on6u3;!g;mpb7rt0st6;ro;ell;aBe8ha3oyko,r6yrne;ooks,yant;ng;ck7ethov5nnett;en;er,ham;ch,h8iley,rn6;es,i0;er;k,ng;dDl9nd6;ers6rA;en,on,s2;on;eks7iy8var1;ez;ej6;ev;ams",
+    "Region": "true¦0:23;1:1U;a21b1Tc1Jd1Ees1Df1Ag14h11i0Yj0Wk0Ul0Rm0GnZoXpTqQrNsEtButAv7w4y2zacatec23;o05u2;cat19kZ;a2est vi5isconsin,yomi15;rwick1shington2;! dc;er3i2;rgin1T;acruz,mont;ah,tar pradesh;a3e2laxca1EuscaB;nnessee,x1S;bas0Lmaulip1RsmK;a7i5o3taf0Pu2ylh14;ffVrr01s0Z;me11no1Buth 2;cSdR;ber1Jc2naloa;hu0Tily;n3skatchew0Sxo2;ny; luis potosi,ta catari0;a2hode8;j2ngp03;asth0Nshahi;inghai,u2;e2intana roo;bec,ensXreta0F;ara0e3rince edward2; isV;i,nnsylv2rnambu03;an15;axa0Pdisha,h2klaho1Dntar2reg5x06;io;ayarit,eCo4u2;evo le2nav0N;on;r2tt0Tva scot0Z;f7mandy,th2; 2ampton1;c4d3yo2;rk1;ako10;aroli0;olk;bras0Zva03w2; 3foundland2;! and labrador;brunswick,hamp1jers3mexiLyork2;! state;ey;a7i3o2;nta0relos;ch4dlanCn3ss2;issippi,ouri;as geraHneso0N;igRoacR;dhya,harasht05ine,ni4r2ssachusetts;anhao,y2;land;p2toba;ur;anca1e2incoln1ouis9;e2iI;ds;a2entucky,hul0;ns09rnata0Eshmir;alis2iangxi;co;daho,llino3nd2owa;ia0;is;a3ert2idalFunB;ford1;mp1waii;ansu,eorgXlou6u2;an3erre2izhou,jarat;ro;ajuato,gdo2;ng;cester1;lori3uji2;an;da;sex;e5o3uran2;go;rs2;et;lawaFrby1;a9ea8hi7o2umbrI;ahui5l4nnectic3rsi2ventry;ca;ut;iNorado;la;apFhuahua;ra;l9m2;bridge1peche;a6r5uck2;ingham1;shi2;re;emen,itish columb4;h3ja cal2sque,var3;iforn2;ia;guascalientes,l5r2;izo0kans2;as;na;a3ber2;ta;ba3s2;ka;ma",
+    "MaleName": "true¦0:C9;1:BG;2:BX;3:BO;4:B0;5:BU;6:AO;7:9Q;8:B8;9:AS;A:AJ;B:9D;aB0bA4c93d84e7Ef6Xg6Fh5Vi5Hj4Kk4Al3Rm2Pn2Eo28p22qu20r1As0Rt07u06v01wOxavi3yHzC;aCor0;cCh8Ene;hDkC;!aAX;ar50eAW;ass2i,oDuC;sEu25;nFsEusC;oCsD;uf;ef;at0g;aKeIiDoCyaAL;lfgang,odrow;lCn1O;bEey,frBFlC;aA1iC;am,e,s;e85ur;i,nde7sC;!l6t1;de,lDrr5yC;l1ne;lCt3;aBy;aFern1iC;cDha0nceCrg97va0;!nt;ente,t59;lentin48nBughn;lyss4Lsm0;aUePhLiJoFrDyC;!l3ro8s1;av9MeCist0oy,um0;nt9Ev53y;bEd7TmCny;!as,mCoharu;aAUie,y;i7Zy;mCt9;!my,othy;adEeoDia79omC;!as;!do7I;!de9;dFrC;enBrC;anBeCy;ll,nB;!dy;dgh,ic9Pnn3req,ts44;aRcotPeOhKiIoGpenc3tCur1Oylve8Dzym1;anEeCua77;f0phABvCwa76;e56ie;!islaw,l6;lom1n9ZuC;leyma8ta;dCl7Fm1;!n6;aEeC;lCrm0;d1t1;h6One,qu0Uun,wn,y8;am9basti0k1Xl40rg3Zth,ymo9E;!tC;!ie,y;lDmCnti22q4Iul;!mAu4;ik,vato6S;aXeThe8ZiPoGuDyC;an,ou;b6IdDf9pe6NssC;!elAF;ol2Uy;an,bJcIdHel,geGh0la7EmFnEry,sDyC;!ce;coe,s;a92nA;an,eo;l3Jr;e4Qg3n6olfo,ri65;co,ky;bAe9R;cCl6;ar5Mc5LhDkCo;!ey,ie,y;a82ie;gDid,ub5x,yCza;ansh,nT;g8TiC;na8Ps;ch5Vfa4lEmDndCpha4sh6Rul,ymo6X;al9Vol2By;i9Fon;f,ph;ent2inC;cy,t1;aGeEhilDier5Zol,reC;st1;!ip,lip;d98rcy,tC;ar,e2V;b3Sdra6Ct44ul;ctav2Vliv3m93rGsDtCum8Rw5;is,to;aDc8PvC;al50;ma;i,vK;athKeIiEoC;aCel,l0ma0r2X;h,m;cDg4i3IkC;h6Rola;hol5UkCol5U;!ol5T;al,d,il,ls1vC;il4Y;anCy;!a4i4;aXeUiLoGuDyC;l21r1;hamDr5WstaC;fa,p4E;ed,mG;dibo,e,hamEis1XntDsCussa;es,he;e,y;ad,ed,mC;ad,ed;cHgu4kFlEnDtchC;!e7;a75ik;house,o04t1;e,olC;aj;ah,hCk6;a4eC;al,l;hDlv2rC;le,ri7v2;di,met;ck,hOlMmPnu4rIs1tEuricDxC;!imilian89we7;e,io;eo,hDi4ZtC;!eo,hew,ia;eCis;us,w;cEio,k83lDqu6Dsha7tCv2;i2Hy;in,on;!el,oLus;achCcolm,ik;ai,y;amCdi,moud;adC;ou;aReOiNlo2RoJuDyC;le,nd1;cFiEkCth3;aCe;!s;gi,s;as,iaC;no;g0nn6OrenEuCwe7;!iC;e,s;!zo;am,on4;a78evi,la4PnDonCst3vi;!a5Yel;!ny;mDnCr65ur4Rwr4R;ce,d1;ar,o4L;aJeEhaled,iCrist4Tu46y3A;er0p,rC;by,k,ollos;en0iFnCrmit,v2;!dDnCt5A;e0Zy;a7ri4L;r,th;na66rCthem;im,l;aZeRiPoEuC;an,liCst2;an,us;aqu2eKhnJnHrFsC;eDhCi79ue;!ua;!ph;dCge;an,i,on;!aCny;h,s,th4V;!ath4Uie,nA;!l,sCy;ph;an,e,mC;!mA;d,ffHrEsC;sCus;!e;a5HemDmai8oCry;me,ni0P;i6Sy;!e56rC;ey,y;cId5kHmGrEsDvi3yC;!d5s1;on,p3;ed,od,rCv4K;e4Xod;al,es,is1;e,ob,ub;k,ob,quC;es;aObrahNchika,gLkeKlija,nuJrHsEtCv0;ai,sC;uki;aCha0i6Dma4sac;ac,iaC;h,s;a,vinCw2;!g;k,nngu50;!r;nacCor;io;im;in,n;aKeGina4ToEuCyd54;be23gCmber4AsE;h,o;m3raBsCwa3V;se2;aEctDitDn4CrC;be1Ym0;or;th;bLlKmza,nJo,rEsDyC;a41d5;an,s0;lFo4DrEuCv6;hi3Yki,tC;a,o;is1y;an,ey;k,s;!im;ib;aReNiMlenLoJrFuC;illerDsC;!tavo;mo;aEegCov3;!g,orC;io,y;dy,h55nt;nzaCrd1;lo;!n;lbe4Ono,ovan4P;ne,oErC;aCry;ld,rd4S;ffr6rge;bri4l5rCv2;la1Xr3Cth,y;aReOiMlKorr0HrC;anEedCitz;!dAeCri22;ri21;cEkC;!ie,lC;in,yn;esJisC;!co,zek;etch3oC;yd;d4lConn;ip;deriDliCng,rnan01;pe,x;co;bi0di;arZdUfrTit0lNmHnGo2rDsteb0th0uge8vCym5zra;an,ere2U;gi,iDnCrol,v2w2;est44ie;c06k;och,rique,zo;aGerFiDmC;aFe2O;lCrh0;!io;s1y;nu4;be09d1iFliEmDt1viCwood;n,s;er,o;ot1Ts;!as,j43sC;ha;a2en;!dAg32mFuDwC;a25in;arC;do;o0Su0S;l,nC;est;aYeOiLoFrEuDwCyl0;ay8ight;a8dl6nc0st2;ag0ew;minicGnEri0ugDyC;le;!l03;!a29nCov0;e7ie,y;!k;armuDeCll1on,rk;go;id;anJj0lbeImetri9nGon,rFsEvDwCxt3;ay8ey;en,in;hawn,mo09;ek,ri0G;is,nCv3;is,y;rt;!dC;re;lLmJnIrEvC;e,iC;!d;en,iEne7rCyl;eCin,yl;l2Wn;n,o,us;e,i4ny;iCon;an,en,on;e,lC;as;a07e05hXiar0lMoHrFuDyrC;il,us;rtC;!is;aCistobal;ig;dy,lFnDrC;ey,neli9y;or,rC;ad;by,e,in,l2t1;aHeEiCyJ;fCnt;fo0Dt1;meDt9velaC;nd;nt;rEuDyC;!t1;de;enB;ce;aGeFrisDuC;ck;!tC;i0oph3;st3;d,rlCs;eCie;s,y;cCdric;il;lFmer1rC;ey,lDro7y;ll;!os,t1;eb,v2;ar03eVilUlaToQrDuCyr1;ddy,rtJ;aKeFiEuDyC;an,ce,on;ce,no;an,ce;nDtC;!t;dDtC;!on;an,on;dDndC;en,on;!foCl6y;rd;bDrCyd;is;!by;i8ke;al,lA;nGrCshoi;at,nDtC;!r11;aCie;rd0T;!edict,iDjam2nA;ie,y;to;n6rCt;eCy;tt;ey;ar0Yb0Od0Kgust2hm0Hid5ja0Fl00mYnQputsiPrGsaFuDveCya0ziz;ry;gust9st2;us;hi;aJchIi4jun,maGnEon,tCy0;hCu07;ur;av,oC;ld;an,nd;el;ie;ta;aq;dHgel06tC;hoFoC;i8nC;!i03y;ne;ny;reCy;!as,s,w;ir,mCos;ar;an,bePd5eJfGi,lFonEphonIt1vC;aNin;on;so,zo;an,en;onDrC;edQ;so;c,jaFksandEssaFxC;!and3;er;ar,er;ndC;ro;rtI;ni;en;ad,eC;d,t;in;aDolfCri0vik;!o;mCn;!a;dGeFraDuC;!bakr,lfazl;hCm;am;!l;allFel,oulaye,ulC;!lDrahm0;an;ah,o;ah;av,on",
+    "Ordinal": "true¦cWdLmilJnoIoctHpGquinEs8t2unNvigésimo0;! 0;cuSpEs5teN;eMr0;esUi0;ceXgésimo0;! 0;p9s0;eg5;e1é0;ptUtU;g2pt1x0;agRceQto;iOu2;undo;cu0geNto;agN;rim9;aDingLogL;nHv9;lonésim0ésK;a,o;ecimo2osCu0écI;ceFo0;décG;c4nov3quinAs2te0;rc0;ero;ex7éptC;eno;ta1u0;ar4;vo;e5ua0;dr2r1tro0;mil4;to;ag2i0;nge0;nt0;és0;imo",
     "Unit": "true¦bHceFeDfahrenheitIgBhertz,jouleIk8liGm6p4terEy2z1°0µs;c,f,n;b,e1;b,o0;ttA;e0ouceD;rcent,t8;eg7il0³,è9;eAlili8;elvin9ilo1m0;!/h,s;!b6gr1mètre,s;ig2r0;amme5;b,x0;ab2;lsius,ntimè0;tre1;yte0;!s",
     "City": "true¦0:3B;a2Zb29c1Zd1Ue1Tf1Rg1Lh1Di1Bjakar2Kk12l0Vm0Hn0Do0Bp00quiZrWsMtDuCv9w4y2z1;agreb,uri22;ang1We1okohama;katerin1Krev0;ars4e3i1rocl4;ckl0Yn1;nipeg,terth0Z;llingt1Rxford;aw;a2i1;en2Klni33;lenc2Yncouv0Ir2J;lan bat0Ftrecht;a7bilisi,e6he5i4o3rondheim,u1;nWr1;in,ku;kyo,ronJulouD;anj26l16miso2Mra2D; haKssaloni10;gucigalpa,hr0l av0O;i1llinn,mpe2Engi09rtu;chu25n0pU;a4e3h2kopje,t1ydney;ockholm,uttga15;angh1Ienzh20;o0Nv01;int peters0Xl4n1ppo1I; 1ti1E;jo1salv3;se;v1z0T;adW;eykjavik,i2o1;me,sario,t28;ga,o de janei1A;to;a9e7h6i5o3r1ueb1Tyongya1Q;a1etor28;gue;rt1zn0; elizabe4o;ls1Jrae28;iladelph23nom pe0Aoenix;r1tah tik1C;th;lerLr1tr13;is;dessa,s1ttawa;a1Klo;a3ew 1is;delWtaip1york ci1U;ei;goya,nt0Xpl0Xv0;a7e6i5o2u1;mb0Oni0L;nt2sco1;u,w;evideo,real;l0n03skolc;dellín,lbour0U;drid,l6n4r1;ib2se1;ille;or;chest1dalYi11;er;mo;a6i3o1vCy03;nd1s angel0H;on,r0G;ege,ma1nz,sb00verpo2;!ss1;ol; pla0Jusan0G;a6hark5i4laipeda,o2rak1uala lump3;ow;be,pavog1sice;ur;ev,ng9;iv;b4mpa0Lndy,ohsiu0Ira1un04;c1j;hi;ncheNstanb1̇zmir;ul;a6e4o1; chi mi2ms,u1;stJ;nh;lsin1rakliH;ki;ifa,m1noi,va0B;bu0UiltE;alw5dan4en3hent,iza,othen2raz,ua1;dalaj0Hngzhou;bu0R;eVoa,ève;sk;ay;es,rankfu1;rt;dmont5indhovV;a2ha02oha,u1;blSrb0shanbe;e1kar,masc0HugavpiK;gu,je1;on;a8ebu,h3o1raioKuriti02;lo1nstanKpenhagOrk;gGmbo;enn4i2ristchur1;ch;ang m2c1ttagoM;ago;ai;i1lgary,pe town,rac5;ro;aIeCirminghXogoBr6u1;char4dap4enos air3r1s0;g1sa;as;es;est;a3isba2usse1;ls;ne;silRtisla1;va;ta;i4lgrade,r1;g2l1n;in;en;ji1rut;ng;ku,n4r1sel;celo2ranquil1;la;na;g2ja lu1;ka;alo1kok;re;aDbBhmedabad,l8m5n3qa2sh1thens,uckland;dod,gabat;ba;k1twerp;ara;m0s1;terd1;am;exandr2ma1;ty;ia;idj0u dhabi;an;lbo2rh1;us;rg",
     "Country": "true¦0:2M;a2Cb1Yc1Nd1Me1Df19g12h11i0Sj0Qk0Nl0Gm08n04om2Op00rRsFtAu6v4wal3y2z1;a1Rimbab0A;emen,ibu0N;es,lis and futu2D;a1enezue2FietD;nuatu,tican city;cr2Fg0Snited 2ruXs1zbek2H;a,sr;arab emiratIkingdom,states1;! of ameB;a4imor orient0Vo3rinidad y toba08u1únez;r1valu;kmen2Bqu12;go,nS;i0Xnz27yik29;a8e7i6om0Eri lanka,u1;azi0Vdá2ec0iza,ri1;nam;f2n1;! del s18;ri1F;erra leo1Vngap16r0;neg0Jrb0ychell4;moa,n1o tomé y príncipe; 1ta luc0Q;cristóbal y niev1mariSvicente y las granad0N;es;e2u1;an1Qm1Ts0;ino unido,pública 1;c4d1;e1omin4; macedQl1mocrática del1; conL;entroafr1he11;ica1H;a2erú,o1;lLrtug04;k1Lla18namá,púa nueva guin0Gra1íses baj18;guay;a3ep01i2orue1ueva zelUíger;ga;caragua,ger0;mib0uru;a5icroSo2éxi1óna1;co;ldav0n2zambiq1;ue;gol0tenegro;dagasc0Jl1rruec0Xurit18;a1div0Xta,í;s0ui;a0Ue5i3uxembur2íba1;no;go;b1echtenste0Qtu12;er0ia;soZt1;on0;azaj10en0ir1uwait;gu0Ziba1;ti;a1ord0V;mai08pH;nd7r5s2t1;al0;la1rael;nd0s 1;marshall,salomC;ak,l1án;an0K;ia,o1;nes0;aití,ondur0AungrD;a5ha0Er4u1;atema0Ginea1ya0D;! ecuatori1-bisáu;al;ana0Cec0;b1mb0;ón;i1ranc0;lip2n1yi;land0;inZ;cu8gip7l salv8miratos árabe6ritr5s2tiop1;ía;lov2paña,t1;ado3on0;aqu0en0;ea;s unidR;to;ador;inamarDominiD;a8hi6o1roac0uba;lo4morNrea del 2sta 1te d'ivoi6;de marfEriA;norte,s1;ur;mb0;le,na,p1;re;bo verde,m2nadá,t1;ar;boya,erún;a9e8i7o6r4u2élgi1;ca;lgar0r1tO;kina faso,undi;as1unéi;il;liv0snia-herzegoviCtsuaC;elorrus0rmG;lice,nín;ham4ngladés,r1;bad2é1;in;os;as;fganBl8n5r2ustr1zerbaiyC;al0ia;abia saudita,ge1men0;l0nti1;na;dorra,go2tigua y barbu1;da;la;b1em1;an0;ia;ist1;án",
     "Place": "true¦aLbJcHdGeEfDgAh9i8jfk,kul,l7m5new eng4ord,p2s1the 0upIyyz;bronx,hamptons;fo,oho,under2yd;acifLek,h0;l,x;land;a0co,idCuc;libu,nhattJ;ax,gw,hr;ax,cn,ndianGst;arlem,kg,nd;ay village,re0;at 0enwich;britain,lak2;co,ra;urope,verglad0;es;en,fw,own1xb;dg,gk,hina0lt;town;cn,e0kk,rooklyn;l air,verly hills;frica,m5ntar1r1sia,tl0;!ant1;ct0;ic0; oce0;an;ericas,s",
-    "Region": "true¦0:23;1:1U;a21b1Tc1Jd1Ees1Df1Ag14h11i0Yj0Wk0Ul0Rm0GnZoXpTqQrNsEtButAv7w4y2zacatec23;o05u2;cat19kZ;a2est vi5isconsin,yomi15;rwick1shington2;! dc;er3i2;rgin1T;acruz,mont;ah,tar pradesh;a3e2laxca1EuscaB;nnessee,x1S;bas0Lmaulip1RsmK;a7i5o3taf0Pu2ylh14;ffVrr01s0Z;me11no1Buth 2;cSdR;ber1Jc2naloa;hu0Tily;n3skatchew0Sxo2;ny; luis potosi,ta catari0;a2hode8;j2ngp03;asth0Nshahi;inghai,u2;e2intana roo;bec,ensXreta0F;ara0e3rince edward2; isV;i,nnsylv2rnambu03;an15;axa0Pdisha,h2klaho1Dntar2reg5x06;io;ayarit,eCo4u2;evo le2nav0N;on;r2tt0Tva scot0Z;f7mandy,th2; 2ampton1;c4d3yo2;rk1;ako10;aroli0;olk;bras0Zva03w2; 3foundland2;! and labrador;brunswick,hamp1jers3mexiLyork2;! state;ey;a7i3o2;nta0relos;ch4dlanCn3ss2;issippi,ouri;as geraHneso0N;igRoacR;dhya,harasht05ine,ni4r2ssachusetts;anhao,y2;land;p2toba;ur;anca1e2incoln1ouis9;e2iI;ds;a2entucky,hul0;ns09rnata0Eshmir;alis2iangxi;co;daho,llino3nd2owa;ia0;is;a3ert2idalFunB;ford1;mp1waii;ansu,eorgXlou6u2;an3erre2izhou,jarat;ro;ajuato,gdo2;ng;cester1;lori3uji2;an;da;sex;e5o3uran2;go;rs2;et;lawaFrby1;a9ea8hi7o2umbrI;ahui5l4nnectic3rsi2ventry;ca;ut;iNorado;la;apFhuahua;ra;l9m2;bridge1peche;a6r5uck2;ingham1;shi2;re;emen,itish columb4;h3ja cal2sque,var3;iforn2;ia;guascalientes,l5r2;izo0kans2;as;na;a3ber2;ta;ba3s2;ka;ma",
     "Infinitive": "true¦0:6V;1:6R;2:6L;3:6K;4:5G;5:4P;a5Gb58c3Ud38e2Ff29g24h20i1Lju1Kl1Em17n13o0Yp0Eque0DrZsNtGuEv6y3K;aCe9i8o6;l6mit,t0;ar,v2;aj0ol0s6Av1;n7r6st1;!if5;c2d2ir;ci0l2ri0;b5n6s0t4M;ir,t0;aBeAir0o8r6;a6iunf0opez0;baj0d1Der,g0t0;c0m0r6s2;c2t4L;m2n2rm63ñ1;p0rd0ñ2;aDeBiAo8u6;b1ced2fr1g03p0Grg1s6;p54ti3X;breviv1l2n6po1Erpre4ñ0;ar,r1P;gn46mbol4Stu0;c0gu1ntXr6ñ17;!v1;b2c8l7ti6;r4Osf2T;ir,t0ud0v0;ar,r40ud1;e7o6;b0g0mp2;al4JcEd0UgBhus0in0nAp8quQs6v53z0ír,ñ1;erv0olv2p6u0X;et0ir0o4;a6et1l5o10;r0s0;ac2ov0un4X;a7i6r4Iul0;r,s2N;l0r,te0;h4Wi7o6;g2mend0noc2rd0;b1cl0;br0d0m0r2;aNeIiHlaFoEr7u6;bl5r3J;act5e8o6;b0d0Eh2Amet2pNse23te6v1G;g2st0;d3Zf8gu4Up2Ese6v2;nt6rv0;ar,ir;er1;d2n2;n6t5;ch0t0;c0nt0;d1g0in0le0ns0r7s6;ar,c0;d7m6se1Rten3;an3it1;er,on0;d3g0r6s0t4S;ar,ec2ticip0;b9curr1di0f8l7p6rgan3Mír;on2;er,vid0;e4r3;ed3l36t11;a8e6ot0;ces4Fg6v0;ar,o3Y;c2d0veg0;a9e7ir0o6ud0;d2Qle3Knt0r1s1Nv2;d1nt1re6t2zcl0;c2nd0;d2Un7qui2Src0st5t6;ar,ric30;d0ej0t0Q;aAe9impi0l6o0Wu0X;am0e7o6;r0v2;g0n0v0;er,gUva3V;dr0me3Unz0stim0v0;g0nt0r0;lus1AmpIn6r;clu1dGfFi3Hmi0OsCt8v6;ad1e6it0oc0;nt0rt1st2K;e7rod6;uc1;nt0r6;es0pret0;i31t7u6;lt0;al0;lu1o3M;ic0uc1;o6r0W;rt0;a8e6u1;l0r6;ed0ir,v1;bl0c2ll0;a9ener8lor1Uobern0r7u6;ard0i0st0;adu0it0uñ1;al2D;n0st0;aAelic3Ai9lor3or8r7u6;m0nci3U;eír;m0tal3;j0ng1rm0;br5lt0sc3A;ch0duc0fectu0jerc2lXmTnJquivIrr0sDvCx6;h0Big1p7t6;e4in03;l7o6r27;n2rt0;ic0o6;r0t0;acu0it0;c8per0qui0t6;a6im0udi0;bl3r;o6r01uL;g2nd2;oc0;amor0cEfCg33oj0riDsBt7v6;ej3i0;e4r6usiasm0;ar,e6;g0t6vi1V;en2;eñ0u24;ad0e2Ila6;qu3;a2Be4onT;borra8i7p6;ez0le0;gr0;ch0;eg1im2H;ar,eDi8o7u6;ch0d0r0;bl0l2rm1;buj0r26s7v6;e29or1R;eñ0frut0gu1Fminu1t6;in6ri03;gu1;b2cGd5fe4j0mosFpDrret1s7te02vo6;lv2r0;aAc8e0h7pe6tru1;d1rt0;ac2;ans0e4r6ubr1;ib1;gr1Rpar3rro0Gyun0;e4os1Vr6;im1;tr0;i7l6or0;ar0;d1r;a0Ce08h07iv06la03oCr8u6;br1id0l6mpl1r0;p0tiv0;e8i7u6;c00z0;ar,t5;ar,c2er;br0c1Ng2lUmQn9pi0r7s6;er,t0;re6t0;g1r;dLfJjug0oc2qui0NsFtAv6;e6id0;n7r6;s0t1;c2ir;a9e8inu0r6;i6ol0;bu1;n2st0;m1Ar;e8i0Ft6um1;i6ru1;tu1;gu1nt1rv0;es0i6;ar,rm0sc0;en0uc1;bat1e8p6un5;a0Yet1on2r6;ar,e4;nz0r;g0o6;c0nT;r6s6;if5;ic0;ilP;arl0isme0oc0;le0Vn7pi6rr0s0;ll0;ar,s6;ur0;b2er,lAm0Nn9r8s6us0z0;ar,t6;ig0;acterGg0;cZs0;c6e07l0m0;ul0;aBe9or8ri7u6;ce0rl0sc0;ll0nd0;d0r0;b2nd6s0;ec1;il0j0rr2t1ut6ñ0;iz0;b0Jc09d04f00gWhorVlSmPnMpGrrFsBt7umeXv6yud0ñad1;aTerigu0is0;ac0e4ra6;er,v6;es0;nd2;i8oHp7u6;st0;ir0;st1;egl0oj0;aAl9o8r6;e6ob0;ci0nd2t0;st0y0;aud1ic0;g0r3;d0h7un6;ci0;el0;a7en6;az0;n3r;ca7e6ivi0morz0quil0;gr0nt0;nz0;c0r0;or0r7ua6;nt0;ad6;ar,ec2;e8i7l6;ig1;rm0;it0;iv9mi8or7ve6;rt1;ar,n0;r0t1;in0;aEeDo6tu0;mpBn8rIst6;ar,um6;br0;sej0t3;ec2;er;añ0;pt0rc0;b0mp0;andAor9r8u6;rr1s0;ir;az0ir;d0t0;on0;ar",
     "Modal": "true¦debEhBp7qu5s2t0;en0iene8;emHgo,éDíaG;ab0ol3uel5é;e0éB;!mEn,s;er0ier2;emCé8;od2ued0;e0o;!n,s;em8r6é4;a1e0;!m6;!bé1n,s;e1o,é0;is;!m2n,r0s;ía0;!is,m0n,s;os",
     "Copula": "true¦eGfu8s0é9;e2i1o0;is,mAn,y;do,endo;a3d,r0áis;em7á1é6ía0;!is,m6n,s;!n,s;!m4n,s;e4i1é0;ram2;!m1ste0;!is;os;!r0;a0on;is,n,s;r0s;a0es;!is,n,s",
     "Month": "true¦a6dic4en3febr3ju1ma0nov4octu5sept4;rzo,yo;l0n0;io;ero;iem0;bre;bril,gosto",
     "WeekDay": "true¦domingo,juev1lun1m0sábado,viern1;art0iércol0;es",
     "FemaleName": "true¦0:FV;1:FZ;2:FO;3:FA;4:F9;5:FP;6:EO;7:GC;8:EW;9:EM;A:G8;B:E2;C:G5;D:FL;E:FI;F:ED;aDZbD1cB8dAIe9Gf91g8Hh83i7Sj6Uk60l4Om38n2To2Qp2Fqu2Er1Os0Qt04ursu6vUwOyLzG;aJeHoG;e,la,ra;lGna;da,ma;da,ra;as7EeHol1TvG;et9onB8;le0sen3;an8endBMhiB3iG;lInG;if3AniGo0;e,f39;a,helmi0lGma;a,ow;aMeJiG;cHviG;an9XenFY;kCWtor3;da,l8Vnus,rG;a,nGoniCZ;a,iD9;leGnesE9;nDIrG;i1y;aSePhNiMoJrGu6y4;acG0iGu0E;c3na,sG;h9Mta;nHrG;a,i;i9Jya;a5IffaCDna,s5;al3eGomasi0;a,l8Go6Xres1;g7Uo6WrHssG;!a,ie;eFi,ri7;bNliMmKnIrHs5tGwa0;ia0um;a,yn;iGya;a,ka,s5;a4e4iGmC7ra;!ka;a,t5;at5it5;a05carlet2Ye04hUiSkye,oQtMuHyG;bFGlvi1;e,sHzG;an2Tet9ie,y;anGi7;!a,e,nG;aEe;aIeG;fGl3DphG;an2;cF5r6;f3nGphi1;d4ia,ja,ya;er4lv3mon1nGobh75;dy;aKeGirlBIo0y6;ba,e0i6lIrG;iGrBMyl;!d70;ia,lBS;ki4nIrHu0w0yG;la,na;i,leAon,ron;a,da,ia,nGon;a,on;l5Yre0;bMdLi8lKmIndHrGs5vannaE;aEi0;ra,y;aGi4;nt5ra;lBKome;e,ie;in1ri0;a02eXhViToHuG;by,thBH;bQcPlOnNsHwe0xG;an93ie,y;aHeGie,lC;ann7ll1marBCtB;!lGnn1;iGyn;e,nG;a,d7W;da,i,na;an8;hel53io;bin,erByn;a,cGkki,na,ta;helBWki;ea,iannDUoG;da,n12;an0bIgi0i0nGta,y0;aGee;!e,ta;a,eG;cAOkaE;chGe,i0mo0n5EquCAvDy0;aC9elGi8;!e,le;een2ia0;aMeLhJoIrG;iGudenAT;scil1Uyamva8;lly,rt3;ilome0oebe,ylG;is,lis;arl,ggy,nelope,r6t4;ige,m0Fn4Oo6rvaB8tHulG;a,et9in1;ricGsy,tA5;a,e,ia;ctav3deHfATlGphAT;a,ga,iv3;l3t9;aQePiJoGy6;eHrG;aEeDma;ll1mi;aKcIkGla,na,s5ta;iGki;!ta;hoAZk8AolG;a,eBE;!mh;l7Sna,risF;dIi5PnHo23taG;li1s5;cy,et9;eAiCL;a01ckenz2eViLoIrignayani,uriBDyG;a,rG;a,na,tAP;i4ll9UnG;a,iG;ca,ka,qB1;a,chOkaNlJmi,nIrGtzi;aGiam;!n8;a,dy,erva,h,n2;a,dIi9GlG;iGy;cent,e;red;!e6;ae6el3G;ag4KgKi,lHrG;edi61isFyl;an2iGliF;nGsAJ;a,da;!an,han;b08c9Bd06e,g04i03l01nZrKtJuHv6Sx85yGz2;a,bell,ra;de,rG;a,eD;h74il8t2;a,cSgOiJjor2l6In2s5tIyG;!aGbe5QjaAlou;m,n9P;a,ha,i0;!aIbAIeHja,lCna,sGt53;!a,ol,sa;!l06;!h,m,nG;!a,e,n1;arIeHie,oGr3Kueri9;!t;!ry;et3IiB;elGi61y;a,l1;dGon,ue6;akranBy;iGlo36;a,ka,n8;a,re,s2;daGg2;!l2W;alCd2elGge,isBDon0;eiAin1yn;el,le;a0Ie08iWoQuKyG;d3la,nG;!a,dHe9PnGsAN;!a,e9O;a,sAL;aAYcJelIiFlHna,pGz;e,iB;a,u;a,la;iGy;a2Ae,l25n8;is,l1GrHtt2uG;el6is1;aIeHi7na,rG;a6Xi7;lei,n1tB;!in1;aQbPd3lLnIsHv3zG;!a,be4Ket9z2;a,et9;a,dG;a,sGy;ay,ey,i,y;a,iaIlG;iGy;a8De;!n4F;b7Qerty;!n5Q;aNda,e0iLla,nKoIslAOtGx2;iGt2;c3t3;la,nGra;a,ie,o4;a,or1;a,gh,laG;!ni;!h,nG;a,d4e,n4N;cNdon7Pi6kes5rMtKurIvHxGy6;mi;ern1in3;a,eGie,yn;l,n;as5is5oG;nya,ya;a,isF;ey,ie,y;aZeUhadija,iMoLrIyG;lGra;a,ee,ie;istGy5A;a,en,iGy;!e,n48;ri,urtn97;aMerLl96mIrGzzy;a,stG;en,in;!berlG;eGi,y;e,y;a,stD;!na,ra;el6MiJlInHrG;a,i,ri;d4na;ey,i,l9Ns2y;ra,s5;c8Ti5UlOma6nyakumari,rMss5JtJviByG;!e,lG;a,eG;e,i75;a5CeHhGi3PlCri0y;ar5Aer5Aie,leDr9Cy;!lyn70;a,en,iGl4Tyn;!ma,n31sF;ei6Zi,l2;a04eVilToMuG;anKdJliGst54;aHeGsF;!nAt0W;!n8U;i2Ry;a,iB;!anLcelCd5Sel6Yhan6FlJni,sHva0yG;a,ce;eGie;fi0lCph4V;eGie;en,n1;!a,e,n36;!i10lG;!i0Z;anLle0nIrHsG;i5Nsi5N;i,ri;!a,el6Mif1RnG;a,et9iGy;!e,f1P;a,e6ZiHnG;a,e6YiG;e,n1;cLd1mi,nHqueliAsmin2Uvie4yAzG;min7;a7eHiG;ce,e,n1s;!lGsFt06;e,le;inHk2lCquelG;in1yn;da,ta;da,lPmNnMo0rLsHvaG;!na;aHiGob6R;do4;!belGdo4;!a,e,l2G;en1i0ma;a,di4es,gr5O;el8ogG;en1;a,eAia0o0se;aNeKilHoGyacin1N;ll2rten1H;aHdGlaH;a,egard;ry;ath0WiHlGnrietBrmiAst0W;en24ga;di;il72lKnJrGtt2yl72z6A;iGmo4Cri4D;etG;!te;aEnaE;ey,l2;aYeTiOlMold12rIwG;enGyne18;!dolC;acHetGisel8;a,chD;e,ieG;!la;adys,enGor3yn1Y;a,da,na;aJgi,lHna,ov6YselG;a,e,le;da,liG;an;!n0;mYnIorgHrG;ald33i,m2Rtru70;et9i0;a,eGna;s1Nvieve;briel3Cil,le,rnet,yle;aReOio0loMrG;anHe8iG;da,e8;!cG;esHiGoi0G;n1s3S;!ca;!rG;a,en40;lHrnG;!an8;ec3ic3;rHtiGy7;ma;ah,rah;d0FileDkBl00mUn47rRsMtLuKvG;aIelHiG;e,ta;in0Ayn;!ngel2F;geni1la,ni3O;h4Zta;meral8peranJtG;eHhGrel6;er;l2Mr;za;iGma,nest27yn;cGka,n;a,ka;eJilImG;aGie,y;!liA;ee,i1y;lGrald;da,y;aTeRiMlLma,no4oJsIvG;a,iG;na,ra;a,ie;iGuiG;se;en,ie,y;a0c3da,nJsGzaH;aGe;!beG;th;!a,or;anor,nG;!a;in1na;en,iGna,wi0;e,th;aWeKiJoG;lor4Yminiq3Vn2XrGtt2;a,eDis,la,othGthy;ea,y;an08naEonAx2;anPbOde,eNiLja,lImetr3nGsir4R;a,iG;ce,se;a,iHla,orGphiA;es,is;a,l5G;dGrdG;re;!d4Jna;!b29oraEra;a,d4nG;!a,e;hl3i0mMnKphn1rHvi1TyG;le,na;a,by,cHia,lG;a,en1;ey,ie;a,et9iG;!ca,el17ka;arGia;is;a0Oe0Lh03i01lToIrHynG;di,th3;is2Ay03;lOnLrHurG;tn1B;aId26iGn26riA;!nG;a,e,n1;!l1Q;n2sG;tanGuelo;ce,za;eGleD;en,t9;aIeoHotG;il49;!pat4;ir7rIudG;et9iG;a,ne;e,iG;ce,sX;a4er4ndG;i,y;aPeMloe,rG;isHyG;stal;sy,tG;aHen,iGy;!an1e,n1;!l;lseHrG;!i7yl;a,y;nLrG;isJlHmG;aiA;a,eGot9;n1t9;!sa;d4el1NtG;al,el1M;cGli3E;el3ilG;e,ia,y;iXlWmilVndUrNsLtGy6;aJeIhGri0;erGleDrCy;in1;ri0;li0ri0;a2FsG;a2Eie;a,iLlJmelIolHrG;ie,ol;!e,in1yn;!a,la;a,eGie,y;ne,y;na,sF;a0Di0D;a,e,l1;isBl2;tlG;in,yn;arb0CeYianXlVoTrG;andRePiIoHyG;an0nn;nwCok7;an2NdgKg0ItG;n27tG;!aHnG;ey,i,y;ny;etG;!t7;an0e,nG;da,na;i7y;bbi7nG;iBn2;ancGossom,ytG;he;ca;aRcky,lin8niBrNssMtIulaEvG;!erlG;ey,y;hHsy,tG;e,i0Zy7;!anG;ie,y;!ie;nGt5yl;adHiG;ce;et9iA;!triG;ce,z;a4ie,ra;aliy29b24d1Lg1Hi19l0Sm0Nn01rWsNthe0uJvIyG;anGes5;a,na;a,r25;drIgusHrG;el3;ti0;a,ey,i,y;hHtrG;id;aKlGt1P;eHi7yG;!n;e,iGy;gh;!nG;ti;iIleHpiB;ta;en,n1t9;an19elG;le;aYdWeUgQiOja,nHtoGya;inet9n3;!aJeHiGmI;e,ka;!mGt9;ar2;!belHliFmT;sa;!le;ka,sGta;a,sa;elGie;a,iG;a,ca,n1qG;ue;!t9;te;je6rea;la;bHmGstas3;ar3;el;aIberHel3iGy;e,na;!ly;l3n8;da;aTba,eNiKlIma,yG;a,c3sG;a,on,sa;iGys0J;e,s0I;a,cHna,sGza;a,ha,on,sa;e,ia;c3is5jaIna,ssaIxG;aGia;!nd4;nd4;ra;ia;i0nHyG;ah,na;a,is,naE;c5da,leDmLnslKsG;haElG;inGyW;g,n;!h;ey;ee;en;at5g2nG;es;ie;ha;aVdiSelLrG;eIiG;anLenG;a,e,ne;an0;na;aKeJiHyG;nn;a,n1;a,e;!ne;!iG;de;e,lCsG;on;yn;!lG;iAyn;ne;agaJbHiG;!gaI;ey,i7y;!e;il;ah",
-    "MaleName": "true¦0:C9;1:BG;2:BX;3:BO;4:B0;5:BU;6:AO;7:9Q;8:B8;9:AS;A:AJ;B:9D;aB0bA4c93d84e7Ef6Xg6Fh5Vi5Hj4Kk4Al3Rm2Pn2Eo28p22qu20r1As0Rt07u06v01wOxavi3yHzC;aCor0;cCh8Ene;hDkC;!aAX;ar50eAW;ass2i,oDuC;sEu25;nFsEusC;oCsD;uf;ef;at0g;aKeIiDoCyaAL;lfgang,odrow;lCn1O;bEey,frBFlC;aA1iC;am,e,s;e85ur;i,nde7sC;!l6t1;de,lDrr5yC;l1ne;lCt3;aBy;aFern1iC;cDha0nceCrg97va0;!nt;ente,t59;lentin48nBughn;lyss4Lsm0;aUePhLiJoFrDyC;!l3ro8s1;av9MeCist0oy,um0;nt9Ev53y;bEd7TmCny;!as,mCoharu;aAUie,y;i7Zy;mCt9;!my,othy;adEeoDia79omC;!as;!do7I;!de9;dFrC;enBrC;anBeCy;ll,nB;!dy;dgh,ic9Pnn3req,ts44;aRcotPeOhKiIoGpenc3tCur1Oylve8Dzym1;anEeCua77;f0phABvCwa76;e56ie;!islaw,l6;lom1n9ZuC;leyma8ta;dCl7Fm1;!n6;aEeC;lCrm0;d1t1;h6One,qu0Uun,wn,y8;am9basti0k1Xl40rg3Zth,ymo9E;!tC;!ie,y;lDmCnti22q4Iul;!mAu4;ik,vato6S;aXeThe8ZiPoGuDyC;an,ou;b6IdDf9pe6NssC;!elAF;ol2Uy;an,bJcIdHel,geGh0la7EmFnEry,sDyC;!ce;coe,s;a92nA;an,eo;l3Jr;e4Qg3n6olfo,ri65;co,ky;bAe9R;cCl6;ar5Mc5LhDkCo;!ey,ie,y;a82ie;gDid,ub5x,yCza;ansh,nT;g8TiC;na8Ps;ch5Vfa4lEmDndCpha4sh6Rul,ymo6X;al9Vol2By;i9Fon;f,ph;ent2inC;cy,t1;aGeEhilDier5Zol,reC;st1;!ip,lip;d98rcy,tC;ar,e2V;b3Sdra6Ct44ul;ctav2Vliv3m93rGsDtCum8Rw5;is,to;aDc8PvC;al50;ma;i,vK;athKeIiEoC;aCel,l0ma0r2X;h,m;cDg4i3IkC;h6Rola;hol5UkCol5U;!ol5T;al,d,il,ls1vC;il4Y;anCy;!a4i4;aXeUiLoGuDyC;l21r1;hamDr5WstaC;fa,p4E;ed,mG;dibo,e,hamEis1XntDsCussa;es,he;e,y;ad,ed,mC;ad,ed;cHgu4kFlEnDtchC;!e7;a75ik;house,o04t1;e,olC;aj;ah,hCk6;a4eC;al,l;hDlv2rC;le,ri7v2;di,met;ck,hOlMmPnu4rIs1tEuricDxC;!imilian89we7;e,io;eo,hDi4ZtC;!eo,hew,ia;eCis;us,w;cEio,k83lDqu6Dsha7tCv2;i2Hy;in,on;!el,oLus;achCcolm,ik;ai,y;amCdi,moud;adC;ou;aReOiNlo2RoJuDyC;le,nd1;cFiEkCth3;aCe;!s;gi,s;as,iaC;no;g0nn6OrenEuCwe7;!iC;e,s;!zo;am,on4;a78evi,la4PnDonCst3vi;!a5Yel;!ny;mDnCr65ur4Rwr4R;ce,d1;ar,o4L;aJeEhaled,iCrist4Tu46y3A;er0p,rC;by,k,ollos;en0iFnCrmit,v2;!dDnCt5A;e0Zy;a7ri4L;r,th;na66rCthem;im,l;aZeRiPoEuC;an,liCst2;an,us;aqu2eKhnJnHrFsC;eDhCi79ue;!ua;!ph;dCge;an,i,on;!aCny;h,s,th4V;!ath4Uie,nA;!l,sCy;ph;an,e,mC;!mA;d,ffHrEsC;sCus;!e;a5HemDmai8oCry;me,ni0P;i6Sy;!e56rC;ey,y;cId5kHmGrEsDvi3yC;!d5s1;on,p3;ed,od,rCv4K;e4Xod;al,es,is1;e,ob,ub;k,ob,quC;es;aObrahNchika,gLkeKlija,nuJrHsEtCv0;ai,sC;uki;aCha0i6Dma4sac;ac,iaC;h,s;a,vinCw2;!g;k,nngu50;!r;nacCor;io;im;in,n;aKeGina4ToEuCyd54;be23gCmber4AsE;h,o;m3raBsCwa3V;se2;aEctDitDn4CrC;be1Ym0;or;th;bLlKmza,nJo,rEsDyC;a41d5;an,s0;lFo4DrEuCv6;hi3Yki,tC;a,o;is1y;an,ey;k,s;!im;ib;aReNiMlenLoJrFuC;illerDsC;!tavo;mo;aEegCov3;!g,orC;io,y;dy,h55nt;nzaCrd1;lo;!n;lbe4Ono,ovan4P;ne,oErC;aCry;ld,rd4S;ffr6rge;bri4l5rCv2;la1Xr3Cth,y;aReOiMlKorr0HrC;anEedCitz;!dAeCri22;ri21;cEkC;!ie,lC;in,yn;esJisC;!co,zek;etch3oC;yd;d4lConn;ip;deriDliCng,rnan01;pe,x;co;bi0di;arZdUfrTit0lNmHnGo2rDsteb0th0uge8vCym5zra;an,ere2U;gi,iDnCrol,v2w2;est44ie;c06k;och,rique,zo;aGerFiDmC;aFe2O;lCrh0;!io;s1y;nu4;be09d1iFliEmDt1viCwood;n,s;er,o;ot1Ts;!as,j43sC;ha;a2en;!dAg32mFuDwC;a25in;arC;do;o0Su0S;l,nC;est;aYeOiLoFrEuDwCyl0;ay8ight;a8dl6nc0st2;ag0ew;minicGnEri0ugDyC;le;!l03;!a29nCov0;e7ie,y;!k;armuDeCll1on,rk;go;id;anJj0lbeImetri9nGon,rFsEvDwCxt3;ay8ey;en,in;hawn,mo09;ek,ri0G;is,nCv3;is,y;rt;!dC;re;lLmJnIrEvC;e,iC;!d;en,iEne7rCyl;eCin,yl;l2Wn;n,o,us;e,i4ny;iCon;an,en,on;e,lC;as;a07e05hXiar0lMoHrFuDyrC;il,us;rtC;!is;aCistobal;ig;dy,lFnDrC;ey,neli9y;or,rC;ad;by,e,in,l2t1;aHeEiCyJ;fCnt;fo0Dt1;meDt9velaC;nd;nt;rEuDyC;!t1;de;enB;ce;aGeFrisDuC;ck;!tC;i0oph3;st3;d,rlCs;eCie;s,y;cCdric;il;lFmer1rC;ey,lDro7y;ll;!os,t1;eb,v2;ar03eVilUlaToQrDuCyr1;ddy,rtJ;aKeFiEuDyC;an,ce,on;ce,no;an,ce;nDtC;!t;dDtC;!on;an,on;dDndC;en,on;!foCl6y;rd;bDrCyd;is;!by;i8ke;al,lA;nGrCshoi;at,nDtC;!r11;aCie;rd0T;!edict,iDjam2nA;ie,y;to;n6rCt;eCy;tt;ey;ar0Yb0Od0Kgust2hm0Hid5ja0Fl00mYnQputsiPrGsaFuDveCya0ziz;ry;gust9st2;us;hi;aJchIi4jun,maGnEon,tCy0;hCu07;ur;av,oC;ld;an,nd;el;ie;ta;aq;dHgel06tC;hoFoC;i8nC;!i03y;ne;ny;reCy;!as,s,w;ir,mCos;ar;an,bePd5eJfGi,lFonEphonIt1vC;aNin;on;so,zo;an,en;onDrC;edQ;so;c,jaFksandEssaFxC;!and3;er;ar,er;ndC;ro;rtI;ni;en;ad,eC;d,t;in;aDolfCri0vik;!o;mCn;!a;dGeFraDuC;!bakr,lfazl;hCm;am;!l;allFel,oulaye,ulC;!lDrahm0;an;ah,o;ah;av,on",
     "FirstName": "true¦aEblair,cCdevBj8k6lashawn,m3nelly,quinn,re2sh0;ay,e0iloh;a,lby;g1ne;ar1el,org0;an;ion,lo;as8e0r9;ls7nyatta,rry;am0ess1ude;ie,m0;ie;an,on;as0heyenne;ey,sidy;lex1ndra,ubr0;ey;is",
-    "LastName": "true¦0:33;1:3A;2:38;3:2X;4:2D;5:2Z;a3Ab30c2Nd2De2Af25g1Zh1Pi1Kj1Ek17l0Zm0Nn0Jo0Gp05rYsMtHvFwCxBy8zh6;a6ou,u;ng,o;a6eun2Toshi1Kun;ma6ng;da,guc1Zmo26sh21zaR;iao,u;a7il6o3right,u;li3As2;gn0lk0ng,tanabe;a6ivaldi;ssilj36zqu1;a9h8i2Fo7r6sui,urn0;an,ynisJ;lst0Prr1Uth;atch0omps2;kah0Vnaka,ylor;aEchDeChimizu,iBmiAo9t7u6zabo;ar1lliv29zuE;a6ein0;l22rm0;sa,u3;rn4th;lva,mmo23ngh;mjon4rrano;midt,neid0ulz;ito,n7sa6to;ki;ch1dLtos,z;amBeag1Yi9o7u6;bio,iz,sD;b6dri1LgIj0Tme23osevelt,ssi,ux;erts,ins2;c6ve0F;ci,hards2;ir1os;aEeAh8ic6ow1Z;as6hl0;so;a6illips;m,n1S;ders5et8r7t6;e0Nr4;ez,ry;ers;h20rk0t6vl4;el,te0J;baBg0Blivei01r6;t6w1N;ega,iz;a6eils2guy5ix2owak,ym1D;gy,ka6var1J;ji6muW;ma;aEeCiBo8u6;ll0n6rr0Bssolini,ñ6;oz;lina,oKr6zart;al0Me6r0T;au,no;hhail4ll0;rci0ssi6y0;!er;eWmmad4r6tsu07;in6tin1;!o;aCe8i6op1uo;!n6u;coln,dholm;fe7n0Pr6w0I;oy;bv6v6;re;mmy,rs5u;aBennedy,imuAle0Ko8u7wo6;k,n;mar,znets4;bay6vacs;asY;ra;hn,rl9to,ur,zl4;aAen9ha3imen1o6u3;h6nYu3;an6ns2;ss2;ki0Ds5;cks2nsse0C;glesi9ke8noue,shik7to,vano6;u,v;awa;da;as;aBe8itchcock,o7u6;!a3b0ghNynh;a3ffmann,rvat;mingw7nde6rM;rs2;ay;ns5rrPs7y6;asDes;an4hi6;moI;a9il,o8r7u6;o,tierr1;ayli3ub0;m1nzal1;nd6o,rcia;hi;er9lor8o7uj6;ita;st0urni0;es;nand1;d7insteHsposi6vaL;to;is2wards;aCeBi9omin8u6;bo6rand;is;gu1;az,mitr4;ov;lgado,vi;nkula,rw7vi6;es,s;in;aFhBlarkAo6;h5l6op0rbyn,x;em7li6;ns;an;!e;an8e7iu,o6ristens5u3we;i,ng,u3w,y;!n,on6u3;!g;mpb7rt0st6;ro;ell;aBe8ha3oyko,r6yrne;ooks,yant;ng;ck7ethov5nnett;en;er,ham;ch,h8iley,rn6;es,i0;er;k,ng;dDl9nd6;ers6rA;en,on,s2;on;eks7iy8var1;ez;ej6;ev;ams",
     "Person": "true¦ashton kutchRbQcLdJeHgastMhFinez,jDkClebron james,mBnettIoAp8r4s3t2v0;a0irgin maF;lentino rossi,n go3;heresa may,iger woods,yra banks;addam hussain,carlett johanssIlobodan milosevic,uA;ay romano,eese witherspoHo1ush limbau0;gh;d stewart,nald0;inho,o;a0ipI;lmHris hiltC;prah winfrEra;essiaen,itt romnDubarek;anye west,iefer sutherland,obe bryant;aime,effers8k rowli0;ng;alle ber0itlBulk hogan;ry;ff0meril lagasse,zekiel;ie;a0enzel washingt2ick wolf;lt1nte;ar1lint0ruz;on;dinal wols1son0;! palm2;ey;arack obama,rock;er"
   };
 
@@ -7922,8 +8047,35 @@
     });
   });
 
-  let { presentTense: presentTense$1, pastTense: pastTense$1, futureTense: futureTense$1, conditional: conditional$1 } = model$1;
+  let { gerunds } = model$1;
   // =-=-
+  let m$2 = {
+    fromGerund: reverse$1(gerunds.gerunds),
+    toGerund: gerunds.gerunds,
+  };
+
+  const fromGerund = function (str) {
+    return convert$1(str, m$2.fromGerund)
+  };
+  const toGerund$1 = function (str) {
+    return convert$1(str, m$2.toGerund)
+  };
+
+  // does this make any sense?
+  const toReflexive = function (str) {
+    str = str.replace(/ar$/, 'arse');
+    // str = str.replace(/ar$/, 'irte') //TODO:fixme
+    // str = str.replace(/ar$/, 'arme')
+
+    str = str.replace(/ir$/, 'irse');
+    // str = str.replace(/ir$/, 'irte')
+
+    str = str.replace(/er$/, 'erse');
+    str = str.replace(/o$/, 'ose');
+    return str
+  };
+
+  let { presentTense: presentTense$1, pastTense: pastTense$1, futureTense: futureTense$1, conditional: conditional$1 } = model$1;
 
   const doEach = function (str, m) {
     return {
@@ -7936,18 +8088,220 @@
     }
   };
 
-  const toPresent = (str) => doEach(str, presentTense$1);
-  const toPast = (str) => doEach(str, pastTense$1);
-  const toFuture = (str) => doEach(str, futureTense$1);
-  const toConditional = (str) => doEach(str, conditional$1);
+  const toPresent$1 = (str) => doEach(str, presentTense$1);
+  const toPast$1 = (str) => doEach(str, pastTense$1);
+  const toFuture$1 = (str) => doEach(str, futureTense$1);
+  const toConditional$1 = (str) => doEach(str, conditional$1);
 
+  // an array of every inflection, for '{inf}' syntax
+  const all$1 = function (str) {
+    let res = [str].concat(
+      Object.values(toPresent$1(str)),
+      Object.values(toPast$1(str)),
+      Object.values(toFuture$1(str)),
+      Object.values(toConditional$1(str)),
+      toGerund$1(str),
+      toReflexive(str),
+    ).filter(s => s);
+    res = new Set(res);
+    return Array.from(res)
+  };
 
+  let { presentTense, pastTense, futureTense, conditional } = model$1;
 
-  var conjugate = {
-    toPresent,
-    toPast,
-    toFuture,
-    toConditional,
+  // =-=-
+  const revAll = function (m) {
+    return Object.keys(m).reduce((h, k) => {
+      h[k] = reverse$1(m[k]);
+      return h
+    }, {})
+  };
+
+  let presentRev = revAll(presentTense);
+  let pastRev = revAll(pastTense);
+  let futureRev = revAll(futureTense);
+  let conditionalRev = revAll(conditional);
+
+  //relajarse -> relajar
+  const stripReflexive$2 = function (str) {
+    str = str.replace(/arse$/, 'ar');
+    str = str.replace(/arte$/, 'ir');
+    str = str.replace(/arme$/, 'ar');
+
+    str = str.replace(/irse$/, 'ir');
+    str = str.replace(/irte$/, 'ir');
+
+    str = str.replace(/erse$/, 'er');
+    str = str.replace(/ose$/, 'o');
+    return str
+  };
+
+  const fromPresent = (str, form) => {
+    let forms = {
+      'FirstPerson': (s) => convert$1(s, presentRev.first),
+      'SecondPerson': (s) => convert$1(s, presentRev.second),
+      'ThirdPerson': (s) => convert$1(s, presentRev.third),
+      'FirstPersonPlural': (s) => convert$1(s, presentRev.firstPlural),
+      'SecondPersonPlural': (s) => convert$1(s, presentRev.secondPlural),
+      'ThirdPersonPlural': (s) => convert$1(s, presentRev.thirdPlural),
+    };
+    if (forms.hasOwnProperty(form)) {
+      return forms[form](str)
+    }
+    return stripReflexive$2(str)
+  };
+
+  const fromPast = (str, form) => {
+    let forms = {
+      'FirstPerson': (s) => convert$1(s, pastRev.first),
+      'SecondPerson': (s) => convert$1(s, pastRev.second),
+      'ThirdPerson': (s) => convert$1(s, pastRev.third),
+      'FirstPersonPlural': (s) => convert$1(s, pastRev.firstPlural),
+      'SecondPersonPlural': (s) => convert$1(s, pastRev.secondPlural),
+      'ThirdPersonPlural': (s) => convert$1(s, pastRev.thirdPlural),
+    };
+    if (forms.hasOwnProperty(form)) {
+      return forms[form](str)
+    }
+    return stripReflexive$2(str)
+  };
+
+  const fromFuture = (str, form) => {
+    let forms = {
+      'FirstPerson': (s) => convert$1(s, futureRev.first),
+      'SecondPerson': (s) => convert$1(s, futureRev.second),
+      'ThirdPerson': (s) => convert$1(s, futureRev.third),
+      'FirstPersonPlural': (s) => convert$1(s, futureRev.firstPlural),
+      'SecondPersonPlural': (s) => convert$1(s, futureRev.secondPlural),
+      'ThirdPersonPlural': (s) => convert$1(s, futureRev.thirdPlural),
+    };
+    if (forms.hasOwnProperty(form)) {
+      return forms[form](str)
+    }
+    return stripReflexive$2(str)
+  };
+
+  const fromConditional = (str, form) => {
+    let forms = {
+      'FirstPerson': (s) => convert$1(s, conditionalRev.first),
+      'SecondPerson': (s) => convert$1(s, conditionalRev.second),
+      'ThirdPerson': (s) => convert$1(s, conditionalRev.third),
+      'FirstPersonPlural': (s) => convert$1(s, conditionalRev.firstPlural),
+      'SecondPersonPlural': (s) => convert$1(s, conditionalRev.secondPlural),
+      'ThirdPersonPlural': (s) => convert$1(s, conditionalRev.thirdPlural),
+    };
+    if (forms.hasOwnProperty(form)) {
+      return forms[form](str)
+    }
+    return stripReflexive$2(str)
+  };
+
+  let pRev = reverse$1(model$1.nouns.plurals);
+
+  const toPlural$1 = (str) => convert$1(str, model$1.nouns.plurals);
+  const toSingular$1 = (str) => convert$1(str, pRev);
+  // console.log(toFemale("principesco") === "principesca")
+  // console.log(fromFemale("principesca") === "principesco")
+  // console.log(toPlural("principesco") === "principescos")
+  // console.log(toSingular("principescos") === "principesco")
+  // console.log(toSingular("sombras") === "sombra")
+
+  const toMasculine = function (str) {
+    let arr = [
+      ['ieta', 'ieto'],
+      ['erra', 'erro'],
+      ['rica', 'rico'],
+      ['esta', 'esto'],
+      ['ueña', 'ueño'],
+      ['lera', 'lero'],
+      ['rata', 'rato'],
+      ['uida', 'uido'],
+      ['anda', 'ando'],
+      ['uela', 'uelo'],
+      ['desa', 'dés'],
+      ['adas', 'ados'],
+      ['oras', 'ores'],
+      ['chas', 'chones'],
+      ['amas', 'amones'],
+      ['ica', 'ico'],
+      ['iza', 'izo'],
+      ['ona', 'ón'],
+      ['ada', 'ado'],
+      ['ora', 'or'],
+      ['oga', 'ogo'],
+      ['era', 'ero'],
+      ['ana', 'ano'],
+      ['iva', 'ivo'],
+      ['ica', 'ico'],
+      ['ina', 'ino'],
+      ['ita', 'ito'],
+      ['cia', 'ción'],
+      ['ia', 'io'],
+      ['ea', 'eo'],
+      ['a', 'o'],
+      ['as', 'os'],
+    ];
+    for (let i = 0; i < arr.length; i += 1) {
+      let [suff, repl] = arr[i];
+      if (str.endsWith(suff)) {
+        str = str.substr(0, str.length - suff.length);
+        return str += repl
+      }
+    }
+    return str
+  };
+  var toMasculine$1 = toMasculine;
+
+  let { f: f$2, mp, fp } = model$1.adjectives;
+
+  let fRev = reverse$1(f$2);
+  let mpRev = reverse$1(mp);
+  let fpRev = reverse$1(fp);
+
+  const toFemale = (str) => convert$1(str, f$2);
+  const toPlural = (str) => convert$1(str, mp);
+  const toFemalePlural = (str) => convert$1(str, fp);
+  const fromFemale = (str) => convert$1(str, fRev);
+  const toSingular = (str) => convert$1(str, mpRev);
+  const fromFemalePlural = (str) => convert$1(str, fpRev);
+
+  const all = function (str) {
+    let arr = [str];
+    arr.push(toFemale(str));
+    arr.push(toPlural(str));
+    arr.push(toFemalePlural(str));
+    arr = arr.filter(s => s);
+    arr = new Set(arr);
+    return Array.from(arr)
+  };
+
+  var adjective = {
+    all,
+    toFemale,
+    toPlural,
+    toFemalePlural,
+    fromFemale,
+    toSingular,
+    fromFemalePlural,
+  };
+  // console.log(toFemale("principesco") === "principesca")
+  // console.log(fromFemale("principesca") === "principesco")
+  // console.log(toPlural("principesco") === "principescos")
+  // console.log(toSingular("principescos") === "principesco")
+
+  var methods$1 = {
+    verb: {
+      fromGerund, fromPresent, fromPast, fromFuture, fromConditional,
+      toPresent: toPresent$1, toPast: toPast$1, toFuture: toFuture$1, toConditional: toConditional$1, toGerund: toGerund$1,
+      all: all$1,
+    },
+    noun: {
+      toPlural: toPlural$1,
+      toSingular: toSingular$1,
+      toMasculine: toMasculine$1,
+      all: toPlural$1
+    },
+    adjective,
   };
 
   let copulas = [
@@ -8082,6 +8436,7 @@
 
   var misc$1 = lex;
 
+  const { toPresent, toPast, toFuture, toConditional, toGerund } = methods$1.verb;
   let lexicon$1 = misc$1;
 
 
@@ -8112,17 +8467,23 @@
       // add conjugations for our verbs
       if (tag === 'Infinitive') {
         // add present tense
-        let obj = conjugate.toPresent(w);
+        let obj = toPresent(w);
         addWords(obj, 'PresentTense', lexicon$1);
         // add past tense
-        obj = conjugate.toPast(w);
+        obj = toPast(w);
         addWords(obj, 'PastTense', lexicon$1);
         // add future tense
-        obj = conjugate.toFuture(w);
+        obj = toFuture(w);
         addWords(obj, 'FutureTense', lexicon$1);
         // add conditional
-        obj = conjugate.toConditional(w);
+        obj = toConditional(w);
         addWords(obj, 'Conditional', lexicon$1);
+      }
+      if (tag === 'Adjective') {
+        let f = methods$1.adjective.toFemale(w);
+        lexicon$1[f] = lexicon$1[f] || ['Adjective', 'FemaleAdjective', 'SingularAdjective'];
+        let fs = methods$1.adjective.toFemalePlural(w);
+        lexicon$1[fs] = lexicon$1[fs] || ['Adjective', 'FemaleAdjective', 'PluralAdjective'];
       }
       if (tag === 'Cardinal') {
         lexicon$1[w] = ['Cardinal', 'TextValue'];
@@ -8135,245 +8496,6 @@
   // console.log(lexicon['llorar'])
 
   var lexicon$2 = lexicon$1;
-
-  let { presentTense, pastTense, futureTense, conditional } = model$1;
-
-  // =-=-
-  const revAll = function (m) {
-    return Object.keys(m).reduce((h, k) => {
-      h[k] = reverse$1(m[k]);
-      return h
-    }, {})
-  };
-
-  let presentRev = revAll(presentTense);
-  let pastRev = revAll(pastTense);
-  let futureRev = revAll(futureTense);
-  let conditionalRev = revAll(conditional);
-
-  //relajarse -> relajar
-  const stripReflexive$2 = function (str) {
-    str = str.replace(/arse$/, 'ar');
-    str = str.replace(/arte$/, 'ir');
-    str = str.replace(/arme$/, 'ar');
-
-    str = str.replace(/irse$/, 'ir');
-    str = str.replace(/irte$/, 'ir');
-
-    str = str.replace(/erse$/, 'er');
-    str = str.replace(/ose$/, 'o');
-    return str
-  };
-
-  const fromPresent = (str, form) => {
-    let forms = {
-      'FirstPerson': (s) => convert$1(s, presentRev.first),
-      'SecondPerson': (s) => convert$1(s, presentRev.second),
-      'ThirdPerson': (s) => convert$1(s, presentRev.third),
-      'FirstPersonPlural': (s) => convert$1(s, presentRev.firstPlural),
-      'SecondPersonPlural': (s) => convert$1(s, presentRev.secondPlural),
-      'ThirdPersonPlural': (s) => convert$1(s, presentRev.thirdPlural),
-    };
-    if (forms.hasOwnProperty(form)) {
-      return forms[form](str)
-    }
-    return stripReflexive$2(str)
-  };
-
-  const fromPast = (str, form) => {
-    let forms = {
-      'FirstPerson': (s) => convert$1(s, pastRev.first),
-      'SecondPerson': (s) => convert$1(s, pastRev.second),
-      'ThirdPerson': (s) => convert$1(s, pastRev.third),
-      'FirstPersonPlural': (s) => convert$1(s, pastRev.firstPlural),
-      'SecondPersonPlural': (s) => convert$1(s, pastRev.secondPlural),
-      'ThirdPersonPlural': (s) => convert$1(s, pastRev.thirdPlural),
-    };
-    if (forms.hasOwnProperty(form)) {
-      return forms[form](str)
-    }
-    return stripReflexive$2(str)
-  };
-
-  const fromFuture = (str, form) => {
-    let forms = {
-      'FirstPerson': (s) => convert$1(s, futureRev.first),
-      'SecondPerson': (s) => convert$1(s, futureRev.second),
-      'ThirdPerson': (s) => convert$1(s, futureRev.third),
-      'FirstPersonPlural': (s) => convert$1(s, futureRev.firstPlural),
-      'SecondPersonPlural': (s) => convert$1(s, futureRev.secondPlural),
-      'ThirdPersonPlural': (s) => convert$1(s, futureRev.thirdPlural),
-    };
-    if (forms.hasOwnProperty(form)) {
-      return forms[form](str)
-    }
-    return stripReflexive$2(str)
-  };
-
-  const fromConditional = (str, form) => {
-    let forms = {
-      'FirstPerson': (s) => convert$1(s, conditionalRev.first),
-      'SecondPerson': (s) => convert$1(s, conditionalRev.second),
-      'ThirdPerson': (s) => convert$1(s, conditionalRev.third),
-      'FirstPersonPlural': (s) => convert$1(s, conditionalRev.firstPlural),
-      'SecondPersonPlural': (s) => convert$1(s, conditionalRev.secondPlural),
-      'ThirdPersonPlural': (s) => convert$1(s, conditionalRev.thirdPlural),
-    };
-    if (forms.hasOwnProperty(form)) {
-      return forms[form](str)
-    }
-    return stripReflexive$2(str)
-  };
-
-
-  var toRoot = {
-    fromPresent,
-    fromPast,
-    fromFuture,
-    fromConditional
-  };
-
-  let pRev = reverse$1(model$1.nouns.plurals);
-
-  const toPlural$1 = (str) => convert$1(str, model$1.nouns.plurals);
-  const fromPlural$1 = (str) => convert$1(str, pRev);
-
-  var nouns$1 = {
-    toPlural: toPlural$1,
-    fromPlural: fromPlural$1,
-  };
-  // console.log(toFemale("principesco") === "principesca")
-  // console.log(fromFemale("principesca") === "principesco")
-  // console.log(toPlural("principesco") === "principescos")
-  // console.log(fromPlural("principescos") === "principesco")
-
-  const toMasculine = function (str) {
-    let arr = [
-      ['ieta', 'ieto'],
-      ['erra', 'erro'],
-      ['rica', 'rico'],
-      ['esta', 'esto'],
-      ['ueña', 'ueño'],
-      ['lera', 'lero'],
-      ['rata', 'rato'],
-      ['uida', 'uido'],
-      ['anda', 'ando'],
-      ['uela', 'uelo'],
-      ['desa', 'dés'],
-      ['adas', 'ados'],
-      ['oras', 'ores'],
-      ['chas', 'chones'],
-      ['amas', 'amones'],
-      ['ica', 'ico'],
-      ['iza', 'izo'],
-      ['ona', 'ón'],
-      ['ada', 'ado'],
-      ['ora', 'or'],
-      ['oga', 'ogo'],
-      ['era', 'ero'],
-      ['ana', 'ano'],
-      ['iva', 'ivo'],
-      ['ica', 'ico'],
-      ['ina', 'ino'],
-      ['ita', 'ito'],
-      ['cia', 'ción'],
-      ['ia', 'io'],
-      ['ea', 'eo'],
-      ['a', 'o'],
-      ['as', 'os'],
-    ];
-    for (let i = 0; i < arr.length; i += 1) {
-      let [suff, repl] = arr[i];
-      if (str.endsWith(suff)) {
-        str = str.substr(0, str.length - suff.length);
-        return str += repl
-      }
-    }
-    return str
-  };
-  var toMasculine$1 = toMasculine;
-
-
-  // import list from '/Users/spencer/mountain/es-compromise/nouns.js'
-  // let count = 0
-  // list.forEach(a => {
-  //   let [m, f, ms, fs] = a
-  //   if (ms && fs) {
-  //     if (toMasculine(fs) !== ms) {
-  //       count += 1
-  //       console.log(fs, ms, '   ', toMasculine(fs))
-  //     }
-  //   }
-  // })
-  // console.log(count)
-
-  let { f: f$2, mp, fp } = model$1.adjectives;
-
-  let fRev = reverse$1(f$2);
-  let mpRev = reverse$1(mp);
-  let fpRev = reverse$1(fp);
-
-  const toFemale = (str) => convert$1(str, f$2);
-  const toPlural = (str) => convert$1(str, mp);
-  const toFemalePlural = (str) => convert$1(str, fp);
-  const fromFemale = (str) => convert$1(str, fRev);
-  const fromPlural = (str) => convert$1(str, mpRev);
-  const fromFemalePlural = (str) => convert$1(str, fpRev);
-  // console.log(toFemale("principesco") === "principesca")
-  // console.log(fromFemale("principesca") === "principesco")
-  // console.log(toPlural("principesco") === "principescos")
-  // console.log(fromPlural("principescos") === "principesco")
-
-  let { gerunds } = model$1;
-  // =-=-
-  let m$2 = {
-    fromGerund: reverse$1(gerunds.gerunds),
-    toGerund: gerunds.gerunds,
-  };
-
-  const fromGerund = function (str) {
-    return convert$1(str, m$2.fromGerund)
-  };
-  const toGerund = function (str) {
-    return convert$1(str, m$2.toGerund)
-  };
-
-  // console.log(toGerund('presentir'))
-
-  // import list from '/Users/spencer/mountain/es-compromise/data/models/gerunds.js'
-  // let miss = []
-  // list.forEach(a => {
-  //   let [inf, gerund] = a
-  //   if (fromGerund(gerund) !== inf) {
-  //     miss.push(a)
-  //   }
-  //   if (toGerund(inf) !== gerund) {
-  //     miss.push(a)
-  //   }
-  // })
-  // console.log(JSON.stringify(miss, null, 2))
-
-  var methods$1 = {
-    verb: {
-      conjugate,
-      toRoot,
-      fromGerund,
-      toGerund
-    },
-    noun: {
-      toPlural: nouns$1.toPlural,
-      toSingular: nouns$1.fromPlural,
-      toMasculine: toMasculine$1,
-    },
-    adjective: {
-      toFemale,
-      toPlural,
-      toFemalePlural,
-      fromFemale,
-      fromPlural,
-      fromFemalePlural,
-    }
-  };
 
   const verbForm$1 = function (term) {
     let want = [
@@ -8410,13 +8532,13 @@
           if (term.tags.has('Gerund')) {
             term.root = verb.fromGerund(str, form);
           } else if (term.tags.has('PresentTense')) {
-            term.root = verb.toRoot.fromPresent(str, form);
+            term.root = verb.fromPresent(str, form);
           } else if (term.tags.has('PastTense')) {
-            term.root = verb.toRoot.fromPast(str, form);
+            term.root = verb.fromPast(str, form);
           } else if (term.tags.has('FutureTense')) {
-            term.root = verb.toRoot.fromFuture(str, form);
+            term.root = verb.fromFuture(str, form);
           } else if (term.tags.has('Conditional')) {
-            term.root = verb.toRoot.fromConditional(str, form);
+            term.root = verb.fromConditional(str, form);
           } else ;
         }
 
@@ -8425,10 +8547,7 @@
           if (term.tags.has('Plural')) {
             str = noun.toSingular(str);
           }
-          if (term.tags.has('FemaleNoun')) {
-            // not sure about this
-            str = noun.toMasculine(str);
-          }
+          if (term.tags.has('FemaleNoun')) ;
           term.root = str;
         }
 
@@ -8438,7 +8557,7 @@
             if (term.tags.has('FemaleAdjective')) {
               str = adjective.fromFemalePlural(str);
             } else {
-              str = adjective.fromPlural(str);
+              str = adjective.toSingular(str);
             }
           }
           if (term.tags.has('FemaleAdjective')) {
@@ -9074,7 +9193,7 @@
     //numbers
     // 50 | -50 | 3.23  | 5,999.0  | 10+
     [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?\+?$/, ['Cardinal', 'NumericValue'], '5,999'],
-    [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(st|nd|rd|r?th)$/, ['Ordinal', 'NumericValue'], '53rd'],
+    [/^[-+]?[0-9]+(,[0-9]{3})*(\.[0-9]+)?(st|nd|rd|r?th|°)$/, ['Ordinal', 'NumericValue'], '53rd'],
     // .73th
     [/^\.[0-9]+\+?$/, ['Cardinal', 'NumericValue'], '.73th'],
     //percent
@@ -9125,6 +9244,7 @@
     {
       // two-letter suffixes
       al: jj,
+      ño: jj,
       // no: jj,
       // do: vb,
       // ar: vb,
@@ -9143,7 +9263,12 @@
       nal: jj,
       ial: jj,
       oso: jj,
+      iso: jj,
+      ito: jj,
+      izo: jj,
+      cto: jj,
       ana: jj,
+      eos: jj,
       // ado: vb,
       ndo: first,
       ada: vb,
@@ -9160,6 +9285,10 @@
       rás: fut,
       ará: fut,
       ado: vb,
+      pto: jj,
+      osa: jj,
+      tos: jj,
+
       // ida: vb,
     },
     {
@@ -9171,12 +9300,36 @@
       icas: jj,
       tico: jj,
       tica: jj,
+      fica: jj,
+      gica: jj,
+      mica: jj,
+      nica: jj,
+      lica: jj,
+      tica: jj,
       able: jj,
       tivo: jj,
+      sivo: jj,
+      esco: jj,
+      iaco: jj,
+      íaco: jj,
+      áceo: jj,
+      áneo: jj,
+      icio: jj,
+      culo: jj,
+      ento: jj,
       aria: jj,
       bles: jj,
       tiva: jj,
       ante: jj,
+      ente: jj,
+      ánea: jj,
+      siva: jj,
+      ular: jj,
+      osas: jj,
+      ales: jj,
+      iles: jj,
+      anos: jj,
+      osos: jj,
       'ción': nn,
       idad: nn,
       ento: nn,
@@ -9202,19 +9355,42 @@
       irte: inf,
       erse: inf,
       dose: ref,
+      ario: jj,
+      orio: jj,
+      iano: jj,
+      dero: jj,
+      fero: jj,
+      jero: jj,
+      lero: jj,
+      ales: jj,
+      nero: jj,
+      tero: jj,
+      ares: jj,
+      ores: jj,
+      rios: jj,
+      ivos: jj,
     },
     { // five-letter suffixes
       'ación': nn,
       mente: rb,
+      ísimo: jj,
+      icano: jj,
+      ntino: jj,
+      tivas: jj,
+      andés: jj,
+      adora: jj,
+      antes: jj,
       iendo: g,
       yendo: g,
       ieron: vb,
       remos: fut,
       iente: jj,
+      entes: jj,
     },
     {
       // six-letter suffixes
-      ciones: nn
+      ística: jj,
+      ciones: nn,
     },
     {
       // seven-letter suffixes
@@ -9386,12 +9562,6 @@
   };
   var bySuffix$1 = guessGender;
 
-  // console.log(guessGender('chicos'))
-
-  // import list from '/Users/spencer/mountain/es-compromise/fem.js'
-  // let wrong = list.slice(0, 500).filter(str => guessGender(str) !== 'f')
-  // console.log(wrong)
-
   var methods = {
     two: { guessGender: bySuffix$1 }
   };
@@ -9430,7 +9600,7 @@
 
   const entity = ['Person', 'Place', 'Organization'];
 
-  var nouns = {
+  var nouns$1 = {
     Noun: {
       not: ['Verb', 'Adjective', 'Adverb', 'Value', 'Determiner'],
     },
@@ -9542,7 +9712,7 @@
 
   };
 
-  var verbs = {
+  var verbs$1 = {
     Verb: {
       not: ['Noun', 'Adjective', 'Adverb', 'Value', 'Expression'],
     },
@@ -9802,7 +9972,7 @@
     },
   };
 
-  let tags = Object.assign({}, nouns, verbs, values, dates, misc);
+  let tags = Object.assign({}, nouns$1, verbs$1, values, dates, misc);
 
   var tagset = {
     tags
@@ -9875,6 +10045,7 @@
     multiples: [
       [1000, 'mil', 'milésimo'],
       [1000000, 'millón', 'millonésima'],
+      [1000000000, 'billones', 'milmillonésima'],
     ]
   };
 
@@ -9895,7 +10066,8 @@
     // ciento: 100,
     mil: 1000,
     millones: 1000000,
-    millón: 1000000
+    millón: 1000000,
+    billones: 1000000000,
   };
 
   const fromText = function (terms) {
@@ -10015,16 +10187,19 @@
       toOrdinal[card] = ord;
     });
   });
+  // add extras
+  toOrdinal.cien = 'centésimo';
 
   let ones = data.ones.reverse();
   let tens = data.tens.reverse();
   let hundreds = data.hundreds.reverse();
 
   let multiples = [
-    [1000000, 'millón',],
-    [1000, 'mil',],
+    [1000000000, 'billones', 'billones'],
+    [1000000, 'millón', 'millones'],
+    [1000, 'mil', 'mil'],
     // [100, 'cent'],
-    [1, 'one'],
+    [1, 'one', 'one'],
   ];
 
   //turn number into an array of magnitudes, like [[5, million], [2, hundred]]
@@ -10036,8 +10211,12 @@
         let howmany = Math.floor(working / a[0]);
         working -= howmany * a[0];
         if (howmany) {
+          let str = a[1];
+          if (howmany > 1) {
+            str = a[2];//use plural version
+          }
           have.push({
-            unit: a[1],
+            unit: str,
             num: howmany,
           });
         }
@@ -10105,7 +10284,16 @@
         words.push(obj.unit);
       }
     });
-    // console.log(num)
+    // 'uno mil' -> 'mil'
+    if (words.length > 1 && words[0] === 'uno') {
+      words = words.slice(1);
+    }
+    // 'ciento mil' -> 'cien mil'
+    if (words.length === 2 && words[0] === 'ciento') {
+      if (words[1] === 'mil' || words[1] === 'millones') {
+        words[0] = 'cien';
+      }
+    }
     return words
   };
   var toText$1 = toText;
@@ -10124,6 +10312,10 @@
     if (fmt === 'TextCardinal') {
       return toText$1(parsed.num).join(' ')
     }
+    // numeric formats
+    if (fmt === 'Ordinal') {
+      return String(parsed.num) + '°'
+    }
     if (fmt === 'Cardinal') {
       return String(parsed.num)
     }
@@ -10132,9 +10324,9 @@
   var format = formatNumber;
 
   // return the nth elem of a doc
-  const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+  const getNth$3 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
-  const api = function (View) {
+  const api$6 = function (View) {
     /**   */
     class Numbers extends View {
       constructor(document, pointer, groups) {
@@ -10142,13 +10334,13 @@
         this.viewType = 'Numbers';
       }
       parse(n) {
-        return getNth(this, n).map(parse)
+        return getNth$3(this, n).map(parse)
       }
       get(n) {
-        return getNth(this, n).map(parse).map(o => o.num)
+        return getNth$3(this, n).map(parse).map(o => o.num)
       }
       json(n) {
-        let doc = getNth(this, n);
+        let doc = getNth$3(this, n);
         return doc.map(p => {
           let json = p.toView().json(n)[0];
           let parsed = parse(p);
@@ -10372,41 +10564,234 @@
 
     View.prototype.numbers = function (n) {
       let m = find(this);
-      m = getNth(m, n);
+      m = getNth$3(m, n);
       return new Numbers(this.document, m.pointer)
     };
     // alias
     View.prototype.values = View.prototype.numbers;
   };
-  var api$1 = api;
+  var api$7 = api$6;
 
   var numbers = {
-    api: api$1
+    api: api$7
   };
 
-  var version = '0.1.2';
+  const getNth$2 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+
+  // get root form of adjective
+  const getRoot$2 = function (m) {
+    let str = m.text('normal');
+    let isPlural = m.has('Plural');
+    if (isPlural) {
+      return transform.adjective.toSingular(str)
+    }
+    return str
+  };
+
+
+  const api$4 = function (View) {
+    class Nouns extends View {
+      constructor(document, pointer, groups) {
+        super(document, pointer, groups);
+        this.viewType = 'Nouns';
+      }
+      conjugate(n) {
+        const methods = this.methods.two.transform.noun;
+        return getNth$2(this, n).map(m => {
+          let str = m.text();
+          if (m.has('#PluralNoun')) {
+            return {
+              plural: str,
+              singular: methods.toSingular(str)
+            }
+          }
+          return {
+            singular: str,
+            plural: methods.toPlural(str)
+          }
+        }, [])
+      }
+      isPlural(n) {
+        return getNth$2(this, n).if('#PluralNoun')
+      }
+      toPlural(n) {
+        const methods = this.methods.two.transform.noun;
+        getNth$2(this, n).if('#Singular').forEach(m => {
+          let str = getRoot$2(m);
+          let plural = methods.toPlural(str);
+          return m.replaceWith(plural)
+        });
+        return this
+      }
+      toSingular(n) {
+        const methods = this.methods.two.transform.noun;
+        getNth$2(this, n).if('#Plural').forEach(m => {
+          let str = getRoot$2(m);
+          let singular = methods.toSingular(str);
+          m.replaceWith(singular);
+          // flip article, too
+          let art = m.before('(los|las|unos|unas|mis|tus|nuestro|nuestra|vuestro|vuestra)$');
+          if (art.found) {
+            let toPlur = {
+              los: 'el',
+              las: 'la',
+              unos: 'un',
+              unas: 'una',
+              mis: 'mi',
+              tus: 'tu',
+              // sus:'su',
+              nuestro: 'nuestros',
+              nuestra: 'nuestras',
+              vuestro: 'vuestros',
+              vuestra: 'vuestras',
+            };
+            let str = art.text('normal');
+            if (toPlur.hasOwnProperty(str)) {
+              art.replaceWith(toPlur[str]);
+            }
+          }
+        });
+        return this
+      }
+    }
+
+    View.prototype.nouns = function (n) {
+      let m = this.match('#Noun');
+      m = getNth$2(m, n);
+      return new Nouns(this.document, m.pointer)
+    };
+  };
+  var api$5 = api$4;
+
+  var nouns = {
+    api: api$5,
+  };
+
+  const getNth$1 = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+
+  // get root form of adjective
+  const getRoot$1 = function (m, methods) {
+    let str = m.text('normal');
+    let isPlural = m.has('#PluralAdjective');
+    let isFemale = m.has('#FemaleAdjective');
+    if (isPlural && isFemale) {
+      return methods.fromFemalePlural(str)
+    } else if (isFemale) {
+      return methods.fromFemale(str)
+    } else if (isPlural) {
+      return methods.toSingular(str)
+    }
+    return str
+  };
+
+  const api$2 = function (View) {
+    class Adjectives extends View {
+      constructor(document, pointer, groups) {
+        super(document, pointer, groups);
+        this.viewType = 'Adjectives';
+      }
+      conjugate(n) {
+        const methods = this.methods.two.transform.adjective;
+        return getNth$1(this, n).map(m => {
+          let str = getRoot$1(m, methods);
+          return {
+            male: str,
+            female: methods.toFemale(str),
+            plural: methods.toPlural(str),
+            femalePlural: methods.toFemalePlural(str),
+          }
+        }, [])
+      }
+    }
+
+    View.prototype.adjectives = function (n) {
+      let m = this.match('#Adjective');
+      m = getNth$1(m, n);
+      return new Adjectives(this.document, m.pointer)
+    };
+  };
+  var api$3 = api$2;
+
+  var adjectives = {
+    api: api$3,
+  };
+
+  const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
+
+  // get root form of adjective
+  const getRoot = function (m, methods) {
+    m.compute('root');
+    let str = m.text('root');
+    return str
+  };
+
+  const api = function (View) {
+    class Verbs extends View {
+      constructor(document, pointer, groups) {
+        super(document, pointer, groups);
+        this.viewType = 'Verbs';
+      }
+      conjugate(n) {
+        const methods = this.methods.two.transform.verb;
+        const { toPresent, toPast, toFuture, toConditional, toGerund } = methods;
+        return getNth(this, n).map(m => {
+          let str = getRoot(m);
+          return {
+            presentTense: toPresent(str),
+            pastTense: toPast(str),
+            futureTense: toFuture(str),
+            conditional: toConditional(str),
+            gerund: toGerund(str),
+          }
+        }, [])
+      }
+    }
+
+    View.prototype.verbs = function (n) {
+      let m = this.match('#Verb+');
+      m = getNth(m, n);
+      return new Verbs(this.document, m.pointer)
+    };
+  };
+  var api$1 = api;
+
+  var verbs = {
+    api: api$1,
+  };
+
+  var version = '0.2.0';
 
   nlp$1.plugin(tokenizer);
   nlp$1.plugin(tagset);
   nlp$1.plugin(lexicon);
   nlp$1.plugin(preTagger);
   nlp$1.plugin(postTagger);
+  nlp$1.plugin(nouns);
+  nlp$1.plugin(adjectives);
+  nlp$1.plugin(verbs);
   nlp$1.plugin(numbers);
 
 
-  const de = function (txt, lex) {
-    let doc = nlp$1(txt, lex);
-    return doc
+  const es = function (txt, lex) {
+    return nlp$1(txt, lex)
   };
 
-  de.world = () => nlp$1.world();
-  de.model = () => nlp$1.model();
-  de.methods = () => nlp$1.methods();
-  de.hooks = () => nlp$1.hooks();
-  de.plugin = (plg) => nlp$1.plugin(plg);
+  // copy constructor methods over
+  Object.keys(nlp$1).forEach(k => {
+    if (nlp$1.hasOwnProperty(k)) {
+      es[k] = nlp$1[k];
+    }
+  });
+
+  es.world = () => nlp$1.world();
+  // de.model = () => nlp.model()
+  // de.methods = () => nlp.methods()
+  // de.hooks = () => nlp.hooks()
+  // de.plugin = (plg) => nlp.plugin(plg)
+  // de.buildNet = (matches) => nlp.buildNet(matches)
 
   /** log the decision-making to console */
-  de.verbose = function (set) {
+  es.verbose = function (set) {
     let env = typeof process === 'undefined' ? self.env || {} : process.env; //use window, in browser
     env.DEBUG_TAGS = set === 'tagger' || set === true ? true : '';
     env.DEBUG_MATCH = set === 'match' || set === true ? true : '';
@@ -10414,8 +10799,8 @@
     return this
   };
 
-  de.version = version;
+  es.version = version;
 
-  return de;
+  return es;
 
 }));

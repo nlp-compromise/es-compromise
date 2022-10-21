@@ -11,5 +11,5 @@ Object.keys(data).forEach(k => {
   })
 })
 // add extras
-
+toOrdinal.cien = 'centésimo'
 export { toCardinal, toOrdinal }

@@ -1,6 +1,5 @@
 import nlp from './src/index.js'
-
-nlp.verbose('tagger')
+// nlp.verbose('tagger')
 /*
 0.0.2 - tagger 87%
 */
@@ -13,11 +12,24 @@ nlp.verbose('tagger')
 // doc.match(`{persona}`).debug()
 
 /*
-
 */
 
-let txt = `contemplaciones`
-let doc = nlp(txt)
-doc.compute('root')
+// let txt = `pseudocientífico`
+// let txt = `problema`
+// let doc = nlp(txt)
+// console.log(doc.nouns().conjugate())
+
+
+let doc = nlp('atenuaciones')
 doc.debug()
-doc.match(`{contemplación}`).debug()
+
+// let doc = nlp('relajarse')
+// doc.compute('root')
+// console.log(doc.docs)
+// doc.match('{relajar}').debug()
+// console.log(nlp.parseMatch(`{relajar}`))
+// doc.compute('root')
+// doc.debug()
+// // doc.nouns().toSingular()
+// doc.match(`{opuesto}`).debug()
+// doc.debug()

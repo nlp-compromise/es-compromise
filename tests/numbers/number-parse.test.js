@@ -103,9 +103,7 @@ let arr = [
   [79, 'setenta y nueve'],
   [84, 'ochenta y cuatro'],
   [98, 'noventa y ocho'],
-  [1000000, 'un millón'],
-  [2000000, 'dos millón'],
-  [100000000, 'cien millones'],
+
 
 
 
@@ -134,9 +132,13 @@ let arr = [
   [100000, 'cien mil'],
   [150000, 'ciento cincuenta mil'],
   [900000, 'novecientos mil'],
+  [1000000, 'millón'],
   [2000000, 'dos millones'],
   [40000000, 'cuarenta millones'],
+  [100000000, 'cien millones'],
   [561000000, 'quinientos sesenta y uno millones'],
+  // [1000000000, 'mil millones'],
+  [2000000000, 'dos billones'],
 
 
 ]

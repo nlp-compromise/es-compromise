@@ -53,4 +53,5 @@ export default [
   'mil',//1,000
   'millón',//1,000,000
   'millones',//1,000,000
+  'billones',//1,000,000,000
 ]

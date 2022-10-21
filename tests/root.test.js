@@ -102,10 +102,55 @@ test('root-match:', function (t) {
     ["las capacidades que Dios les ha dado", "{capacidad}"], // noun
     ["contemplaciones", "{contemplación}"], // noun
 
+
+    // noun
+    ['Estamos recibiendo facturas de Ace Federal', '{factura}'],
+    ['trabajadores de las sombras', '{sombra}'],
+    ['Las sombras caen por toda', '{sombra}'],
+    ['su debut en Grandes Ligas', '{liga}'],
+
+    //adjectives
+    // ['La diplomacia avanzada', '{avanzado}'],
+    ['que las principales economías avanzadas', '{avanzado}'],
+    ['una cerilla descuidada', '{descuidado}'],
+    ['las perreras más estrechas', '{estrecho}'],
+    ['una estrecha victoria ', '{estrecho}'],
+    ['un acto defensivo estratégico', '{defensivo}'],
+    ['en direcciones opuestas', '{opuesto}'],
+    ['una situación conmovedora', '{conmovedor}'],
+    ['La delgada atmósfera', '{delgado}'],
+    ['en tierra delgada', '{delgado}'],
+    ['La forma era delgada', '{delgado}'],
+
+    //verbs
+    ['no quiero quemarme', '{quemar}'],
+    ['o te comeré', '{comer}'],
+    ['Coma muchas comidas ', '{comer}'],
+    ['comiendo pasteles dulces ', '{comer}'],
+    ['lo he ganado dos veces', '{ganar}'],
+    ['me gané la mía depilando', '{ganar}'],
+    ['me ganará el veto', '{ganar}'],
+    ['de resina personalizadas que mejoran la capacidad', '{mejorar}'],
+    ['No exageres', '{exagerar}'],
+    ['he matado a tu enemigo', '{matar}'],
+    ['no matan a la gente', '{matar}'],
+    ['los mató de un solo golpe', '{matar}'],
+    ['Mezcle un lantadyme limpio ', '{mezclar}'],
+    ['y mezclarlo con ron ', '{mezclar}'],
+    ['hasta que abordemos la crisis', '{abordar}'],
+    ['mucho viento no prosperan', '{prosperar}'],
+    ['prospera en altitudes', '{prosperar}'],
+    ['las pocas plantas que prosperan', '{prosperar}'],
+    ['el gobierno nunca debe socavarlos.', '{socavar}'],
+    ['hace que se destruyan cuando', '{destruir}'],
+    ['Los griegos lloraron profundamente ', '{llorar}'],
+    ['llorando por su hijo ', '{llorar}'],
+    ['un agente secreto retirado que llora el asesinato ', '{llorar}'],
+
   ]
   arr.forEach(function (a) {
     let [str, match] = a
-    let doc = nlp(str).compute('root')
+    let doc = nlp(str)//.compute('root')
     let tags = doc.json()[0].terms.map(term => term.tags[0])
     let msg = `'${(str + "' ").padEnd(20, ' ')}  - '${tags.join(', ')}'`
     t.equal(doc.has(match), true, here + msg)

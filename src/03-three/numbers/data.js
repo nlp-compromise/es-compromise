@@ -55,6 +55,7 @@ export default {
   multiples: [
     [1000, 'mil', 'milésimo'],
     [1000000, 'millón', 'millonésima'],
+    [1000000000, 'billones', 'milmillonésima'],
   ]
 }
 

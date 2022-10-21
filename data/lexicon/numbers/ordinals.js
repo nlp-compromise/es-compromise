@@ -47,4 +47,5 @@ export default [
   'tresmilésimo',//3,000th
   'cuatromilésimo',//4,000th
   'millonésimo',//1,000,000th
+  'millonésima'
 ]

@@ -90,7 +90,7 @@ const fromConditional = (str, form) => {
 }
 
 
-export default {
+export {
   fromPresent,
   fromPast,
   fromFuture,

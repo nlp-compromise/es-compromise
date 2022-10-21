@@ -1,3 +1,7 @@
+### 0.1.3 [Oct 2022]
+- **[fix]** - fixes for inflections in toRoot
+- **[new]** - verbs() nouns() and adjectives() methods
+
 ### 0.1.2 [August 2022]
 - **[fix]** - fixes for inflections in toRoot
 

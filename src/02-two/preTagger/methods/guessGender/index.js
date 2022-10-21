@@ -30,8 +30,3 @@ const guessGender = function (str) {
 }
 export default guessGender
 
-// console.log(guessGender('chicos'))
-
-// import list from '/Users/spencer/mountain/es-compromise/fem.js'
-// let wrong = list.slice(0, 500).filter(str => guessGender(str) !== 'f')
-// console.log(wrong)

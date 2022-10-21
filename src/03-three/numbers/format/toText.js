@@ -5,10 +5,11 @@ let tens = data.tens.reverse()
 let hundreds = data.hundreds.reverse()
 
 let multiples = [
-  [1000000, 'millón',],
-  [1000, 'mil',],
+  [1000000000, 'billones', 'billones'],
+  [1000000, 'millón', 'millones'],
+  [1000, 'mil', 'mil'],
   // [100, 'cent'],
-  [1, 'one'],
+  [1, 'one', 'one'],
 ]
 
 //turn number into an array of magnitudes, like [[5, million], [2, hundred]]
@@ -20,8 +21,12 @@ const getMagnitudes = function (num) {
       let howmany = Math.floor(working / a[0])
       working -= howmany * a[0]
       if (howmany) {
+        let str = a[1]
+        if (howmany > 1) {
+          str = a[2]//use plural version
+        }
         have.push({
-          unit: a[1],
+          unit: str,
           num: howmany,
         })
       }
@@ -89,7 +94,16 @@ const toText = function (num) {
       words.push(obj.unit)
     }
   })
-  // console.log(num)
+  // 'uno mil' -> 'mil'
+  if (words.length > 1 && words[0] === 'uno') {
+    words = words.slice(1)
+  }
+  // 'ciento mil' -> 'cien mil'
+  if (words.length === 2 && words[0] === 'ciento') {
+    if (words[1] === 'mil' || words[1] === 'millones') {
+      words[0] = 'cien'
+    }
+  }
   return words
 }
 export default toText

@@ -40,7 +40,7 @@ let arr = [
   [70, 'setenta', 'septuagésimo'],
   [80, 'ochenta', 'octogésimo'],
   [90, 'noventa', 'nonagésimo'],
-  [100, 'ciento', 'centésimo'],
+  [100, 'cien', 'centésimo'],
   [200, 'doscientos', 'ducentésimo'],
   [300, 'trescientos', 'tricentésimo'],
   [400, 'cuatrocientos', 'cuadringentésimo'],
@@ -51,6 +51,10 @@ let arr = [
   [900, 'novecientos', 'noningentésimo'],
   [1000, 'mil', 'milésimo'],
   [1000000, 'millón', 'millonésima'],
+
+  [24, '24', '24°'],
+  [17, '17', '17°'],
+  [107, '107', '107°']
 ]
 
 test('toOrdinal:', function (t) {
@@ -68,7 +72,7 @@ test('toCardinal:', function (t) {
     let [_, card, ord] = a
     let doc = nlp(ord)
     let n = doc.numbers().toCardinal()
-    t.equal(doc.text(), card, here + ' [partoCardinale] ' + card)
+    t.equal(doc.text(), card, here + ' [toCardinal] ' + card)
   })
   t.end()
 })

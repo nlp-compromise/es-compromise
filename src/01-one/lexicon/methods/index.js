@@ -1,28 +1,21 @@
-import conjugate from './verbs/conjugate.js'
-import toRoot from './verbs/toRoot.js'
-import nouns from './nouns/index.js'
+import { toPresent, toPast, toFuture, toConditional, all as allAdj } from './verbs/tense.js'
+import { fromPresent, fromPast, fromFuture, fromConditional } from './verbs/toRoot.js'
+import { toPlural, toSingular } from './nouns/index.js'
 import toMasculine from './nouns/toMasculine.js'
-import { toFemale, toPlural, toFemalePlural, fromFemale, fromPlural, fromFemalePlural } from './adjectives/index.js'
+import adjective from './adjectives/index.js'
 import { fromGerund, toGerund } from './verbs/gerund.js'
 
 export default {
   verb: {
-    conjugate,
-    toRoot,
-    fromGerund,
-    toGerund
+    fromGerund, fromPresent, fromPast, fromFuture, fromConditional,
+    toPresent, toPast, toFuture, toConditional, toGerund,
+    all: allAdj,
   },
   noun: {
-    toPlural: nouns.toPlural,
-    toSingular: nouns.fromPlural,
-    toMasculine,
-  },
-  adjective: {
-    toFemale,
     toPlural,
-    toFemalePlural,
-    fromFemale,
-    fromPlural,
-    fromFemalePlural,
-  }
+    toSingular,
+    toMasculine,
+    all: toPlural
+  },
+  adjective,
 }
