@@ -18,6 +18,7 @@ test('noun-conjugate:', function (t) {
   t.deepEqual([o.singular, o.plural], all, here + 'from-sing')
 
   o = nlp(all[1]).nouns().conjugate()[0]
+  console.log(o)
   t.deepEqual([o.singular, o.plural], all, here + 'from-plural')
   t.end()
 })

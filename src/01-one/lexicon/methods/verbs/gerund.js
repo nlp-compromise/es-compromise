@@ -17,18 +17,3 @@ const toGerund = function (str) {
 
 
 export { fromGerund, toGerund }
-
-// console.log(toGerund('presentir'))
-
-// import list from '/Users/spencer/mountain/es-compromise/data/models/gerunds.js'
-// let miss = []
-// list.forEach(a => {
-//   let [inf, gerund] = a
-//   if (fromGerund(gerund) !== inf) {
-//     miss.push(a)
-//   }
-//   if (toGerund(inf) !== gerund) {
-//     miss.push(a)
-//   }
-// })
-// console.log(JSON.stringify(miss, null, 2))

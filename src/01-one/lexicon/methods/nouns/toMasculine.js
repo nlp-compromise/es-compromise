@@ -44,17 +44,3 @@ const toMasculine = function (str) {
 }
 export default toMasculine
 
-
-// import list from '/Users/spencer/mountain/es-compromise/nouns.js'
-// let count = 0
-// list.forEach(a => {
-//   let [m, f, ms, fs] = a
-//   if (ms && fs) {
-//     if (toMasculine(fs) !== ms) {
-//       count += 1
-//       console.log(fs, ms, '   ', toMasculine(fs))
-//     }
-//   }
-// })
-// console.log(count)
-

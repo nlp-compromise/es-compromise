@@ -1,5 +1,5 @@
 import { learn, compress } from 'suffix-thumb'
-import data from '/Users/spencer/mountain/es-compromise/data/models/adjectives.js'
+import data from '../data/models/adjectives.js'
 
 let out = {}
 let pairs = data.map(a => [a[0], a[1]])
