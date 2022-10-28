@@ -8094,7 +8094,7 @@
   const toConditional$1 = (str) => doEach(str, conditional$1);
 
   // an array of every inflection, for '{inf}' syntax
-  const all$1 = function (str) {
+  const all$2 = function (str) {
     let res = [str].concat(
       Object.values(toPresent$1(str)),
       Object.values(toPast$1(str)),
@@ -8200,6 +8200,14 @@
 
   const toPlural$1 = (str) => convert$1(str, model$1.nouns.plurals);
   const toSingular$1 = (str) => convert$1(str, pRev);
+
+  const all$1 = function (str) {
+    let plur = toPlural$1(str);
+    if (str === plur) {
+      return [str]
+    }
+    return [str, plur]
+  };
   // console.log(toFemale("principesco") === "principesca")
   // console.log(fromFemale("principesca") === "principesco")
   // console.log(toPlural("principesco") === "principescos")
@@ -8293,13 +8301,13 @@
     verb: {
       fromGerund, fromPresent, fromPast, fromFuture, fromConditional,
       toPresent: toPresent$1, toPast: toPast$1, toFuture: toFuture$1, toConditional: toConditional$1, toGerund: toGerund$1,
-      all: all$1,
+      all: all$2,
     },
     noun: {
       toPlural: toPlural$1,
       toSingular: toSingular$1,
       toMasculine: toMasculine$1,
-      all: toPlural$1
+      all: all$1
     },
     adjective,
   };
@@ -10759,7 +10767,7 @@
     api: api$1,
   };
 
-  var version = '0.2.0';
+  var version = '0.2.1';
 
   nlp$1.plugin(tokenizer);
   nlp$1.plugin(tagset);
@@ -10783,12 +10791,11 @@
     }
   });
 
-  es.world = () => nlp$1.world();
-  // de.model = () => nlp.model()
-  // de.methods = () => nlp.methods()
-  // de.hooks = () => nlp.hooks()
-  // de.plugin = (plg) => nlp.plugin(plg)
-  // de.buildNet = (matches) => nlp.buildNet(matches)
+  // this one is hidden
+  Object.defineProperty(es, '_world', {
+    value: nlp$1._world,
+    writable: true,
+  });
 
   /** log the decision-making to console */
   es.verbose = function (set) {

@@ -6,9 +6,16 @@ let pRev = reverse(model.nouns.plurals)
 const toPlural = (str) => convert(str, model.nouns.plurals)
 const toSingular = (str) => convert(str, pRev)
 
+const all = function (str) {
+  let plur = toPlural(str)
+  if (str === plur) {
+    return [str]
+  }
+  return [str, plur]
+}
+
 export {
-  toPlural,
-  toSingular,
+  toPlural, toSingular, all
 }
 // console.log(toFemale("principesco") === "principesca")
 // console.log(fromFemale("principesca") === "principesco")
