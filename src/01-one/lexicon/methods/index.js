@@ -1,6 +1,6 @@
 import { toPresent, toPast, toFuture, toConditional, all as allAdj } from './verbs/tense.js'
 import { fromPresent, fromPast, fromFuture, fromConditional } from './verbs/toRoot.js'
-import { toPlural, toSingular } from './nouns/index.js'
+import { toPlural, toSingular, all as allNoun } from './nouns/index.js'
 import toMasculine from './nouns/toMasculine.js'
 import adjective from './adjectives/index.js'
 import { fromGerund, toGerund } from './verbs/gerund.js'
@@ -15,7 +15,7 @@ export default {
     toPlural,
     toSingular,
     toMasculine,
-    all: toPlural
+    all: allNoun
   },
   adjective,
 }

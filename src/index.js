@@ -33,12 +33,11 @@ Object.keys(nlp).forEach(k => {
   }
 })
 
-es.world = () => nlp.world()
-// de.model = () => nlp.model()
-// de.methods = () => nlp.methods()
-// de.hooks = () => nlp.hooks()
-// de.plugin = (plg) => nlp.plugin(plg)
-// de.buildNet = (matches) => nlp.buildNet(matches)
+// this one is hidden
+Object.defineProperty(es, '_world', {
+  value: nlp._world,
+  writable: true,
+})
 
 /** log the decision-making to console */
 es.verbose = function (set) {
