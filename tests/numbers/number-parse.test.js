@@ -161,3 +161,18 @@ test('number-create:', function (t) {
   })
   t.end()
 })
+
+test('number-one-way:', function (t) {
+  let toNum = [
+    [5000000, '5 millones'],
+    [59000000, '59 millones'],
+    // [5900000, '5,9 millones']
+  ]
+  toNum.forEach(a => {
+    let [num, str] = a
+    let doc = nlp(str)
+    let n = doc.numbers().get()[0]
+    t.equal(n, num, here + '[toNumber] ' + str)
+  })
+  t.end()
+})

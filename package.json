@@ -2,7 +2,7 @@
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
   "name": "es-compromise",
   "description": "Modesto procesamiento del lenguaje natural",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "./src/index.js",
   "browser": "./builds/es-compromise.min.js",
   "unpkg": "./builds/es-compromise.min.js",
@@ -26,7 +26,8 @@
     "version": "node ./scripts/version.js",
     "pack": "node ./scripts/pack.js",
     "score": "node ./learn/wikicorpus/test.js",
-    "watch": "amble ./scratch.js"
+    "watch": "amble ./scratch.js",
+    "stress": "node scripts/stress.js"
   },
   "files": [
     "builds/",
