@@ -1555,14 +1555,20 @@
   var concat = {
     // add string as new match/sentence
     concat: function (input) {
-      const { methods, document, world } = this;
       // parse and splice-in new terms
       if (typeof input === 'string') {
-        let json = methods.one.tokenize.fromString(input, world);
-        let ptrs = this.fullPointer;
-        let lastN = ptrs[ptrs.length - 1][0];
-        spliceArr(document, lastN + 1, json);
-        return this.compute('index')
+        let more = this.fromText(input);
+        // easy concat
+        if (!this.found || !this.ptrs) {
+          this.document = this.document.concat(more.document);
+        } else {
+          // if we are in the middle, this is actually a splice operation
+          let ptrs = this.fullPointer;
+          let at = ptrs[ptrs.length - 1][0];
+          this.document.splice(at, 0, ...more.document);
+        }
+        // put the docs
+        return this.all().compute('index')
       }
       // plop some view objects together
       if (typeof input === 'object' && input.isView) {
@@ -3420,6 +3426,10 @@
     // support '$' (in parentheses)
     if (reg.end === true && index !== length - 1) {
       return false
+    }
+    // match an id
+    if (reg.id !== undefined && reg.id === term.id) {
+      return true
     }
     //support a text match
     if (reg.word !== undefined) {
@@ -6614,7 +6624,7 @@
   const hasApostrophe$1 = /['’]/;
   const hasAcronym = /^[a-z]\.([a-z]\.)+/i;
   const shortYear = /^'[0-9]{2}/;
-  const isNumber = /^-[0-9]/;
+  const isNumber$1 = /^-[0-9]/;
 
   const normalizePunctuation = function (str) {
     let original = str;
@@ -6634,7 +6644,7 @@
         return found
       }
       // support prefix negative signs like '-45'
-      if (found === '-' && isNumber.test(str)) {
+      if (found === '-' && isNumber$1.test(str)) {
         return found
       }
       pre = found; //keep it
@@ -7555,6 +7565,8 @@
   nlp$1.extend(typeahead); //1kb
   nlp$1.extend(lexicon$4); //1kb
   nlp$1.extend(sweep); //1kb
+
+  console.log('local-path');
 
   // generated in ./lib/lexicon
   var lexData = {
@@ -9992,6 +10004,10 @@
     m = m.splitAfter('#NumberRange');
     // june 5th 1999
     m = m.splitBefore('#Year');
+    // 1993/44 y 1994/44
+    m = m.splitAfter('#Fraction');
+    // not 'y una'
+    m = m.not('^y');
     return m
   };
   var find = findNumbers;
@@ -10069,6 +10085,12 @@
   });
   // add extras
   toNumber['cien'] = 100;
+  toNumber['una'] = 1;
+  // sétimo / séptimo
+  toNumber['séptimo'] = 7;
+  toCardinal['séptimo'] = 'siete';
+
+  const isNumber = /^[0-9,$.+-]+$/;
 
   let multiples$1 = {
     // ciento: 100,
@@ -10112,9 +10134,11 @@
       // 'tres'
       if (toNumber.hasOwnProperty(w)) {
         carry += toNumber[w];
-      } else {
-        console.log('missing', w);
-      }
+      } else if (isNumber.test(w)) {
+        w = w.replace(/[,$+-]/g, '');
+        let num = Number(w) || 0;
+        carry += num;
+      } else ;
     }
     // include any remaining
     if (carry !== 0) {
@@ -10767,7 +10791,7 @@
     api: api$1,
   };
 
-  var version = '0.2.1';
+  var version = '0.2.2';
 
   nlp$1.plugin(tokenizer);
   nlp$1.plugin(tagset);
