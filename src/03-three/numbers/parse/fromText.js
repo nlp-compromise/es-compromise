@@ -48,8 +48,8 @@ const fromText = function (terms) {
       let num = Number(w) || 0
       carry += num
     } else {
-      console.log('missing', w)
-      console.log(terms.map(t => t.text))
+      // console.log('missing', w)
+      // console.log(terms.map(t => t.text))
     }
   }
   // include any remaining

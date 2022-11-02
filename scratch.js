@@ -20,7 +20,7 @@ import nlp from './src/index.js'
 // console.log(doc.nouns().conjugate())
 
 
-let doc = nlp('$15 mil millones')
+let doc = nlp('1993/44 1993/24')
 console.log(doc.numbers().get())
 doc.debug()
 
