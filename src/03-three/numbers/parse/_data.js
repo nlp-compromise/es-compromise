@@ -12,5 +12,6 @@ Object.keys(data).forEach(k => {
 })
 // add extras
 toNumber['cien'] = 100
+toNumber['una'] = 1
 
 export { toCardinal, toNumber }

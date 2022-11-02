@@ -20,7 +20,8 @@ import nlp from './src/index.js'
 // console.log(doc.nouns().conjugate())
 
 
-let doc = nlp('atenuaciones')
+let doc = nlp('$15 mil millones')
+console.log(doc.numbers().get())
 doc.debug()
 
 // let doc = nlp('relajarse')

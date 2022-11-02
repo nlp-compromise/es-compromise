@@ -26,7 +26,8 @@
     "version": "node ./scripts/version.js",
     "pack": "node ./scripts/pack.js",
     "score": "node ./learn/wikicorpus/test.js",
-    "watch": "amble ./scratch.js"
+    "watch": "amble ./scratch.js",
+    "stress": "node scripts/stress.js"
   },
   "files": [
     "builds/",

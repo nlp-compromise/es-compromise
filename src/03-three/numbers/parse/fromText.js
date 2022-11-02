@@ -1,4 +1,5 @@
 import { toCardinal, toNumber } from './_data.js'
+const isNumber = /^[0-9,$.+-]+$/
 
 let multiples = {
   // ciento: 100,
@@ -42,8 +43,13 @@ const fromText = function (terms) {
     // 'tres'
     if (toNumber.hasOwnProperty(w)) {
       carry += toNumber[w]
+    } else if (isNumber.test(w)) {
+      w = w.replace(/[,$+-]/g, '')
+      let num = Number(w) || 0
+      carry += num
     } else {
       console.log('missing', w)
+      console.log(terms.map(t => t.text))
     }
   }
   // include any remaining
