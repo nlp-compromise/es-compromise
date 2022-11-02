@@ -1555,20 +1555,14 @@
   var concat = {
     // add string as new match/sentence
     concat: function (input) {
+      const { methods, document, world } = this;
       // parse and splice-in new terms
       if (typeof input === 'string') {
-        let more = this.fromText(input);
-        // easy concat
-        if (!this.found || !this.ptrs) {
-          this.document = this.document.concat(more.document);
-        } else {
-          // if we are in the middle, this is actually a splice operation
-          let ptrs = this.fullPointer;
-          let at = ptrs[ptrs.length - 1][0];
-          this.document.splice(at, 0, ...more.document);
-        }
-        // put the docs
-        return this.all().compute('index')
+        let json = methods.one.tokenize.fromString(input, world);
+        let ptrs = this.fullPointer;
+        let lastN = ptrs[ptrs.length - 1][0];
+        spliceArr(document, lastN + 1, json);
+        return this.compute('index')
       }
       // plop some view objects together
       if (typeof input === 'object' && input.isView) {
@@ -3426,10 +3420,6 @@
     // support '$' (in parentheses)
     if (reg.end === true && index !== length - 1) {
       return false
-    }
-    // match an id
-    if (reg.id !== undefined && reg.id === term.id) {
-      return true
     }
     //support a text match
     if (reg.word !== undefined) {
@@ -7566,8 +7556,6 @@
   nlp$1.extend(lexicon$4); //1kb
   nlp$1.extend(sweep); //1kb
 
-  console.log('local-path');
-
   // generated in ./lib/lexicon
   var lexData = {
     "Conjunction": "true¦aun2e1mas,ni,o,p0sino,u,y;ero,or1;!ntonces;que",
@@ -10791,7 +10779,7 @@
     api: api$1,
   };
 
-  var version = '0.2.2';
+  var version = '0.2.3';
 
   nlp$1.plugin(tokenizer);
   nlp$1.plugin(tagset);
