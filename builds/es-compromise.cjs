@@ -7685,8 +7685,6 @@
   nlp$1.extend(lexicon$4); //1kb
   nlp$1.extend(sweep); //1kb
 
-  console.log('local-path');
-
   // generated in ./lib/lexicon
   var lexData = {
     "Conjunction": "true¦aun2e1mas,ni,o,p0sino,u,y;ero,or1;!ntonces;que",
@@ -10910,7 +10908,7 @@
     api: api$1,
   };
 
-  var version = '0.2.4';
+  var version = '0.2.5';
 
   nlp$1.plugin(tokenizer);
   nlp$1.plugin(tagset);
