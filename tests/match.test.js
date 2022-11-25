@@ -157,7 +157,6 @@ test('match:', function (t) {
     ["mito", "#Noun"],// myth
     ["vecino", "#Noun"],// neighbour
     ["ahora", "#Noun"],// now
-    ["oficial", "#Noun"],// officer
     ["resultado", "#Noun"],// outcome
     ["pasajero", "#Noun"],// passenger
     ["camino", "#Noun"],// path
@@ -167,7 +166,6 @@ test('match:', function (t) {
     ["propósito", "#Noun"],// purpose
     ["cuerda", "#Noun"],// rope
     ["ensalada", "#Noun"],// salad
-    ["científico", "#Noun"],// scientist
     ["sirviente", "#Noun"],// servant
     ["lado", "#Noun"],// side
     ["tamaño", "#Noun"],// size
@@ -220,7 +218,6 @@ test('match:', function (t) {
     ['falla', '#Noun'], //flaw
     ['vuelo', '#Noun'], //flight
     ['helado', '#Adjective'], //frosty
-    ['futuro', '#Noun'], //future
     ['invitado', '#Noun'], //guest
     ['eclosionar', '#Verb'], //hatch
     ['encabezado', '#Noun'], //heading
@@ -229,7 +226,6 @@ test('match:', function (t) {
     ['hambre', '#Adjective'], //hungry
     ['incentivo', '#Noun'], //incentive
     ['pulgada', '#Noun'], //inch
-    ['interno', '#Noun'], //inmate
     ['niño', '#Noun'], //kid
     ['señor', '#Noun'], //lord
     ['almuerzo', '#Noun'], //lunch
@@ -306,7 +302,6 @@ test('match:', function (t) {
     ['encabezado', '#Noun'], //headline
     ['perfeccionar', '#Verb'], //hone
     ['pulgada', '#Noun'], //inch
-    ['interno', '#Noun'], //inmate
     ['animado', '#Adjective'], //lively
     ['elevado', '#Adjective'], //lofty
     ['almuerzo', '#Noun'], //lunch
@@ -316,7 +311,6 @@ test('match:', function (t) {
     ['periódico', '#Noun'], //newspaper
     ['oponente', '#Noun'], //opponent
     ['resumen', '#Noun'], //overview
-    ['físico', '#Noun'], //physician
     ['pellizcar', '#Verb'], //pinch
     ['poblado', '#Adjective'], //populous
     ['embarazado', '#Adjective'], //pregnant
