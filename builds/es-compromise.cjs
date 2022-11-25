@@ -270,6 +270,16 @@
         }
       }
       return true
+    },
+
+    // return the nth elem of a doc
+    getNth: function (n) {
+      if (typeof n === 'number') {
+        return this.eq(n)
+      } else if (typeof n === 'string') {
+        return this.if(n)
+      }
+      return this
     }
 
   };
@@ -412,7 +422,7 @@
   Object.assign(View.prototype, api$j);
   var View$1 = View;
 
-  var version$1 = '14.7.0';
+  var version$1 = '14.8.0';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -1558,11 +1568,13 @@
 
   // append a new document, somehow
   const combineDocs = function (homeDocs, inputDocs) {
-    // add a space
-    let end = homeDocs[homeDocs.length - 1];
-    let last = end[end.length - 1];
-    if (/ /.test(last.post) === false) {
-      last.post += ' ';
+    if (homeDocs.length > 0) {
+      // add a space
+      let end = homeDocs[homeDocs.length - 1];
+      let last = end[end.length - 1];
+      if (/ /.test(last.post) === false) {
+        last.post += ' ';
+      }
     }
     homeDocs = homeDocs.concat(inputDocs);
     return homeDocs
@@ -1579,7 +1591,7 @@
     ptrs.forEach(a => {
       a[0] += home.document.length;
     });
-    home.document = combineDocs(home.document, input.document);
+    home.document = combineDocs(home.document, input.docs);
     return home.all()
   };
 
@@ -2969,7 +2981,7 @@
       //root/sense overloaded
       if (start(w) === '{' && end(w) === '}') {
         w = stripBoth(w);
-        obj.id = w;
+        // obj.sense = w
         obj.root = w;
         if (/\//.test(w)) {
           let split = obj.root.split(/\//);
@@ -2982,7 +2994,7 @@
           obj.pos = obj.pos.charAt(0).toUpperCase() + obj.pos.substr(1).toLowerCase();
           // add sense-number too
           if (split[2] !== undefined) {
-            obj.num = split[2];
+            obj.sense = split[2];
           }
         }
         return obj
@@ -4730,13 +4742,17 @@
         let tags = [...(t.tags || [])];
         let text = t.text || '-';
         if (t.sense) {
-          text = '{' + t.sense + '}';
+          text = `{${t.normal}/${t.sense}}`;
         }
         if (t.implicit) {
           text = '[' + t.implicit + ']';
         }
         text = cli$1.yellow(text);
         let word = "'" + text + "'";
+        if (t.reference) {
+          let str = view.update([t.reference]).text('normal');
+          word += ` - ${cli$1.dim(cli$1.i('[' + str + ']'))}`;
+        }
         word = word.padEnd(18);
         let str = cli$1.blue('  │ ') + cli$1.i(word) + '  - ' + tagString(tags, model);
         console.log(str);
@@ -5996,6 +6012,7 @@
     Preposition: 'cyan',
     Conjunction: 'cyan',
     Determiner: 'cyan',
+    Hyphenated: 'cyan',
     Adverb: 'cyan',
   };
 

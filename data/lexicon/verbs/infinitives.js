@@ -566,4 +566,13 @@ export default [
   "vomit",
   "votar",
   "yacer",
+
+  "asimilar",
+  "frenar",
+  "desafiar",
+  "diferenciar",
+  "desmantelar",
+  "gotear",
+  "supervisar",
+  "estimular",
 ]
