@@ -754,7 +754,7 @@ export default [
   'rickey',
   'rickie',
   'ricky',
-  'rico',
+  // 'rico',
   'riley',
   'roan',
   'robbie',
