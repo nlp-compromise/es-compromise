@@ -31,7 +31,7 @@
   },
   "files": [
     "builds/",
-    "src/"
+    "docs/"
   ],
   "dependencies": {
     "compromise": "14.8.0",
