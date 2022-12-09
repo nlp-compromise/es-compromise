@@ -118,7 +118,6 @@ test('match:', function (t) {
     ["poco", "#Noun"],// bit
     ["puente", "#Noun"],// bridge
     ["amigo", "#Noun"],// buddy
-    ["ganado", "#Noun"],// cattle
     ["ciudadano", "#Noun"],// citizen
     // ["civil", "#Noun"],// civilian
     // ["primo", "#Noun"],// cousin
@@ -144,7 +143,6 @@ test('match:', function (t) {
     ["falta", "#Noun"],// lack
     ["abogado", "#Noun"],// lawyer
     ["hígado", "#Noun"],// liver
-    ["ganado", "#Noun"],// livestock
     ["mayoría", "#Noun"],// majority
     ["mamífero", "#Noun"],// mammal
     ["gerente", "#Noun"],// manager

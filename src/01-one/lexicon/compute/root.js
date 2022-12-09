@@ -33,6 +33,8 @@ const root = function (view) {
         let form = verbForm(term)
         if (term.tags.has('Gerund')) {
           term.root = verb.fromGerund(str, form)
+        } else if (term.tags.has('Perfecto')) {
+          term.root = verb.fromPerfecto(str, form)
         } else if (term.tags.has('PresentTense')) {
           term.root = verb.fromPresent(str, form)
         } else if (term.tags.has('PastTense')) {

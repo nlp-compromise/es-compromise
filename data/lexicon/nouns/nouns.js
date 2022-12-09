@@ -136,7 +136,7 @@ export default [
   'fuerzas armadas',
   'funeral',
   'gales',
-  'ganado',
+  // 'ganado',
   'gemelo',
   'gen',
   'gerente',

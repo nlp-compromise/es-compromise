@@ -44,7 +44,7 @@ let txt = arr[0]
 let doc = nlp(txt).compute('root')
 // doc.match('{quemar}').debug()
 doc.debug()
-console.log(nlp('ganar').verbs().conjugate())
+// console.log(nlp('ganar').verbs().conjugate())
 
 // let doc = nlp('relajarse')
 // doc.compute('root')
