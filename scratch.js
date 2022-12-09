@@ -22,7 +22,7 @@ nlp.verbose('tagger')
 
 
 let arr = [
-  'He comprado los medicamentos',
+  'Suelo manejar rápido',
   'nadie ha oído hablar',
   'ficticios',
   'miembros',
@@ -36,7 +36,7 @@ let arr = [
   'Las medidas de asistencia que se determinarán en cooperación'
 ]
 let txt = arr[0]
-let doc = nlp(txt)
+let doc = nlp(txt).compute('root')
 doc.debug()
 
 // let doc = nlp('relajarse')

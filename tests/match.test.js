@@ -346,14 +346,15 @@ test('match:', function (t) {
     ['extendido', '#Adjective'], //widespread
 
     [`He comprado los medicamentos.`, '#Auxiliary #Verb #Determiner #Plural'], //(I have bought the medicine.)
-    [`Anda pensando en la fiesta de graduación.`, '#Pronoun #Gerund #Preposition #Determiner #Singular #Preposition #Singular'], //(He goes about thinking about the graduation party.)
-    [`Estamos celebrando.`, '#Pronoun #Gerund'], //(We are celebrating.)
+    [`Anda pensando en la fiesta de graduación.`, '#Auxiliary #Gerund #Preposition #Determiner #Noun #Preposition #Noun'], //(He goes about thinking about the graduation party.)
+    [`Estamos celebrando.`, '#Auxiliary #Gerund'], //(We are celebrating.)
     [`No trabaja.`, '#Negative #Verb'], //(He does not work.)
-    [`No saldré hasta mañana por la tarde.`, '#Negative #Verb #Preposition #Date #Preposition #Determiner #Noun'], //(I will not leave until tomorrow afternoon.)
+    [`No saldré hasta mañana por la tarde.`, '#Negative #Verb #Preposition #Noun #Preposition #Determiner #Noun'], //(I will not leave until tomorrow afternoon.)
     [`Puedo nadar.`, '#Auxiliary #Verb'], //(I can swim.)
     [`Los que pararon de fumar tuvieron un incremento de peso.`, 'los que #Auxiliary de #Verb #Verb #Determiner #Noun #Preposition #Noun'], //(Those who quit smoking gained weight.)
-    [`Suelo manejar rápido.`, '#Adverb #Verb #Adjective'], //(I usually drive fast.)
+    [`Suelo manejar rápido.`, '#Auxiliary #Verb #Adjective'], //(I usually drive fast.)
 
+    ['Ella nunca corre.', '#Pronoun #Negative #PresentTense'],
     // ['', ''],
   ]
   arr.forEach(function (a) {

@@ -77,9 +77,6 @@ export default {
   Acronym: {
     not: ['Plural', 'RomanNumeral'],
   },
-  Negative: {
-    not: ['Noun', 'Adjective', 'Value'],
-  },
   Condition: {
     not: ['Verb', 'Adjective', 'Noun', 'Value'],
   },

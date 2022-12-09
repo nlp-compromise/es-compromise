@@ -64,7 +64,11 @@ const stripReflexive = function (str) {
 const guessVerbForm = function (terms, i, world) {
   const setTag = world.methods.one.setTag
   let term = terms[i]
-  if (term.tags.has('Verb') && !term.tags.has('Infinitive')) {
+  if (term.tags.has('Verb')) {
+    // skip these
+    if (term.tags.has('Infinitive') || term.tags.has('Auxiliary') || term.tags.has('Negative')) {
+      return
+    }
     // do we already have both?
     if (forms.filter(tag => term.tags.has(tag)).length >= 2) {
       return

@@ -1,4 +1,4 @@
-import postTagger from './matches.js'
+import postTagger from './index.js'
 
 export default {
   compute: {

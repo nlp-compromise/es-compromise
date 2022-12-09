@@ -15,13 +15,20 @@ export default {
   },
   Gerund: {
     is: 'PresentTense',
-    not: ['Copula'],
+    not: ['Copula', 'FutureTense'],
   },
   PastTense: {
     is: 'Verb',
-    not: ['PresentTense', 'Gerund'],
+    not: ['PresentTense', 'Gerund', 'FutureTense'],
+  },
+  FutureTense: {
+    is: 'Verb',
+    not: ['PresentTense', 'Gerund', 'PastTense'],
   },
   Copula: {
+    is: 'Verb',
+  },
+  Negative: {
     is: 'Verb',
   },
   Modal: {
