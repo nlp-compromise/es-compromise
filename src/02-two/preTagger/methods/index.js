@@ -1,5 +1,12 @@
 import bySuffix from './guessGender/index.js'
+import quickSplit from './quickSplit.js'
+import looksPlural from './looksPlural.js'
+
 
 export default {
-  two: { guessGender: bySuffix }
+  two: {
+    quickSplit,
+    looksPlural,
+    guessGender: bySuffix,
+  }
 }

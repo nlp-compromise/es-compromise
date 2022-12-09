@@ -8,6 +8,7 @@ import pronouns from './nouns/pronouns.js'
 import nouns from './nouns/nouns.js'
 
 import infinitives from './verbs/infinitives.js'
+import auxiliaries from './verbs/auxiliaries.js'
 import modals from './verbs/modals.js'
 import copulas from './verbs/copula.js'
 
@@ -54,6 +55,7 @@ const data = [
 
   [infinitives, 'Infinitive'],
   [modals, 'Modal'],
+  [auxiliaries, 'Auxiliary'],
   [copulas, 'Copula'],
 
   [months, 'Month'],
