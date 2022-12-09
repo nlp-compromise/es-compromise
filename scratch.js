@@ -22,7 +22,7 @@ nlp.verbose('tagger')
 
 
 let arr = [
-  'lo he ganado dos veces',
+  'Mezcle un lantadyme limpio',
   'no quiero quemarme',
   'bañarme',
   'No exageres',

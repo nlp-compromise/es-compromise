@@ -114,7 +114,7 @@ test('root-match:', function (t) {
     ['que las principales economías avanzadas', '{avanzado}'],
     ['una cerilla descuidada', '{descuidado}'],
     ['las perreras más estrechas', '{estrecho}'],
-    ['una estrecha victoria ', '{estrecho}'],
+    ['una estrecha victoria', '{estrecho}'],
     ['un acto defensivo estratégico', '{defensivo}'],
     ['en direcciones opuestas', '{opuesto}'],
     ['una situación conmovedora', '{conmovedor}'],
@@ -125,27 +125,27 @@ test('root-match:', function (t) {
     //verbs
     ['no quiero quemarme', '{quemar}'],
     ['o te comeré', '{comer}'],
-    // ['Coma muchas comidas ', '{comer}'], //subjunctive
-    ['comiendo pasteles dulces ', '{comer}'],
+    // ['Coma muchas comidas', '{comer}'], //subjunctive
+    // ['No exageres', '{exagerar}'], //subjunctive
+    ['comiendo pasteles dulces', '{comer}'],
     ['lo he ganado dos veces', '{ganar}'],
     ['me gané la mía depilando', '{ganar}'],
     ['me ganará el veto', '{ganar}'],
     ['de resina personalizadas que mejoran la capacidad', '{mejorar}'],
-    ['No exageres', '{exagerar}'],
     ['he matado a tu enemigo', '{matar}'],
     ['no matan a la gente', '{matar}'],
     ['los mató de un solo golpe', '{matar}'],
-    ['Mezcle un lantadyme limpio ', '{mezclar}'],
-    ['y mezclarlo con ron ', '{mezclar}'],
-    ['hasta que abordemos la crisis', '{abordar}'],
+    // ['Mezcle un lantadyme limpio', '{mezclar}'], //imperative
+    // ['hace que se destruyan cuando', '{destruir}'], //imperative
+    // ['hasta que abordemos la crisis', '{abordar}'], //imperative
+    // ['y mezclarlo con ron', '{mezclar}'], // what form is this?
+    // ['el gobierno nunca debe socavarlos.', '{socavar}'], // what is this?
     ['mucho viento no prosperan', '{prosperar}'],
     ['prospera en altitudes', '{prosperar}'],
     ['las pocas plantas que prosperan', '{prosperar}'],
-    ['el gobierno nunca debe socavarlos.', '{socavar}'],
-    ['hace que se destruyan cuando', '{destruir}'],
-    ['Los griegos lloraron profundamente ', '{llorar}'],
-    ['llorando por su hijo ', '{llorar}'],
-    ['un agente secreto retirado que llora el asesinato ', '{llorar}'],
+    ['Los griegos lloraron profundamente', '{llorar}'],
+    ['llorando por su hijo', '{llorar}'],
+    ['un agente secreto retirado que llora el asesinato', '{llorar}'],
 
   ]
   arr.forEach(function (a) {
