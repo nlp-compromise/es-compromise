@@ -13,6 +13,10 @@ export default [
   // la tarde
   { match: '#Determiner [#Adverb]$', group: 0, tag: 'Noun', reason: 'det-adv' },
 
+  // no exageres
+  { match: 'no [#Noun]', group: 0, tag: 'Verb', reason: 'no-noun' },
+
+
   // auxiliary verbs
   { match: '[#Modal] #Verb', group: 0, tag: 'Auxiliary', reason: 'modal-verb' },
   // alcanzar + infinitive (to manage to do)

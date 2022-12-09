@@ -22,6 +22,11 @@ nlp.verbose('tagger')
 
 
 let arr = [
+  'lo he ganado dos veces',
+  'no quiero quemarme',
+  'bañarme',
+  'No exageres',
+  'vestirte',
   'Suelo manejar rápido',
   'nadie ha oído hablar',
   'ficticios',
@@ -37,7 +42,9 @@ let arr = [
 ]
 let txt = arr[0]
 let doc = nlp(txt).compute('root')
+// doc.match('{quemar}').debug()
 doc.debug()
+console.log(nlp('ganar').verbs().conjugate())
 
 // let doc = nlp('relajarse')
 // doc.compute('root')

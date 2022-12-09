@@ -72,6 +72,12 @@ const steps = [
       packed.gerunds = {
         gerunds
       }
+      console.log('perfecto')
+      let perfecto = learn(models.perfecto)
+      perfecto = compress(perfecto)
+      packed.perfecto = {
+        perfecto
+      }
       return packed
     },
   }

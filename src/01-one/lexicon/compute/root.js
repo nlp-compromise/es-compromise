@@ -42,7 +42,8 @@ const root = function (view) {
         } else if (term.tags.has('Conditional')) {
           term.root = verb.fromConditional(str, form)
         } else {
-          // term.root = verb.fromPresent(str, form)
+          // guess!
+          term.root = verb.fromPresent(str, form)
         }
       }
 

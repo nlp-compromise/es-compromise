@@ -60,8 +60,11 @@ export default {
     is: 'Verb',
     not: ['Infinitive', 'Imperative'],
   },
-
   Reflexive: {
+    is: 'Verb',
+  },
+  // sometimes 'pretérito'
+  Perfecto: {
     is: 'Verb',
   },
 
