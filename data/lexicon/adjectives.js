@@ -1828,4 +1828,7 @@ export default [
   // 'regular',
   // 'rico',
   'noroeste',
+  'ficticios',
+  'bruscos',
+  'limítrofes'
 ]

@@ -22,22 +22,12 @@ nlp.verbose('tagger')
 
 
 let arr = [
-  'Mezcle un lantadyme limpio',
-  'no quiero quemarme',
-  'bañarme',
-  'No exageres',
-  'vestirte',
-  'Suelo manejar rápido',
-  'nadie ha oído hablar',
-  'ficticios',
-  'miembros',
-  'bruscos',
-  'ganadera',//noun
-  'china',
-  'vegetal',
-  'argentina',
-  'limítrofes',
-  'sonora',
+  // 'Mezcle un lantadyme limpio',
+  // 'no quiero quemarme',
+  // 'bañarme',
+  // 'vestirte',
+
+
   'Las medidas de asistencia que se determinarán en cooperación'
 ]
 let txt = arr[0]
