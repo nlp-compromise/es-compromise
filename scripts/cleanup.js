@@ -24,4 +24,4 @@ let loose = og.filter(str => {
 
 // console.log(og.length)
 // console.log(loose.length)
-console.log(JSON.stringify(loose, null, 2))
+// console.log(JSON.stringify(loose, null, 2))

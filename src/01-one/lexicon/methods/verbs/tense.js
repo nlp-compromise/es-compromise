@@ -1,6 +1,7 @@
 import { convert } from 'suffix-thumb'
 import model from '../models.js'
 import { toGerund } from './gerund.js'
+import { toPerfecto } from './perfecto.js'
 import { toReflexive } from './reflexive.js'
 let { presentTense, pastTense, futureTense, conditional, subjunctive, imperative } = model
 
@@ -39,6 +40,7 @@ const all = function (str) {
     Object.values(toImperative(str)),
     Object.values(toSubjunctive(str)),
     toGerund(str),
+    toPerfecto(str),
     toReflexive(str),
   ).filter(s => s)
   res = new Set(res)

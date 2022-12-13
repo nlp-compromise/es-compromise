@@ -8290,6 +8290,21 @@
     return convert$1(str, m$3.toGerund)
   };
 
+  let { perfecto } = model$1;
+
+  // =-=-
+  let m$2 = {
+    fromPerfecto: reverse$1(perfecto.perfecto),
+    toPerfecto: perfecto.perfecto,
+  };
+
+  const fromPerfecto = function (str) {
+    return convert$1(str, m$2.fromPerfecto)
+  };
+  const toPerfecto$1 = function (str) {
+    return convert$1(str, m$2.toPerfecto)
+  };
+
   // does this make any sense?
   const toReflexive = function (str) {
     str = str.replace(/ar$/, 'arse');
@@ -8341,6 +8356,7 @@
       Object.values(toImperative$1(str)),
       Object.values(toSubjunctive$1(str)),
       toGerund$1(str),
+      toPerfecto$1(str),
       toReflexive(str),
     ).filter(s => s);
     res = new Set(res);
@@ -8568,21 +8584,6 @@
   // console.log(fromFemale("principesca") === "principesco")
   // console.log(toPlural("principesco") === "principescos")
   // console.log(toSingular("principescos") === "principesco")
-
-  let { perfecto } = model$1;
-
-  // =-=-
-  let m$2 = {
-    fromPerfecto: reverse$1(perfecto.perfecto),
-    toPerfecto: perfecto.perfecto,
-  };
-
-  const fromPerfecto = function (str) {
-    return convert$1(str, m$2.fromPerfecto)
-  };
-  const toPerfecto$1 = function (str) {
-    return convert$1(str, m$2.toPerfecto)
-  };
 
   var methods$1 = {
     verb: {
@@ -11251,7 +11252,7 @@
     api: api$1,
   };
 
-  var version = '0.2.7';
+  var version = '0.2.8';
 
   nlp$1.plugin(tokenizer);
   nlp$1.plugin(tagset);
