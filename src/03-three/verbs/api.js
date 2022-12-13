@@ -15,7 +15,7 @@ const api = function (View) {
     }
     conjugate(n) {
       const methods = this.methods.two.transform.verb
-      const { toPresent, toPast, toFuture, toConditional, toGerund, toPerfecto } = methods
+      const { toPresent, toPast, toFuture, toConditional, toGerund, toPerfecto, toImperative, toSubjunctive } = methods
       return getNth(this, n).map(m => {
         let str = getRoot(m, methods)
         return {
@@ -25,6 +25,8 @@ const api = function (View) {
           conditional: toConditional(str),
           gerund: toGerund(str),
           perfecto: toPerfecto(str),
+          imperative: toImperative(str),
+          subjunctive: toSubjunctive(str),
         }
       }, [])
     }

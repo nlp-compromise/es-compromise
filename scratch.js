@@ -26,15 +26,13 @@ let arr = [
   // 'no quiero quemarme',
   // 'bañarme',
   // 'vestirte',
-
-
   'Las medidas de asistencia que se determinarán en cooperación'
 ]
 let txt = arr[0]
 let doc = nlp(txt).compute('root')
 // doc.match('{quemar}').debug()
-doc.debug()
-// console.log(nlp('ganar').verbs().conjugate())
+// doc.debug()
+console.log(nlp('ganar').verbs().conjugate())
 
 // let doc = nlp('relajarse')
 // doc.compute('root')

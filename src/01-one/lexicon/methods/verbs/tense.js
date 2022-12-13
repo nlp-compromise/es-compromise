@@ -2,7 +2,7 @@ import { convert } from 'suffix-thumb'
 import model from '../models.js'
 import { toGerund } from './gerund.js'
 import { toReflexive } from './reflexive.js'
-let { presentTense, pastTense, futureTense, conditional } = model
+let { presentTense, pastTense, futureTense, conditional, subjunctive, imperative } = model
 
 const doEach = function (str, m) {
   return {
@@ -14,11 +14,19 @@ const doEach = function (str, m) {
     thirdPlural: convert(str, m.thirdPlural),
   }
 }
+const noFirst = function (str, m) {
+  let obj = doEach(str, m)
+  obj.first = ''
+  obj.firstPlural = ''
+  return obj
+}
 
 const toPresent = (str) => doEach(str, presentTense)
 const toPast = (str) => doEach(str, pastTense)
 const toFuture = (str) => doEach(str, futureTense)
+const toSubjunctive = (str) => doEach(str, subjunctive)
 const toConditional = (str) => doEach(str, conditional)
+const toImperative = (str) => noFirst(str, imperative)
 
 // an array of every inflection, for '{inf}' syntax
 const all = function (str) {
@@ -40,4 +48,6 @@ export {
   toPast,
   toFuture,
   toConditional,
+  toSubjunctive,
+  toImperative
 }

@@ -7706,13 +7706,13 @@
   var lexData = {
     "Conjunction": "true¦aun2e1mas,ni,o,p0sino,u,y;ero,or1;!ntonces;que",
     "Determiner": "true¦algun6c5e2l1muchos,otra4su4toda4un0vari6;!os;a2os;l,s0;e,ta0;!s;ada,ualquier;as,os",
-    "Cardinal": "true¦billoWcMdEmilCnAo8quin7s5tre4un3veint0;e,i0;c0dós,nuJoIsGtrés,uno;inco,uatro;a,o;ce,inOsJ;e0iD;isHsLte4;ce,iH;ch0nM;enJoE;ove0uA;ciDnH;!l0;oIón;ie1o0;ce,s8;ci0z;nu3o2s0;i0éis;ete;cho;eve;ator8i3ua0;r4tro0;!ci0;entos;en3nc0;o,u0;en0;ta;!to;ce;nes",
-    "Adjective": "true¦0:MD;1:ND;2:MZ;3:LG;4:N6;5:N8;6:MF;7:K7;8:KQ;9:NA;A:LE;B:MT;C:MI;D:KP;E:M2;F:MY;G:KY;H:FS;I:LC;aJLbIFcFLdEAeCIfBNgB1hAKi8Mj8Dkur1l7Qm69n5No5Ap3Rqu3Pr2Qs1Dt0Ju0EvVweb,xeUySzQáOíLóKúJ;ltimDnE3tFH;pAGs8;be3gn8nJ;fiN4tJ;eg3iN3;ci1l2LrJs3Sto0ur8vi1;abe4i1;aJur1;moLApoAVragoza0;erMYuJ;caATgoslaKA;nófoIIróDA;aTePiLáKíJ;tr8vi1;li1ndaKN;ejFIguEkinFlGJolHrLsJtAu1vo4zcIM;iJuA;bG7go1;tuAulH;c0Mllu1nezoGFrKsperK3tJ;eKYus2;an4NdJsátEWt32;ader5e4;cPgOlNno,q45riMsJ;alKDcJto;oJón;!nN3;abFXop92;lisoleI2ón;abBJo;u0ío;bFQltraKAmbrILnLrKteLJzbeJ;co,ko;b7Pug47;iJíCQ;forFTversA;a0Ae02he,iZoVrOuLárta3éKíJ;mi1pD2;cni7rmL7;cuHWnHTrJ;bJco,ístCZ;io,ulH;aKemBYiJoH5un7;lobuLWsJQ;cMdicLWnKsJvieC;e3lúLG;quiJRsJ;grJZlúLEm08vLN;io,t9;le73n2rLscKtJ;al,ona7;a0o;do,e3;bKer0ll,n2roJ;id8lE;eHBio;atrAba0mpPn78rJsal6utGóri7;cMmóC0rJ;eKiJáqu8;to8N;no,s8O;erJio;!a;orArK0;iwVng30rJuKMí0;as7dHNt7X;a0Le0Ci07oYuKíIBóJúpHE;li1rBE;ave4bUcSdReQficiJ0je2mPpKrc3ZsJtDL;odicJMtitu2;erKreJ;mo,s9;!doKQfKiJ9vJ;is9;iBFlI;er6o;co,l2vo;anE;es9iJulH;n2o;alJcampeGdesarrolKVmaK6u6P;pi0t9O;bOcialNlKmJno3r1viéHR;brH5e3;aJemne,it0No;!rJ;!ieF;!es,isJ8;erKrJ;ehuGIio;a0b6;amEgMlLmKnJr6;ce3ieJCóB7;il4GpC0;vA2íc8;nificaHDuiDI;cQdPguOmiMnLptentrDWrKvJxuBñe3;e3ilE9;b6e0io,ra0;cill5egalEsa2;cJdesnu1áKS;on0AáC0;nCOro;iHuGH;o4retoDBundariD1;b6crRgrCGjGlPmOnKrJ;do,race0;!gKjuani0o,tJ;afeJAiagJ8o;riHuJ;inolHín8;a47oa0;iJtGDvo;no,tGK;o,íleF;a0DeRiQoLuKápid5íJ;gi1;a0b3do,ma0rBs5;b9McMd6jLmKn7q1IsaJt92;do,ri0;anDo;a,iblan7o4;ie3ke3ocó;c5oja0;a01cXdWfUgSlRmo2nPpLsponsD7tKvolucionJ;ar6;iBTrógGP;le2rJ;esKoJ;duFR;alDNor;aJombraBV;centHYno;aBQigiosDle0;ioJularEF;!nB;iJPleJ;ct9jo,xiGR;on1uFI;e56honcHOiLoleKtJípro7;ang2MilCUor;ct9to;enJOo;c6lJ;!eJ;nFs;dLlo,ncKquíd8ro,sJ;o,tFM;he3io;icA;eJie2ímEI;bequEchua,ri1;a0Pe0Ji0Hl0Eo03rNuLáALéKíJóstuIZúblEG;ca3o;nduGRtr8;d8Ter7lc3ntiagu1rJto;iEIo,p9GulH;acFOeViSoLáctHWóJ;diFsJximBJ;pe3;bC7cedBPduEWfNgen9SliF5mLn2pKsperan1teEWvJ;eniBOin90;enCiDuls9;eJiscIot9;d6tIU;a0esIJuJ;nd5so;e2mJn1X;aECerJigFU;!a4os;cKdecGKmatu3r6UsJvi5;enIVidenFLo,to,un2;olombi0urs9;bSdRlOp08rMsJtoHH;iKtJ;eriGEre3;b9Ptiv5;ci0tJ;u2UátAJ;a7iKvoriHíJ;c1UfaFgaI7tDO;c1Tn4P;eros5ri1;la1re;aKeJ;be00n5;no,ye3;cu1gm8nJ;na1o,t9;cu76dunA2lNnMor,queñDrKsqJ;ue3;la1manFLpJsonalCUteneciAUua0vHN;etIleE9;tá8Uúl54;i45u1;cífi7ga0lRmpH1rKtJuH2;er0r6óGO;aMciAdLeE4iGTtiJ;cJsa0;ul1I;o,us7;gJleFG;uaJ;yo;aJesEYme3;cJti0;ieF;bRcPfiELmnCApMrKsc60toD8vJ;i0oid8ípa3;al,deHOiJtodoB0;e5ZginBun1;a7eraE5oKrFFuJ;es2lH;r3Bs8B;ciJhava1ul2;de5Uta0;eClLre3sJtuCv6;cJole2;e0u3;icIonF;aZeUiToNuJíECómada4;cleKevDlo,merosJ;as,os;aJó7E;do,rH3;b8CcNmbDYrKtJva2;ab8Bo;cKmaJueF;lGZn1;orG3;iE6tur0;pGtrogeH2;cMfas2gKoJrv6Pto,ut3;grana4TyorqFR;aDIrJ;a,o4uz7;esariDio;cGJpoliC9tMvKzJ;are0i;aJie3;l,r3;al,o,urB;a0Je0Ci07oWuPáNédi7íMóLúJ;ltiplJsi7;e4o;r8Dv8O;nKse3;s,xJ;im5;do,er2la2nMsJtI;cKicJulmAW;alGCóE3;ulAR;dKiJ;cipB;a0iA;deSlRnMrJzo;aKe0iJmGo,u0;b56s7;do,l;ocMtKóJ;gaFYto0;aJevidF6és;no,ñE;roFV;daD7es2;rnDs2;lLsKxtJ;e7il9Ao;mDógi0;anEitJ;arFS;dNjDPnLrJtropolitE7xicE7zqEO;id8ZoJ;!vAE;oJtAu1;rFNs;iJo;a,evAo;cXdWeE5gUlRnPrOsNtKuJyDI;riB2;eJuCT;mát3TrJ;iAno;cuELiFG;aga2ino4í2K;cheFdBJifiCWso,uJ;eEIfacBP;!aKig0lorquBIo,tJv2FéBA;r15és;!yo;nJro;o,éBX;eBKu3;ab3edBD;a01eXiRlQoNuKáct8íJúEI;m4Uqui1;sKteD9xemburJ;guE;iAJo;buERcJmbar1ngeC8;alEYoJ;!mBH;a0e0orG;bMgLmp6nKs2tJ;erari5ua0;do,eAgEN;e3ue3;anEerJio,re4;al,ti0;cLgKja0n2oEVtJ;ra1ón;alENo,í1T;he3t9;cLdrGnKrgDsciBUtJxo;erBin5o;ceolad6Hu1;io,rimóDB;aOeNoLuJóven9B;dJguetGnto4s2ven6M;i4Lí71;rJvEV;da0;mA9ró4S;cobKponJ;esa,és;eo,i0;be3d1FguBl18mp12nNrLsKtaliJzquierd5;an6T;abeDComorCKraelí,óC7;aJredH;c35n6;a0Vc0Rd0Ge0Ef0Ag08h07i06just05m01na2oZquie2sVtLus16vJút69;as9erJá5K;so6X;eKrJ;auteD2uCé3Qí39;lec3XnPrJ;!ceNesE7iMmed6nKuJvent9;rba0;aJo4;!cDNs;no,or;pt9;cD9s5;atKeJospe5F;ct8Fgu3nsa2r2;isfJuAK;ecBV;cIdo3porJ;tu0;aLeKunJ;do,osuprBI;dia2nCrC;cuD9du3;ifiCBo;ciAnterrum36;abiCTu92;enIlesJra2;a,es;aLeKraJun52;rro9K;liz,riB7;me,nt5E;quí3Ksper0BxpJ;er2loA2;eQiLoJustriBígena4;e7Ilo3nJ;es6;ferenc70g0o,sJviduB;cKtJ;in2;rJuA4;e2iCV;bi1fKpendienteJs4LterCU;!mAHs;enCi8O;i4HoJruHul2ómo1;lo3mpKnJrpA7;cluCe6AtroCK;le2ren2P;cabUdJlte9Mni42prop6O;ecuTv20;ar,eNoMrKuJío;ls9ro;eJop6;s9v46;rtCUsib5X;riA;eNiKusJ;tre4;mJr6;itJ;ad5;gíJso;tiC8;eAón8;aWeSiQoLuKáb4GíbCJúJ;me1n8U;e7gono9UmanDracaCEér3B;cicu1mLnKrJ;izoAPr1Z;do,es2;ogOóJ;fo0loFniBZ;d2Brsu2sJ;pano09tór7E;br8chi94lLrb6QteroJ;do5HgJ;én8;a1e0;bituBlóKmbrJr2;e,iH;fi9Kge0;aZeXiWlUoTrMuJé3B;aJerrill4Iipuzcoa0;po,rdi6AtemalJ;te7;aLecoKiJose3ueC;eg5s;!la8YrW;nKsJto,ve4;iHo;!aJde4;di0;do,r1;aJobAút8;b3u7;g6Tta0;nJográfACr72st9;erBui0étAB;di6VlJr35scGuc9K;lLoJés;!rJ;ro6X;ar1eF;a09e06i01lXoVrQuMác3DéKísJ;icAV;rJti1;r8t3A;erBEnKtJ;ur5;c4AdameJes2;ntB;aKecu3TisGug5PíJ;a,o4vo8O;ncKtJudulH;er0;es9Xis8Bo,és;lclór9SrJ;mAni1;aKexi81oJ;jo,ri1;co,mJ;en7íge3;brad7Ucticias,dedig0eMjo,lLnJr45;aJo;l,nciero4;ipi0óso8Z;lAKro;cKderAliJmenin5o;no,z;un1;lLmJríng8sci2Gvor3S;iJosD;li4U;lo,s5;br6conóm5Pd19f17g16jecu71l10m0Zn0Up0Rqu0Orrón8s01t00uropeDvid7XxJ;!ac8NcXen2haWiVpTtJó94;ePin2rJ;aLem5ovKíJ;nse7;er7C;ct9njerKterrJ;est99;a4os;nKrJ;i80n2O;di1s5;erJreC;ime8Ito;gIst2S;us2;elJret9;en7Hso;er0rus7ér8;bel2c00enZlXpQqui72tJ;aOeNon6r1OuKánd48úJ;pi1;dKpJ;en1;ioC;!l43;b2Zdounidense4n7tB;aNeLiriKlénJur6;di1;tuA;cJso;iBíf09;ciBr4ZñolJ;!a4es;a6NovJ;a7e0;ciA;aMleKoJue2;cEl3Q;róJ;fi6Y;ndina6Gs1T;iKíJ;vo7;lib60no,val6P;icKóJ;ni8Y;úr8;a0cMdLemiFfer8WoKreve6NtJ;e3usias7B;ja1rme4;oc80ó7Q;ant9Bima;bara86is9;eJéctr5U;ctJva1;orLróJ;fi6HnJ;ic1C;!al;eo,ipc6oís70;ec0Ric59íJ;me3;it9;a0Se00iMoLruCuJéb0Q;lJr5;ce,zG;b1Ulo8Qmin3Vrmi1;e71fUgTminu2oce5IploSrect1BsNur0vKáJ;fa0;erJi0;sJti1;as,o4;cMj81pJtintD;erConibKuestJ;!o;le4;apaci7Mre2;ma1;itAno;er0YuJíc20;n2so0Z; mo09b08c07f05l03n01pZrYsJvo2;aVcRdiQemplPhon5KiOnu1o11pKtru42vaJ;li1;iLrJ;e3QovJ;is2;aNer2;er2;ea1;cha1;alLonKuiJ;da1;o74tH;zo;fo75perciJ;bi1;ech5;ortivJred80;as,o;so,tiJ;cu7A;gJicJ;ad75;ens9iniJ;ti7F;a0idI;il;da;nEñi0;a1Qe1Hh19i14l12oXrQuLáKéleb6DóJ;mo1nca4Hrn8;li1ntab3;aMba0er1ltLrJstod6ánt64;si,vJ;il0Jo;o,urB;d3r5E;an66eOiKoa5DuJí3R;do,en2;ol4PstJ;a64iJ;anJno;a,o4;ci4Gs6A;l0Km0EnVoUque2rLsJ;a7tJ;era;a5XdQea0int6nu1pOreKso,tJuñE;a4e3So4;ctKspondiJ;en6Z;a,oJ;!r;orAulHór8;en2;a1ille4Q;rde6O;c00du2IeZfXj67mov6Ko5VsOtLvJ;eJulC;rCxo;en2iJ;gInJ;e4Vu5;aPerv6QiMpLtJult9;an6LitucJri2B;ionA;icI;derJst3S;abJ;le;bi1nguJ;ín8;orJuC;me;xo;ienzu1re2;ar3Eer2ZpKunJún;es,is49;lKosteJ;la0;eJi4P;j5t5;e1ToJ;mbiJniAri1;a0no;aJo2Lás2P;ndes2Zr5;clóp8eMlLmarrGrcuKvJ;il5M;l01nv16;ia1;go,ntíf2JrtD;aOecMiKoJur3;lo,ro;f58lJno;en5lG;he0oJ;!slova7;rJto;ro,t18;lPnLrJ;caJebrAra1;!nD;s9trJ;al56oeKíJ;fuFpe2;urop8;es2Ptíbe3ulJ;ar;duc03l02mZnWpSrNsLtJu2;alJól3Y;án;e3tJ;ell3Do;acterís1Mc3OnMoKroñe3tJ;ag0Ru15;!lJ;ing6;ívo3;aKitalJri0uchi0;!i0;cJz;es;an8cerí3Gi0o,sa1tJ;an28oJ;nEr;boKpeJ;ro,si0ón;ya0;cár8i22mo,vo;ifol6o;a0He09i02lanZoVrOuLáKíJúl10;fi1pe1;rba3sQva3;enKfo,rJ;do,guElG;!a4o4;a1IeOiKuJ;jo,s7to;llLtJ;a0ánJ;icD;an1Q;tGve;goLhem6mKol37rJsn6to,vi0;goñGrac29;bo;ta0;cKdo,quJ;eci0;a4o4uz7;eMlbLnaKrJzar3;ma0;ria;aí0;lorruCnJ;veJ;ni1;a2l1EnMoc6rJ;ber0ZebKlJ;inE;er;eKig0éJ;vo19;dic0TfaJ;ct9;bilOilMjDldLrKstJyo;ar1o;a2bu1cel0Vroco4í25;ío;arJ;ín;on6;b3Gc34d2Ve2Tf2Pg2Lje2Jl1Zm1Mn0Xp0Rqu8r07s02tWuPvLzuKére5ñeJ;jo;caLl37;aLenJ;tuJ;re3;n2Ero;dOstrohúnNtJ;oKóJ;c1Rgra1Enom5;gest2HmJpropul0M;ot9;ga3;az;eMlánLrJ;acJevi1oz;ti02;ti7;n2o,rJ;ciope2Ir35;esMiKtu2íJ;ncro0;dIlvestJr6;ra1;i0or;aZbYca0dIenWgSio,mRqueológicQrNtJábiF;eLifiKístJ;ic5;ciB;sa0;epenKies2XoJ;ce3;ti1;os;en6;eKiJ;vo;li0nJ;ti0;is7;co;ór8;gKm8uJ;ca0;onE;aKuJócrifo4;es2;iLrJ;enJ;te;sa1;a03c02d00eZfiXgWhid3iUtMuBáLóJ;maJni1P;lo;loF;eNiJ;aér8c1JguDsubJ;ma0R;a4o4;eo;cKriJ;or1K;es9;ma1sóJ;tropo;evi0losajGos2;b6triG;ón;jo,xo;aluz,i0orJ;ra0;ho;e0Tlfabe2rJ;anja1quJ;isJ;ta;aSbiMeriKorJpli5;fo;cJnd6;an5;dieMeKgI;uo;ntA;al;st3;ro;do,rJ;go,illJ;a,en2o;a01bZcaYdXeSfonRgOoNpi0tMucKócJ;to0;inóJ;ge0;a4er0o4;ca1;ebraKonqJ;ui0;ica;si0;gMjandLmJnt0X;anJán;a4es;ri0;re;ea0;li0;anEi0;és;do,no;dreJno;za1;iLrJudo4;adeJio,ícola4óno01;ci1;ta1;ga0icKoJ;rtu07;io06;no;rob6;io;ecQiNjMministrativLul2vJ;erC;so;a4o;un2;cKnteJ;la1;ionB;ua1;ampaTep2iaFoPtLuKérriJ;mo;miR;iLuB;alJ;!es;va;gJrazoM;ed9;go;to;na1;neTorigSrumQsOuJ;ndKrJ;ri1;anJ;te4;!s;olut5ur1;a,o;ad9;or;en;ga1;do",
+    "Cardinal": "true¦billoXcMdEmilCnAo8quin7s5tre4un3veint0;e,i0;c0dós,nuJoIsGtrés,uno;inco,uatS;a,o;ce,inOsJ;e0iD;isHsLte4;ce,iH;ch0nN;enJoE;ove0uA;ciDnH;!l0;oJón;ie1o0;ce,s8;ci0z;nu3o2s0;i0éis;ete;cho;eve;ator9e8i3ua0;r4tro0;!ci0;entos;en3nc0;o,u0;en0;ta;!to;ro;ce;nes",
+    "Adjective": "true¦0:MG;1:NF;2:N1;3:LJ;4:N8;5:NA;6:MI;7:KT;8:KA;9:NC;A:LH;B:MW;C:ML;D:KS;E:M5;F:N0;G:L1;H:FU;I:LF;aJObIHcFNdEBeCJfBNgB1hAKi8Mj8Dkur1l7Pm68n5No5Ap3Rqu3Pr2Qs1Dt0Ju0EvVweb,xeUySzQáOíLóKúJ;ltimDnE4tFJ;pAGs7;be3gn7nJ;fiN7tJ;eg3iN6;ci1l2LrJs3Sto0ur7vi1;abe4i1;aJur1;moLDpoAVragoza0;erN1uJ;caATgoslaKD;nófoIKróDB;aTePiLáKíJ;tr7vi1;li1ndaKQ;ejFKguEkinFlGLolHrLsJtAu1vo4zcIO;iJuA;bG9go1;tuAulH;c0Mllu1nezoGHrKsperK6tJ;eL1us2;an4NdJsátEYt32;ader5e4;cPgOlNno,q45riMsJ;alKGcJto;oJón;!nN5;abFZop92;lisoleI4ón;abBKo;u0ío;bFSltraKDmbrIOnLrKteLMzbeJ;co,ko;b7Pug47;iJíCR;forFVversA;a0Ae02he,iZoVrOuLárta3éKíJ;mi1pD3;cni8rmLA;cuHYnHVrJ;bJco,ístD0;io,ulH;aKemBZiJoH7un8;lobuLZsJT;cMdicLZnKsJvieC;e3lúLJ;quiJUsJ;grK2lúLHm08vLQ;io,t9;le73n2rLscKtJ;al,ona8;a0o;do,e3;bKer0ll,n2roJ;id7lE;eHDio;atrAba0mpPn78rJsal6utGóri8;cMmóC1rJ;eKiJáqu7;to8N;no,s8O;erJio;!a;orArK3;iwVng30rJuKPí0;as8dHQt7X;a0Le0Ci07oYuKíIEóJúpHG;li1rBF;ave4bUcSdReQficiJ3je2mPpKrc3YsJtDN;odicJPtitu2;erKreJ;mo,s9;!doKTfKiJCvJ;is9;iBGlI;er6o;co,l2vo;anE;es9iJulH;n2o;alJcampeGdesarrolKYmaK9u6P;pi0t9O;bOcialNlKmJnor5r1viéHU;brH8e3;aJemne,it0No;!rJ;!ieF;!es,isJB;erKrJ;ehuGKio;a0b6;amEgMlLmKnJr6;ce3ieJFóB8;il4FpC1;vA3íc7;nificaHGuiDK;cQdPguOmiMnLptentrDYrKvJxuBñe3;e3ilEB;b6e0io,ra0;cill5egalEsa2;cJdesnu1áKU;on0AáC1;nCQro;iHuGJ;o4retoDDundariD3;b6crRgrCHjGlPmOnKrJ;do,race0;!gKjuani0o,tJ;afeJDiagJBo;riHuJ;inolHín7;a46oa0;iJtGGvo;no,tGN;o,íleF;a0DeRiQoLuKápid5íJ;gi1;a0b3do,ma0rBs5;b9NcMd6jLmKn8q1IsaJt93;do,ri0;anDo;a,iblan8o4;ie3ke3ocó;c5oja0;a01cXdWfUgSlRmo2nPpLsponsD9tKvolucionJ;ar6;iBUrógGS;le2rJ;esKoJ;duFT;alDPor;aJombraBX;centI1no;aBRigiosDle0;ioJularEH;!nB;iJRleJ;ct9jo,xiGU;on1uFK;e56honcHRiLoleKtJípro8;ang2LilCWor;ct9to;enJQo;c6lJ;!eJ;nFs;dLlo,ncKquíd7ro,sJ;o,tFP;he3io;icA;eJie2ímEK;bequEchua,ri1;a0Pe0Ji0Hl0Eo03rNuLáAMéKíJóstuJ2úblEI;ca3o;nduGUtr7;d8Uer8lc3ntiagu1rJto;iEKo,p9HulH;acFReViSoLáctHZóJ;diFsJximBL;pe3;bC9cedBRduEYfNgen9TliF8mLn2pKsperan1teEYvJ;eniBQin91;enCiDuls9;eJiscIot9;d6tIW;a0esIMuJ;nd5so;e2mJn1W;aEEerJigFX;!a4os;cKdecGNmatu3r6UsJvi5;enIXidenFOo,to,un2;olombi0urs9;bSdRlOp08rMsJtoHK;iKtJ;eriGHre3;b9Qtiv5;ci0tJ;u2TátAL;a8iKvoriHíJ;c1TfaFgaIAtDQ;c1Sn4P;eros5ri1;la1re;aKeJ;be00n5;no,ye3;cu1gm7nJ;na1o,t9;cu77dunA3lNnMor,queñDrKsqJ;ue3;la1manFOpJsonalCWteneciAWua0vHQ;etIleEC;tá8Vúl54;i45u1;cífi8ga0lRmpH4rKtJuH5;er0r6óGR;aMciAdLeE7iGWtiJ;cJsa0;ul1H;o,us8;gJleFJ;uaJ;yo;aJesF1me3;cJti0;ieF;bRcPfiEOmnCCpMrKsc60toDAvJ;i0oid7ípa3;al,deHQiJtodoB2;e5ZginBun1;a8eraE8oKrFIuJ;es2lH;r3Bs8C;ciJhava1ul2;de5Uta0;eClLre3sJtuCv6;cJole2;e0u3;icIonF;aYeTiSoMuJíEFómada4;cleJevDlo,meros65;aJó7G;do,rH7;b8EcNmbE2rKtJva2;ab8Do;cKmaJoesEQueF;lH3n1;orG7;iEAtur0;pGtrogeH5;cMfas2gKoJrv6Rto,ut3;grana4UyorqFV;aDMrJ;a,o4uz8;esariDio;cGNpoliCCtMvKzJ;are0i;aJie3;l,r3;al,o,urB;a0Je0Ci07oWuPáNédi8íMóLúJ;ltiplJsi8;e4o;r8Fv8R;nKse3;s,xJ;im5;do,er2la2nMsJtI;cKicJulmAZ;alGGóE7;ulAU;dKiJ;cipB;a0iA;deSlRnMrJzo;aKe0iJmGo,u0;b58s8;do,l;ocMtKóJ;gaG2to0;aJevidFAés;no,ñE;roFZ;daDBes2;rnDs2;lLsKxtJ;e8il9Do;mDógi0;anEitJ;arFW;dNjDTnLrJtropolitEBxicEBzqES;id92oJ;!vAH;oJtAu1;rFRs;iJo;a,evAo;cXdWeE9gUlRnPrOsNtKuJyDM;riB5;eJuCX;mát3UrJ;iAno;cuEPi7M;aga2ino4í2L;cheFdBNifiD0so,uJ;eEMfacBT;!aKig0lorquBMo,tJv2GéBD;r16és;!yo;nJro;o,éC1;eBOu3;ab3edBH;a02eYiRlQoNuKáct7íJúEM;m4Wqui1;sKteDDxemburJ;guE;iAMo;buEVcJmbar1ngeCC;alF2oJ;!mBL;a0e0orG;bNgMmLnKs2tJ;erari5ua0;do,eAgER;p6ítrof9P;e3ue3;anEerJio,re4;al,ti0;cLgKja0n2oEXtJ;ra1ón;alEQo,í1T;he3t9;cLdrGnKrgDsciBXtJxo;erBin5o;ceolad6Iu1;io,rimóDE;aOeNoLuJóven9D;dJguetGnto4s2ven6O;i4Mí73;rJvEX;da0;mABró4T;cobKponJ;esa,és;eo,i0;be3d1FguBl18mp12nNrLsKtaliJzquierd5;an6V;abeDFomorCNraelí,óCA;aJredH;c36n6;a0Vc0Rd0Ge0Ef0Ag08h07i06just05m01na2oZquie2sVtLus16vJút6B;as9erJá5L;so6Z;eKrJ;auteD5uCé3Rí3A;lec3YnPrJ;!ceNesE9iMmed6nKuJvent9;rba0;aJo4;!cDQs;no,or;pt9;cDCs5;atKeJospe5G;ct8Hgu3nsa2r2;isfJuAN;ecBY;cIdo3porJ;tu0;aLeKunJ;do,osuprBL;dia2nCrC;cuDCdu3;ifiCEo;ciAnterrum37;abiCWu94;enIlesJra2;a,es;aLeKraJun53;rro9N;liz,riBA;me,nt5G;quí3Lsper0BxpJ;er2loA5;eQiLoJustriBígena4;e7Klo3nJ;es6;ferenc72g0o,sJviduB;cKtJ;in2;rJuA7;e2iCY;bi1fKpendienteJs4MterCX;!mAKs;enCi8Q;i4IoJruHul2ómo1;lo3mpKnJrpAA;cluCe6CtroCN;le2ren2Q;cabUdJlte9Pni43prop6Q;ecuTv21;ar,eNoMrKuJío;ls9ro;eJop6;s9v47;rtCWsib5Z;riA;eNiKusJ;tre4;mJr6;itJ;ad5;gíJso;tiCB;eAón7;aWeSiQoLuKáb4IíbCLúJ;me1n8X;e8gono9XmanDracaCGér3C;cicu1mLnKrJ;izoASr20;do,es2;ogOóJ;fo0loFniC2;d2Crsu2sJ;pano09tór7G;br7chi97lLrb6SteroJ;do5JgJ;én7;a1e0;bituBlóKmbrJr2;e,iH;fi9Nge0;aZeXiWlUoTrMuJé3C;aJerrill4Kipuzcoa0;po,rdi6CtemalJ;te8;aLecoKiJose3ueC;eg5s;!la91rW;nKsJto,ve4;iHo;!aJde4;di0;do,r1;aJobAút7;b3u8;g6Vta0;nJográfAFr74st9;erBui0étAE;di6XlJr36scGuc9N;lLoJés;!rJ;ro6Z;ar1eF;a0Ae07i01lXoVrQuMác3FéKísJ;icAY;rJti1;r7t3C;erBGnKtJ;ur5;c4CdameJes2;ntB;aKecu3VisGug5RíJ;a,o4vo8R;ncKtJudulH;er0;esA0is8Eo,és;lclór9VrJ;mAni1;aKexi84oJ;jo,ri1;co,mJ;en8íge3;brad7XcticiNdedig0eMjo,lLnJr47;aJo;l,nciero4;ipi0óso92;lANro;as,os;cKderAliJmenin5o;no,z;un1;lLmJríng7sci2Gvor3T;iJosD;li4V;lo,s5;br6conóm5Qd19f17g16jecu73l10m0Zn0Up0Rqu0Orrón7s01t00uropeDvid7ZxJ;!ac8PcXen2haWiVpTtJó96;ePin2rJ;aLem5ovKíJ;nse8;er7E;ct9njerKterrJ;est9B;a4os;nKrJ;i82n2P;di1s5;erJreC;ime8Kto;gIst2T;us2;elJret9;en7Jso;er0rus8ér7;bel2c00enZlXpQqui74tJ;aOeNon6r1OuKánd49úJ;pi1;dKpJ;en1;ioC;!l44;b30dounidense4n8tB;aNeLiriKlénJur6;di1;tuA;cJso;iBíf09;ciBr50ñolJ;!a4es;a6PovJ;a8e0;ciA;aMleKoJue2;cEl3R;róJ;fi70;ndina6Is1U;iKíJ;vo8;lib62no,val6R;icKóJ;ni90;úr7;a0cMdLemiFfer8YoKreve6PtJ;e3usias7D;ja1rme4;oc82ó7S;ant9Cima;bara88is9;eJéctr5W;ctJva1;orLróJ;fi6JnJ;ic1D;!al;eo,ipc6oís72;ec0Ric5BíJ;me3;it9;a0Te00iMoLruCuJéb0R;lJr5;ce,zG;b1Vlo8Rmin3Wrmi1;e73fUgTminu2oce5KploSrect1CsNur0vKáJ;fa0;erJi0;sJti1;as,o4;cMj83pJtintD;erConibKuestJ;!o;le4;apaci7Ore2;ma1;itAno;er0ZuJíc21;n2so10; mo0Ab09c08f05l03n01pZrYsJvo2;aVcRdiQemplPhon5MiOnu1o12pKtru43vaJ;li1;iLrJ;e3RovJ;is2;aNer2;er2;ea1;cha1;alLonKuiJ;da1;o76tH;zo;fo77perciJ;bi1;ech5;ortivJred81;as,o;so,tiJ;cu7C;gJicJ;ad77;ens9iniJ;tiJ;va;a0idI;il;da;nEñi0;a1Qe1Hh19i14l12oXrQuLáKéleb6EóJ;mo1nca4Irn7;li1ntab3;aMba0er1ltLrJstod6ánt65;si,vJ;il0Jo;o,urB;d3r5F;an67eOiKoa5EuJí3S;do,en2;ol4QstJ;a65iJ;anJno;a,o4;ci4Hs6B;l0Km0EnVoUque2rLsJ;a8tJ;era;a5YdQea0int6nu1pOreKso,tJuñE;a4e3To4;ctKspondiJ;en6Z;a,oJ;!r;orAulHór7;en2;a1ille4R;rde6O;c00du2IeZfXj68mov6Ko5WsOtLvJ;eJulC;rCxo;en2iJ;gInJ;e4Wu5;aPerv6QiMpLtJult9;an6LitucJri2B;ionA;icI;derJst3T;abJ;le;bi1nguJ;ín7;orJuC;me;xo;ienzu1re2;ar3Fer30pKunJún;es,is4A;lKosteJ;la0;eJi4Q;j5t5;e1ToJ;mbiJniAri1;a0no;aJo2Más2Q;ndes30r5;clóp7eMlLmarrGrcuKvJ;il5N;l01nv16;ia1;go,ntíf2KrtD;aOecMiKoJur3;lo,ro;f59lJno;en5lG;he0oJ;!slova8;rJto;ro,t18;lPnLrJ;caJebrAra1;!nD;s9trJ;al57oeKíJ;fuFpe2;urop7;es2Qtíbe3ulJ;ar;duc03l02mZnWpSrNsLtJu2;alJól3Z;án;e3tJ;ell3Eo;acterís1Nc3PnMoKroñe3tJ;ag0Ru16;!lJ;ing6;ívo3;aKitalJri0uchi0;!i0;cJz;es;an7cerí3Hi0o,sa1tJ;an29oJ;nEr;boKpeJ;ro,si0ón;ya0;cár7i23mo,vo;ifol6o;a0He09i02lanZoVrOuLáKíJúl11;fi1pe1;rba3sQva3;enKfo,rJ;do,guElG;!a4o4;a1JeOiKuJ;jo,s0Dto;llLtJ;a0ánJ;icD;an1R;tGve;goLhem6mKol38rJsn6to,vi0;goñGrac2A;bo;ta0;cKdo,quJ;eci0;a4o4uz8;eMlbLnaKrJzar3;ma0;ria;aí0;lorruCnJ;veJ;ni1;a2l1FnMoc6rJ;ber10ebKlJ;inE;er;eKig0éJ;vo1A;dic0UfaJ;ct9;bilPilNjDldMrKstJyo;ar1o;a2bu1cel0WroJí26;co4;ío;arJ;ín;on6;b3Fc34d2Ve2Tf2Pg2Lje2Jl1Zm1Mn0Xp0Rqu7r07s02tWuPvLzuKére5ñeJ;jo;caLl37;aLenJ;tuJ;re3;n2Ero;dOstrohúnNtJ;oKóJ;c1Rgra1Enom5;gest2HmJpropul0M;ot9;ga3;az;eMlánLrJ;acJevi1oz;ti02;ti8;n2o,rJ;ciope2Ir34;esMiKtu2íJ;ncro0;dIlvestJr6;ra1;i0or;aZbYca0dIenWgSio,mRqueológicQrNtJábiF;eLifiKístJ;ic5;ciB;sa0;epenKies2WoJ;ce3;ti1;os;en6;eKiJ;vo;li0nJ;ti0;is8;co;ór7;gKm7uJ;ca0;onE;aKuJócrifo4;es2;iLrJ;enJ;te;sa1;a03c02d00eZfiXgWhid3iUtMuBáLóJ;maJni1P;lo;loF;eNiJ;aér7c1JguDsubJ;ma0R;a4o4;eo;cKriJ;or1K;es9;ma1sóJ;tropo;evi0losajGos2;b6triG;ón;jo,xo;aluz,i0orJ;ra0;ho;e0Tlfabe2rJ;anja1quJ;isJ;ta;aSbiMeriKorJpli5;fo;cJnd6;an5;dieMeKgI;uo;ntA;al;st3;ro;do,rJ;go,illJ;a,en2o;a01bZcaYdXeSfonRgOoNpi0tMucKócJ;to0;inóJ;ge0;a4er0o4;ca1;ebraKonqJ;ui0;ica;si0;gMjandLmJnt0W;anJán;a4es;ri0;re;ea0;li0;anEi0;és;do,no;dreJno;za1;iLrJudo4;adeJio,ícola4óno01;ci1;ta1;ga0icKoJ;rtu06;io05;no;rob6;io;ecQiNjMministrativLul2vJ;erC;so;a4o;un2;cKnteJ;la1;ionB;ua1;ampaSep2iaFoOtLuKérriJ;mo;miQ;iv5uB;alJ;!es;gJrazoM;ed9;go;to;na1;neTorigSrumQsOuJ;ndKrJ;ri1;anJ;te4;!s;olut5ur1;a,o;ad9;or;en;ga1;do",
     "Pronoun": "true¦alguna,cu8donde,e5le7m4n2otros,quien,s1t1vu3é0;l,ste;e,uy4;os,u0;estr2;e,í1;ll0sto;a0o0;!s;al0yo;!es",
-    "Noun": "true¦0:3L;1:3W;2:35;3:2Y;4:3V;5:3C;6:2X;7:2K;8:2V;a3Ab38c2Bd24e1Tf1Mg1Gh1Ci17j15l11m0Sn0Po0Lp07quieb3WrYsMtGuFvAweb3é9;t1Vxi1Z;ari0eBiAo9ue27;c5lum1t0;no,rg1sM;cin9get2nta8;d3Co;mbr2nión soviét1Psu3B;aDeBodo2Pr9áct1Oécn2O;a9en,ibun5áf7;bajo,ta4;m9o0Ormin5;pora1Tát1K;ll3maB;aIeFiDoBu9;e9spi3J;ño;breviBlic9;it0;gnifi0Er9;vi24;mArpi23ñ9;al2Zor;a8ifin2C;b1Xl9ntand3;!ar2Ues;aGeCiAo9égim1ío;b1Un;tu5v9;al2Ser;i2ApBs9;taur0u9;l2Gm1;oso,resent0úbl1H;dic21na;aKeHico1YlFoDrBu9órt7;e9l02nta6;n2Trto r7;imo,o9ueba,áct1C;pósi0Xspec0X;co,rta9tenci2;da,l;a9ur2;c3n;r9so;egri1Viód7s9;on2pec2G;go,n,ra6s9t1D;a2Lo;céano Bpon1BrAso,t9;an,ro;b1Jd1ig1;atlánt7pacíf7;a6eAi9;nten4ño;ga27olít7umát7;aEeCiBo2Fu9;e9j3n4;bl1Est2A;emb2Bner5ra6to;mbra8nest3r9t5zcla;ca4;druCgo,mífe28nAquinaria,rg1teri19yo9ña8;ría;u2za8;aBev0iAle9ás3íd3;ga6;ber14ngüíst01tor2;do,na;orna08u9úpit3;e1Pga6;de10mag1n9;cen1ZfBglés,icia1Qst0teAv9;ernade1Xi1B;gr2lectu0X;an1RormF;aAerma8imml3o9í1Y;spit5y;b9da,rry pott3;a8iT;aDeCobBra9u0;do,m9;átM;ern0ier0T;meXn,r0C;l0Nna4;aDestiv5iCoBu9ábr00;e9ner2;n1Erzas arm01;n4rma;li2n0H;bric0cha6l9rmacéut7;la,ta;ditori2jercic0YmInGrudiFs9xam1;cla1EpDt9;aAudi0ét9;ica;d9n15;o,í05;aEos02;to;a8cabeza4sala6tr9;aBega;baja6ir,plea4;aEesCiBoAéca9;da00;cument2n0;agnóst7buj0en0Vne0Zpu0Dsposi10;arrol9ord1;lo;t0Dño;aNereWhicMiudada01lKoDrAu9ánc3;an4er6l0Vra;iAát3ítRón9;icC;m1st5;mCnBorden9s04;ad9;as;cejOtribuyD;andAbustib9erci0;le;an0Go;an,i9;en0E;as,oG;bPdáv3lza6mKnJpGrCsBtedr9ud2;al,át7;ico;a,o;acterí9den5ga,m1nav2áct3;st9;ica9;!s;it9;al9;es;alScill3;iApa8;na;no;da;er;alleZle;a9ienestar,ota;n4tman,ño;bZcXdjeXguVhoUlMmKnEquCrsen2tenAy9ño;er,ud0;ta4;al;ell9í;os;a,i9tepasa4;m5vers9;ar9;io;al9;!es;anGi9;go;gFiCmBt9;ar,erna9;tiva;ir0uerzo;a4c0;an9;te;o,ui1;ra;je9;ro;ti9;vo;dom1o9;ga4;do;en",
+    "Noun": "true¦0:3K;1:3V;2:34;3:2X;4:2W;5:2N;6:3U;7:3B;a38b36c2Ad23e1Sf1Lg1Gh1Ci17j15l11m0Rn0Oo0Kp06quieb3UrXsLtFuEv9web3é8;t1Uxi1Y;ari0eAi9o8ue26;c7lum1t0;no,rg1sL;cin8get2nta2W;d3Ao;mbr2nión soviét1Osu39;aCeAodo2Ir8áct1Nécn26;a8en,ibun7áf5;bajo,ta6;m8o0Ormin7;pora1Sát1J;ll3maA;aHeEiCoAu8;e8spi3H;ño;breviAlic8;it0;gnifi0Er8;vi24;m9rpi23ñ8;al2Xor;a2Eifina2B;b1Xl8ntand3;!ar2Ses;aFeBi9o8égim1ío;b1Un;tu7v8;al2Qer;i28pAs8;taur0u8;l2Em1;oso,resent0úbl1G;dica20na;aJeGico1RlEoCrAu8órt5;e8l02nta4;n2Rrto r5;imo,o8ueba,áct1B;pósi0Wspec0W;co,rta8tenci2;da,l;a8ur2;c3n;r8so;egri1Tiód5s8;on2pec2E;go,n,ra4s8t1D;a2Jo;céano Apon1Br9so,t8;an,ro;b1Id1ig1;atlánt5pacíf5;a4e9i8;nten6ño;ga25olít5umát5;aEeCiAo2Du8;e8j3n6;b1Cst28;emb29nera8ra4to;!l1V;mbra1Cnest3r8t7zcla;ca6;druBgo,mífe25n9quinaria,rg1teria17yo8ña1A;ría;u2za18;aAev0i9le8ás3íd3;ga4;bera12ngüístZtor2;do,na;orna06u8úpit3;e1Mga4;d0Rmag1n8;cen1WfAglés,icia1Nst0te9v8;ernade1Ui18;gr2lectua0V;an1OormE;a9erma0Wimml3o8í1V;spit7y;b8da,rry pott3;a0TiR;a0PeBobAra8u0;do,m8;átK;ern0ier0Q;meVn,r0B;aCestiv7iBoAu8ábrZ;e8ner2;n1Crzas arm01;n6rma;li2na0G;bric0cha4l8rmacéut5;la,ta;ditori2jercic0WmHnFrudiEs8xam1;cla1CpCt8;a9udi0ét8;ica;d8n13;o,ístO;aDos04;to;a08cabeza6sala4tr8;aAega;baja4ir,plea6;aDesBiAo9éca8;daT;cument2n0;agnóst5buj0en0Tne0Xpu0Bsposi0Y;arrol8ord1;lo;t0Bño;aPerOhicMiudadaZlKoDr9u8ánc3;an6er4l0Tra;iAát3ít9ón8;icC;icaJ;m1st7;mBnAorden8s01;ad8;as;cejaMtribuyC;and9bustib8erci0;le;an0Do;an,i8;en0B;as,o8;!s;eaE;bKdáv3lza4mFnEpCrBsAtedr8ud2;al,át5;ico;a,o;den7ga,m1nav2áct3;ita8;les;alRcill3;i9pa8;na;no;da;er;alleYle;a8ienestar,ota;n6tman,ño;bYdjeWguUhoTlLmJnDquBrsen2ten9y8ño;er,ud0;ta6;al;ell8í;os;a,i8tepasa6;m7vers8;ar8;io;al8;!es;anFi8;go;gEiBmAt8;ar,erna8;tiva;ir0uerzo;a6c0;an8;te;o,ui1;ra;je8;ro;ti8;vo;dom1o8;ga6;do;en",
     "Preposition": "true¦aGcBd8e5f3ha2junEmedi9p1que,s0tras;egún,in,ob6;aBor;cia,sta;rente 0uerB;a,de;n0xcepto;!cim8t0;re;e1ur0;ante;! acuerdo con,baj8lante Antr8sA;erc3on0;! respec1t0;ra;to a;a 5;! pesa3demás 4l1nte0;!s 3; lad0rededo1;o 1;r 0;de",
-    "Adverb": "true¦0:1J;1:1K;a10b0Yc0Nd0Ke0Cf09g07h06i04jam1Ikm²,l00mXnUoSpFquizáErBs7t2usu0ya,ún0Z;a3o2radicSíp0Y;!davía,t0;m3n2rde;!to;bién,pK;egu0Ri3ola1u2í,óI;ce07ficie0Ypues0P;empre,gnifica17m2quiera;p0Lultánea1;a0Ne2ápi0U;al1ci2la14spec14;e0Tén;!s;arCerf07o5r2u0Jylori,úbl0L;e3incip0o2áct0K;b0Dfun0OgreYp0V;cisa1v0U;co a p7p9r 3s2;ib0Bter0R;e3lo 2supues05;menIt03;jemp2l contrario,ntonces;lo;oco;ci0tic2;ular1;cas2fiRrigin0;ion0;atur0eces6o3u2;e0Mnca;!rm0tY;ayorit3u2;cho,y;ar0D;e3i2oc0uego;geXt8;j2nV;os;gu0n2;!cluso,iEmediaS;abi0EistórU;en2radu0;er0;in0orm0recueXu2ácil1;er2ndament0;a,te1;conómOn 8s4ven08x2;acKclu2treR;si03;en4pec3tr2;echa1icH;i0ífJ;ci0;consecuencia,gran medida,línea;e3ir2;ecC;finiUla01masia03ntro,spués;asi,laBo4u2;an2;to;m6n2;cre6jun6s2tinI;ider2taE;ab2;le1;ple2ún1;ta1;ra1;astaPien,ás2;ica1; Obajo,cKdFhí,lDmplCn7p3rriba,s2trJun,ún;imismo,í;are4enas,roxi2;ma2;da1;nte1;t2u0;e3ig2;ua1;r2s;ior1;ia1;l2ta1;á,í;e4ministra2;ti2;va1;la6m2;ás;tu0;al1;me2;nte;bor2la vez;do",
-    "Region": "true¦0:23;1:1U;a21b1Tc1Jd1Ees1Df1Ag14h11i0Yj0Wk0Ul0Rm0GnZoXpTqQrNsEtButAv7w4y2zacatec23;o05u2;cat19kZ;a2est vi5isconsin,yomi15;rwick1shington2;! dc;er3i2;rgin1T;acruz,mont;ah,tar pradesh;a3e2laxca1EuscaB;nnessee,x1S;bas0Lmaulip1RsmK;a7i5o3taf0Pu2ylh14;ffVrr01s0Z;me11no1Buth 2;cSdR;ber1Jc2naloa;hu0Tily;n3skatchew0Sxo2;ny; luis potosi,ta catari0;a2hode8;j2ngp03;asth0Nshahi;inghai,u2;e2intana roo;bec,ensXreta0F;ara0e3rince edward2; isV;i,nnsylv2rnambu03;an15;axa0Pdisha,h2klaho1Dntar2reg5x06;io;ayarit,eCo4u2;evo le2nav0N;on;r2tt0Tva scot0Z;f7mandy,th2; 2ampton1;c4d3yo2;rk1;ako10;aroli0;olk;bras0Zva03w2; 3foundland2;! and labrador;brunswick,hamp1jers3mexiLyork2;! state;ey;a7i3o2;nta0relos;ch4dlanCn3ss2;issippi,ouri;as geraHneso0N;igRoacR;dhya,harasht05ine,ni4r2ssachusetts;anhao,y2;land;p2toba;ur;anca1e2incoln1ouis9;e2iI;ds;a2entucky,hul0;ns09rnata0Eshmir;alis2iangxi;co;daho,llino3nd2owa;ia0;is;a3ert2idalFunB;ford1;mp1waii;ansu,eorgXlou6u2;an3erre2izhou,jarat;ro;ajuato,gdo2;ng;cester1;lori3uji2;an;da;sex;e5o3uran2;go;rs2;et;lawaFrby1;a9ea8hi7o2umbrI;ahui5l4nnectic3rsi2ventry;ca;ut;iNorado;la;apFhuahua;ra;l9m2;bridge1peche;a6r5uck2;ingham1;shi2;re;emen,itish columb4;h3ja cal2sque,var3;iforn2;ia;guascalientes,l5r2;izo0kans2;as;na;a3ber2;ta;ba3s2;ka;ma",
+    "Adverb": "true¦0:1I;1:1J;a0Zb0Xc0Md0Je0Bf08g06h05i03jam1HlZmWnUoSpFquizáErBs7t2usu0ya,ún0Y;a3o2radicSíp0X;!davía,t0;m3n2rde;!to;bién,pK;egu0Qi3ola1u2í,óI;ce06ficie0Xpues0O;empre,gnifica16m2quiera;p0Kultánea1;a0Me2ápi0T;al1ci2la13spec13;e0Sén;!s;arCerf06o5r2u0Iylori,úbl0K;e3incip0o2áct0J;b0Cfun0NgreXp0U;cisa1v0T;co a p7p9r 3s2;ib0Ater0Q;e3lo 2supues04;menHt02;jemp2l contrario,ntonces;lo;oco;ci0tic2;ular1;cas2fiQrigin0;ion0;atur0eces5o2ue0M;rm0tY;ayorit3u2;cho,y;ar0D;e3i2oc0uego;geXt8;j2nV;os;gu0n2;cluso,iEmediaS;abi0EistórU;en2radu0;er0;in0orm0recueXu2ácil1;er2ndament0;a,te1;conómOn 8s4ven08x2;acKclu2treR;si03;en4pec3tr2;echa1icH;i0ífJ;ci0;consecuencia,gran medida,línea;e3ir2;ecC;finiUla01masia03ntro,spués;asi,laBo4u2;an2;to;m6n2;cre6jun6s2tinI;ider2taE;ab2;le1;ple2ún1;ta1;ra1;astaPien,ás2;ica1; Obajo,cKdFhí,lDmplCn7p3rriba,s2trJun,ún;imismo,í;are4enas,roxi2;ma2;da1;nte1;t2u0;e3ig2;ua1;r2s;ior1;ia1;l2ta1;á,í;e4ministra2;ti2;va1;la6m2;ás;tu0;al1;me2;nte;bor2la vez;do",
+    "Region": "true¦0:23;1:1U;a21b1Tc1Jd1Ees1Df1Ag14h11i0Yj0Wk0Ul0Rm0GnZoXpTqQrNsEtButAv7w4y2zacatec23;o05u2;cat19kZ;a2est vi5isconsin,yomi15;rwick1shington2;! dc;er3i2;rgin1T;acruz,mont;ah,tar pradesh;a3e2laxca1EuscaB;nnessee,x1S;bas0Lmaulip1RsmK;a7i5o3taf0Pu2ylh14;ffVrr01s0Z;me11uth 2;cSdR;ber1Jc2naloa;hu0Tily;n3skatchew0Sxo2;ny; luis potosi,ta catari0;a2hode8;j2ngp03;asth0Nshahi;inghai,u2;e2intana roo;bec,ensXreta0F;ara0e3rince edward2; isV;i,nnsylv2rnambu03;an15;axa0Pdisha,h2klaho1Dntar2reg5x06;io;ayarit,eCo4u2;evo le2nav0N;on;r2tt0Tva scot0Z;f7mandy,th2; 2ampton1;c4d3yo2;rk1;ako10;aroli0;olk;bras0Zva03w2; 3foundland2;! and labrador;brunswick,hamp1jers3mexiLyork2;! state;ey;a7i3o2;nta0relos;ch4dlanCn3ss2;issippi,ouri;as geraHneso0N;igRoacR;dhya,harasht05ine,ni4r2ssachusetts;anhao,y2;land;p2toba;ur;anca1e2incoln1ouis9;e2iI;ds;a2entucky,hul0;ns09rnata0Eshmir;alis2iangxi;co;daho,llino3nd2owa;ia0;is;a3ert2idalFunB;ford1;mp1waii;ansu,eorgXlou6u2;an3erre2izhou,jarat;ro;ajuato,gdo2;ng;cester1;lori3uji2;an;da;sex;e5o3uran2;go;rs2;et;lawaFrby1;a9ea8hi7o2umbrI;ahui5l4nnectic3rsi2ventry;ca;ut;iNorado;la;apFhuahua;ra;l9m2;bridge1peche;a6r5uck2;ingham1;shi2;re;emen,itish columb4;h3ja cal2sque,var3;iforn2;ia;guascalientes,l5r2;izo0kans2;as;na;a3ber2;ta;ba3s2;ka;ma",
     "LastName": "true¦0:2Z;1:36;2:34;3:2A;4:2T;5:2V;a36b2Wc2Jd2Ae27f22g1Wh1Mi1Hj1Bk14l0Wm0Mn0Io0Fp04rXsMtHvFwCxBy8zh6;a6ou,u;ng,o;a6eun2Poshi1Hun;ma6ng;da,guc1Wmo23sh1YzaQ;iao,u;a7il6o4right,u;li36s2;gn0lk0ng,tanabe;a6ivaldi;ssilj32zqu1;a9h8i2Bo7r6sui,urn0;an,ynisI;lst0Mrr1Rth;atch0omps2;kah0Snaka,ylor;aDchCemjon3himizu,iBmiAo9t7u6zabo;ar1lliv25zuD;a6ein0;l1Yrm0;sa,u4;rn3th;lva,mmo1Zngh;midt,neid0ulz;ito,n7sa6to;ki;ch1dLtos,z;amBeag1Vi9o7u6;bio,iz,sD;b6dri1JgIj0Rme20osevelt,ssi,ux;erts,ins2;c6ve0D;ci,hards2;ir1os;aEeAh8ic6ow1W;as6hl0;so;a6illips;m,n1P;ders5et8r7t6;e0Lr3;ez,ry;ers;h1Xrk0t6vl3;el,te0H;baBg09liveiZr6;t6w1K;ega,iz;a6eils2guy5ix2owak,ym1A;gy,ka6;ji6muU;ma;aDeBiAo8u6;ll0n6rr09ssolini,ñ6;oz;lina,oIr6zart;al0Keau,r0R;hhail3ll0;rci0ssi6y0;!er;eVmmad3r6tsu06;in,tin1;aCe8i6op1uo;!n6u;coln,dholm;fe7n0Or6w0I;oy;bv6v6;re;mmy,rs5u;aBennedy,imuAle0Jo8u7wo6;k,n;mar,znets3;bay6vacs;asY;ra;hn,rl9to,ur,zl3;aAen9ha4imen1o6u4;h6nYu4;an6ns2;ss2;ki0Cs5;cks2nsse0B;glesi9ke8noue,shik7to,vano6;u,v;awa;da;as;aBe8itchcock,o7u6;!a4b0ghNynh;a4ffmann,rvat;mingw7nde6rM;rs2;ay;ns5rrPs7y6;asDes;an3hi6;moI;a9il,o8r7u6;o,tierr1;ayli4ub0;m1nzal1;nd6o,rcia;hi;er9lor8o7uj6;ita;st0urni0;es;nand1;d7insteGsposi6vaK;to;is2wards;aBevi,i9omin8u6;bo6rand;is;gu1;az,mitr3;ov;nkula,rw7vi6;es,s;in;aFhBlarkAo6;h5l6op0rbyn,x;em7li6;ns;an;!e;an8e7iu,o6ristens5u4we;i,ng,u4w,y;!n,on6u4;!g;mpb7rt0st6;ro;ell;aBe8ha4oyko,r6yrne;ooks,yant;ng;ck7ethov5nnett;en;er,ham;ch,h8iley,rn6;es,i0;er;k,ng;dDl9nd6;ers6rA;en,on,s2;on;eks7iy8var1;ez;ej6;ev;ams",
     "Ordinal": "true¦cWdLmilJnoIoctHpGquinEs8t2unNvigésimo0;! 0;cuSpEs5teN;eMr0;esUi0;ceXgésimo0;! 0;p9s0;eg5;e1é0;ptUtU;g2pt1x0;agRceQto;iOu2;undo;cu0geNto;agN;rim9;aDingLogL;nHv9;lonésim0ésK;a,o;ecimo2osCu0écI;ceFo0;décG;c4nov3quinAs2te0;rc0;ero;ex7éptC;eno;ta1u0;ar4;vo;e5ua0;dr2r1tro0;mil4;to;ag2i0;nge0;nt0;és0;imo",
     "Unit": "true¦bHceFeDfahrenheitIgBhertz,jouleIk8liGm6p4terEy2z1°0µs;c,f,n;b,e1;b,o0;ttA;e0ouceD;rcent,t8;eg7il0³,è9;eAlili8;elvin9ilo1m0;!/h,s;!b6gr1mètre,s;ig2r0;amme5;b,x0;ab2;lsius,ntimè0;tre1;yte0;!s",
@@ -7721,6 +7721,7 @@
     "Place": "true¦aLbJcHdGeEfDgAh9i8jfk,kul,l7m5new eng4ord,p2s1the 0upIyyz;bronx,hamptons;fo,oho,under2yd;acifLek,h0;l,x;land;a0co,idCuc;libu,nhattJ;ax,gw,hr;ax,cn,ndianGst;arlem,kg,nd;ay village,re0;at 0enwich;britain,lak2;co,ra;urope,verglad0;es;en,fw,own1xb;dg,gk,hina0lt;town;cn,e0kk,rooklyn;l air,verly hills;frica,m5ntar1r1sia,tl0;!ant1;ct0;ic0; oce0;an;ericas,s",
     "Infinitive": "true¦0:7Q;1:7M;2:7G;3:7F;4:69;5:5G;6:6M;7:62;8:79;9:5D;a6Cb64c4Md3We2Vf2Pg2Jh2Fi20ju1Zl1Tm1Kn1Go1Cp0Qque0Pr07sStLuJvAy4A;aGeDiCoA;lAmit,t0;ar,v2;aj0ol0s79v1;nBrAst1;!if5;c2d2ir;ci0lAri0;er,id0;b5nAs0t5G;ir,t0;aFeEir0oCrA;aAiunf0opez0;baj0d1Rer,g0i9t0;c0m0rAs2;c2t5G;m2n2rm8st57ñ1;p0rd0ñ2;aKeIiHoEuA;bCced2fr1g0FpBrg1sA;p60ti4P;ervis0on2;ir,ven9;breviv1cav0f2OlBnApo1Qrpre4ñ0;ar,reír;er,loz0;gn4Xlb0mbol7tu0;c0gu1ll0nt06rAñ1I;!v1;b2cClBtiA;r7sf3F;ir,t0ud0v0;ar,r4Rud1;eBoA;b0g0mp2;aOcLd15emKfIgFhus0in0nEpCquZsAtras0v5Wz0ír,ñ1;erv0olv2pAu18;ald0et0ir0o4;aAet1l5o1B;r0s0;ac2ov0un6;aBiAr5Bul0;r,s3B;l0r,te0;leAo5T;j0xi6O;bo1Opl5N;h5MiBoA;g2m27noc2rd0;b1cl0;c9l7;br0d0m0r2;aTeNiMlaKoJrBuA;bl5r46;act5eDoA;b0d0Lh2Tmet2poBse2JteAv1S;g2st0;n2r9;d4MfCgu5Kp2XseAv2;ntArv0;ar,ir;er1;d2n2;nAt5;ch0t0;c0nt0;d1g0in0lEns0rBsA;ar,c0;dBfec9mAse26ten3;an3it1;er,on0;e0lizc0;d3g0rAs0t8;ar,ec2ticip0;bCcurr1di0fBlApon2rgan7ír;er,vid0;e4r3;ed3l3Tstacul7t1C;aCeAot0;ces55gAv0;ar,o6;c2d0veg0;aFeDiCoAud0;d3Cle48nAr1s26v2;o,t0;r0t3L;d1nt1reAt2zcl0;c2nd0;d3Flvers0nBqui3Drc0st5tAxim7;ar,ric3L;d0ej0t0Z;aEeDimpi0lAo18u19;am0eBoA;r0v2;g0n0v0;er,gZva4J;dr0me4Inz0stim0v0;g0nt0r0;lus1RmpMnAr;clu1dKfJi6mi10sGtCvA;ad1eAit0oc0;nt0rt1st35;eBrodA;uc1;nt0rA;es0pret0;i2CtBuA;lt0;al0;lu1o4A;ic0uc1;oAr1D;rt0;aCeAu1;l0rA;ed0ir,v1;bl0c2ll0;aEenerDlor2EoCrBuA;ard0i0st0;adu0it0uñ1;bern0te0;al7;n0st0te0;aEelic3XiDlor3orCreBuA;m0n9;n0ír;m0tal3;j0ng1rm0;br5lt0sc8;c09duc0fectu0jerc2l08m04nRquivQrr0sJvIxA;hGig1pBtA;e4in0F;lCoBr2SuA;ls0;n2rt0;ic0oA;r0t0;ib1um0;acu0it0oc0;cEper0quiDtA;aBimAorn2Grope0udi0;ar,ul0;bl3ll0r;ar,v0;ap0oAr0CuS;g2nd2;oc0;amor0cKfHg3Mjui6mGoj0riIsFtBvA;ej3i0;e4rAusiasm0;ar,eA;g0tAvi2C;en2;eñ0u6;end0;aBe30laA;qu3;d0t7;aAe4on03;nt0rg0;borraCiBpA;ez0le0;gr0;ch0;eg1im8;h0losi3C;ar,eHiCoBuA;ch0d0r0;bl0l2rm1;buj0feren6r2LsBvA;e2Oor6;eñ0frut0gu1Sminu1tA;inAri0C;gu1;b2cOd5fe4j0mosNpLrret1sCtBvoA;lv2r0;a0Xe09;aHcEeDhCmant1YpAtru1v1Y;eAre6;d1rt0;ac2;ar,ncaden0;aBe4rAubr1;ib1;ns0rg0;fi0grad23par3rro0Oyun0;e4os26rA;im1;tr0;ep9iBlAor0;ar0;d1r;a0Ke0Gh0Eiv0Dla0AoGrCuA;br1id0lAmpl1r0;p0tiv0;eCiBuA;c07z0;ar,t5;ar,c2er;br0c8g2l00mWnEpi0rCsA;eAt0;ch0r;reAt0;g1r;dQfOjug0oc2qui0VsJtEvA;eAid0;nBrA;s0t1;c2ir;aDeCinu0rA;iAol0;bu1;n2st0;m8r;eDiCtAum1;iAru1;tu1;st1;gu1nt1rv0;es0iA;ar,rm0sc0;en0uc1;bat1eCpAun5;a17et1on2rA;ar,e4;nz0r;ec9g0oA;c0n7;ci1L;rAsA;if5;ic0;il7;aAisme0oc0;rl0sque0te0;le12nBpiArr0s0;ll0;ar,sA;ur0;b2er,lEm8nDrCsAus0z0;ar,tA;ig0;acter7g0;c04s0;cAe0El0m0;ul0;aFeDorCriBuA;ce0rl0sc0;ll0nd0;d0r0;b2ndAs0;ec1;il0j0rr2t1ut7ñ0;iz0;b0Qc0Gd0Bf07g03hor02lXmUnRpLrrKsGtCume04vByAñad1;ud0;aZerigu0is0;ac0e4raA;er,vA;es0;nd2;ar,iCo6pBuA;st0;ir0;mOst1;egl0oj0;aElDoCrA;eAob0;ci0nd2t0;st0y0;aud1ic0;g0r3;d0hBim0un6;ci0;el0;aBenA;az0;n3r;caDeCivi0moBquA;il0;rz0;gr0nt0;nz0;c0r0;or0rBuaA;nt0;adAeg0;ar,ec2;eCiBlA;ig1;rm0;it0;iv8miCorBveA;rt1;ar,n0;r0t1;in0;aIeHoAtu0;mpFnCrMstA;ar,umA;br0;sej0t3;ec2;er;añ0;pt0rc0;b0mp0;andEorDrCuA;rr1s0;ir;az0ir;d0t0;on0;ar",
     "Modal": "true¦debEhBp7qu5s2t0;en0iene8;emHgo,éDíaG;ab0ol3uel5é;e0éB;!mEn,s;er0ier2;emCé8;od2ued0;e0o;!n,s;em8r6é4;a1e0;!m6;!bé1n,s;e1o,é0;is;!m2n,r0s;ía0;!is,m0n,s;os",
+    "Auxiliary": "true¦oído",
     "Copula": "true¦eGfu8s0é9;e2i1o0;is,mAn,y;do,endo;a3d,r0áis;em7á1é6ía0;!is,m6n,s;!n,s;!m4n,s;e4i1é0;ram2;!m1ste0;!is;os;!r0;a0on;is,n,s;r0s;a0es;!is,n,s",
     "Month": "true¦a6dic4en3febr3ju1ma0nov4octu5sept4;rzo,yo;l0n0;io;ero;iem0;bre;bril,gosto",
     "WeekDay": "true¦domingo,juev1lun1m0sábado,viern1;art0iércol0;es",
@@ -8177,11 +8178,82 @@
         "rev": "overían|4se,uerrían|3er,sfarían|3cer,ecarían|4se,sharían|3cer,ctarían|4se,odrían|2er,llirían|4se,abrían|2er,reirían|2ír,drían|er,rían|1"
       }
     },
+    "subjunctive": {
+      "first": {
+        "rules": "isfacer|4ga,ufrir|3a,omper|3a,ntinuar|4úe,raduar|3úe,lmorzar|2uerce,olgar|uelgue,oder|ueda,ehusar|2úse,aler|2ga,gorar|1üere,umplir|4a,eriguar|4üe,mpartir|5a,rever|4a,aciar|2íe,onfiar|3íe,enovar|2ueve,contrar|1uentre,over|ueva,oñar|ueñe,obernar|2ierne,orir|uera,erder|ierda,alir|2ga,uebrar|1iebre,ravesar|3iese,burrir|4a,orcer|uerza,ogar|uegue,spertar|2ierte,onfesar|3iese,rohibir|3íba,efender|2ienda,omenzar|2ience,uerer|1iera,ensar|iense,ormir|uerma,ruñir|3a,añer|2a,nviar|2íe,estir|ista,jercer|3za,pezar|1iece,meter|3a,riar|1íe,uiar|1íe,eñir|iña,vivir|3a,eer|1a,mer|1a,cender|1ienda,oser|2a,venir|3ga,mitir|3a,hacer|2ga,batir|3a,endar|iende,cordar|1uerde,eber|2a,tinguir|4a,mostrar|1uestre,alentar|2iente,rrer|2a,probar|2uebe,vencer|3za,etir|ita,mir|1a,egir|ija,edir|ida,ostar|ueste,olver|uelva,brir|2a,aer|1iga,reír|1ía,sistir|4a,tender|1ienda,tuar|1úe,decir|1iga,entir|ienta,erir|iera,ger|ja,seguir|1iga,vertir|1ierta,gir|ja,dir|1a,bir|1a,ducir|2zca,der|1a,uir|1ya,gar|1ue,ner|1ga,zar|ce,cer|zca,car|que,ar|e,omit|4e,dar\\(se\\)|1e,entirse|ienta,ullirse|3a,reverse|3a,arse|e",
+        "exceptions": "cerrar|1ierre,sentar|1iente,errar|yerre,oler|huela,contar|1uente,servir|1irva,estar|3é,helar|1iele,dar|1é,apretar|3iete,negar|1iegue,caber|quepa,ver|2a,sonar|1uene,soler|1uela,regar|1iegue,oír|1iga,volar|1uele,saber|1epa,ser|2a,unir|2a,ir|vaya,jugar|2egue,hervir|1ierva,mudar(se)|3e,valer|3ga,leer|2a,elegir|2ija,salir|3ga,rogar|1uegue,querer|2iera,vestir|1ista",
+        "rev": "onsuma|5ir,uceda|4er,ufra|3ir,ompa|3er,rea|2er,oma|2er,flija|3gir,irija|3gir,ueda|oder,xija|2gir,irva|ervir,ecida|4ir,inja|2gir,roteja|4ger,umpla|4ir,epienta|2entirse,omparta|6ir,ema|2er,urja|2gir,ambulla|6irse,ueva|over,uera|orir,ierda|erder,na|1ir,treva|4erse,burra|4ir,uerza|orcer,rohíba|3ibir,uerma|ormir,ierva|ervir,ruña|3ir,aña|2er,meta|3er,iña|eñir,viva|3ir,rija|1egir,prima|4ir,osa|2er,venga|3ir,mita|3ir,ada|2ir,bata|3ir,uda|2ir,eba|2er,tinga|4uir,rra|2er,aga|1cer,ita|etir,ida|edir,uelva|olver,bra|2ir,aiga|1er,ría|1eír,sista|4ir,ea|1r,diga|1ecir,coja|2ger,za|cer,ienta|entir,iera|erir,siga|1eguir,vierta|1ertir,ba|1ir,duzca|2cir,ienda|ender,nda|2er,uya|1ir,nga|1er,zca|cer,ierre|errar,omite|4,ntere|4arse,lmuerce|2orzar,uelgue|olgar,uente|ontar,ehúse|2usar,ueje|3arse,iele|elar,priete|2etar,güere|1orar,verigüe|5uar,acte|3arse,roncee|5arse,uene|onar,enueve|2ovar,cuentre|1ontrar,ueñe|oñar,uele|olar,obierne|2ernar,uiebre|1ebrar,spierte|2ertar,omience|2enzar,iense|ensar,piece|1ezar,iende|endar,cuerde|1ordar,iegue|egar,muestre|1ostrar,iese|esar,pruebe|2obar,ueste|ostar,iente|entar,úe|uar,íe|iar,gue|1ar,ce|zar,que|car,e|ar,é|ar"
+      },
+      "second": {
+        "rules": "isfacer|4gas,ufrir|3as,omper|3as,ntinuar|4úes,raduar|3úes,lmorzar|2uerces,olgar|uelgues,oder|uedas,ehusar|2úses,aler|2gas,gorar|1üeres,umplir|4as,eriguar|4ües,mpartir|5as,rever|4as,aciar|2íes,onfiar|3íes,enovar|2ueves,contrar|1uentres,over|uevas,oñar|ueñes,obernar|2iernes,orir|ueras,erder|ierdas,alir|2gas,uebrar|1iebres,ravesar|3ieses,burrir|4as,orcer|uerzas,ogar|uegues,spertar|2iertes,onfesar|3ieses,rohibir|3íbas,efender|2iendas,omenzar|2iences,uerer|1ieras,ensar|ienses,ormir|uermas,ruñir|3as,añer|2as,nviar|2íes,estir|istas,jercer|3zas,pezar|1ieces,meter|3as,riar|1íes,uiar|1íes,eñir|iñas,vivir|3as,eer|1as,mer|1as,cender|1iendas,oser|2as,venir|3gas,mitir|3as,hacer|2gas,batir|3as,endar|iendes,cordar|1uerdes,eber|2as,tinguir|4as,mostrar|1uestres,alentar|2ientes,rrer|2as,probar|2uebes,vencer|3zas,etir|itas,mir|1as,egir|ijas,edir|idas,ostar|uestes,olver|uelvas,brir|2as,aer|1igas,reír|1ías,sistir|4as,tender|1iendas,tuar|1úes,decir|1igas,entir|ientas,erir|ieras,ger|jas,seguir|1igas,vertir|1iertas,gir|jas,dir|1as,bir|1as,ducir|2zcas,der|1as,uir|1yas,gar|1ues,ner|1gas,zar|ces,cer|zcas,car|ques,ar|es,omit|4es,dar\\(se\\)|1es,entirse|ientas,ullirse|3as,reverse|3as,arse|es",
+        "exceptions": "cerrar|1ierres,sentar|1ientes,errar|yerres,oler|huelas,contar|1uentes,servir|1irvas,estar|3és,helar|1ieles,apretar|3ietes,negar|1iegues,caber|quepas,ver|2as,sonar|1uenes,soler|1uelas,regar|1iegues,oír|1igas,volar|1ueles,saber|1epas,ser|2as,unir|2as,ir|vayas,jugar|2egues,hervir|1iervas,mudar(se)|3es,valer|3gas,leer|2as,elegir|2ijas,salir|3gas,rogar|1uegues,querer|2ieras,vestir|1istas",
+        "rev": "onsumas|5ir,ucedas|4er,ufras|3ir,ierres|errar,omites|4,ompas|3er,reas|2er,nteres|4arse,omas|2er,flijas|3gir,irijas|3gir,muerces|1orzar,uelgues|olgar,uedas|oder,uentes|ontar,ehúses|2usar,uejes|3arse,xijas|2gir,irvas|ervir,ecidas|4ir,injas|2gir,stés|2ar,ieles|elar,rotejas|4ger,prietes|2etar,güeres|1orar,umplas|4ir,pientas|1entirse,erigües|4uar,mpartas|5ir,emas|2er,urjas|2gir,actes|3arse,mbullas|5irse,roncees|5arse,uenes|onar,enueves|2ovar,uentres|ontrar,uevas|over,ueñes|oñar,ueles|olar,biernes|1ernar,ueras|orir,ierdas|erder,nas|1ir,trevas|4erse,uiebres|1ebrar,burras|4ir,uerzas|orcer,piertes|1ertar,rohíbas|3ibir,miences|1enzar,ienses|ensar,uermas|ormir,iervas|ervir,ruñas|3ir,añas|2er,pieces|1ezar,uestres|ostrar,metas|3er,iñas|eñir,vivas|3ir,rijas|1egir,primas|4ir,osas|2er,vengas|3ir,mitas|3ir,adas|2ir,batas|3ir,udas|2ir,iendes|endar,cuerdes|1ordar,iegues|egar,ebas|2er,tingas|4uir,rras|2er,ieses|esar,pruebes|2obar,agas|1cer,itas|etir,idas|edir,uestes|ostar,uelvas|olver,ientes|entar,bras|2ir,aigas|1er,rías|1eír,sistas|4ir,eas|1r,digas|1ecir,cojas|2ger,zas|cer,ientas|entir,ieras|erir,sigas|1eguir,viertas|1ertir,úes|uar,bas|1ir,duzcas|2cir,iendas|ender,íes|iar,ndas|2er,uyas|1ir,gues|1ar,ngas|1er,ces|zar,zcas|cer,ques|car,es|ar"
+      },
+      "third": {
+        "rules": "isfacer|4ga,ufrir|3a,omper|3a,ntinuar|4úe,raduar|3úe,lmorzar|2uerce,olgar|uelgue,oder|ueda,ehusar|2úse,aler|2ga,gorar|1üere,umplir|4a,eriguar|4üe,mpartir|5a,rever|4a,aciar|2íe,onfiar|3íe,enovar|2ueve,contrar|1uentre,over|ueva,oñar|ueñe,obernar|2ierne,orir|uera,erder|ierda,alir|2ga,uebrar|1iebre,ravesar|3iese,burrir|4a,orcer|uerza,ogar|uegue,spertar|2ierte,onfesar|3iese,rohibir|3íba,efender|2ienda,omenzar|2ience,uerer|1iera,ensar|iense,ormir|uerma,ruñir|3a,añer|2a,nviar|2íe,estir|ista,jercer|3za,pezar|1iece,meter|3a,riar|1íe,uiar|1íe,eñir|iña,vivir|3a,eer|1a,mer|1a,cender|1ienda,oser|2a,venir|3ga,mitir|3a,hacer|2ga,batir|3a,endar|iende,cordar|1uerde,eber|2a,tinguir|4a,mostrar|1uestre,alentar|2iente,rrer|2a,probar|2uebe,vencer|3za,etir|ita,mir|1a,egir|ija,edir|ida,ostar|ueste,olver|uelva,brir|2a,aer|1iga,reír|1ía,sistir|4a,tender|1ienda,tuar|1úe,decir|1iga,entir|ienta,erir|iera,ger|ja,seguir|1iga,vertir|1ierta,gir|ja,dir|1a,bir|1a,ducir|2zca,der|1a,uir|1ya,gar|1ue,ner|1ga,zar|ce,cer|zca,car|que,ar|e,omit|4e,dar\\(se\\)|1e,entirse|ienta,ullirse|3a,reverse|3a,arse|e",
+        "exceptions": "cerrar|1ierre,sentar|1iente,errar|yerre,oler|huela,contar|1uente,servir|1irva,estar|3é,helar|1iele,dar|1é,apretar|3iete,negar|1iegue,caber|quepa,ver|2a,sonar|1uene,soler|1uela,regar|1iegue,oír|1iga,volar|1uele,saber|1epa,ser|2a,unir|2a,ir|vaya,jugar|2egue,hervir|1ierva,mudar(se)|3e,valer|3ga,leer|2a,elegir|2ija,salir|3ga,rogar|1uegue,querer|2iera,vestir|1ista",
+        "rev": "onsuma|5ir,uceda|4er,ufra|3ir,ompa|3er,rea|2er,oma|2er,flija|3gir,irija|3gir,ueda|oder,xija|2gir,irva|ervir,ecida|4ir,inja|2gir,roteja|4ger,umpla|4ir,epienta|2entirse,omparta|6ir,ema|2er,urja|2gir,ambulla|6irse,ueva|over,uera|orir,ierda|erder,na|1ir,treva|4erse,burra|4ir,uerza|orcer,rohíba|3ibir,uerma|ormir,ierva|ervir,ruña|3ir,aña|2er,meta|3er,iña|eñir,viva|3ir,rija|1egir,prima|4ir,osa|2er,venga|3ir,mita|3ir,ada|2ir,bata|3ir,uda|2ir,eba|2er,tinga|4uir,rra|2er,aga|1cer,ita|etir,ida|edir,uelva|olver,bra|2ir,aiga|1er,ría|1eír,sista|4ir,ea|1r,diga|1ecir,coja|2ger,za|cer,ienta|entir,iera|erir,siga|1eguir,vierta|1ertir,ba|1ir,duzca|2cir,ienda|ender,nda|2er,uya|1ir,nga|1er,zca|cer,ierre|errar,omite|4,ntere|4arse,lmuerce|2orzar,uelgue|olgar,uente|ontar,ehúse|2usar,ueje|3arse,iele|elar,priete|2etar,güere|1orar,verigüe|5uar,acte|3arse,roncee|5arse,uene|onar,enueve|2ovar,cuentre|1ontrar,ueñe|oñar,uele|olar,obierne|2ernar,uiebre|1ebrar,spierte|2ertar,omience|2enzar,iense|ensar,piece|1ezar,iende|endar,cuerde|1ordar,iegue|egar,muestre|1ostrar,iese|esar,pruebe|2obar,ueste|ostar,iente|entar,úe|uar,íe|iar,gue|1ar,ce|zar,que|car,e|ar,é|ar"
+      },
+      "firstPlural": {
+        "rules": "isfacer|4gamos,ufrir|3amos,omper|3amos,aler|2gamos,umplir|4amos,eriguar|4üemos,mpartir|5amos,rever|4amos,orir|uramos,alir|2gamos,burrir|4amos,ormir|urmamos,ruñir|3amos,añer|2amos,estir|istamos,meter|3amos,eñir|iñamos,vivir|3amos,eer|1amos,mer|1amos,oser|2amos,venir|3gamos,mitir|3amos,hacer|2gamos,batir|3amos,ervir|irvamos,eber|2amos,oler|2amos,tinguir|4amos,rcer|1zamos,vencer|3zamos,etir|itamos,mir|1amos,egir|ijamos,edir|idamos,brir|2amos,aer|1igamos,reír|1iamos,sistir|4amos,decir|1igamos,rer|1amos,ver|1amos,entir|intamos,erir|iramos,ger|jamos,seguir|1igamos,vertir|1irtamos,gir|jamos,dir|1amos,ducir|2zcamos,bir|1amos,uir|1yamos,ner|1gamos,gar|1uemos,der|1amos,zar|cemos,cer|zcamos,car|quemos,ar|emos,omit|4emos,dar\\(se\\)|1emos,entirse|intamos,ullirse|3amos,reverse|3amos,arse|emos",
+        "exceptions": "caber|quepamos,ver|2amos,oír|1igamos,saber|1epamos,ser|2amos,unir|2amos,ir|vayamos,venir|3gamos,afligir|4jamos,dirigir|4jamos,convenir|6gamos,mudar(se)|3emos,valer|3gamos,arrepentirse|5intamos,leer|2amos,elegir|2ijamos,salir|3gamos,vestir|1istamos",
+        "rev": "sumamos|3ir,uframos|3ir,mitemos|3,ompamos|3er,reamos|2er,teremos|3arse,omamos|2er,uejemos|3arse,xijamos|2gir,cidamos|3ir,injamos|2gir,tejamos|2ger,mplamos|3ir,igüemos|2uar,artamos|3ir,emamos|2er,urjamos|2gir,actemos|3arse,ullamos|3irse,nceemos|3arse,ovamos|2er,uramos|orir,namos|1ir,revamos|3erse,urramos|3ir,ueramos|3er,urmamos|ormir,ruñamos|3ir,añamos|2er,metamos|3er,iñamos|eñir,vivamos|3ir,rijamos|1egir,rimamos|3ir,osamos|2er,mitamos|3ir,adamos|2ir,batamos|3ir,irvamos|ervir,udamos|2ir,ebamos|2er,olamos|2er,ingamos|3uir,rramos|2er,agamos|1cer,itamos|etir,idamos|edir,olvamos|3er,bramos|2ir,aigamos|1er,riamos|1eír,istamos|3ir,eamos|1r,digamos|1ecir,cojamos|2ger,intamos|entir,iramos|erir,sigamos|1eguir,irtamos|ertir,zamos|cer,uzcamos|1cir,bamos|1ir,uyamos|1ir,ngamos|1er,guemos|1ar,damos|1er,cemos|zar,zcamos|cer,quemos|car,emos|ar"
+      },
+      "secondPlural": {
+        "rules": "mpezar|3céis,isfacer|4gáis,ufrir|3áis,omper|3áis,lmorzar|4céis,aler|2gáis,umplir|4áis,eriguar|4üéis,mpartir|5áis,rever|4áis,ruzar|2céis,orir|uráis,alir|2gáis,burrir|4áis,ormir|urmáis,ruñir|3áis,añer|2áis,estir|istáis,meter|3áis,eñir|iñáis,vivir|3áis,eer|1áis,mer|1áis,oser|2áis,venir|3gáis,mitir|3áis,hacer|2gáis,batir|3áis,ervir|irváis,eber|2áis,oler|2áis,tinguir|4áis,rcer|1záis,vencer|3záis,etir|itáis,mir|1áis,egir|ijáis,edir|idáis,brir|2áis,aer|1igáis,reír|1iáis,sistir|4áis,decir|1igáis,rer|1áis,ver|1áis,entir|intáis,erir|iráis,ger|jáis,azar|1céis,seguir|1igáis,vertir|1irtáis,nzar|1céis,gir|jáis,dir|1áis,ducir|2zcáis,bir|1áis,uir|1yáis,izar|1céis,ner|1gáis,gar|1uéis,der|1áis,cer|zcáis,car|quéis,ar|éis,omit|4éis,dar\\(se\\)|1éis,entirse|intáis,ullirse|3áis,reverse|3áis,arse|éis",
+        "exceptions": "dar|1eis,caber|quepáis,ver|2áis,oír|1igáis,saber|1epáis,ser|2áis,unir|2áis,ir|vayáis,rezar|2céis,mudar(se)|3éis,valer|3gáis,leer|2áis,elegir|2ijáis,salir|3gáis,vestir|1istáis",
+        "rev": "nsumáis|4ir,ufráis|3ir,omitéis|4,ompáis|3er,reáis|2er,nteréis|4arse,omáis|2er,flijáis|3gir,irijáis|3gir,uejéis|3arse,xijáis|2gir,ecidáis|4ir,injáis|2gir,eis|ar,otejáis|3ger,umpláis|4ir,pintáis|1entirse,rigüéis|3uar,partáis|4ir,emáis|2er,urjáis|2gir,actéis|3arse,bulláis|4irse,onceéis|4arse,ováis|2er,uráis|orir,náis|1ir,treváis|4erse,burráis|4ir,ueráis|3er,urmáis|ormir,ruñáis|3ir,añáis|2er,metáis|3er,iñáis|eñir,viváis|3ir,rijáis|1egir,primáis|4ir,osáis|2er,vengáis|3ir,mitáis|3ir,adáis|2ir,batáis|3ir,irváis|ervir,udáis|2ir,ebáis|2er,oláis|2er,tingáis|4uir,rráis|2er,agáis|1cer,itáis|etir,idáis|edir,olváis|3er,bráis|2ir,aigáis|1er,riáis|1eír,sistáis|4ir,eáis|1r,digáis|1ecir,cojáis|2ger,intáis|entir,iráis|erir,sigáis|1eguir,virtáis|1ertir,záis|cer,duzcáis|2cir,báis|1ir,uyáis|1ir,ngáis|1er,guéis|1ar,dáis|1er,céis|zar,zcáis|cer,quéis|car,éis|ar"
+      },
+      "thirdPlural": {
+        "rules": "isfacer|4gan,ufrir|3an,omper|3an,ntinuar|4úen,raduar|3úen,lmorzar|2uercen,olgar|uelguen,oder|uedan,ehusar|2úsen,aler|2gan,gorar|1üeren,umplir|4an,eriguar|4üen,mpartir|5an,rever|4an,aciar|2íen,onfiar|3íen,enovar|2ueven,contrar|1uentren,over|uevan,oñar|ueñen,obernar|2iernen,orir|ueran,erder|ierdan,alir|2gan,uebrar|1iebren,ravesar|3iesen,burrir|4an,orcer|uerzan,ogar|ueguen,spertar|2ierten,onfesar|3iesen,rohibir|3íban,efender|2iendan,omenzar|2iencen,uerer|1ieran,ensar|iensen,ormir|uerman,ruñir|3an,añer|2an,nviar|2íen,estir|istan,jercer|3zan,pezar|1iecen,meter|3an,riar|1íen,uiar|1íen,eñir|iñan,vivir|3an,eer|1an,mer|1an,cender|1iendan,oser|2an,venir|3gan,mitir|3an,hacer|2gan,batir|3an,endar|ienden,cordar|1uerden,eber|2an,tinguir|4an,mostrar|1uestren,alentar|2ienten,rrer|2an,probar|2ueben,vencer|3zan,etir|itan,mir|1an,egir|ijan,edir|idan,ostar|uesten,olver|uelvan,brir|2an,aer|1igan,reír|1ían,sistir|4an,tender|1iendan,tuar|1úen,decir|1igan,entir|ientan,erir|ieran,ger|jan,seguir|1igan,vertir|1iertan,gir|jan,dir|1an,bir|1an,ducir|2zcan,der|1an,uir|1yan,gar|1uen,ner|1gan,zar|cen,cer|zcan,car|quen,ar|en,omit|4en,dar\\(se\\)|1en,entirse|ientan,ullirse|3an,reverse|3an,arse|en",
+        "exceptions": "cerrar|1ierren,sentar|1ienten,errar|yerren,oler|huelan,contar|1uenten,servir|1irvan,estar|3én,helar|1ielen,apretar|3ieten,negar|1ieguen,caber|quepan,ver|2an,sonar|1uenen,soler|1uelan,regar|1ieguen,oír|1igan,volar|1uelen,saber|1epan,ser|2an,unir|2an,ir|vayan,jugar|2eguen,hervir|1iervan,mudar(se)|3en,valer|3gan,leer|2an,elegir|2ijan,salir|3gan,rogar|1ueguen,querer|2ieran,vestir|1istan",
+        "rev": "onsuman|5ir,ucedan|4er,ufran|3ir,ierren|errar,omiten|4,ompan|3er,rean|2er,nteren|4arse,oman|2er,flijan|3gir,irijan|3gir,muercen|1orzar,uelguen|olgar,uedan|oder,uenten|ontar,ehúsen|2usar,uejen|3arse,xijan|2gir,irvan|ervir,ecidan|4ir,injan|2gir,stén|2ar,ielen|elar,rotejan|4ger,prieten|2etar,güeren|1orar,umplan|4ir,pientan|1entirse,erigüen|4uar,mpartan|5ir,eman|2er,urjan|2gir,acten|3arse,mbullan|5irse,ronceen|5arse,uenen|onar,enueven|2ovar,uentren|ontrar,uevan|over,ueñen|oñar,uelen|olar,biernen|1ernar,ueran|orir,ierdan|erder,nan|1ir,trevan|4erse,uiebren|1ebrar,burran|4ir,uerzan|orcer,pierten|1ertar,rohíban|3ibir,miencen|1enzar,iensen|ensar,uerman|ormir,iervan|ervir,ruñan|3ir,añan|2er,piecen|1ezar,uestren|ostrar,metan|3er,iñan|eñir,vivan|3ir,rijan|1egir,priman|4ir,osan|2er,vengan|3ir,mitan|3ir,adan|2ir,batan|3ir,udan|2ir,ienden|endar,cuerden|1ordar,ieguen|egar,eban|2er,tingan|4uir,rran|2er,iesen|esar,prueben|2obar,agan|1cer,itan|etir,idan|edir,uesten|ostar,uelvan|olver,ienten|entar,bran|2ir,aigan|1er,rían|1eír,sistan|4ir,ean|1r,digan|1ecir,cojan|2ger,zan|cer,ientan|entir,ieran|erir,sigan|1eguir,viertan|1ertir,úen|uar,ban|1ir,duzcan|2cir,iendan|ender,íen|iar,ndan|2er,uyan|1ir,guen|1ar,ngan|1er,cen|zar,zcan|cer,quen|car,en|ar"
+      }
+    },
+    "imperative": {
+      "first": {
+        "rules": "",
+        "exceptions": "yacer|",
+        "rev": ""
+      },
+      "second": {
+        "rules": "overse|uevas,egarse|iégate,ncearse|3es,ormirse|uérmete,udarse|2es,illarse|íllate,riarse|1íate,eitarse|3es,uemarse|1émate,ansarse|ánsate,uedarse|1édate,einarse|3es,ostarse|uestes,urlarse|úrlate,lamarse|3es,cidirse|1ídete,nojarse|1ójate,ermarse|3es,ustarse|ústate,uejarse|1éjate,ucharse|úchate,ertarse|iertes,aduarse|2úate,ullirse|3as,estirse|istas,añarse|áñate,ercarse|ércate,fadarse|3es,actarse|3es,almarse|álmate,vidarse|1ídate,ertirse|iertas,asmarse|ásmate,asarse|ásate,entarse|iéntate,ebrarse|iébrate,jecerse|2zcas,reverse|1évete,urrirse|3as,nerse|1gas,charse|2es,uecerse|1écete,rarse|1es,larse|1es,estruir|5yas,namorar|6,intar|3es,omper|3as,legar|3ues,dmirar|5,tenecer|6,omprar|5,ecar|3,adrar|3es,uceder|4as,ufrir|3e,dornar|4es,egociar|6,postar|1uesta,olocar|5,quillar|6,emer|3,sminuir|5yas,ntregar|5ues,ompetir|3ite,bortar|4es,uponer|2ón,ormir|uerme,reer|3,rear|2es,nventar|5es,onjugar|5ues,ograr|3es,ntender|2iendas,lustrar|5es,alvar|3es,scubrir|5e,arcar|4,ntentar|5es,omer|2as,añer|3,bligar|4ues,oñar|ueña,ntinuar|4úa,scender|2iendas,lmorzar|2uerza,olgar|uelgues,ncender|2iende,sayunar|5es,anejar|4es,roponer|3ón,astimar|5es,ancelar|5es,rseguir|2igas,ultivar|6,avar|2es,nsultar|5es,brazar|5,espetar|5es,oder|uedas,ehusar|2úses,elear|3es,ibujar|4es,sponder|6,ravesar|3ieses,ncluir|4yas,gistrar|5es,ecidir|4as,omponer|5gas,omenzar|2iences,aler|2gas,roteger|6,vacuar|4es,nformar|5es,echazar|6,tacar|4,obernar|2iernes,gorar|1üeres,umplir|4e,poyar|4,raduar|3úa,uspirar|5es,evantar|5es,abricar|6,rreglar|6,fectuar|4úa,ubir|2as,ariar|2íes,ablecer|6,eñalar|5,enacer|3zcas,sperar|4es,ecordar|2uerda,eriguar|6,mpartir|5as,egular|5,onsumir|5e,liviar|5,rever|3é,lanchar|5es,liminar|5es,onfiar|3íes,avegar|5,levar|4,anar|2es,erminar|5es,nsuciar|6,nhelar|4es,ablar|4,educir|3zcas,autizar|6,enovar|2ueva,contrar|1uentres,oblar|3es,cabar|4,raducir|5e,rovocar|6,onreír|3ías,isfacer|4z,obrar|3es,ombatir|5e,ragar|4,eportar|5es,nstruir|5ye,vanzar|5,lover|1ueve,ensar|ienses,eredar|4es,xponer|4gas,xhibir|4e,elebrar|6,orir|uere,sconder|5as,riunfar|5es,sificar|6,nfluir|4ye,uerer|1iere,bolizar|6,evelar|5,erder|ierdas,nseguir|2igue,ogar|uegues,nversar|5es,alir|2,uebrar|1iebra,epender|5as,onfesar|3ieses,lorecer|6,jercer|3zas,argar|3ues,orcer|uerzas,ngañar|4es,dorar|4,dvertir|2ierte,aquecer|6,positar|5es,ascinar|5es,rohibir|3íbas,alcular|5es,frecer|5,efender|2iendas,redecir|3ice,visar|3es,ruñir|3as,oseguir|2igue,hismear|5es,equerir|3iere,aciar|2ía,nviar|2ía,currir|4e,ecibir|4as,ivertir|2ierte,estir|iste,stigar|5,stituir|5yas,pezar|1ieza,orrar|4,servar|4es,etir|itas,añar|3,meter|3as,uiar|1íes,istar|3es,clar|2es,edir|idas,vivir|3e,señar|3es,egir|ige,primir|4as,brir|2as,rrer|2as,nducir|4e,alentar|2ienta,andar|3es,rlar|3,venir|3gas,udir|2e,oser|3,mitir|3e,adir|2e,traer|4,hacer|2z,vitar|3es,coger|2jas,alar|2es,roducir|4zcas,migrar|5,diar|2es,reír|1íe,illar|3es,endar|ienda,piar|2es,decir|1igas,oler|uelas,sistir|4as,tuar|1úes,ilar|3,tender|1iende,conocer|4zcas,spirar|5,pasar|3es,sentir|1ientas,tribuir|5ye,olar|2es,nvertir|2iertas,cansar|5,vencer|5,pagar|3ues,otar|2es,arar|3,prender|5as,usar|3,enar|3,onar|2es,urar|2es,olver|uelvas,erir|ieras,par|1es,orar|2es,ticar|4,licar|4,char|3,ear|2,tener|1én,ber|2,gir|1e,ciar|2es,esar|2es,jar|2,inar|3,mar|2,ecer|1zcas,dar|2,zar|ces,car|ques,tar|2,omit|4es,dar\\(se\\)|2",
+        "exceptions": "yacer|4,juntarse|4es,secarse|equivócate,afirmar|5es,teñir|1iñe,jurar|4,criar|2ía,vender|5,tener|3gas,preguntarse|4úntate,arrepentirse|5iéntete,sentirse|1ientas,verificar|8,mentir|1iente,bordar|4es,durar|4,oler|huelas,acordar|2uerdes,amar|2es,pedir|1ide,probar|2ueba,parecer|6,contar|1uenta,montar|4es,seguir|1igas,servir|1irvas,estar|3á,helar|1ieles,dar|1es,apretar|3ieta,purificar|8,tirar|3es,oponer|4gas,reñir|1iñas,amanecer|7,poner|3,divorciarse|3órciate,huir|2ye,insistir|6e,batir|3as,negar|1iega,preservar|8,ver|2,faltar|4es,pegar|4,preparar|6es,regar|1iegues,casar|4,escribir|6e,extinguir|7e,mirar|3es,nevar|1ieva,oír|1ye,demostrar|3uestra,costar|1uestes,ofender|5as,tardar|4es,caer|2igas,nacer|4,distinguir|7as,robar|3es,sentar|1ientes,ser|2as,unir|2as,leer|2as,nadar|3es,errar|yerres,aprobar|3uebes,ir|vayas,jugar|2ega,sonar|1uena,describir|7as,entrar|5,cerrar|1ierra,coger|4,sentir|1iente,volar|1uela,mostrar|1uestres,dejar|3es,regir|1ijas,hervir|1ierve,ponerse|3gas,acostarse|2uestes,mudar(se)|4,elegir|2ige,vestirse|1istas,divertirse|3iertas,echarse|3es,querer|2iere,vestir|1iste",
+        "rev": "uevas|overse,nteres|4arse,namores|5arse,ompas|3er,roncees|5arse,untes|3arse,ucedas|4er,udes|2arse,omites|4,feites|4arse,rraches|5arse,eines|3arse,omas|2er,ricules|5arse,uelgues|olgar,lames|3arse,cuerdes|1ordar,rrolles|5arse,nfermes|5arse,uedas|oder,ehúses|2usar,irvas|ervir,piertes|1ertarse,ecidas|4ir,ieles|elar,miences|1enzar,tumbres|5arse,algas|2er,biernes|1ernar,iñas|eñir,güeres|1orar,mbullas|5irse,legres|4arse,nfades|4arse,mpartas|5ir,atas|2ir,actes|3arse,etengas|4erse,uentres|ontrar,iegues|egar,onrías|3eír,ienses|ensar,aigas|1er,stingas|5uir,ierdas|erder,ientes|entar,uegues|ogar,ejezcas|3cerse,nas|1ir,jerzas|3cer,pruebes|2obar,uerzas|orcer,burras|4irse,rohíbas|3ibir,uestres|ostrar,ruñas|3ir,ijas|egir,itas|etir,metas|3er,idas|edir,alles|3arse,primas|4ir,bras|2ir,rras|2er,vengas|3ir,sigas|1eguir,cojas|2ger,ieses|esar,digas|1ecir,uelas|oler,sistas|4ir,túes|1uar,sientas|1entir,viertas|1ertir,iendas|ender,uelvas|olver,ieras|erir,duzcas|2cir,pongas|3er,bas|1ir,íes|iar,uyas|1ir,ndas|2er,gues|1ar,zcas|cer,ces|zar,ques|car,es|ar,iégate|egarse,ufre|3ir,uérmete|ormirse,iñe|eñir,uíllate|1illarse,eme|3r,ríate|1iarse,ompite|3etir,gúntate|1untarse,uerme|ormir,ree|3r,orrige|3egir,iéntete|entirse,uémate|1emarse,ánsate|ansarse,uédate|1edarse,escubre|6ir,añe|3r,úrlate|urlarse,ecídete|2idirse,ide|edir,nójate|1ojarse,sústate|1ustarse,uéjate|1ejarse,esponde|7r,úchate|ucharse,rotege|6r,umple|4ir,radúate|3uarse,áñate|añarse,cércate|1ercarse,órciate|orciarse,nsiste|5ir,onsume|5ir,álmate|almarse,lvídate|2idarse,iásmate|1asmarse,ásate|asarse,iéntate|entarse,xtingue|6ir,ombate|5ir,lueve|1over,uere|orir,iébrate|ebrarse,trévete|2everse,oge|3r,redice|3ecir,equiere|3erir,ierve|ervir,curre|4ir,vive|3ir,iente|entir,ude|2ir,ose|3r,mite|3ir,ade|2ir,trae|4r,ríe|1eír,quécete|2ecerse,ibe|2ir,sigue|1eguir,vierte|1ertir,duce|3ir,iende|ender,be|2r,ge|1ir,uye|1ir,ce|2r,puesta|1ostar,ueña|oñar,lmuerza|2orzar,rueba|1obar,uenta|ontar,prieta|2etar,ecuerda|2ordar,iega|egar,enueva|2ovar,ieva|evar,muestra|1ostrar,uiebra|1ebrar,uega|1gar,uena|onar,ierra|errar,uela|olar,pieza|1ezar,alienta|2entar,ienda|endar,ía|iar,úa|uar,a|1r,stá|2ar,on|2er,pón|1oner,tén|1ener,revé|3er,al|2ir,az|1cer"
+      },
+      "third": {
+        "rules": "terarse|3éis,ncearse|3éis,untarse|3éis,ecarse|1quéis,ormirse|urmáis,uemarse|3éis,acharse|3éis,uedarse|3éis,einarse|3éis,ostarse|3éis,cularse|3éis,cidirse|3áis,ermarse|3éis,uejarse|3éis,ucharse|3éis,aduarse|3éis,ullirse|3íos,estirse|3áis,ercarse|2quéis,egrarse|3éis,actarse|3éis,tenerse|3gáis,vidarse|3éis,ertirse|irtáis,ebrarse|3éis,urrirse|3áis,verse|1áis,ecerse|1zcáis,ponerse|4os,arse|1os,estruir|5yáis,omper|3áis,legar|3uéis,tenecer|4zcáis,omprar|4éis,horrar|4éis,erretir|3itáis,adrar|3éis,rometer|5áis,ulpar|3éis,evorar|4éis,squiar|4éis,laticar|4quéis,licitar|5éis,postar|4éis,olocar|3quéis,emer|2áis,terizar|4céis,ralizar|4céis,ratar|3éis,bicar|2quéis,omar|2éis,eguntar|5éis,dificar|4quéis,reer|2áis,rear|2éis,nventar|5éis,mprimir|5áis,arrer|3áis,nificar|4quéis,alvar|3éis,ntentar|5éis,añer|2áis,oportar|5éis,bligar|4uéis,oñar|2éis,ntinuar|5éis,ncantar|5éis,ndicar|3quéis,olgar|3uéis,sayunar|5éis,dmitir|4áis,taminar|5éis,divinar|5éis,ceptar|4éis,isitar|4éis,ancelar|5éis,rseguir|2igáis,avar|2éis,brazar|3céis,quistar|5éis,sgustar|5éis,sustar|4éis,elear|3éis,ibujar|4éis,nfiscar|4quéis,ravesar|5éis,xigir|2jáis,teresar|5éis,yudar|3éis,omponer|5gáis,omenzar|4céis,aler|2gáis,eciclar|5éis,impiar|4éis,endecir|3igáis,tacar|2quéis,umplir|4áis,galizar|4céis,nvadir|4áis,egresar|5éis,sociar|4éis,vorciar|5éis,rreglar|5éis,lamar|3éis,ubir|2áis,ablecer|4zcáis,iseñar|4éis,enacer|3zcáis,sperar|4éis,onvidar|5éis,hocar|2quéis,onsumir|5áis,lcanzar|4céis,urgir|2jáis,rever|4áis,lanchar|5éis,liminar|5éis,onfiar|4éis,levar|3éis,anar|2éis,epasar|4éis,esolver|5áis,nsuciar|5éis,autizar|4céis,campar|4éis,xplicar|4quéis,tumbrar|5éis,raducir|4zcáis,ugerir|2iráis,iquecer|4zcáis,rovocar|4quéis,obrar|3éis,ombatir|5áis,eportar|5éis,xplorar|5éis,vanzar|3céis,nstalar|5éis,eredar|4éis,uidar|3éis,menazar|4céis,escar|2quéis,astar|3éis,sconder|5áis,nvocar|3quéis,ecorar|4éis,riunfar|5éis,uerer|3áis,ntrolar|5éis,bolizar|4céis,erder|3áis,ontecer|4zcáis,ticipar|5éis,ublicar|4quéis,ogar|2uéis,nversar|5éis,onfesar|5éis,nservar|5éis,ecoger|3jáis,orcer|2záis,ngañar|4éis,lonizar|4céis,astigar|5uéis,rindar|4éis,positar|5éis,ascinar|5éis,iajar|3éis,alcular|5éis,frecer|3zcáis,ruñir|3áis,oseguir|2igáis,equerir|3iráis,mportar|5éis,nvencer|4záis,aciar|3éis,omendar|5éis,tilizar|4céis,nviar|3éis,mirar|3éis,rnar|2éis,regar|3uéis,regir|1ijáis,jugar|3uéis,durar|3éis,nducir|3zcáis,venir|3gáis,udir|2áis,cordar|4éis,vitar|3éis,ntener|4gáis,ontar|3éis,luir|2yáis,formar|4éis,blar|2éis,tinguir|4áis,sentar|4éis,errar|3éis,grar|2éis,tender|4áis,brir|2áis,nsar|2éis,strar|3éis,bar|1éis,llar|2éis,r|d,omit|4ad,dar\\(se\\)|2d",
+        "exceptions": "desagradecer|9zcáis,tocar|2quéis,desaparecer|8zcáis,desagradar|8éis,jurar|3éis,abordar|5éis,callarse|4éis,vender|4áis,arrepentirse|8íos,luchar|4éis,sentirse|4áis,calentar|6éis,verificar|6quéis,mandar|4éis,clarificar|7quéis,atraer|4igáis,introducir|7zcáis,seguir|1igáis,servir|1irváis,decir|1igáis,toser|3áis,estimar|5éis,oponer|4gáis,reñir|1iñáis,volver|4áis,reír|1iais,insistir|6áis,preservar|7éis,caber|quepáis,ver|2áis,permanecer|7zcáis,deber|3áis,curar|3éis,preparar|6éis,saber|1epáis,soler|3áis,casar|3éis,escribir|6áis,asistir|5áis,pesar|3éis,tardar|4éis,caer|2igáis,besar|3éis,votar|3éis,odiar|3éis,ser|2ais,nadar|3éis,cesar|3éis,ir|vayáis,sonar|3éis,medir|1idáis,sacrificar|7quéis,convertir|4irtáis,aparecer|5zcáis,coger|2jáis,renunciar|7éis,sentir|1intáis,juntarse|4éis,mudar(se)|4d,ducharse|4éis,detenerse|5gáis,divertirse|3irtáis,enflaquecerse|8zcáis",
+        "rev": "ováis|2erse,nteréis|4arse,ompáis|3er,onceéis|4arse,rritáis|2etir,equéis|1carse,ometáis|4er,urmáis|ormirse,emáis|2er,reáis|2er,primáis|4ir,ueméis|3arse,entáis|3irse,arráis|3er,rachéis|4arse,uedéis|3arse,einéis|3arse,añáis|2er,costéis|4arse,iculéis|4arse,ecidáis|4irse,dmitáis|4ir,ferméis|4arse,uejéis|3arse,xijáis|2gir,irváis|ervir,osáis|2er,algáis|2er,iñáis|eñir,umpláis|4ir,raduéis|4arse,nvadáis|4ir,estáis|3irse,erquéis|2carse,iais|eír,legréis|4arse,nsumáis|4ir,urjáis|2gir,actéis|3arse,ebáis|2er,lvidéis|4arse,oláis|2er,mbatáis|4ir,ueráis|3er,eais|1r,uebréis|4arse,jezcáis|2cerse,treváis|4erse,burráis|4irse,intáis|entir,ruñáis|3ir,rijáis|1egir,íos|irse,vengáis|3ir,udáis|2ir,aigáis|1er,tengáis|3er,pongáis|3er,digáis|1ecir,olváis|3er,báis|1ir,sistáis|4ir,veáis|2r,iráis|erir,tingáis|4uir,cojáis|2ger,záis|cer,uyáis|1ir,bráis|2ir,sigáis|1eguir,duzcáis|2cir,dáis|1er,guéis|1ar,zcáis|cer,céis|zar,quéis|car,os|rse,éis|ar,omitad|4,d|r"
+      },
+      "firstPlural": {
+        "rules": "",
+        "exceptions": "yacer|",
+        "rev": ""
+      },
+      "secondPlural": {
+        "rules": "overse|uévase,terarse|3e,morarse|1órese,egarse|iéguese,ncearse|2éese,ormirse|uerma,udarse|údese,illarse|íllese,eitarse|3e,uemarse|3e,acharse|áchese,ansarse|ánsese,uedarse|3e,einarse|éinese,ostarse|ueste,urlarse|úrlese,cularse|3e,lamarse|1ámese,cidirse|1ídase,ordarse|uérdese,ollarse|óllese,ermarse|érmese,uejarse|1éjese,ertarse|iértese,mbrarse|3e,aduarse|2úe,ullirse|3a,antarse|ántese,estirse|ista,ercarse|érquese,egrarse|3e,fadarse|3e,actarse|áctese,almarse|álmese,vidarse|1ídese,ertirse|ierta,asmarse|3e,asarse|ásese,onderse|óndase,ebrarse|iebre,reverse|1évase,pararse|1árese,urrirse|úrrase,entirse|ienta,nerse|1ga,icarse|íquese,ecerse|1zca,omper|3a,añer|2a,oñar|ueñe,ntinuar|4úe,lmorzar|2uerce,olgar|uelgue,oder|ueda,ehusar|2úse,ravesar|3iese,omenzar|2ience,aler|2ga,obernar|2ierne,gorar|1üere,umplir|4a,eriguar|4üe,mpartir|5a,rever|4a,onfiar|3íe,enovar|2ueve,contrar|1uentre,spertar|2ierte,isfacer|4ga,ensar|iense,orir|uera,uerer|1iera,erder|ierda,ogar|uegue,alir|2ga,onfesar|3iese,jercer|3za,orcer|uerza,rohibir|3íba,efender|2ienda,ruñir|3a,aciar|2íe,nviar|2íe,pezar|1iece,meter|3a,uiar|1íe,eñir|iña,ostar|ueste,mer|1a,riar|1íe,vivir|3a,eer|1a,rrer|2a,alentar|2iente,cender|1ienda,venir|3ga,oser|2a,cordar|1uerde,mitir|3a,hacer|2ga,endar|iende,oler|uela,eber|2a,over|ueva,tinguir|4a,batir|3a,mostrar|1uestre,probar|2uebe,vencer|3za,etir|ita,edir|ida,egir|ija,mir|1a,tender|1ienda,olver|uelva,entir|ienta,aer|1iga,reír|1ía,decir|1iga,sistir|4a,tuar|1úe,vertir|1ierta,erir|iera,seguir|1iga,ger|ja,gir|ja,dir|1a,bir|1a,rir|1a,ducir|2zca,der|1a,uir|1ya,ner|1ga,gar|1ue,zar|ce,cer|zca,car|que,ar|e,omit|4e,dar\\(se\\)|1e",
+        "exceptions": "juntarse|4e,secarse|equivóquese,callarse|4e,hallarse|1állese,preguntarse|4úntese,oler|huela,contar|1uente,servir|1irva,estar|3é,helar|1iele,dar|1é,apretar|3iete,negar|1iegue,caber|quepa,ver|2a,saber|1epa,regar|1iegue,echarse|échese,nevar|1ieve,oír|1iga,sentar|1iente,ser|2a,unir|2a,errar|yerre,ir|vaya,irse|váyase,jugar|2egue,sonar|1uene,cerrar|1ierre,oponerse|2óngase,volar|1uele,hervir|1ierva,ponerse|3ga,sentirse|1ienta,acostarse|2ueste,mudar(se)|3e,valer|3ga,elegir|2ija,vestirse|1ista,detenerse|5ga,querer|2iera,rogar|1uegue,salir|3ga,leer|2a",
+        "rev": "uévase|overse,ntere|4arse,amórese|2orarse,iéguese|egarse,oncéese|3earse,údese|udarse,uíllese|1illarse,omite|4,állese|allarse,gúntese|1untarse,feite|4arse,ueme|3arse,ráchese|1acharse,ánsese|ansarse,uede|3arse,éinese|einarse,ueñe|oñar,úrlese|urlarse,tricule|6arse,lmuerce|2orzar,uelgue|olgar,lámese|1amarse,ecídase|2idirse,uérdese|ordarse,róllese|1ollarse,férmese|1ermarse,uente|ontar,ehúse|2usar,uéjese|1ejarse,iértese|ertarse,iele|elar,omience|2enzar,stumbre|6arse,priete|2etar,obierne|2ernar,güere|1orar,radúe|3uarse,vántese|1antarse,érquese|ercarse,legre|4arse,nfade|4arse,verigüe|5uar,áctese|actarse,álmese|almarse,lvídese|2idarse,usiasme|6arse,enueve|2ovar,cuentre|1ontrar,ásese|asarse,spierte|2ertar,ieve|evar,iense|ensar,cóndase|1onderse,uiebre|1ebrarse,trévase|2everse,uene|onar,epárese|2ararse,búrrase|1urrirse,ierre|errar,póngase|1onerse,uele|olar,piece|1ezar,ueste|ostar,íquese|icarse,cuerde|1ordar,iese|esar,iende|endar,iegue|egar,muestre|1ostrar,pruebe|2obar,iente|entar,úe|uar,íe|iar,gue|1ar,ce|zar,que|car,e|ar,ompa|3er,uceda|4er,ufra|3ir,uerma|ormirse,ema|2er,rea|2er,epienta|2entirse,arra|3er,oma|2er,aña|2er,flija|3gir,irija|3gir,ueda|oder,xija|2gir,irva|ervir,ecida|4ir,inja|2gir,roteja|4ger,umpla|4ir,ambulla|6irse,omparta|6ir,onsuma|5ir,urja|2gir,ivierta|2ertirse,aquezca|4cerse,uera|orir,ierda|erder,orra|3er,vejezca|4cerse,na|1ir,uerza|orcer,rohíba|3ibir,ruña|3ir,ierva|ervir,meta|3er,iña|eñir,viva|3ir,rija|1egir,prima|4ir,venga|3ir,uda|2ir,osa|2er,mita|3ir,ada|2ir,uela|oler,eba|2er,ueva|over,tinga|4uir,bata|3ir,urra|3ir,ita|etir,ida|edir,bra|2ir,aga|1cer,uelva|olver,ienta|entir,aiga|1er,coja|2ger,ría|1eír,diga|1ecir,sista|4ir,ea|1r,za|cer,vierta|1ertir,iera|erir,siga|1eguir,ba|1ir,ienda|ender,duzca|2cir,nda|2er,uya|1ir,nga|1er,zca|cer,é|ar"
+      },
+      "thirdPlural": {
+        "rules": "overse|uevan,terarse|1érense,morarse|1órense,egarse|ieguen,ncearse|2éense,ormirse|uerman,udarse|údense,illarse|íllense,riarse|1íense,eitarse|éitense,acharse|3en,ansarse|ánsense,uedarse|1édense,einarse|éinense,ostarse|uesten,urlarse|úrlense,cidirse|3an,ordarse|uérdense,nojarse|1ójense,ustarse|ústense,uejarse|3en,ucharse|úchense,ertarse|ierten,mbrarse|3en,aduarse|2úense,ullirse|3an,estirse|ístanse,añarse|áñense,ercarse|2quen,egrarse|égrense,fadarse|1ádense,actarse|áctense,almarse|álmense,vidarse|1ídense,ertirse|iértanse,asmarse|ásmense,asarse|ásense,avarse|ávense,ebrarse|iébrense,jecerse|2zcan,reverse|1évanse,urrirse|úrranse,entirse|iéntanse,nerse|1gan,uecerse|1ézcanse,marse|1en,larse|1en,omper|3an,añer|2an,oñar|ueñen,ntinuar|4úen,lmorzar|2uercen,olgar|uelguen,oder|uedan,ehusar|2úsen,ravesar|3iesen,omenzar|2iencen,aler|2gan,obernar|2iernen,gorar|1üeren,umplir|4an,raduar|3úen,eriguar|4üen,mpartir|5an,rever|4an,onfiar|3íen,enovar|2ueven,contrar|1uentren,isfacer|4gan,lover|1uevan,ensar|iensen,orir|ueran,uerer|1ieran,erder|ierdan,ogar|ueguen,alir|2gan,uebrar|1iebren,onfesar|3iesen,jercer|3zan,orcer|uerzan,rohibir|3íban,efender|2iendan,ruñir|3an,aciar|2íen,nviar|2íen,estir|istan,pezar|1iecen,meter|3an,uiar|1íen,eñir|iñan,ostar|uesten,mer|1an,riar|1íen,vivir|3an,eer|1an,rrer|2an,alentar|2ienten,cender|1iendan,venir|3gan,oser|2an,cordar|1uerden,mitir|3an,hacer|2gan,endar|ienden,oler|uelan,eber|2an,tinguir|4an,batir|3an,mostrar|1uestren,probar|2ueben,vencer|3zan,etir|itan,edir|idan,egir|ijan,mir|1an,tender|1iendan,olver|uelvan,aer|1igan,reír|1ían,decir|1igan,sistir|4an,tuar|1úen,entir|ientan,dir|1an,erir|ieran,seguir|1igan,ger|jan,vertir|1iertan,gir|jan,bir|1an,rir|1an,ducir|2zcan,der|1an,uir|1yan,ner|1gan,gar|1uen,zar|cen,cer|zcan,car|quen,ar|en,omit|4en,dar\\(se\\)|1en",
+        "exceptions": "juntarse|4en,secarse|equivóquense,preguntarse|4úntense,oler|huelan,contar|1uenten,servir|1irvan,estar|3én,helar|1ielen,apretar|3ieten,registrarse|3ístrense,caber|quepan,ver|2an,saber|1epan,regar|1ieguen,echarse|échense,nevar|1ieven,oír|1igan,sentar|1ienten,ser|2an,unir|2an,errar|yerren,ir|vayan,irse|váyanse,jugar|2eguen,sonar|1uenen,cerrar|1ierren,volar|1uelen,hervir|1iervan,moverse|1uevan,negarse|1ieguen,arrepentirse|5iéntanse,ponerse|3gan,sentirse|1iéntanse,acostarse|2uesten,mudar(se)|3en,acordarse|2uérdense,valer|3gan,elegir|2ijan,detenerse|5gan,divertirse|3iértanse,querer|2ieran,quebrarse|2iébrense,rogar|1ueguen,salir|3gan,leer|2an,vestir|1istan",
+        "rev": "térense|1erarse,mórense|1orarse,ncéense|2earse,údense|udarse,íllense|illarse,ríense|1iarse,úntense|untarse,éitense|eitarse,ánsense|ansarse,uédense|1edarse,éinense|einarse,úrlense|urlarse,nójense|1ojarse,ústense|ustarse,úchense|ucharse,adúense|2uarse,ístanse|estirse,áñense|añarse,égrense|egrarse,fádense|1adarse,áctense|actarse,álmense|almarse,vídense|1idarse,ásmense|asmarse,ásense|asarse,ávense|avarse,révanse|1everse,úrranse|urrirse,ézcanse|ecerse,ompan|3er,ucedan|4er,ufran|3ir,uerman|ormirse,eman|2er,omiten|4,rean|2er,uemen|3arse,arran|3er,rrachen|5arse,oman|2er,añan|2er,flijan|3gir,ueñen|oñar,irijan|3gir,riculen|5arse,muercen|1orzar,uelguen|olgar,lamen|3arse,ecidan|4irse,rrollen|5arse,nfermen|5arse,uedan|oder,uenten|ontar,ehúsen|2usar,uejen|3arse,xijan|2gir,irvan|ervir,pierten|1ertarse,injan|2gir,stén|2ar,ielen|elar,miencen|1enzar,tumbren|5arse,rotejan|4ger,prieten|2etar,biernen|1ernar,güeren|1orar,umplan|4ir,mbullan|5irse,cerquen|3carse,erigüen|4uar,mpartan|5ir,onsuman|5ir,urjan|2gir,enueven|2ovar,uentren|ontrar,ieven|evar,luevan|1over,iensen|ensar,ueran|orir,ierdan|erder,orran|3er,ejezcan|3cerse,nan|1ir,uiebren|1ebrar,uerzan|orcer,uenen|onar,ierren|errar,rohíban|3ibir,uelen|olar,ruñan|3ir,iervan|ervir,piecen|1ezar,metan|3er,iñan|eñir,uesten|ostar,allen|3arse,vivan|3ir,rijan|1egir,priman|4ir,vengan|3ir,udan|2ir,osan|2er,cuerden|1ordar,mitan|3ir,adan|2ir,iesen|esar,ienden|endar,uelan|oler,eban|2er,tingan|4uir,batan|3ir,uestren|ostrar,prueben|2obar,urran|3ir,itan|etir,idan|edir,bran|2ir,ienten|entar,agan|1cer,uelvan|olver,aigan|1er,cojan|2ger,rían|1eír,digan|1ecir,sistan|4ir,ean|1r,zan|cer,ientan|entir,ieran|erir,sigan|1eguir,viertan|1ertir,úen|uar,ban|1ir,iendan|ender,duzcan|2cir,íen|iar,ndan|2er,uyan|1ir,ngan|1er,guen|1ar,cen|zar,zcan|cer,quen|car,en|ar"
+      }
+    },
     "gerunds": {
       "gerunds": {
         "rules": "omper|3iendo,ormir|urmiendo,oncebir|3ibiendo,orir|uriendo,odrir|udriendo,oer|1yendo,ejer|2iendo,endir|indiendo,rgüir|2uyendo,ngullir|5endo,ervir|irviendo,oser|2iendo,minuir|4yendo,huir|2yendo,oír|1yendo,mer|1iendo,egir|igiendo,etir|itiendo,estir|istiendo,eñir|iñendo,reír|1iendo,ler|1iendo,pedir|1idiendo,struir|4yendo,eer|1yendo,seguir|1iguiendo,entir|intiendo,buir|2yendo,rer|1iendo,decir|1iciendo,luir|2yendo,vertir|1irtiendo,ter|1iendo,venir|1iniendo,ber|1iendo,stituir|5yendo,ger|1iendo,aer|1yendo,erir|iriendo,ver|1iendo,ner|1iendo,der|1iendo,cer|1iendo,ir|1endo,r|ndo",
         "exceptions": "ir|yendo,poder|1udiendo,medir|1idiendo,seguir|1iguiendo,servir|1irviendo,convertir|4irtiendo,elegir|2igiendo,conseguir|4iguiendo,romper|4iendo,repetir|3itiendo,adquirir|7endo,sufrir|5endo,correr|4iendo,recorrer|6iendo,reír|1iendo,pedir|1idiendo,valer|3iendo,dormir|1urmiendo,concebir|4ibiendo,impedir|3idiendo,derretir|4itiendo,barrer|4iendo,vestir|1istiendo,sentir|1intiendo,hundir|5endo,mentir|1intiendo,extinguir|8endo,distinguir|9endo,podrir|1udriendo,verter|4iendo,expandir|7endo,invertir|3irtiendo,esparcir|7endo,roer|2yendo,difundir|7endo,perseguir|4iguiendo,definir|6endo,converger|7iendo,emerger|5iendo,revertir|3irtiendo,hervir|1irviendo,despedir|4idiendo,confundir|8endo,moler|3iendo,transgredir|10endo,corregir|4igiendo,proseguir|4iguiendo,demoler|5iendo,regir|1igiendo,fundir|5endo,reseguir|3iguiendo,advertir|3irtiendo,rendir|1indiendo,redefinir|8endo,freír|2iendo,competir|4itiendo,prescindir|9endo,desmentir|4intiendo,consentir|4intiendo,embestir|3istiendo,refundir|7endo,expedir|3idiendo,reconvertir|6irtiendo,revestir|3istiendo,infundir|7endo,blandir|6endo,divertir|3irtiendo,inquirir|7endo,fruncir|6endo,pervertir|4irtiendo,descorrer|7iendo,asir|3endo,presentir|4intiendo,escindir|7endo",
         "rev": "emiendo|2er,omiendo|2er,uriendo|orir,egiendo|2er,rniendo|3r,eliendo|2er,amiendo|2er,ejiendo|2er,triendo|3r,guyendo|1üir,ullendo|3ir,quiendo|3r,nriendo|2eír,eriendo|2er,osiendo|2er,ebiendo|2er,uniendo|3r,oyendo|1ír,abiendo|2er,rbiendo|2er,piendo|2r,iñendo|eñir,adiendo|3r,eyendo|1er,iviendo|3r,udiendo|3r,ogiendo|2er,iciendo|ecir,rriendo|3r,etiendo|2er,liendo|2r,briendo|3r,idiendo|3r,iniendo|enir,ayendo|1er,iriendo|erir,uciendo|3r,giendo|2r,viendo|1er,biendo|2r,miendo|2r,yendo|ir,niendo|1er,tiendo|2r,diendo|1er,ciendo|1er,ndo|r"
+      }
+    },
+    "perfecto": {
+      "perfecto": {
+        "rules": "omper|1to,epillar|5ía cepillado,isfacer|3echo,rever|3isto,redecir|3icho,orir|uerto,hacer|1echo,scribir|4to,eer|1ído,olver|uelto,aer|1ído,brir|1ierto,poner|1uesto,er|ido,r|do,omit|4ado,verse|1ido,rse|do",
+        "exceptions": "freír|2ito,decir|1icho,ver|1isto,cepillar|6ía cepillado,querer|4ido,juntarse|5do,prepararse|7do,mudarse|4do,leer|2ído,creer|3ído,hallarse|5do,valer|3ido,sentirse|5do",
+        "rev": "ovido|2erse,nterado|5rse,otegido|4er,ntecido|4er,oto|1mper,arrido|3er,uedado|4rse,onceado|5rse,ecado|3rse,orrido|3er,trevido|4erse,lamado|4rse,ucedido|4er,edecido|4er,actado|4rse,emido|2er,omitado|4,feitado|5rse,pentido|5rse,omido|2er,uerto|orir,ejecido|4er,odido|2er,bullido|5rse,uejado|4rse,añido|2er,erdido|3er,ebido|2er,rcido|2er,lecido|3er,metido|3er,quecido|4er,visto|1er,escrito|5bir,vencido|4er,dicho|1ecir,abido|2er,onocido|4er,olido|2er,acido|2er,adecido|4er,echo|acer,uelto|olver,necido|3er,aído|1er,sido|1er,cogido|3er,bierto|1rir,puesto|1oner,tenido|3er,recido|3er,ndido|2er,do|r"
       }
     }
   };
@@ -8195,16 +8267,16 @@
 
   let { gerunds } = model$1;
   // =-=-
-  let m$2 = {
+  let m$3 = {
     fromGerund: reverse$1(gerunds.gerunds),
     toGerund: gerunds.gerunds,
   };
 
   const fromGerund = function (str) {
-    return convert$1(str, m$2.fromGerund)
+    return convert$1(str, m$3.fromGerund)
   };
   const toGerund$1 = function (str) {
-    return convert$1(str, m$2.toGerund)
+    return convert$1(str, m$3.toGerund)
   };
 
   // does this make any sense?
@@ -8443,10 +8515,26 @@
   // console.log(toPlural("principesco") === "principescos")
   // console.log(toSingular("principescos") === "principesco")
 
+  let { perfecto } = model$1;
+
+  // =-=-
+  let m$2 = {
+    fromPerfecto: reverse$1(perfecto.perfecto),
+    toPerfecto: perfecto.perfecto,
+  };
+
+  const fromPerfecto = function (str) {
+    return convert$1(str, m$2.fromPerfecto)
+  };
+  const toPerfecto$1 = function (str) {
+    return convert$1(str, m$2.toPerfecto)
+  };
+
   var methods$1 = {
     verb: {
       fromGerund, fromPresent, fromPast, fromFuture, fromConditional,
       toPresent: toPresent$1, toPast: toPast$1, toFuture: toFuture$1, toConditional: toConditional$1, toGerund: toGerund$1,
+      fromPerfecto, toPerfecto: toPerfecto$1,
       all: all$2,
     },
     noun: {
@@ -8579,6 +8667,9 @@
     'había': 'Verb',
     'sido': 'Verb',
 
+    'no': 'Negative',
+    'nunca': 'Negative',//never
+
     irse: ['Reflexive', 'Infinitive']
   };
   copulas.forEach(str => {
@@ -8590,7 +8681,7 @@
 
   var misc$1 = lex;
 
-  const { toPresent, toPast, toFuture, toConditional, toGerund } = methods$1.verb;
+  const { toPresent, toPast, toFuture, toConditional, toGerund, toPerfecto } = methods$1.verb;
   let lexicon$1 = misc$1;
 
 
@@ -8632,6 +8723,12 @@
         // add conditional
         obj = toConditional(w);
         addWords(obj, 'Conditional', lexicon$1);
+        // add gerund
+        let str = toGerund(w);
+        lexicon$1[str] = lexicon$1[str] || 'Gerund';
+        // add perfecto
+        str = toPerfecto(w);
+        lexicon$1[str] = lexicon$1[str] || 'Perfecto';
       }
       if (tag === 'Adjective') {
         let f = methods$1.adjective.toFemale(w);
@@ -8647,7 +8744,7 @@
       }
     });
   });
-  // console.log(lexicon['llorar'])
+  // console.log(lexicon['ganado'])
 
   var lexicon$2 = lexicon$1;
 
@@ -8685,6 +8782,8 @@
           let form = verbForm$1(term);
           if (term.tags.has('Gerund')) {
             term.root = verb.fromGerund(str, form);
+          } else if (term.tags.has('Perfecto')) {
+            term.root = verb.fromPerfecto(str, form);
           } else if (term.tags.has('PresentTense')) {
             term.root = verb.fromPresent(str, form);
           } else if (term.tags.has('PastTense')) {
@@ -8693,7 +8792,10 @@
             term.root = verb.fromFuture(str, form);
           } else if (term.tags.has('Conditional')) {
             term.root = verb.fromConditional(str, form);
-          } else ;
+          } else {
+            // guess!
+            term.root = verb.fromPresent(str, form);
+          }
         }
 
         // nouns -> singular masculine form
@@ -9211,7 +9313,11 @@
   const guessVerbForm = function (terms, i, world) {
     const setTag = world.methods.one.setTag;
     let term = terms[i];
-    if (term.tags.has('Verb') && !term.tags.has('Infinitive')) {
+    if (term.tags.has('Verb')) {
+      // skip these
+      if (term.tags.has('Infinitive') || term.tags.has('Auxiliary') || term.tags.has('Negative')) {
+        return
+      }
       // do we already have both?
       if (forms.filter(tag => term.tags.has(tag)).length >= 2) {
         return
@@ -9502,12 +9608,12 @@
       réis: fut,
       arán: fut,
       // refexive verbs
-      arse: inf,
-      arte: inf,
-      arme: inf,
-      irse: inf,
-      irte: inf,
-      erse: inf,
+      arse: ref,
+      arte: ref,
+      arme: ref,
+      irse: ref,
+      irte: ref,
+      erse: ref,
       dose: ref,
       ario: jj,
       orio: jj,
@@ -9685,7 +9791,7 @@
     'fecha', 'sede', 'sociedad', 'noche',
     'gente', 'calle', 'ley', 'clase',
   ]);
-  var exceptions = { f, m };
+  var exceptions$1 = { f, m };
 
   //sweep-through all suffixes
   const bySuffix = function (str) {
@@ -9706,18 +9812,104 @@
   };
 
   const guessGender = function (str) {
-    if (exceptions.f.has(str)) {
+    if (exceptions$1.f.has(str)) {
       return 'f'
     }
-    if (exceptions.m.has(str)) {
+    if (exceptions$1.m.has(str)) {
       return 'm'
     }
     return bySuffix(str)
   };
   var bySuffix$1 = guessGender;
 
+  // roughly, split a document by comma or semicolon
+  const splitOn = function (terms, i) {
+    const isNum = /^[0-9]+$/;
+    let term = terms[i];
+    // early on, these may not be dates yet:
+    if (!term) {
+      return false
+    }
+    const maybeDate = new Set(['may', 'april', 'august', 'jan']);
+    // veggies, like figs
+    if (term.normal === 'like' || maybeDate.has(term.normal)) {
+      return false
+    }
+    // toronto, canada  - tuesday, march
+    if (term.tags.has('Place') || term.tags.has('Date')) {
+      return false
+    }
+    if (terms[i - 1]) {
+      let lastTerm = terms[i - 1];
+      // thursday, june
+      if (lastTerm.tags.has('Date') || maybeDate.has(lastTerm.normal)) {
+        return false
+      }
+      // pretty, nice, and fun
+      if (lastTerm.tags.has('Adjective') || term.tags.has('Adjective')) {
+        return false
+      }
+    }
+    // don't split numbers, yet
+    let str = term.normal;
+    if (str.length === 1 || str.length === 2 || str.length === 4) {
+      if (isNum.test(str)) {
+        return false
+      }
+    }
+    return true
+  };
+
+  // kind-of a dirty sentence chunker
+  const quickSplit = function (document) {
+    const splitHere = /[,:;]/;
+    let arr = [];
+    document.forEach(terms => {
+      let start = 0;
+      terms.forEach((term, i) => {
+        // does it have a comma/semicolon ?
+        if (splitHere.test(term.post) && splitOn(terms, i + 1)) {
+          arr.push(terms.slice(start, i + 1));
+          start = i + 1;
+        }
+      });
+      if (start < terms.length) {
+        arr.push(terms.slice(start, terms.length));
+      }
+    });
+    return arr
+  };
+
+  var quickSplit$1 = quickSplit;
+
+  let exceptions = {
+    análisis: false,
+    jueves: false,
+    ciempiés: false,
+  };
+
+  const looksPlural = function (str) {
+    // not long enough to be plural
+    if (!str || str.length <= 3) {
+      return false
+    }
+    // 'menus' etc
+    if (exceptions.hasOwnProperty(str)) {
+      return exceptions[str]
+    }
+    if (str.endsWith('s')) {
+      return true
+    }
+    return false
+  };
+  var looksPlural$1 = looksPlural;
+
   var methods = {
-    two: { guessGender: bySuffix$1 }
+    two: {
+      quickSplit: quickSplit$1,
+      looksPlural: looksPlural$1,
+      guessGender: bySuffix$1,
+    }
   };
 
   var preTagger = {
@@ -9731,17 +9923,69 @@
     hooks: ['preTagger']
   };
 
-  const postTagger$1 = function (doc) {
-    // ne foo pas
-    // doc.match('ne [.] pas', 0).tag('Verb', 'ne-verb-pas')
-    // reflexive
-    // doc.match('(se|me|te) [.]', 0).tag('Verb', 'se-noun')
-    // numbers
-    doc.match('#Value y #Value').tag('TextValue', 'num-y-num');
-    // minus eight
-    doc.match('menos #Value').tag('TextValue', 'minus-val');
+  var matches = [
+    // east berlin
+    { match: '[este] #Place', group: 0, tag: 'Adjective', reason: 'este-place' },
+    // hundred and two
+    { match: '#Value [y] #Value', group: 0, tag: 'TextValue', reason: 'num-y-num' },
+    // minus 8
+    { match: '[menos] #Value', group: 0, tag: 'TextValue', reason: 'minus 4' },
     // 3 pintas de cerveza
-    doc.match('#Value [#PresentTense] de #Noun', 0).tag('Plural', '3-pintas');
+    { match: '#Value [#PresentTense] de #Noun', group: 0, tag: 'Plural', reason: '3-pintas' },
+
+    // adjective-noun
+    { match: '#Determiner [#Adjective]$', group: 0, tag: 'Noun', reason: 'det-adj' },
+    // la tarde
+    { match: '#Determiner [#Adverb]$', group: 0, tag: 'Noun', reason: 'det-adv' },
+
+    // no exageres
+    { match: 'no [#Noun]', group: 0, tag: 'Verb', reason: 'no-noun' },
+
+
+    // auxiliary verbs
+    { match: '[#Modal] #Verb', group: 0, tag: 'Auxiliary', reason: 'modal-verb' },
+    // alcanzar + infinitive (to manage to do)
+    // comenzar + infinitive (to begin doing)
+    // resultar + infinitive (to end up doing)
+    { match: '[(alcanzar|comenzar|resultar)] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'alcanzar-inf' },
+    // haber de + infinitive (to have to do)
+    // parar de + infinitive (to stop doing)
+    { match: '[{haber/verb} de] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'haber-de-inf' },
+    { match: '[{parar/verb} de] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'haber-de-inf' },
+    // seguir + gerund (to keep on doing, to continue to do)
+    { match: '[{seguir/verb}] #Gerund', group: 0, tag: 'Auxiliary', reason: 'seguir-gerund' },
+    // be walking
+    { match: '[{estar/verb}] #Gerund', group: 0, tag: 'Auxiliary', reason: 'estar-gerund' },
+    // andar + present participle (to go about done)
+    { match: '[{andar/verb}] #Verb', group: 0, tag: 'Auxiliary', reason: 'andar-verb' },
+    // acabar (present tense) de + past participle (to have recently done)
+    { match: '[{acabar/verb}] #Verb de', group: 0, tag: 'Auxiliary', reason: 'acabar-verb-de' },
+    // echar a + infinitive (to begin doing)
+    { match: '[{echar/verb}] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'echar-inf' },
+    // quedar en + infinitive (to arrange to do )
+    { match: '[{quedar/verb} en] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'quedar-en-inf' },
+
+  ];
+
+  let net = null;
+
+  const postTagger$1 = function (view) {
+    const { world } = view;
+    const { methods } = world;
+    // rebuild this only lazily
+    net = net || methods.one.buildNet(matches, world);
+    // perform these matches on a comma-seperated document
+    let document = methods.two.quickSplit(view.document);
+    let ptrs = document.map(terms => {
+      let t = terms[0];
+      return [t.index[0], t.index[1], t.index[1] + terms.length]
+    });
+    let m = view.update(ptrs);
+    m.cache();
+    m.sweep(net);
+    view.uncache();
+    // view.cache()
+    return view
   };
   var postTagger$2 = postTagger$1;
 
@@ -9883,13 +10127,20 @@
     },
     Gerund: {
       is: 'PresentTense',
-      not: ['Copula'],
+      not: ['Copula', 'FutureTense'],
     },
     PastTense: {
       is: 'Verb',
-      not: ['PresentTense', 'Gerund'],
+      not: ['PresentTense', 'Gerund', 'FutureTense'],
+    },
+    FutureTense: {
+      is: 'Verb',
+      not: ['PresentTense', 'Gerund', 'PastTense'],
     },
     Copula: {
+      is: 'Verb',
+    },
+    Negative: {
       is: 'Verb',
     },
     Modal: {
@@ -9921,8 +10172,11 @@
       is: 'Verb',
       not: ['Infinitive', 'Imperative'],
     },
-
     Reflexive: {
+      is: 'Verb',
+    },
+    // sometimes 'pretérito'
+    Perfecto: {
       is: 'Verb',
     },
 
@@ -10117,9 +10371,6 @@
     },
     Acronym: {
       not: ['Plural', 'RomanNumeral'],
-    },
-    Negative: {
-      not: ['Noun', 'Adjective', 'Value'],
     },
     Condition: {
       not: ['Verb', 'Adjective', 'Noun', 'Value'],
@@ -10899,7 +11150,7 @@
       }
       conjugate(n) {
         const methods = this.methods.two.transform.verb;
-        const { toPresent, toPast, toFuture, toConditional, toGerund } = methods;
+        const { toPresent, toPast, toFuture, toConditional, toGerund, toPerfecto } = methods;
         return getNth(this, n).map(m => {
           let str = getRoot(m);
           return {
@@ -10908,6 +11159,7 @@
             futureTense: toFuture(str),
             conditional: toConditional(str),
             gerund: toGerund(str),
+            perfecto: toPerfecto(str),
           }
         }, [])
       }

@@ -1,5 +1,5 @@
-import { toPresent, toPast, toFuture, toConditional, all as allAdj } from './verbs/tense.js'
-import { fromPresent, fromPast, fromFuture, fromConditional } from './verbs/toRoot.js'
+import { toPresent, toPast, toFuture, toConditional, toSubjunctive, toImperative, all as allAdj } from './verbs/tense.js'
+import { fromPresent, fromPast, fromFuture, fromConditional, fromSubjunctive, fromImperative } from './verbs/toRoot.js'
 import { toPlural, toSingular, all as allNoun } from './nouns/index.js'
 import toMasculine from './nouns/toMasculine.js'
 import adjective from './adjectives/index.js'
@@ -8,8 +8,8 @@ import { fromPerfecto, toPerfecto } from './verbs/perfecto.js'
 
 export default {
   verb: {
-    fromGerund, fromPresent, fromPast, fromFuture, fromConditional,
-    toPresent, toPast, toFuture, toConditional, toGerund,
+    fromGerund, fromPresent, fromPast, fromFuture, fromConditional, fromSubjunctive, fromImperative,
+    toPresent, toPast, toFuture, toConditional, toGerund, toSubjunctive, toImperative,
     fromPerfecto, toPerfecto,
     all: allAdj,
   },
