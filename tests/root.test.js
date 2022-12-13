@@ -123,10 +123,7 @@ test('root-match:', function (t) {
     ['La forma era delgada', '{delgado}'],
 
     //verbs
-    ['no quiero quemarme', '{quemar}'],
     ['o te comeré', '{comer}'],
-    // ['Coma muchas comidas', '{comer}'], //subjunctive
-    // ['No exageres', '{exagerar}'], //subjunctive
     ['comiendo pasteles dulces', '{comer}'],
     ['lo he ganado dos veces', '{ganar}'],
     ['me gané la mía depilando', '{ganar}'],
@@ -135,9 +132,7 @@ test('root-match:', function (t) {
     ['he matado a tu enemigo', '{matar}'],
     ['no matan a la gente', '{matar}'],
     ['los mató de un solo golpe', '{matar}'],
-    // ['Mezcle un lantadyme limpio', '{mezclar}'], //imperative
-    // ['hace que se destruyan cuando', '{destruir}'], //imperative
-    // ['hasta que abordemos la crisis', '{abordar}'], //imperative
+    // ['no quiero quemarme', '{quemar}'], //what form is this?
     // ['y mezclarlo con ron', '{mezclar}'], // what form is this?
     // ['el gobierno nunca debe socavarlos.', '{socavar}'], // what is this?
     ['mucho viento no prosperan', '{prosperar}'],
@@ -146,6 +141,15 @@ test('root-match:', function (t) {
     ['Los griegos lloraron profundamente', '{llorar}'],
     ['llorando por su hijo', '{llorar}'],
     ['un agente secreto retirado que llora el asesinato', '{llorar}'],
+    // subjunctive
+    ['ganemos', '{ganar}'],
+    ['Coma muchas comidas', '{comer}'], //subjunctive
+    ['No exageres', '{exagerar}'], //subjunctive
+    // imperative
+    ['ganen', '{ganar}'],
+    ['Mezcle un lantadyme limpio', '{mezclar}'], //imperative
+    ['hace que se destruyan cuando', '{destruir}'], //imperative
+    ['hasta que abordemos la crisis', '{abordar}'], //imperative
 
   ]
   arr.forEach(function (a) {

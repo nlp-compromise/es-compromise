@@ -10,9 +10,6 @@ export default {
     is: 'PresentTense',
     not: ['Gerund'],
   },
-  Imperative: {
-    is: 'Infinitive',
-  },
   Gerund: {
     is: 'PresentTense',
     not: ['Copula', 'FutureTense'],
@@ -66,6 +63,15 @@ export default {
   // sometimes 'pretérito'
   Perfecto: {
     is: 'Verb',
+  },
+  // moods
+  Imperative: {
+    is: 'Verb',
+    Subjunctive: ['Subjunctive']
+  },
+  Subjunctive: {
+    is: 'Verb',
+    not: ['Imperative']
   },
 
 
