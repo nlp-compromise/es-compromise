@@ -2,7 +2,6 @@ export default [
   // 'le',
   'abdomen',
   'abogado',
-  'activo',
   'adjetivo',
   'agujero',
   'ahora',
@@ -45,8 +44,6 @@ export default [
   'canciller',
   'capitales',
   'carácter',
-  'característica',
-  'características',
   'cardenal',
   'cardenales',
   'carga',
@@ -139,7 +136,7 @@ export default [
   'fuerzas armadas',
   'funeral',
   'gales',
-  'ganado',
+  // 'ganado',
   'gemelo',
   'gen',
   'gerente',
@@ -329,6 +326,6 @@ export default [
   'votante',
   'vuelo',
   'weber',
-
+  'minera',
 
 ]

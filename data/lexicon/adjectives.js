@@ -1827,4 +1827,8 @@ export default [
   'zurdo',
   // 'regular',
   // 'rico',
+  'noroeste',
+  'ficticios',
+  'bruscos',
+  'limítrofes'
 ]

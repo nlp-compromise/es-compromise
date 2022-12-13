@@ -10,18 +10,22 @@ export default {
     is: 'PresentTense',
     not: ['Gerund'],
   },
-  Imperative: {
-    is: 'Infinitive',
-  },
   Gerund: {
     is: 'PresentTense',
-    not: ['Copula'],
+    not: ['Copula', 'FutureTense'],
   },
   PastTense: {
     is: 'Verb',
-    not: ['PresentTense', 'Gerund'],
+    not: ['PresentTense', 'Gerund', 'FutureTense'],
+  },
+  FutureTense: {
+    is: 'Verb',
+    not: ['PresentTense', 'Gerund', 'PastTense'],
   },
   Copula: {
+    is: 'Verb',
+  },
+  Negative: {
     is: 'Verb',
   },
   Modal: {
@@ -53,9 +57,21 @@ export default {
     is: 'Verb',
     not: ['Infinitive', 'Imperative'],
   },
-
   Reflexive: {
     is: 'Verb',
+  },
+  // sometimes 'pretérito'
+  Perfecto: {
+    is: 'Verb',
+  },
+  // moods
+  Imperative: {
+    is: 'Verb',
+    Subjunctive: ['Subjunctive']
+  },
+  Subjunctive: {
+    is: 'Verb',
+    not: ['Imperative']
   },
 
 

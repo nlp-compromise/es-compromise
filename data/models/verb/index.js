@@ -3,6 +3,8 @@ import presentTense from './present-tense.js'
 import pastTense from './past-tense.js'
 import futureTense from './future-tense.js'
 import conditional from './conditional.js'
+import subjunctive from './subjunctive.js'
+import imperative from './imperative.js'
 
 const vbOrder = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural']
 const todo = {
@@ -10,6 +12,8 @@ const todo = {
   pastTense: { data: pastTense, keys: vbOrder },
   futureTense: { data: futureTense, keys: vbOrder },
   conditional: { data: conditional, keys: vbOrder },
+  subjunctive: { data: subjunctive, keys: vbOrder },
+  imperative: { data: imperative, keys: vbOrder },
 }
 
 // turn our conjugation data into word-pairs

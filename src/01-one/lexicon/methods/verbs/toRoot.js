@@ -1,6 +1,6 @@
 import { convert, reverse } from 'suffix-thumb'
 import model from '../models.js'
-let { presentTense, pastTense, futureTense, conditional } = model
+let { presentTense, pastTense, futureTense, conditional, subjunctive, imperative } = model
 
 // =-=-
 const revAll = function (m) {
@@ -14,6 +14,8 @@ let presentRev = revAll(presentTense)
 let pastRev = revAll(pastTense)
 let futureRev = revAll(futureTense)
 let conditionalRev = revAll(conditional)
+let subjunctRev = revAll(subjunctive)
+let imperativeRev = revAll(imperative)
 
 //relajarse -> relajar
 const stripReflexive = function (str) {
@@ -89,10 +91,42 @@ const fromConditional = (str, form) => {
   return stripReflexive(str)
 }
 
+const fromSubjunctive = (str, form) => {
+  let forms = {
+    'FirstPerson': (s) => convert(s, subjunctRev.first),
+    'SecondPerson': (s) => convert(s, subjunctRev.second),
+    'ThirdPerson': (s) => convert(s, subjunctRev.third),
+    'FirstPersonPlural': (s) => convert(s, subjunctRev.firstPlural),
+    'SecondPersonPlural': (s) => convert(s, subjunctRev.secondPlural),
+    'ThirdPersonPlural': (s) => convert(s, subjunctRev.thirdPlural),
+  }
+  if (forms.hasOwnProperty(form)) {
+    return forms[form](str)
+  }
+  return str
+}
+
+const fromImperative = (str, form) => {
+  let forms = {
+    'FirstPerson': (s) => convert(s, imperativeRev.first),
+    'SecondPerson': (s) => convert(s, imperativeRev.second),
+    'ThirdPerson': (s) => convert(s, imperativeRev.third),
+    'FirstPersonPlural': (s) => convert(s, imperativeRev.firstPlural),
+    'SecondPersonPlural': (s) => convert(s, imperativeRev.secondPlural),
+    'ThirdPersonPlural': (s) => convert(s, imperativeRev.thirdPlural),
+  }
+  if (forms.hasOwnProperty(form)) {
+    return forms[form](str)
+  }
+  return str
+}
+
 
 export {
   fromPresent,
   fromPast,
   fromFuture,
-  fromConditional
+  fromConditional,
+  fromSubjunctive,
+  fromImperative,
 }

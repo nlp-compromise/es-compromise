@@ -1,9 +1,10 @@
 import nlp from './src/index.js'
-// nlp.verbose('tagger')
+nlp.verbose('tagger')
 /*
 0.0.2 - tagger 87%
 */
 
+nlp.verbose('tagger')
 // let world = nlp.world()
 // console.log(world.methods.two)
 // let { verbConjugate } = world.methods.two.transform
@@ -20,9 +21,20 @@ import nlp from './src/index.js'
 // console.log(doc.nouns().conjugate())
 
 
-let doc = nlp('1993/44 1993/24')
-console.log(doc.numbers().get())
-doc.debug()
+let arr = [
+  // 'Mezcle un lantadyme limpio',
+  // 'no quiero quemarme',
+  // 'bañarme',
+  // 'vestirte',
+  'lo he ganado dos veces',
+  'Las medidas de asistencia que se determinarán en cooperación',
+]
+let txt = arr[0]
+let doc = nlp(txt).compute('root').debug()
+// console.log(doc.docs)
+doc.match('{ganar}').debug()
+// doc.debug()
+// console.log(nlp('ganar').verbs().conjugate())
 
 // let doc = nlp('relajarse')
 // doc.compute('root')

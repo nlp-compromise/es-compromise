@@ -3,7 +3,7 @@ import { unpack } from 'efrt'
 import methods from './methods/index.js'
 import misc from './misc.js'
 
-const { toPresent, toPast, toFuture, toConditional, toGerund } = methods.verb
+const { toPresent, toPast, toFuture, toConditional, toGerund, toPerfecto, toImperative, toSubjunctive } = methods.verb
 let lexicon = misc
 
 
@@ -45,6 +45,18 @@ Object.keys(lexData).forEach(tag => {
       // add conditional
       obj = toConditional(w)
       addWords(obj, 'Conditional', lexicon)
+      // add gerund
+      let str = toGerund(w)
+      lexicon[str] = lexicon[str] || 'Gerund'
+      // add perfecto
+      str = toPerfecto(w)
+      lexicon[str] = lexicon[str] || 'Perfecto'
+      // add imperative
+      obj = toImperative(w)
+      addWords(obj, 'Imperative', lexicon)
+      // add toSubjunctive
+      obj = toSubjunctive(w)
+      addWords(obj, 'Subjunctive', lexicon)
     }
     if (tag === 'Adjective') {
       let f = methods.adjective.toFemale(w)
@@ -60,6 +72,6 @@ Object.keys(lexData).forEach(tag => {
     }
   })
 })
-// console.log(lexicon['llorar'])
+// console.log(lexicon['ganado'])
 
 export default lexicon

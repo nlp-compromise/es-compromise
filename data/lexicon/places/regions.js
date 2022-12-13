@@ -118,7 +118,7 @@ export default [
   'quintana roo',
   'san luis potosi',
   'sinaloa',
-  'sonora',
+  // 'sonora',
   'tabasco',
   'tamaulipas',
   'tlaxcala',

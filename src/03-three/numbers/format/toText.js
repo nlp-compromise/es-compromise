@@ -1,4 +1,3 @@
-import { toCardinal, toOrdinal } from './_data.js'
 import data from '../data.js'
 let ones = data.ones.reverse()
 let tens = data.tens.reverse()

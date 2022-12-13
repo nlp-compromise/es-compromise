@@ -4,7 +4,7 @@ const vb = 'Verb'
 const jj = 'Adjective'
 const cond = 'Conditional'
 const fut = 'FutureTense'
-const inf = 'Infinitive'
+// const inf = 'Infinitive'
 const g = 'Gerund'
 const ref = 'Reflexive'
 const first = 'FirstPerson'
@@ -68,15 +68,11 @@ export default [
   },
   {
     // four-letter suffixes
-    arse: inf,
-    irse: inf,
-    ales: jj,
     itas: jj,
     itos: jj,
     icos: jj,
     icas: jj,
     tico: jj,
-    tica: jj,
     fica: jj,
     gica: jj,
     mica: jj,
@@ -93,7 +89,6 @@ export default [
     áneo: jj,
     icio: jj,
     culo: jj,
-    ento: jj,
     aria: jj,
     bles: jj,
     tiva: jj,
@@ -125,12 +120,12 @@ export default [
     réis: fut,
     arán: fut,
     // refexive verbs
-    arse: inf,
-    arte: inf,
-    arme: inf,
-    irse: inf,
-    irte: inf,
-    erse: inf,
+    arse: ref,
+    arte: ref,
+    arme: ref,
+    irse: ref,
+    irte: ref,
+    erse: ref,
     dose: ref,
     ario: jj,
     orio: jj,
@@ -139,7 +134,6 @@ export default [
     fero: jj,
     jero: jj,
     lero: jj,
-    ales: jj,
     nero: jj,
     tero: jj,
     ares: jj,

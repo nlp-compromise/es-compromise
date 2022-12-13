@@ -5,6 +5,7 @@ const getRoot = function (m) {
   let str = m.text('normal')
   let isPlural = m.has('Plural')
   if (isPlural) {
+    const transform = this.methods.two.transform
     return transform.adjective.toSingular(str)
   }
   return str
@@ -67,9 +68,9 @@ const api = function (View) {
             vuestro: 'vuestros',
             vuestra: 'vuestras',
           }
-          let str = art.text('normal')
-          if (toPlur.hasOwnProperty(str)) {
-            art.replaceWith(toPlur[str])
+          let w = art.text('normal')
+          if (toPlur.hasOwnProperty(w)) {
+            art.replaceWith(toPlur[w])
           }
         }
       })
