@@ -422,7 +422,7 @@
   Object.assign(View.prototype, api$j);
   var View$1 = View;
 
-  var version$1 = '14.8.0';
+  var version$1 = '14.8.1';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -1708,6 +1708,11 @@
     { word: 'whatd', out: ['what', 'did'] },
     { word: 'whend', out: ['when', 'did'] },
     { word: 'whered', out: ['where', 'did'] },
+    // shoulda, coulda
+    { word: 'shoulda', out: ['should', 'have'] },
+    { word: 'coulda', out: ['coulda', 'have'] },
+    { word: 'woulda', out: ['woulda', 'have'] },
+    { word: 'musta', out: ['must', 'have'] },
 
     // { after: `cause`, out: ['because'] },
     { word: "tis", out: ['it', 'is'] },
@@ -2068,6 +2073,11 @@
         let tag = lexicon[str];
         let ts = terms.slice(i, i + skip + 1);
         setTag(ts, tag, world, false, '1-multi-lexicon');
+
+        // special case for phrasal-verbs - 2nd word is a #Particle
+        if (tag && tag.length === 2 && (tag[0] === 'PhrasalVerb' || tag[1] === 'PhrasalVerb')) {
+          setTag([ts[1]], 'Particle', world, false, '1-phrasal-particle');
+        }
         return true
       }
     }
@@ -3553,7 +3563,8 @@
       if (reg.pos && !term.tags.has(reg.pos)) {
         return null
       }
-      return reg.fastOr.has(term.implicit) || reg.fastOr.has(term.normal) || reg.fastOr.has(term.text) || reg.fastOr.has(term.machine)
+      let str = term.root || term.implicit || term.machine || term.normal;
+      return reg.fastOr.has(str) || reg.fastOr.has(term.text)
     }
     //support slower (one|two)
     if (reg.choices !== undefined) {
@@ -5829,7 +5840,7 @@
       if (todo.tag !== undefined) {
         setTag(terms, todo.tag, world, todo.safe, `[post] '${reason}'`);
         // quick and dirty plural tagger
-        if (todo.tag === 'Noun') {
+        if (todo.tag === 'Noun' && looksPlural) {
           let term = terms[terms.length - 1];
           if (looksPlural(term.text)) {
             setTag([term], 'Plural', world, todo.safe, 'quick-plural');
@@ -8293,7 +8304,7 @@
     return str
   };
 
-  let { presentTense: presentTense$1, pastTense: pastTense$1, futureTense: futureTense$1, conditional: conditional$1 } = model$1;
+  let { presentTense: presentTense$1, pastTense: pastTense$1, futureTense: futureTense$1, conditional: conditional$1, subjunctive: subjunctive$1, imperative: imperative$1 } = model$1;
 
   const doEach = function (str, m) {
     return {
@@ -8309,7 +8320,16 @@
   const toPresent$1 = (str) => doEach(str, presentTense$1);
   const toPast$1 = (str) => doEach(str, pastTense$1);
   const toFuture$1 = (str) => doEach(str, futureTense$1);
+  const toSubjunctive$1 = (str) => doEach(str, subjunctive$1);
   const toConditional$1 = (str) => doEach(str, conditional$1);
+  const toImperative$1 = (str) => {
+    let obj = doEach(str, imperative$1);
+    // imperative has no first-person
+    // because ...you can't tell yourself to do something.
+    obj.first = '';
+    obj.firstPlural = '';
+    return obj
+  };
 
   // an array of every inflection, for '{inf}' syntax
   const all$2 = function (str) {
@@ -8318,6 +8338,8 @@
       Object.values(toPast$1(str)),
       Object.values(toFuture$1(str)),
       Object.values(toConditional$1(str)),
+      Object.values(toImperative$1(str)),
+      Object.values(toSubjunctive$1(str)),
       toGerund$1(str),
       toReflexive(str),
     ).filter(s => s);
@@ -8325,7 +8347,7 @@
     return Array.from(res)
   };
 
-  let { presentTense, pastTense, futureTense, conditional } = model$1;
+  let { presentTense, pastTense, futureTense, conditional, subjunctive, imperative } = model$1;
 
   // =-=-
   const revAll = function (m) {
@@ -8339,6 +8361,8 @@
   let pastRev = revAll(pastTense);
   let futureRev = revAll(futureTense);
   let conditionalRev = revAll(conditional);
+  let subjunctRev = revAll(subjunctive);
+  let imperativeRev = revAll(imperative);
 
   //relajarse -> relajar
   const stripReflexive$2 = function (str) {
@@ -8412,6 +8436,36 @@
       return forms[form](str)
     }
     return stripReflexive$2(str)
+  };
+
+  const fromSubjunctive = (str, form) => {
+    let forms = {
+      'FirstPerson': (s) => convert$1(s, subjunctRev.first),
+      'SecondPerson': (s) => convert$1(s, subjunctRev.second),
+      'ThirdPerson': (s) => convert$1(s, subjunctRev.third),
+      'FirstPersonPlural': (s) => convert$1(s, subjunctRev.firstPlural),
+      'SecondPersonPlural': (s) => convert$1(s, subjunctRev.secondPlural),
+      'ThirdPersonPlural': (s) => convert$1(s, subjunctRev.thirdPlural),
+    };
+    if (forms.hasOwnProperty(form)) {
+      return forms[form](str)
+    }
+    return str
+  };
+
+  const fromImperative = (str, form) => {
+    let forms = {
+      'FirstPerson': (s) => convert$1(s, imperativeRev.first),
+      'SecondPerson': (s) => convert$1(s, imperativeRev.second),
+      'ThirdPerson': (s) => convert$1(s, imperativeRev.third),
+      'FirstPersonPlural': (s) => convert$1(s, imperativeRev.firstPlural),
+      'SecondPersonPlural': (s) => convert$1(s, imperativeRev.secondPlural),
+      'ThirdPersonPlural': (s) => convert$1(s, imperativeRev.thirdPlural),
+    };
+    if (forms.hasOwnProperty(form)) {
+      return forms[form](str)
+    }
+    return str
   };
 
   let pRev = reverse$1(model$1.nouns.plurals);
@@ -8532,8 +8586,8 @@
 
   var methods$1 = {
     verb: {
-      fromGerund, fromPresent, fromPast, fromFuture, fromConditional,
-      toPresent: toPresent$1, toPast: toPast$1, toFuture: toFuture$1, toConditional: toConditional$1, toGerund: toGerund$1,
+      fromGerund, fromPresent, fromPast, fromFuture, fromConditional, fromSubjunctive, fromImperative,
+      toPresent: toPresent$1, toPast: toPast$1, toFuture: toFuture$1, toConditional: toConditional$1, toGerund: toGerund$1, toSubjunctive: toSubjunctive$1, toImperative: toImperative$1,
       fromPerfecto, toPerfecto: toPerfecto$1,
       all: all$2,
     },
@@ -8681,7 +8735,7 @@
 
   var misc$1 = lex;
 
-  const { toPresent, toPast, toFuture, toConditional, toGerund, toPerfecto } = methods$1.verb;
+  const { toPresent, toPast, toFuture, toConditional, toGerund, toPerfecto, toImperative, toSubjunctive } = methods$1.verb;
   let lexicon$1 = misc$1;
 
 
@@ -8729,6 +8783,12 @@
         // add perfecto
         str = toPerfecto(w);
         lexicon$1[str] = lexicon$1[str] || 'Perfecto';
+        // add imperative
+        obj = toImperative(w);
+        addWords(obj, 'Imperative', lexicon$1);
+        // add toSubjunctive
+        obj = toSubjunctive(w);
+        addWords(obj, 'Subjunctive', lexicon$1);
       }
       if (tag === 'Adjective') {
         let f = methods$1.adjective.toFemale(w);
@@ -10122,9 +10182,6 @@
       is: 'PresentTense',
       not: ['Gerund'],
     },
-    Imperative: {
-      is: 'Infinitive',
-    },
     Gerund: {
       is: 'PresentTense',
       not: ['Copula', 'FutureTense'],
@@ -10178,6 +10235,15 @@
     // sometimes 'pretérito'
     Perfecto: {
       is: 'Verb',
+    },
+    // moods
+    Imperative: {
+      is: 'Verb',
+      Subjunctive: ['Subjunctive']
+    },
+    Subjunctive: {
+      is: 'Verb',
+      not: ['Imperative']
     },
 
 
@@ -11150,7 +11216,7 @@
       }
       conjugate(n) {
         const methods = this.methods.two.transform.verb;
-        const { toPresent, toPast, toFuture, toConditional, toGerund, toPerfecto } = methods;
+        const { toPresent, toPast, toFuture, toConditional, toGerund, toPerfecto, toImperative, toSubjunctive } = methods;
         return getNth(this, n).map(m => {
           let str = getRoot(m);
           return {
@@ -11160,6 +11226,8 @@
             conditional: toConditional(str),
             gerund: toGerund(str),
             perfecto: toPerfecto(str),
+            imperative: toImperative(str),
+            subjunctive: toSubjunctive(str),
           }
         }, [])
       }
@@ -11177,7 +11245,7 @@
     api: api$1,
   };
 
-  var version = '0.2.6';
+  var version = '0.2.7';
 
   nlp$1.plugin(tokenizer);
   nlp$1.plugin(tagset);

@@ -1,3 +1,8 @@
+### 0.2.7 [Dec 2022]
+- **[fix]** - check root text for root-matches
+- **[new]** - Subjunctive and Imperative verb forms
+- **[change]** - tagger improvements
+
 ### 0.1.3 [Oct 2022]
 - **[fix]** - fixes for inflections in toRoot
 - **[new]** - verbs() nouns() and adjectives() methods
