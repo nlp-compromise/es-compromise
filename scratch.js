@@ -26,13 +26,14 @@ let arr = [
   // 'no quiero quemarme',
   // 'bañarme',
   // 'vestirte',
+  'odiado',
   'lo he ganado dos veces',
   'Las medidas de asistencia que se determinarán en cooperación',
 ]
 let txt = arr[0]
 let doc = nlp(txt).compute('root').debug()
 // console.log(doc.docs)
-doc.match('{ganar}').debug()
+doc.match('{odiar}').debug()
 // doc.debug()
 // console.log(nlp('ganar').verbs().conjugate())
 
