@@ -77,8 +77,8 @@ const guessVerbForm = function (terms, i, world) {
 
     //relajarse -> relajar
     str = stripReflexive(str)
-    for (let i = 0; i < rules.length; i += 1) {
-      let [suff, tag] = rules[i]
+    for (let k = 0; k < rules.length; k += 1) {
+      let [suff, tag] = rules[k]
       if (str.endsWith(suff)) {
         setTag([term], tag, world, true, '3-guessForm')
         break

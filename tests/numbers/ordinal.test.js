@@ -59,9 +59,9 @@ let arr = [
 
 test('toOrdinal:', function (t) {
   arr.forEach(a => {
-    let [_, card, ord] = a
+    let [, card, ord] = a
     let doc = nlp(card)
-    let n = doc.numbers().toOrdinal()
+    doc.numbers().toOrdinal()
     t.equal(doc.text(), ord, here + ' [toOrdinal] ' + card)
   })
   t.end()
@@ -69,9 +69,9 @@ test('toOrdinal:', function (t) {
 
 test('toCardinal:', function (t) {
   arr.forEach(a => {
-    let [_, card, ord] = a
+    let [, card, ord] = a
     let doc = nlp(ord)
-    let n = doc.numbers().toCardinal()
+    doc.numbers().toCardinal()
     t.equal(doc.text(), card, here + ' [toCardinal] ' + card)
   })
   t.end()

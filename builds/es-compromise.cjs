@@ -9010,7 +9010,7 @@
   var checkRegex$1 = checkRegex;
 
   const isTitleCase = function (str) {
-    return /^[A-ZÄÖÜ][a-zäöü'\u00C0-\u00FF]/.test(str) || /^[A-ZÄÖÜ]$/.test(str)
+    return /^[A-ZÄÖÜ][a-z'\u00C0-\u00FF]/.test(str) || /^[A-ZÄÖÜ]$/.test(str)
   };
 
   // add a noun to any non-0 index titlecased word, with no existing tag
@@ -9168,6 +9168,14 @@
     return null
   };
   var acronym = isAcronym;
+
+  // const isTitleCase = function (str) {
+  //   return /^[A-ZÄÖÜ][a-z'\u00C0-\u00FF]/.test(str) || /^[A-ZÄÖÜ]$/.test(str)
+  // }
+
+  // const hasNoVerb = function (terms) {
+  //   return !terms.find(t => t.tags.has('#Verb'))
+  // }
 
   const fallback = function (terms, i, world) {
     let setTag = world.methods.one.setTag;
@@ -9386,8 +9394,8 @@
 
       //relajarse -> relajar
       str = stripReflexive(str);
-      for (let i = 0; i < rules.length; i += 1) {
-        let [suff, tag] = rules[i];
+      for (let k = 0; k < rules.length; k += 1) {
+        let [suff, tag] = rules[k];
         if (str.endsWith(suff)) {
           setTag([term], tag, world, true, '3-guessForm');
           break
@@ -9531,7 +9539,7 @@
 
   var regexText = [
     // #coolguy
-    [/^#[a-zäöü0-9_\u00C0-\u00FF]{2,}$/i, 'HashTag'],
+    [/^#[a-z0-9_\u00C0-\u00FF]{2,}$/i, 'HashTag'],
 
     // @spencermountain
     [/^@\w{2,}$/, 'AtMention'],
@@ -9550,7 +9558,7 @@
   const jj = 'Adjective';
   const cond = 'Conditional';
   const fut = 'FutureTense';
-  const inf = 'Infinitive';
+  // const inf = 'Infinitive'
   const g = 'Gerund';
   const ref = 'Reflexive';
   const first = 'FirstPerson';
@@ -9614,15 +9622,11 @@
     },
     {
       // four-letter suffixes
-      arse: inf,
-      irse: inf,
-      ales: jj,
       itas: jj,
       itos: jj,
       icos: jj,
       icas: jj,
       tico: jj,
-      tica: jj,
       fica: jj,
       gica: jj,
       mica: jj,
@@ -9639,7 +9643,6 @@
       áneo: jj,
       icio: jj,
       culo: jj,
-      ento: jj,
       aria: jj,
       bles: jj,
       tiva: jj,
@@ -9685,7 +9688,6 @@
       fero: jj,
       jero: jj,
       lero: jj,
-      ales: jj,
       nero: jj,
       tero: jj,
       ares: jj,
@@ -10665,17 +10667,6 @@
   };
   var parse = parseNumber;
 
-  const toOrdinal = {};
-
-  Object.keys(data).forEach(k => {
-    data[k].forEach(a => {
-      let [num, card, ord] = a;
-      toOrdinal[card] = ord;
-    });
-  });
-  // add extras
-  toOrdinal.cien = 'centésimo';
-
   let ones = data.ones.reverse();
   let tens = data.tens.reverse();
   let hundreds = data.hundreds.reverse();
@@ -10783,6 +10774,17 @@
     return words
   };
   var toText$1 = toText;
+
+  const toOrdinal = {};
+
+  Object.keys(data).forEach(k => {
+    data[k].forEach(a => {
+      let [num, card, ord] = a;
+      toOrdinal[card] = ord;
+    });
+  });
+  // add extras
+  toOrdinal.cien = 'centésimo';
 
   const formatNumber = function (parsed, fmt) {
     if (fmt === 'TextOrdinal') {
@@ -11069,6 +11071,7 @@
     let str = m.text('normal');
     let isPlural = m.has('Plural');
     if (isPlural) {
+      const transform = this.methods.two.transform;
       return transform.adjective.toSingular(str)
     }
     return str
@@ -11131,9 +11134,9 @@
               vuestro: 'vuestros',
               vuestra: 'vuestras',
             };
-            let str = art.text('normal');
-            if (toPlur.hasOwnProperty(str)) {
-              art.replaceWith(toPlur[str]);
+            let w = art.text('normal');
+            if (toPlur.hasOwnProperty(w)) {
+              art.replaceWith(toPlur[w]);
             }
           }
         });
@@ -11205,7 +11208,7 @@
   const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc);
 
   // get root form of adjective
-  const getRoot = function (m, methods) {
+  const getRoot = function (m) {
     m.compute('root');
     let str = m.text('root');
     return str
