@@ -565,5 +565,10 @@ export default {
   "proseguir": ["prosigo", "prosigues", "prosigue", "proseguimos", "proseguís", "prosiguen"],
   "ensuciar": ["ensucio", "ensucias", "ensucia", "ensuciamos", "ensuciáis", "ensucian"],
   "merecer": ["merezco", "mereces", "merece", "merecemos", "merecéis", "merecen"],
-  "torturar": ["torturo", "torturas", "tortura", "torturamos", "torturáis", "torturan"]
+  "torturar": ["torturo", "torturas", "tortura", "torturamos", "torturáis", "torturan"],
+
+  "escupir": ['escupo', 'escupes', 'escupe', 'escupimos', 'escupís', 'escupen'],
+  "desplegar": ['despliego', 'despliegas', 'despliega', 'desplegamos', 'desplegáis', 'despliegan'],
+  "abogar": ['abogo', 'abogas', 'aboga', 'abogamos', 'abogáis', 'abogan']
+
 }
