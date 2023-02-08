@@ -351,6 +351,7 @@ test('match:', function (t) {
     ['vegetal', '#Noun'],
     ['argentina', '#Country'],
     ['limítrofes', '#Adjective'], //bordering
+    ['ho chi minh', '#City+'],
 
     [`He comprado los medicamentos.`, '#Auxiliary #Verb #Determiner #Plural'], //(I have bought the medicine.)
     [`Anda pensando en la fiesta de graduación.`, '#Auxiliary #Gerund #Preposition #Determiner #Noun #Preposition #Noun'], //(He goes about thinking about the graduation party.)
