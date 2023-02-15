@@ -48,10 +48,10 @@ const api = function (View) {
     /** convert to numeric form like '8' or '8th' */
     toNumber() {
       let m = this.if('#TextValue')
-      m.forEach(val => {
+      let res = m.map(val => {
         let obj = parse(val)
         if (obj.num === null) {
-          return
+          return val
         }
         let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal'
         let str = format(obj, fmt)
@@ -59,8 +59,9 @@ const api = function (View) {
           val.replaceWith(str, { tags: true })
           val.tag('NumericValue')
         }
+        return val
       })
-      return this
+      return new Numbers(res.document, res.pointer)
     }
     /** convert to numeric form like 'eight' or 'eighth' */
     toText() {
