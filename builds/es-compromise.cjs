@@ -8916,11 +8916,7 @@
   var root$1 = root;
 
   var lexicon = {
-    model: {
-      one: {
-        lexicon: lexicon$2
-      }
-    },
+    words: lexicon$2,
     compute: { root: root$1 },
     methods: {
       two: {
@@ -8987,7 +8983,8 @@
   var unicode$1 = unicode;
 
   var contractions = [
-
+    { word: 'al', out: ['a', 'el'] },
+    { word: 'del', out: ['de', 'el'] },
   ];
 
   var tokenizer = {
@@ -10032,6 +10029,8 @@
     { match: '#Determiner [#Adjective]$', group: 0, tag: 'Noun', reason: 'det-adj' },
     // la tarde
     { match: '#Determiner [#Adverb]$', group: 0, tag: 'Noun', reason: 'det-adv' },
+    // el final de
+    { match: '#Determiner [#Adjective] (de|du)', group: 0, tag: 'Noun', reason: 'det-adj' },
 
     // no exageres
     { match: 'no [#Noun]', group: 0, tag: 'Verb', reason: 'no-noun' },
@@ -10887,10 +10886,10 @@
       /** convert to numeric form like '8' or '8th' */
       toNumber() {
         let m = this.if('#TextValue');
-        m.forEach(val => {
+        let res = m.map(val => {
           let obj = parse(val);
           if (obj.num === null) {
-            return
+            return val
           }
           let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal';
           let str = format(obj, fmt);
@@ -10898,8 +10897,9 @@
             val.replaceWith(str, { tags: true });
             val.tag('NumericValue');
           }
+          return val
         });
-        return this
+        return new Numbers(res.document, res.pointer)
       }
       /** convert to numeric form like 'eight' or 'eighth' */
       toText() {
@@ -11281,7 +11281,7 @@
     api: api$1,
   };
 
-  var version = '0.2.8';
+  var version = '0.2.9';
 
   nlp$1.plugin(tokenizer);
   nlp$1.plugin(tagset);

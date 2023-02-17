@@ -1,3 +1,8 @@
+### 0.2.9 [Feb 2023]
+- **[fix]** - numbers().toText()
+- **[fix]** - tagger improvements
+- **[new]** - contractions
+
 ### 0.2.7 [Dec 2022]
 - **[fix]** - check root text for root-matches
 - **[new]** - Subjunctive and Imperative verb forms
