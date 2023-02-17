@@ -51,6 +51,8 @@ export default [
     // ido: vb,
     aba: vb,
     tar: vb,
+    gar: vb,
+    nar: vb,
     'ían': vb,
     rar: vb,
     ría: cond,

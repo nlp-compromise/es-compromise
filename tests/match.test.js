@@ -351,6 +351,7 @@ test('match:', function (t) {
     ['vegetal', '#Noun'],
     ['argentina', '#Country'],
     ['limítrofes', '#Adjective'], //bordering
+    ['ho chi minh', '#City+'],
 
     [`He comprado los medicamentos.`, '#Auxiliary #Verb #Determiner #Plural'], //(I have bought the medicine.)
     [`Anda pensando en la fiesta de graduación.`, '#Auxiliary #Gerund #Preposition #Determiner #Noun #Preposition #Noun'], //(He goes about thinking about the graduation party.)
@@ -362,6 +363,9 @@ test('match:', function (t) {
     [`Suelo manejar rápido.`, '#Auxiliary #Verb #Adjective'], //(I usually drive fast.)
 
     ['Ella nunca corre.', '#Pronoun #Negative #PresentTense'],
+    // contractions
+    ['Ella va al cine todos los viernes.', '#Pronoun #Verb a el #Noun todos #Determiner #Noun'],//She goes to the movie theater every Friday.
+    ['Te espero al final de la cola.', '#Pronoun #Verb #Preposition #Determiner #Noun #Preposition #Determiner #Noun'],
     // ['', ''],
   ]
   arr.forEach(function (a) {

@@ -77,3 +77,12 @@ test('toCardinal:', function (t) {
   t.end()
 })
 
+test('ordinal numbers:', function (t) {
+  let doc = nlp('342').numbers().toOrdinal()
+  t.equal(doc.text(), '342°', here + 'num-ord')
+
+  doc = nlp('trescientos setenta').numbers().toNumber().toOrdinal()
+  t.equal(doc.text(), '370°', here + 'num-ord')
+  t.end()
+})
+

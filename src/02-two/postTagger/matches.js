@@ -12,6 +12,8 @@ export default [
   { match: '#Determiner [#Adjective]$', group: 0, tag: 'Noun', reason: 'det-adj' },
   // la tarde
   { match: '#Determiner [#Adverb]$', group: 0, tag: 'Noun', reason: 'det-adv' },
+  // el final de
+  { match: '#Determiner [#Adjective] (de|du)', group: 0, tag: 'Noun', reason: 'det-adj' },
 
   // no exageres
   { match: 'no [#Noun]', group: 0, tag: 'Verb', reason: 'no-noun' },

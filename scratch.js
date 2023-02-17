@@ -4,7 +4,7 @@ nlp.verbose('tagger')
 0.0.2 - tagger 87%
 */
 
-nlp.verbose('tagger')
+// nlp.verbose('tagger')
 // let world = nlp.world()
 // console.log(world.methods.two)
 // let { verbConjugate } = world.methods.two.transform
@@ -31,9 +31,18 @@ let arr = [
   'Las medidas de asistencia que se determinarán en cooperación',
 ]
 let txt = arr[0]
-let doc = nlp(txt).compute('root').debug()
+txt = ''
+
+// txt = 'propinar'
+// txt = 'abogar'
+txt = 'desplegar'
+txt = 'Te espero al final de la cola.'
+// txt = 'escupir'
+
+let doc = nlp(txt).debug()
+// console.log(doc.verbs().conjugate()[0])
 // console.log(doc.docs)
-doc.match('{odiar}').debug()
+// doc.match('{odiar}').debug()
 // doc.debug()
 // console.log(nlp('ganar').verbs().conjugate())
 
