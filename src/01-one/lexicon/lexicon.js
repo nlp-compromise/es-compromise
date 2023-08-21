@@ -17,7 +17,6 @@ const tagMap = {
 }
 
 const addWords = function (obj, tag, lex) {
-
   Object.keys(obj).forEach(k => {
     let w = obj[k]
     if (!lex[w]) {

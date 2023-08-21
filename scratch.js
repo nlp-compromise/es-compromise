@@ -13,6 +13,11 @@ nlp.verbose('tagger')
 // doc.match(`{persona}`).debug()
 
 /*
+1st	1º, 1ª, 1er, 1ra
+2nd	2º, 2ª, 2do, 2da
+3rd	3º, 3ª, 3er, 3ra
+4th	4º, 4ª, 4to, 4ta
+10th	10º, 10ª, 10mo, 10ma
 */
 
 // let txt = `pseudocientífico`
