@@ -2354,5 +2354,6 @@ export default {
     'desplegáis',
     'despliegan',
   ],
-  abogar: ['abogo', 'abogas', 'aboga', 'abogamos', 'abogáis', 'abogan'],
+  parir: ['paro', 'pares', 'pare', 'parimos', 'parís', 'paren'],
+  trazer: ['trago', 'trazes', 'traz', 'trazemos', 'trazeis', 'trazem'],
 }
