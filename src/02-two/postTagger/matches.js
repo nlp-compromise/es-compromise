@@ -47,5 +47,7 @@ export default [
   { match: '[{quedar/verb} en] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'quedar-en-inf' },
 
   // possessives - 'my taste'
-  { match: '(#Possessive && #Pronoun) [#FirstPerson]', group: 0, tag: 'Noun', reason: 'mi-gusto' }
+  { match: '(#Possessive && #Pronoun) [#FirstPerson]', group: 0, tag: 'Noun', reason: 'mi-gusto' },
+  //Los avances
+  { match: '(los|las) [#Verb]', group: 0, tag: 'Plural', reason: 'los-advances' }
 ]

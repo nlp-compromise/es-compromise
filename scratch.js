@@ -14,16 +14,16 @@ let arr = [
   // 'odiado',
   // 'lo he ganado dos veces',
   // 'Las medidas de asistencia que se determinarán en cooperación',
-
-  'Tú expandes tu negocio.', //'Noun, Noun, Noun, Verb' -
-  'Ellos intercambian opiniones.', //'Noun, Verb, Noun' -
-  'Yo confundo los nombres.', //'Noun, Verb, Determiner, Verb' -
+  // 'los ataques con misiles',
+  // '¡los extraño chicos!',
+  'Los avances en la biología',
+  // 'Yo confundo los nombres.', //'Noun, Verb, Determiner, Verb' -
   'Ellos enfrentan el reto.', //'Noun, Verb, Determiner, Verb' -
   'Tú designas al líder.', //'Noun, Noun, Preposition, Determiner, Noun' -
   'Tú elaboras el informe.', //'Noun, Noun, Determiner, Verb' -
   'Ellos innovan en tecnología.', //'Noun, Verb, Preposition, Noun' -
   'Tú generas ideas.', //'Noun, Noun, Verb' -
-  'Ella orienta a los estudiantes.', //'Noun, Noun, Preposition, Determiner, Noun' -
+  'Ella orienta a los estudiantes.', //'Nounnpm run watch, Noun, Preposition, Determiner, Noun' -
   'Yo amplío la información.', //'Noun, Noun, Determiner, Noun' -
   'Si pudieras volar, ¿lo harías?' //'Condition, Noun, Verb, Noun, Verb' -
 ]
