@@ -15,7 +15,6 @@ let arr = [
   // 'lo he ganado dos veces',
   // 'Las medidas de asistencia que se determinarán en cooperación',
 
-  'su debut en Grandes Ligas', //'Determiner, Noun, Preposition, Adjective, Verb' -
   'Tú expandes tu negocio.', //'Noun, Noun, Noun, Verb' -
   'Ellos intercambian opiniones.', //'Noun, Verb, Noun' -
   'Yo confundo los nombres.', //'Noun, Verb, Determiner, Verb' -
@@ -37,7 +36,7 @@ let doc = nlp(txt).debug()
 // doc.debug()
 // console.log(nlp('ganar').verbs().conjugate())
 
-// let doc = nlp('relajarse')
+// console.log(nlp('expandir').verbs().conjugate())
 // doc.compute('root')
 // console.log(doc.docs)
 // doc.match('{relajar}').debug()

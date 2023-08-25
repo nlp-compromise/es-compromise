@@ -18,13 +18,17 @@ export default [
   // no exageres
   { match: 'no [#Noun]', group: 0, tag: 'Verb', reason: 'no-noun' },
 
-
   // auxiliary verbs
   { match: '[#Modal] #Verb', group: 0, tag: 'Auxiliary', reason: 'modal-verb' },
   // alcanzar + infinitive (to manage to do)
   // comenzar + infinitive (to begin doing)
   // resultar + infinitive (to end up doing)
-  { match: '[(alcanzar|comenzar|resultar)] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'alcanzar-inf' },
+  {
+    match: '[(alcanzar|comenzar|resultar)] #Infinitive',
+    group: 0,
+    tag: 'Auxiliary',
+    reason: 'alcanzar-inf'
+  },
   // haber de + infinitive (to have to do)
   // parar de + infinitive (to stop doing)
   { match: '[{haber/verb} de] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'haber-de-inf' },
@@ -42,4 +46,6 @@ export default [
   // quedar en + infinitive (to arrange to do )
   { match: '[{quedar/verb} en] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'quedar-en-inf' },
 
+  // possessives - 'my taste'
+  { match: '(#Possessive && #Pronoun) [#FirstPerson]', group: 0, tag: 'Noun', reason: 'mi-gusto' }
 ]
