@@ -13,6 +13,7 @@ import guessPlural from './3rd-pass/noun-plural.js'
 import adjPlural from './3rd-pass/adj-plural.js'
 import adjGender from './3rd-pass/adj-gender.js'
 import verbForm from './3rd-pass/verb-form.js'
+import auxVerb from './3rd-pass/aux-verb.js'
 
 // these methods don't care about word-neighbours
 const firstPass = function (terms, world) {
@@ -40,6 +41,7 @@ const thirdPass = function (terms, world) {
     guessPlural(terms, i, world)
     adjPlural(terms, i, world)
     adjGender(terms, i, world)
+    auxVerb(terms, i, world)
     verbForm(terms, i, world)
   }
 }

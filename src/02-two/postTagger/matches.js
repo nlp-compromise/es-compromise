@@ -45,9 +45,15 @@ export default [
   { match: '[{echar/verb}] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'echar-inf' },
   // quedar en + infinitive (to arrange to do )
   { match: '[{quedar/verb} en] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'quedar-en-inf' },
+  // poder  "to be able to"
+  { match: '[{poder/verb}] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'poder-inf' },
+  // any missing estar
+  { match: '[#Copula] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'copula-inf' },
 
   // possessives - 'my taste'
   { match: '(#Possessive && #Pronoun) [#FirstPerson]', group: 0, tag: 'Noun', reason: 'mi-gusto' },
-  //Los avances
-  { match: '(los|las) [#Verb]', group: 0, tag: 'Plural', reason: 'los-advances' }
+  //Los avances en
+  { match: '(los|las) [#Verb] #Preposition', group: 0, tag: 'Plural', reason: 'los-advances' },
+  //confundo los numbres
+  { match: '#Verb (los|las) [#Verb]$', group: 0, tag: 'Plural', reason: 'los-numbres' }
 ]
