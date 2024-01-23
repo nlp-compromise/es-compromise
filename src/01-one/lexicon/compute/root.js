@@ -1,4 +1,3 @@
-
 const verbForm = function (term) {
   let want = [
     'FirstPerson',
@@ -6,9 +5,9 @@ const verbForm = function (term) {
     'ThirdPerson',
     'FirstPersonPlural',
     'SecondPersonPlural',
-    'ThirdPersonPlural',
+    'ThirdPersonPlural'
   ]
-  return want.find(tag => term.tags.has(tag))
+  return want.find((tag) => term.tags.has(tag))
 }
 
 //relajarse -> relajar
@@ -21,15 +20,16 @@ const stripReflexive = function (str) {
 
 const root = function (view) {
   const { verb, noun, adjective } = view.world.methods.two.transform
-  view.docs.forEach(terms => {
-    terms.forEach(term => {
+  view.docs.forEach((terms) => {
+    terms.forEach((term) => {
       let str = term.implicit || term.normal || term.text
 
-      if (term.tags.has('Reflexive')) {
-        str = stripReflexive(str)
-      }
-      // get infinitive form of the verb
       if (term.tags.has('Verb')) {
+        // get infinitive form of the verb
+        if (term.tags.has('Reflexive')) {
+          term.root = stripReflexive(str)
+          return
+        }
         let form = verbForm(term)
         if (term.tags.has('Gerund')) {
           term.root = verb.fromGerund(str, form)
