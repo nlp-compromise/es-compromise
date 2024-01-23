@@ -5,6 +5,7 @@ import checkYear from './1st-pass/year.js'
 // 2nd pass
 import acronym from './2nd-pass/acronym.js'
 import fallback from './2nd-pass/fallback.js'
+// import titlecase from './2nd-pass/titlecase.js'
 import suffixCheck from './2nd-pass/suffix-lookup.js'
 // 3rd
 import guessNounGender from './3rd-pass/noun-gender.js'
@@ -12,7 +13,7 @@ import guessPlural from './3rd-pass/noun-plural.js'
 import adjPlural from './3rd-pass/adj-plural.js'
 import adjGender from './3rd-pass/adj-gender.js'
 import verbForm from './3rd-pass/verb-form.js'
-
+import auxVerb from './3rd-pass/aux-verb.js'
 
 // these methods don't care about word-neighbours
 const firstPass = function (terms, world) {
@@ -40,14 +41,14 @@ const thirdPass = function (terms, world) {
     guessPlural(terms, i, world)
     adjPlural(terms, i, world)
     adjGender(terms, i, world)
+    auxVerb(terms, i, world)
     verbForm(terms, i, world)
   }
 }
 
-
 const tagger = function (view) {
   let world = view.world
-  view.docs.forEach(terms => {
+  view.docs.forEach((terms) => {
     firstPass(terms, world)
     secondPass(terms, world)
     thirdPass(terms, world)

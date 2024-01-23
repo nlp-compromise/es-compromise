@@ -18,13 +18,17 @@ export default [
   // no exageres
   { match: 'no [#Noun]', group: 0, tag: 'Verb', reason: 'no-noun' },
 
-
   // auxiliary verbs
   { match: '[#Modal] #Verb', group: 0, tag: 'Auxiliary', reason: 'modal-verb' },
   // alcanzar + infinitive (to manage to do)
   // comenzar + infinitive (to begin doing)
   // resultar + infinitive (to end up doing)
-  { match: '[(alcanzar|comenzar|resultar)] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'alcanzar-inf' },
+  {
+    match: '[(alcanzar|comenzar|resultar)] #Infinitive',
+    group: 0,
+    tag: 'Auxiliary',
+    reason: 'alcanzar-inf'
+  },
   // haber de + infinitive (to have to do)
   // parar de + infinitive (to stop doing)
   { match: '[{haber/verb} de] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'haber-de-inf' },
@@ -41,5 +45,19 @@ export default [
   { match: '[{echar/verb}] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'echar-inf' },
   // quedar en + infinitive (to arrange to do )
   { match: '[{quedar/verb} en] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'quedar-en-inf' },
+  // poder  "to be able to"
+  { match: '[{poder/verb}] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'poder-inf' },
+  // any missing estar
+  { match: '[#Copula] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'copula-inf' },
 
+  // possessives - 'my taste'
+  { match: '(#Possessive && #Pronoun) [#FirstPerson]', group: 0, tag: 'Noun', reason: 'mi-gusto' },
+  //Los avances en
+  { match: '(los|las) [#Verb] #Preposition', group: 0, tag: 'Plural', reason: 'los-advances' },
+  //confundo los numbres
+  { match: '#Verb (los|las) [#Verb]$', group: 0, tag: 'Plural', reason: 'los-numbres' },
+  //de la cola
+  { match: 'de (la|las) [#Verb]', group: 0, tag: 'Noun', reason: 'de-la-cola' },
+  //of the #verb
+  { match: 'del [#Verb]', group: 0, tag: 'Noun', reason: 'del-verb' }
 ]

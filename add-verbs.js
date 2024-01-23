@@ -1,4 +1,4 @@
-import prettyJSON from 'pretty-json-stringify'
+// import prettyJSON from 'pretty-json-stringify'
 import already from './data/models/verb/present-tense.js'
 
 import fs from 'fs'
@@ -10,6 +10,9 @@ let arr = fs
   .split(/\n/)
   .filter((str) => str)
   .map((str) => JSON.parse(str))
+
+// let out = arr.map((o) => o.word)
+// console.log(JSON.stringify(out, null, 2))
 
 let out = {}
 let count = arr.forEach((obj) => {
@@ -24,8 +27,9 @@ let count = arr.forEach((obj) => {
     // console.log(obj['Indicativo Presente'])
   }
 })
-console.log(
-  prettyJSON(out, {
-    shouldExpand: (_, level) => (level >= 1 ? false : true),
-  })
-)
+console.log(JSON.stringify(out, null, 2))
+// console.log(
+//   prettyJSON(out, {
+//     shouldExpand: (_, level) => (level >= 1 ? false : true),
+//   })
+// )

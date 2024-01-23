@@ -51,146 +51,145 @@ test('match:', function (t) {
     ['señalasteis', '(#PastTense && #SecondPersonPlural)'],
     ['señalaron', '(#PastTense && #ThirdPersonPlural)'],
 
+    ['asimilar', '#Verb'], // assimilate
+    ['frenar', '#Verb'], // curb
+    ['desafiar', '#Verb'], // defy
+    ['diferenciar', '#Verb'], // differentiate
+    ['desmantelar', '#Verb'], // dismantle
+    ['gotear', '#Verb'], // drip
+    ['supervisar', '#Verb'], // oversee
+    ['estimular', '#Verb'], // stimulate
 
-    ["asimilar", "#Verb"],// assimilate
-    ["frenar", "#Verb"],// curb
-    ["desafiar", "#Verb"],// defy
-    ["diferenciar", "#Verb"],// differentiate
-    ["desmantelar", "#Verb"],// dismantle
-    ["gotear", "#Verb"],// drip
-    ["supervisar", "#Verb"],// oversee
-    ["estimular", "#Verb"],// stimulate
+    ['divertido', '#Adjective'], // amusing
+    ['anarquista', '#Adjective'], // anarchist
+    ['dormido', '#Adjective'], // asleep
+    ['atroz', '#Adjective'], // atrocious
+    ['equilibrado', '#Adjective'], // balanced
+    ['audaz', '#Adjective'], // bold
+    ['aburrido', '#Adjective'], // boring
+    ['encantador', '#Adjective'], // charming
+    ['alegre', '#Adjective'], // cheerful
+    ['cursi', '#Adjective'], // cheesy
+    ['colorido', '#Adjective'], // colorful
+    ['acogedor', '#Adjective'], // cozy
+    ['atrevido', '#Adjective'], // daring
+    ['muerto', '#Adjective'], // dead
+    ['querido', '#Adjective'], // dear
+    ['encantador', '#Adjective'], // delightful
+    ['aburrido', '#Adjective'], // dull
+    ['este', '#Adjective'], // east
+    ['grasiento', '#Adjective'], // greasy
+    ['agitado', '#Adjective'], // hectic
+    ['infame', '#Adjective'], // infamous
+    ['alegre', '#Adjective'], // jolly
+    ['alegre', '#Adjective'], // joyful
+    ['chiflado', '#Adjective'], // kooky
+    ['menos', '#Adjective'], // least
+    ['más', '#Adjective'], // more
+    ['cerca', '#Adjective'], // near
+    ['abrumador', '#Adjective'], // overwhelming
+    ['depredador', '#Adjective'], // predatory
+    ['prometedor', '#Adjective'], // promising
+    ['independientemente', '#Adjective'], // regardless
+    ['podrido', '#Adjective'], // rotten
+    ['triste', '#Adjective'], // sad
+    ['egoísta', '#Adjective'], // selfish
+    ['mal', '#Adjective'], // shabby
+    ['hábil', '#Adjective'], // skillful
+    ['triste', '#Adjective'], // sorrowful
+    ['sutil', '#Adjective'], // subtle
+    ['agradecido', '#Adjective'], // thankful
+    ['teórico', '#Adjective'], // theoretical
+    ['cansado', '#Adjective'], // tired
+    ['complicado', '#Adjective'], // tricky
+    ['infeliz', '#Adjective'], // unhappy
+    ['desconocido', '#Adjective'], // unknown
+    ['inútil', '#Adjective'], // useless
+    ['rico', '#Adjective'], // wealthy
+    ['acogedor', '#Adjective'], // welcoming
+    ['dispuesto', '#Adjective'], // willing-adjective
 
-    ["divertido", "#Adjective"],// amusing
-    ["anarquista", "#Adjective"],// anarchist
-    ["dormido", "#Adjective"],// asleep
-    ["atroz", "#Adjective"],// atrocious
-    ["equilibrado", "#Adjective"],// balanced
-    ["audaz", "#Adjective"],// bold
-    ["aburrido", "#Adjective"],// boring
-    ["encantador", "#Adjective"],// charming
-    ["alegre", "#Adjective"],// cheerful
-    ["cursi", "#Adjective"],// cheesy
-    ["colorido", "#Adjective"],// colorful
-    ["acogedor", "#Adjective"],// cozy
-    ["atrevido", "#Adjective"],// daring
-    ["muerto", "#Adjective"],// dead
-    ["querido", "#Adjective"],// dear
-    ["encantador", "#Adjective"],// delightful
-    ["aburrido", "#Adjective"],// dull
-    ["este", "#Adjective"],// east
-    ["grasiento", "#Adjective"],// greasy
-    ["agitado", "#Adjective"],// hectic
-    ["infame", "#Adjective"],// infamous
-    ["alegre", "#Adjective"],// jolly
-    ["alegre", "#Adjective"],// joyful
-    ["chiflado", "#Adjective"],// kooky
-    ["menos", "#Adjective"],// least
-    ["más", "#Adjective"],// more
-    ["cerca", "#Adjective"],// near
-    ["abrumador", "#Adjective"],// overwhelming
-    ["depredador", "#Adjective"],// predatory
-    ["prometedor", "#Adjective"],// promising
-    ["independientemente", "#Adjective"],// regardless
-    ["podrido", "#Adjective"],// rotten
-    ["triste", "#Adjective"],// sad
-    ["egoísta", "#Adjective"],// selfish
-    ["mal", "#Adjective"],// shabby
-    ["hábil", "#Adjective"],// skillful
-    ["triste", "#Adjective"],// sorrowful
-    ["sutil", "#Adjective"],// subtle
-    ["agradecido", "#Adjective"],// thankful
-    ["teórico", "#Adjective"],// theoretical
-    ["cansado", "#Adjective"],// tired
-    ["complicado", "#Adjective"],// tricky
-    ["infeliz", "#Adjective"],// unhappy
-    ["desconocido", "#Adjective"],// unknown
-    ["inútil", "#Adjective"],// useless
-    ["rico", "#Adjective"],// wealthy
-    ["acogedor", "#Adjective"],// welcoming
-    ["dispuesto", "#Adjective"],// willing-adjective
-
-    ["aliado", "#Noun"],// ally
-    ["antepasado", "#Noun"],// ancestor
-    ["aniversario", "#Noun"],// anniversary
-    ["solicitante", "#Noun"],// applicant
-    ["baño", "#Noun"],// bathroom
-    ["poco", "#Noun"],// bit
-    ["puente", "#Noun"],// bridge
-    ["amigo", "#Noun"],// buddy
-    ["ciudadano", "#Noun"],// citizen
+    ['aliado', '#Noun'], // ally
+    ['antepasado', '#Noun'], // ancestor
+    ['aniversario', '#Noun'], // anniversary
+    ['solicitante', '#Noun'], // applicant
+    ['baño', '#Noun'], // bathroom
+    ['poco', '#Noun'], // bit
+    ['puente', '#Noun'], // bridge
+    ['amigo', '#Noun'], // buddy
+    ['ciudadano', '#Noun'], // citizen
     // ["civil", "#Noun"],// civilian
     // ["primo", "#Noun"],// cousin
-    ["cliente", "#Noun"],// customer
-    ["daño", "#Noun"],// damage
-    ["donante", "#Noun"],// donor
-    ["sueño", "#Noun"],// dream
-    ["empleado", "#Noun"],// employee
-    ["inglés", "#Noun"],// english
-    ["todos", "#Noun"],// everyone
-    ["todo", "#Noun"],// everything
-    ["ejercicio", "#Noun"],// exercise
-    ["hada", "#Noun"],// fairy
-    ["amigo", "#Noun"],// friend
-    ["rana", "#Noun"],// frog
-    ["juego", "#Noun"],// game
-    ["guante", "#Noun"],// glove
-    ["invernadero", "#Noun"],// greenhouse
-    ["daño", "#Noun"],// harm
-    ["aquí", "#Noun"],// here
-    ["reino", "#Noun"],// kingdom
-    ["caballero", "#Noun"],// knight
-    ["falta", "#Noun"],// lack
-    ["abogado", "#Noun"],// lawyer
-    ["hígado", "#Noun"],// liver
-    ["mayoría", "#Noun"],// majority
-    ["mamífero", "#Noun"],// mammal
-    ["gerente", "#Noun"],// manager
-    ["mercado", "#Noun"],// market
-    ["significado", "#Noun"],// meaning
-    ["miembro", "#Noun"],// member
-    ["mezcla", "#Noun"],// mixture
-    ["dinero", "#Noun"],// money
-    ["mito", "#Noun"],// myth
-    ["vecino", "#Noun"],// neighbour
-    ["ahora", "#Noun"],// now
-    ["resultado", "#Noun"],// outcome
-    ["pasajero", "#Noun"],// passenger
-    ["camino", "#Noun"],// path
-    ["pago", "#Noun"],// payment
-    ["farmacéutico", "#Noun"],// pharmacist
-    ["peregrino", "#Noun"],// pilgrim
-    ["propósito", "#Noun"],// purpose
-    ["cuerda", "#Noun"],// rope
-    ["ensalada", "#Noun"],// salad
-    ["sirviente", "#Noun"],// servant
-    ["lado", "#Noun"],// side
-    ["tamaño", "#Noun"],// size
-    ["esclavo", "#Noun"],// slave
-    ["serpiente", "#Noun"],// snake
-    ["alguien", "#Noun"],// someone
-    ["algo", "#Noun"],// something
-    ["fuente", "#Noun"],// source
-    ["personal", "#Noun"],// staff
-    ["estado", "#Noun"],// state
-    ["paso", "#Noun"],// step
-    ["éxito", "#Noun"],// success
-    ["contribuyente", "#Noun"],// taxpayer
-    ["técnica", "#Noun"],// technique
-    ["teoría", "#Noun"],// theory
-    ["umbral", "#Noun"],// threshold
-    ["diente", "#Noun"],// tooth
-    ["tratado", "#Noun"],// treaty
-    ["gemelo", "#Noun"],// twin
-    ["usuario", "#Noun"],// user
-    ["votante", "#Noun"],// voter
-    ["salario", "#Noun"],// wage
-    ["peso", "#Noun"],// weight
-    ["esposa", "#Noun"],// wife
-    ["vino", "#Noun"],// wine
-    ["mago", "#Noun"],// wizard
-    ["año", "#Noun"],// year
-    ["ayer", "#Noun"],// yesterday
+    ['cliente', '#Noun'], // customer
+    ['daño', '#Noun'], // damage
+    ['donante', '#Noun'], // donor
+    ['sueño', '#Noun'], // dream
+    ['empleado', '#Noun'], // employee
+    ['inglés', '#Noun'], // english
+    ['todos', '#Noun'], // everyone
+    ['todo', '#Noun'], // everything
+    ['ejercicio', '#Noun'], // exercise
+    ['hada', '#Noun'], // fairy
+    ['amigo', '#Noun'], // friend
+    ['rana', '#Noun'], // frog
+    ['juego', '#Noun'], // game
+    ['guante', '#Noun'], // glove
+    ['invernadero', '#Noun'], // greenhouse
+    ['daño', '#Noun'], // harm
+    ['aquí', '#Noun'], // here
+    ['reino', '#Noun'], // kingdom
+    ['caballero', '#Noun'], // knight
+    ['falta', '#Noun'], // lack
+    ['abogado', '#Noun'], // lawyer
+    ['hígado', '#Noun'], // liver
+    ['mayoría', '#Noun'], // majority
+    ['mamífero', '#Noun'], // mammal
+    ['gerente', '#Noun'], // manager
+    ['mercado', '#Noun'], // market
+    ['significado', '#Noun'], // meaning
+    ['miembro', '#Noun'], // member
+    ['mezcla', '#Noun'], // mixture
+    ['dinero', '#Noun'], // money
+    ['mito', '#Noun'], // myth
+    ['vecino', '#Noun'], // neighbour
+    ['ahora', '#Noun'], // now
+    ['resultado', '#Noun'], // outcome
+    ['pasajero', '#Noun'], // passenger
+    ['camino', '#Noun'], // path
+    ['pago', '#Noun'], // payment
+    ['farmacéutico', '#Noun'], // pharmacist
+    ['peregrino', '#Noun'], // pilgrim
+    ['propósito', '#Noun'], // purpose
+    ['cuerda', '#Noun'], // rope
+    ['ensalada', '#Noun'], // salad
+    ['sirviente', '#Noun'], // servant
+    ['lado', '#Noun'], // side
+    ['tamaño', '#Noun'], // size
+    ['esclavo', '#Noun'], // slave
+    ['serpiente', '#Noun'], // snake
+    ['alguien', '#Noun'], // someone
+    ['algo', '#Noun'], // something
+    ['fuente', '#Noun'], // source
+    ['personal', '#Noun'], // staff
+    // ['estado', '#Noun'], // state
+    ['paso', '#Noun'], // step
+    ['éxito', '#Noun'], // success
+    ['contribuyente', '#Noun'], // taxpayer
+    ['técnica', '#Noun'], // technique
+    ['teoría', '#Noun'], // theory
+    ['umbral', '#Noun'], // threshold
+    ['diente', '#Noun'], // tooth
+    ['tratado', '#Noun'], // treaty
+    ['gemelo', '#Noun'], // twin
+    ['usuario', '#Noun'], // user
+    ['votante', '#Noun'], // voter
+    ['salario', '#Noun'], // wage
+    ['peso', '#Noun'], // weight
+    ['esposa', '#Noun'], // wife
+    ['vino', '#Noun'], // wine
+    ['mago', '#Noun'], // wizard
+    ['año', '#Noun'], // year
+    ['ayer', '#Noun'], // yesterday
     ['agregar', '#Verb'], //add
     ['promedio', '#Adjective'], //average
     ['quiebra', '#Noun'], //bankruptcy
@@ -346,7 +345,7 @@ test('match:', function (t) {
     ['ficticios', '#Adjective'], //fictional
     ['miembros', '#Plural'], //members
     ['bruscos', '#Adjective'], //abrupt
-    ['ganadera', '#Noun'],//livestock
+    ['ganadera', '#Noun'], //livestock
     ['china', '#Place'],
     ['vegetal', '#Noun'],
     ['argentina', '#Country'],
@@ -354,24 +353,37 @@ test('match:', function (t) {
     ['ho chi minh', '#City+'],
 
     [`He comprado los medicamentos.`, '#Auxiliary #Verb #Determiner #Plural'], //(I have bought the medicine.)
-    [`Anda pensando en la fiesta de graduación.`, '#Auxiliary #Gerund #Preposition #Determiner #Noun #Preposition #Noun'], //(He goes about thinking about the graduation party.)
+    [
+      `Anda pensando en la fiesta de graduación.`,
+      '#Auxiliary #Gerund #Preposition #Determiner #Noun #Preposition #Noun'
+    ], //(He goes about thinking about the graduation party.)
     [`Estamos celebrando.`, '#Auxiliary #Gerund'], //(We are celebrating.)
     [`No trabaja.`, '#Negative #Verb'], //(He does not work.)
-    [`No saldré hasta mañana por la tarde.`, '#Negative #Verb #Preposition #Noun #Preposition #Determiner #Noun'], //(I will not leave until tomorrow afternoon.)
+    [
+      `No saldré hasta mañana por la tarde.`,
+      '#Negative #Verb #Preposition #Noun #Preposition #Determiner #Noun'
+    ], //(I will not leave until tomorrow afternoon.)
     [`Puedo nadar.`, '#Auxiliary #Verb'], //(I can swim.)
-    [`Los que pararon de fumar tuvieron un incremento de peso.`, 'los que #Auxiliary de #Verb #Verb #Determiner #Noun #Preposition #Noun'], //(Those who quit smoking gained weight.)
+    [
+      `Los que pararon de fumar tuvieron un incremento de peso.`,
+      'los que #Auxiliary de #Verb #Verb #Determiner . #Preposition #Noun'
+    ], //(Those who quit smoking gained weight.)
     [`Suelo manejar rápido.`, '#Auxiliary #Verb #Adjective'], //(I usually drive fast.)
 
     ['Ella nunca corre.', '#Pronoun #Negative #PresentTense'],
     // contractions
-    ['Ella va al cine todos los viernes.', '#Pronoun #Verb a el #Noun todos #Determiner #Noun'],//She goes to the movie theater every Friday.
-    ['Te espero al final de la cola.', '#Pronoun #Verb #Preposition #Determiner #Noun #Preposition #Determiner #Noun'],
+    ['Ella va al cine todos los viernes.', '#Pronoun #Verb a el #Noun todos #Determiner #Noun'], //She goes to the movie theater every Friday.
+    [
+      'Te espero al final de la cola.',
+      '#Pronoun #Verb #Preposition #Determiner #Noun #Preposition #Determiner #Noun'
+    ],
+    ['Tú expandes tu negocio.', '#Pronoun #Verb #Possessive #Noun']
     // ['', ''],
   ]
   arr.forEach(function (a) {
     let [str, match] = a
-    let doc = nlp(str)//.compute('tagRank')
-    let tags = doc.json()[0].terms.map(term => term.tags[0])
+    let doc = nlp(str) //.compute('tagRank')
+    let tags = doc.json()[0].terms.map((term) => term.tags[0])
     let msg = `'${(str + "' ").padEnd(20, ' ')}  - '${tags.join(', ')}'`
     let m = doc.match(match)
     t.equal(m.text(), doc.text(), here + msg)

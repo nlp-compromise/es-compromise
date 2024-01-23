@@ -3,9 +3,18 @@ import { unpack } from 'efrt'
 import methods from './methods/index.js'
 import misc from './misc.js'
 
-const { toPresent, toPast, toFuture, toConditional, toGerund, toPerfecto, toImperative, toSubjunctive } = methods.verb
+const {
+  toPresent,
+  toPast,
+  toFuture,
+  toConditional,
+  toGerund,
+  toPerfecto,
+  toImperative,
+  toSubjunctive,
+  toReflexive
+} = methods.verb
 let lexicon = misc
-
 
 const tagMap = {
   first: 'FirstPerson',
@@ -13,11 +22,11 @@ const tagMap = {
   third: 'ThirdPerson',
   firstPlural: 'FirstPersonPlural',
   secondPlural: 'SecondPersonPlural',
-  thirdPlural: 'ThirdPersonPlural',
+  thirdPlural: 'ThirdPersonPlural'
 }
 
 const addWords = function (obj, tag, lex) {
-  Object.keys(obj).forEach(k => {
+  Object.keys(obj).forEach((k) => {
     let w = obj[k]
     if (!lex[w]) {
       lex[w] = [tag, tagMap[k]]
@@ -25,9 +34,23 @@ const addWords = function (obj, tag, lex) {
   })
 }
 
-Object.keys(lexData).forEach(tag => {
+// i am really not sure about this stuff!
+const toImperativeReflexive = function (obj) {
+  if (obj.second) {
+    obj.second += 'te'
+  }
+  if (obj.third) {
+    obj.second += 'se'
+  }
+  if (obj.firstPlural) {
+    obj.firstPlural += 'nos'
+  }
+  return obj
+}
+
+Object.keys(lexData).forEach((tag) => {
   let wordsObj = unpack(lexData[tag])
-  Object.keys(wordsObj).forEach(w => {
+  Object.keys(wordsObj).forEach((w) => {
     lexicon[w] = tag
 
     // add conjugations for our verbs
@@ -50,9 +73,15 @@ Object.keys(lexData).forEach(tag => {
       // add perfecto
       str = toPerfecto(w)
       lexicon[str] = lexicon[str] || 'Perfecto'
+      // add reflexive infinitive forms
+      obj = toReflexive(w)
+      addWords(obj, 'Reflexive', lexicon)
       // add imperative
       obj = toImperative(w)
       addWords(obj, 'Imperative', lexicon)
+      // add reflexive for some imperative forms
+      obj = toImperativeReflexive(obj)
+      addWords(obj, 'Reflexive', lexicon)
       // add toSubjunctive
       obj = toSubjunctive(w)
       addWords(obj, 'Subjunctive', lexicon)

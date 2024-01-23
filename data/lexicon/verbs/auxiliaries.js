@@ -1,3 +1,1 @@
-export default [
-  'oído'
-]
+export default ['oído']

@@ -2,7 +2,7 @@ import { convert } from 'suffix-thumb'
 import model from '../models.js'
 import { toGerund } from './gerund.js'
 import { toPerfecto } from './perfecto.js'
-import { toReflexive } from './reflexive.js'
+// import { addReflexive } from './reflexive.js'
 let { presentTense, pastTense, futureTense, conditional, subjunctive, imperative } = model
 
 const doEach = function (str, m) {
@@ -12,7 +12,7 @@ const doEach = function (str, m) {
     third: convert(str, m.third),
     firstPlural: convert(str, m.firstPlural),
     secondPlural: convert(str, m.secondPlural),
-    thirdPlural: convert(str, m.thirdPlural),
+    thirdPlural: convert(str, m.thirdPlural)
   }
 }
 
@@ -32,27 +32,21 @@ const toImperative = (str) => {
 
 // an array of every inflection, for '{inf}' syntax
 const all = function (str) {
-  let res = [str].concat(
-    Object.values(toPresent(str)),
-    Object.values(toPast(str)),
-    Object.values(toFuture(str)),
-    Object.values(toConditional(str)),
-    Object.values(toImperative(str)),
-    Object.values(toSubjunctive(str)),
-    toGerund(str),
-    toPerfecto(str),
-    toReflexive(str),
-  ).filter(s => s)
+  let res = [str]
+    .concat(
+      Object.values(toPresent(str)),
+      Object.values(toPast(str)),
+      Object.values(toFuture(str)),
+      Object.values(toConditional(str)),
+      Object.values(toImperative(str)),
+      Object.values(toSubjunctive(str)),
+      // Object.values(addReflexive(str)), //infinitive reflexive
+      toGerund(str),
+      toPerfecto(str)
+    )
+    .filter((s) => s)
   res = new Set(res)
   return Array.from(res)
 }
 
-export {
-  all,
-  toPresent,
-  toPast,
-  toFuture,
-  toConditional,
-  toSubjunctive,
-  toImperative
-}
+export { all, toPresent, toPast, toFuture, toConditional, toSubjunctive, toImperative }
