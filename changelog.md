@@ -1,6 +1,6 @@
 ### 0.2.11 [Jan 2024]
 
-- **[fix]** - conjugation fixes
+- **[fix]** - tagging+conjugation fixes
 
 ### 0.2.10 [Aug 2023]
 

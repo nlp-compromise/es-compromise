@@ -57,5 +57,7 @@ export default [
   //confundo los numbres
   { match: '#Verb (los|las) [#Verb]$', group: 0, tag: 'Plural', reason: 'los-numbres' },
   //de la cola
-  { match: 'de (la|las) [#Verb]', group: 0, tag: 'Noun', reason: 'de-la-cola' }
+  { match: 'de (la|las) [#Verb]', group: 0, tag: 'Noun', reason: 'de-la-cola' },
+  //of the #verb
+  { match: 'del [#Verb]', group: 0, tag: 'Noun', reason: 'del-verb' }
 ]
