@@ -7,7 +7,8 @@ nlp.verbose('tagger')
 // nlp.verbose('tagger')
 
 let arr = [
-  'sentar',
+  'Te espero al final de la cola',
+  'Los que pararon de fumar tuvieron un incremento de peso.',
   ' él tuviera dinero',
   // 'Si pudieras volar, ¿lo harías?', // - 'Condition, Noun, Verb, Noun, Verb' -
   'Si él tuviera dinero, viajaría.', // - 'Condition, Noun, Noun, Noun, Verb' -
@@ -44,7 +45,7 @@ let txt = arr[0]
 let doc = nlp(txt).debug()
 // let doc = nlp('preguntarse').debug().compute('root')
 // console.log(doc.docs[0])
-console.log(doc.verbs().conjugate())
+// console.log(doc.verbs().conjugate())
 
 // console.log(nlp.world().model.one.lexicon.hazme)
 // console.log(doc.docs)
