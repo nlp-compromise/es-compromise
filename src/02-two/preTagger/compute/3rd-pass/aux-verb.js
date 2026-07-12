@@ -164,7 +164,8 @@ let isAux = new Set([
 const tagAuxVerb = function (terms, i, world) {
   const setTag = world.methods.one.setTag
   let term = terms[i]
-  if (isAux.has(term.normal) && terms[i + 1] && terms[i].tags.has('Verb')) {
+  // only when an actual verb follows - 'fuera de la ciudad' is not an auxiliary
+  if (isAux.has(term.normal) && term.tags.has('Verb') && terms[i + 1] && terms[i + 1].tags.has('Verb')) {
     setTag([term], 'Auxiliary', world, false, '3-auxiliary')
   }
 }

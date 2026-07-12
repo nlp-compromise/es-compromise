@@ -48,20 +48,8 @@ export default [
   'deberíais',
   'deberían',
 
-  // tener que - have
-  'tengo',
-  'tienes',
-  'tiene',
-  'tenemos',
-  'tenéis',
-  'tienen',
-  // -conditional
-  'tenía',
-  'tenías',
-  // 'tenía',
-  'teníamos',
-  'teníais',
-  'tenían',
+  // note: tener is NOT here - it's only modal in 'tener que + inf',
+  // and 'tengo un perro' is plain possession
 
   // soler - usually do
   'suelo',
@@ -70,13 +58,5 @@ export default [
   'solemos',
   'soléis',
   'suelen',
-
-
-  // haber
-  'he',
-  'has',
-  'ha',
-  'hemos',
-  'habéis',
-  'han',
+  // haber moved to auxiliaries.js
 ]

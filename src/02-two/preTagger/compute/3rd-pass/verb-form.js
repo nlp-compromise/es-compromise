@@ -76,8 +76,17 @@ const guessVerbForm = function (terms, i, world) {
   const setTag = world.methods.one.setTag
   let term = terms[i]
   if (term.tags.has('Verb')) {
-    // skip these
-    if (term.tags.has('Infinitive') || term.tags.has('Auxiliary') || term.tags.has('Negative')) {
+    // skip non-finite forms and moods - 'comprado' ends in -o but is not first-person
+    if (
+      term.tags.has('Infinitive') ||
+      term.tags.has('Auxiliary') ||
+      term.tags.has('Negative') ||
+      term.tags.has('Gerund') ||
+      term.tags.has('Perfecto') ||
+      term.tags.has('Participle') ||
+      term.tags.has('Imperative') ||
+      term.tags.has('Subjunctive')
+    ) {
       return
     }
     // do we already have both?

@@ -46,18 +46,22 @@ const addWords = function (obj, tag, lex) {
   })
 }
 
-// i am really not sure about this stuff!
+// attach the reflexive clitic to affirmative imperatives - 'lávate', 'lávese'
 const toImperativeReflexive = function (obj) {
+  let out = {}
   if (obj.second) {
-    obj.second += 'te'
+    out.second = obj.second + 'te'
   }
   if (obj.third) {
-    obj.second += 'se'
+    out.third = obj.third + 'se'
   }
   if (obj.firstPlural) {
-    obj.firstPlural += 'nos'
+    out.firstPlural = obj.firstPlural + 'nos'
   }
-  return obj
+  if (obj.thirdPlural) {
+    out.thirdPlural = obj.thirdPlural + 'se'
+  }
+  return out
 }
 
 Object.keys(lexData).forEach((tag) => {
