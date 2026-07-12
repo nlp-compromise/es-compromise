@@ -1,3 +1,20 @@
+### 0.2.12 [July 2026]
+
+- **[new]** - imperfect tense (pretérito imperfecto) - conjugation, tagging + toRoot ('trabajaba', 'vivíamos')
+- **[new]** - imperfect subjunctive, -ra and -se series ('si pudiera', 'si pudiese')
+- **[new]** - enclitic pronoun recognition - 'dámelo', 'vistiéndose', 'quemarme', 'vámonos'
+- **[fix]** - core function-words - 'que' is a Conjunction, 'se' a Pronoun, 'hay' a Verb; accented 'qué/cómo/dónde/cuándo' are the QuestionWords
+- **[fix]** - 'mi/tu/su' are Possessive Determiners; missing demonstratives added ('esa', 'aquel'..)
+- **[fix]** - lexicon build is first-wins - corpus-learned lists no longer clobber function words ('aquí', 'más', 'una')
+- **[fix]** - suffix false-positives - 'librería' is not a Conditional, 'fotos' not an Adjective, 'examen' not a Verb
+- **[fix]** - common-gender adjectives ('grande', 'feliz') no longer default to MaleAdjective
+- **[fix]** - singular -s words ('país', 'inglés', 'crisis') no longer tagged Plural
+- **[fix]** - haber conjugations are the Auxiliary list; tener is no longer a Modal
+- **[fix]** - imperative verb-model column misalignment + data cleanup ('vomit', 'mudar(se)', secarse row)
+- **[change]** - Infinitive and Gerund no longer imply PresentTense; Negative is a feature-tag, not a Verb
+- **[change]** - homograph rules - 'él vino' is a verb, 'el vino' a noun; copulas root to ser/estar
+- **[change]** - 45 previously-commented tests re-enabled (1141 → 1185 passing)
+
 ### 0.2.11 [Jan 2024]
 
 - **[fix]** - tagging+conjugation fixes
