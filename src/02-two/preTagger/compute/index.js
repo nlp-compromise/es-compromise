@@ -4,6 +4,7 @@ import titleCase from './1st-pass/titlecase.js'
 import checkYear from './1st-pass/year.js'
 // 2nd pass
 import acronym from './2nd-pass/acronym.js'
+import enclitic from './2nd-pass/enclitic.js'
 import fallback from './2nd-pass/fallback.js'
 // import titlecase from './2nd-pass/titlecase.js'
 import suffixCheck from './2nd-pass/suffix-lookup.js'
@@ -29,6 +30,7 @@ const firstPass = function (terms, world) {
 const secondPass = function (terms, world) {
   for (let i = 0; i < terms.length; i += 1) {
     let found = acronym(terms, i, world)
+    found = found || enclitic(terms, i, world)
     found = found || suffixCheck(terms, i, world)
     // found = found || neighbours(terms, i, world)
     found = found || fallback(terms, i, world)

@@ -22,7 +22,8 @@ const root = function (view) {
   const { verb, noun, adjective } = view.world.methods.two.transform
   view.docs.forEach((terms) => {
     terms.forEach((term) => {
-      let str = term.implicit || term.normal || term.text
+      // 'machine' may hold a clitic-stripped stem - 'dámelo' → 'da'
+      let str = term.implicit || term.machine || term.normal || term.text
 
       if (term.tags.has('Verb')) {
         // get infinitive form of the verb
@@ -45,6 +46,8 @@ const root = function (view) {
           term.root = verb.fromFuture(str, form)
         } else if (term.tags.has('Conditional')) {
           term.root = verb.fromConditional(str, form)
+        } else if (term.tags.has('Imperative')) {
+          term.root = verb.fromImperative(str, form)
         } else {
           // guess!
           term.root = verb.fromPresent(str, form)
