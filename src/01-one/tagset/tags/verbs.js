@@ -6,17 +6,24 @@ export default {
     is: 'Verb',
     not: ['PastTense'],
   },
+  // non-finite - 'hablar' is not a present-tense form in spanish
   Infinitive: {
-    is: 'PresentTense',
-    not: ['Gerund'],
+    is: 'Verb',
+    not: ['PresentTense', 'PastTense', 'FutureTense', 'Gerund'],
   },
+  // non-finite - 'hablando'
   Gerund: {
-    is: 'PresentTense',
-    not: ['Copula', 'FutureTense'],
+    is: 'Verb',
+    not: ['PresentTense', 'PastTense', 'FutureTense', 'Copula'],
   },
   PastTense: {
     is: 'Verb',
     not: ['PresentTense', 'Gerund', 'FutureTense'],
+  },
+  // pretérito imperfecto - 'hablaba'
+  Imperfect: {
+    is: 'PastTense',
+    not: ['Conditional'],
   },
   FutureTense: {
     is: 'Verb',
@@ -25,9 +32,8 @@ export default {
   Copula: {
     is: 'Verb',
   },
-  Negative: {
-    is: 'Verb',
-  },
+  // a feature-tag - 'no', 'nunca' are not verbs
+  Negative: {},
   Modal: {
     is: 'Verb',
     not: ['Infinitive'],
@@ -67,7 +73,7 @@ export default {
   // moods
   Imperative: {
     is: 'Verb',
-    Subjunctive: ['Subjunctive']
+    not: ['Subjunctive']
   },
   Subjunctive: {
     is: 'Verb',
