@@ -20,6 +20,8 @@ export default [
   // 'la cura', 'el canto' - determiner + verb-form is a noun
   { match: '(el|la|un|una) [#PresentTense]$', group: 0, tag: 'Noun', reason: 'la-cura' },
   { match: '(el|la|un|una) [#PresentTense] #Preposition', group: 0, tag: 'Noun', reason: 'el-canto-de' },
+  // 'gran parte de', 'forma parte de'
+  { match: '(gran|mayor|buena|toda|esa|esta) [parte]', group: 0, tag: 'Noun', reason: 'gran-parte' },
 
   // no exageres
   { match: 'no [#Noun]', group: 0, tag: 'Verb', reason: 'no-noun' },
