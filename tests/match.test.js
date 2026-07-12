@@ -23,7 +23,7 @@ test('match:', function (t) {
     ['señalo', '(#PresentTense && #FirstPerson)'],
     ['señalas', '(#PresentTense && #SecondPerson)'],
     ['señalan', '(#PresentTense && #ThirdPersonPlural)'],
-    // ['señalamos', '(#PresentTense && #FirstPersonPlural)'],
+    ['señalamos', '(#PresentTense && #FirstPersonPlural)'],
     ['señaláis', '(#PresentTense && #SecondPersonPlural)'],
     ['señala', '(#PresentTense && #ThirdPerson)'],
 

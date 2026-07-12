@@ -26,6 +26,11 @@ const root = function (view) {
       let str = term.implicit || term.machine || term.normal || term.text
 
       if (term.tags.has('Verb')) {
+        // copulas are a closed set - ser + estar
+        if (term.tags.has('Copula')) {
+          term.root = /^est/.test(str) ? 'estar' : 'ser'
+          return
+        }
         // get infinitive form of the verb
         if (term.tags.has('Reflexive')) {
           term.root = stripReflexive(str)

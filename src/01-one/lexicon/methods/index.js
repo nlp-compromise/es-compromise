@@ -5,6 +5,8 @@ import {
   toFuture,
   toConditional,
   toSubjunctive,
+  toImperfectSubjunctive,
+  toImperfectSubjunctiveSe,
   toImperative,
   all as allVerb
 } from './verbs/tense.js'
@@ -41,6 +43,8 @@ export default {
     toConditional,
     toGerund,
     toSubjunctive,
+    toImperfectSubjunctive,
+    toImperfectSubjunctiveSe,
     toImperative,
     fromPerfecto,
     toPerfecto,

@@ -85,7 +85,8 @@ const guessVerbForm = function (terms, i, world) {
       term.tags.has('Perfecto') ||
       term.tags.has('Participle') ||
       term.tags.has('Imperative') ||
-      term.tags.has('Subjunctive')
+      term.tags.has('Subjunctive') ||
+      term.tags.has('Copula')
     ) {
       return
     }

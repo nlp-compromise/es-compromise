@@ -13,6 +13,8 @@ const {
   toPerfecto,
   toImperative,
   toSubjunctive,
+  toImperfectSubjunctive,
+  toImperfectSubjunctiveSe,
   toReflexive
 } = methods.verb
 let lexicon = {}
@@ -103,6 +105,11 @@ Object.keys(lexData).forEach((tag) => {
       addWords(obj, 'Reflexive', lexicon)
       // add toSubjunctive
       obj = toSubjunctive(w)
+      addWords(obj, 'Subjunctive', lexicon)
+      // imperfect subjunctive - 'si pudiera', 'si pudiese'
+      obj = toImperfectSubjunctive(w)
+      addWords(obj, 'Subjunctive', lexicon)
+      obj = toImperfectSubjunctiveSe(w)
       addWords(obj, 'Subjunctive', lexicon)
     }
     if (tag === 'Adjective') {

@@ -33,9 +33,9 @@ test('root-match:', function (t) {
     ['seguirías', '{seguir}'],
     ['seguiríais', '{seguir}'],
 
-    // [`no solo fue impactante.`, '{impactar}'],
-    // [`disgustado por circunstancias`, '{desagradar}'],
-    // [`Aprovecha el poder `, '{aprovechar}'],
+    [`no solo fue impactante.`, '{impactar}'],
+    [`disgustado por circunstancias`, '{disgustar}'],
+    [`Aprovecha el poder `, '{aprovechar}'],
     [`La incorporación estatutaria siguió`, '{estatutario}'],
     [`Está ahí para la exploración espacial`, '{exploración}'],
     [`Las 10 principales conversiones patrimoniales en Toronto`, '{conversión}'],
@@ -45,16 +45,16 @@ test('root-match:', function (t) {
     [`AGO Massive Party un espectáculo extraño y maravilloso`, '{espectáculo}'],
     [`Voy a usar el cojín.`, '{cojín}'],
     [`Los cojines son la esencia`, '{cojín}'],
-    // [`republicanos que simplifiquen el sistema`, '{simplificar}'],
-    // [`Las papas fritas estaban empapadas`, '{empapado}'],
-    // [`Determina si has estado abusando del alcohol`, '{abusar}'],
+    [`republicanos que simplifiquen el sistema`, '{simplificar}'],
+    [`Las papas fritas estaban empapadas`, '{empapado}'],
+    [`Determina si has estado abusando del alcohol`, '{abusar}'],
 
-    // [`Alguien me dijo que soy condescendiente.`, '{condescender}'],
-    // [`Uno asesinado; 6 heridos en disputa familiar`, '{disputar}'],
+    // [`Alguien me dijo que soy condescendiente.`, '{condescender}'], // adjective, not a verb-form
+    [`Uno asesinado; 6 heridos en disputa familiar`, '{disputar}'],
     // [`no están maduras.`, '{mûr}'],
     [`Profundo en esa oscuridad mirando`, '{mirar}'],
     // [`Cualquiera puede decir cosas encantadoras y tratar de`, '{encantar}'],
-    // [`la compañía se dispersó`, '{dispersarse}'],
+    [`la compañía se dispersó`, '{dispersarse}'],
 
     // reflexive forms
     [`irse`, '{ir}'], // (to leave)
@@ -90,11 +90,11 @@ test('root-match:', function (t) {
     ['obligando', '{obligar}'],
     ['disparando', '{disparar}'],
 
-    // ['¡vámonos!', '{ir}'],
-    // ['¡siéntense!', '{sentar}'],
-    // ['acostándose', '{acostar}'],
-    // ['vistiéndose', '{vestir}'],
-    // ['duchándote', '{duchar}'],
+    ['¡vámonos!', '{ir}'],
+    ['¡siéntense!', '{sentar}'],
+    ['acostándose', '{acostar}'],
+    ['vistiéndose', '{vestir}'],
+    ['duchándote', '{duchar}'],
 
     ['Olvidas tu cumpleaños', '{olvidar}'], //verb
     ['nos olvidamos muchas veces', '{olvidar}'],
@@ -109,7 +109,7 @@ test('root-match:', function (t) {
     ['su debut en Grandes Ligas', '{liga}'],
 
     //adjectives
-    // ['La diplomacia avanzada', '{avanzado}'],
+    ['La diplomacia avanzada', '{avanzado}'],
     ['que las principales economías avanzadas', '{avanzado}'],
     ['una cerilla descuidada', '{descuidado}'],
     ['las perreras más estrechas', '{estrecho}'],
@@ -131,9 +131,9 @@ test('root-match:', function (t) {
     ['he matado a tu enemigo', '{matar}'],
     ['no matan a la gente', '{matar}'],
     ['los mató de un solo golpe', '{matar}'],
-    // ['no quiero quemarme', '{quemar}'], //what form is this?
-    // ['y mezclarlo con ron', '{mezclar}'], // what form is this?
-    // ['el gobierno nunca debe socavarlos.', '{socavar}'], // what is this?
+    ['no quiero quemarme', '{quemar}'], //what form is this?
+    ['y mezclarlo con ron', '{mezclar}'], // what form is this?
+    ['el gobierno nunca debe socavarlos.', '{socavar}'], // what is this?
     ['mucho viento no prosperan', '{prosperar}'],
     ['prospera en altitudes', '{prosperar}'],
     ['las pocas plantas que prosperan', '{prosperar}'],
@@ -342,28 +342,28 @@ test('root-match:', function (t) {
     ['Ellos aportan ideas.', '{aportar}'],
     ['Nosotros asignamos tareas.', '{asignar}'],
     ['Ellos hablan con sus vecinos.', '{hablar}'], // present-tense
-    // ['Si pudieras volar, ¿lo harías?', '{poder}'], // conditional
+    ['Si pudieras volar, ¿lo harías?', '{poder}'], // conditional
     ['No hables tan alto.', '{hablar}'], // imperative
     ['Es probable que él venga mañana.', '{venir}'], // subjunctive
     ['Yo había comido antes de que llegaras.', '{comer}'], // past perfect
 
     ['Ella canta en el coro.', '{cantar}'], // present-tense
-    // ['Si él tuviera dinero, viajaría.', '{tener}'], // conditional
+    ['Si él tuviera dinero, viajaría.', '{tener}'], // conditional
     ['¡Corre más rápido!', '{correr}'], // imperative
-    // ['Es posible que lloviera mañana.', '{llover}'], // subjunctive
+    ['Es posible que lloviera mañana.', '{llover}'], // subjunctive
     ['Habíamos llegado antes de que empezara el show.', '{llegar}'], // past perfect
     ['Vivirás una gran aventura.', '{vivir}'], // simple future
-    // ['Yo trabajaba cuando me llamaste.', '{trabajar}'], // imperfect
+    ['Yo trabajaba cuando me llamaste.', '{trabajar}'], // imperfect
     ['Estudiaron para el examen.', '{estudiar}'], // preterite
     ['Ojalá no llueva durante el picnic.', '{llover}'], // subjunctive
-    // ['Hazme un favor.', '{hacer}'], // imperative
+    ['Hazme un favor.', '{hacer}'], // imperative
     ['Ella está escribiendo una carta.', '{escribir}'], // present continuous
-    // ['Si supieses la verdad, ¿qué harías?', '{saber}'], // conditional
+    ['Si supieses la verdad, ¿qué harías?', '{saber}'], // conditional
     ['Estábamos comiendo cuando llegó.', '{comer}'], // imperfect continuous
     ['Habrán terminado para las tres.', '{terminar}'], // future perfect
     ['Espero que tengas un buen día.', '{tener}'], // subjunctive
-    // ['Dame el libro.', '{dar}'], // imperative
-    // ['Vivíamos en esa casa hace años.', '{vivir}'], // imperfect
+    ['Dame el libro.', '{dar}'], // imperative
+    ['Vivíamos en esa casa hace años.', '{vivir}'], // imperfect
     ['Ella había leído el libro antes.', '{leer}'], // past perfect
     ['Quizás él venga a la fiesta.', '{venir}'], // subjunctive
     ['Sal de aquí.', '{salir}'], // imperative
@@ -374,7 +374,7 @@ test('root-match:', function (t) {
     ['Trae más comida.', '{traer}'], // imperative
     ['Él estaba cantando en el baño.', '{cantar}'], // imperfect continuous
     ['Tendré que salir temprano mañana.', '{tener}'], // simple future
-    // ['Jugaba al fútbol con mis amigos.', '{jugar}'], // imperfect
+    ['Jugaba al fútbol con mis amigos.', '{jugar}'], // imperfect
     ['Ellos habían viajado a Francia antes.', '{viajar}'], // past perfect
     ['Es probable que María venga al concierto.', '{venir}'], // subjunctive
     ['Pon la mesa.', '{poner}'], // imperative
@@ -385,17 +385,17 @@ test('root-match:', function (t) {
     // ['Sé amable.', '{ser}'], // imperative
     ['Ella estaba escuchando música.', '{escuchar}'], // imperfect continuous
     ['Habré terminado antes de que vuelvas.', '{terminar}'], // future perfect
-    // ['Nosotros íbamos a la escuela juntos.', '{ir}'], // imperfect
-    // ['Me gustaría que vinieras a mi fiesta.', '{venir}'], // subjunctive
+    ['Nosotros íbamos a la escuela juntos.', '{ir}'], // imperfect
+    ['Me gustaría que vinieras a mi fiesta.', '{venir}'], // subjunctive
     ['Escribe tu nombre.', '{escribir}'], // imperative
     ['Ella está leyendo un libro interesante.', '{leer}'], // present continuous
-    // ['Si pudiese volar, sería un pájaro.', '{poder}'], // conditional
+    ['Si pudiese volar, sería un pájaro.', '{poder}'], // conditional
     ['Ella comió pizza ayer.', '{comer}'], // preterite
     ['Ojalá él sepa la respuesta.', '{saber}'], // subjunctive
     ['Habla más claro.', '{hablar}'], // imperative
     ['Ellos estaban bailando en la fiesta.', '{bailar}'], // imperfect continuous
     ['Habréis visto la película para entonces.', '{ver}'], // future perfect
-    // ['Cuando era niño, vivía en el campo.', '{vivir}'], // imperfect
+    ['Cuando era niño, vivía en el campo.', '{vivir}'], // imperfect
     ['Me sorprende que no lo sepas.', '{saber}'], // subjunctive
     ['Vive el momento.', '{vivir}'], // imperative
     ['Ella estaba mirando la televisión.', '{mirar}'], // imperfect continuous
@@ -410,7 +410,7 @@ test('root-match:', function (t) {
     ['Camina con cuidado.', '{caminar}'], // imperative
     ['Él estaba escribiendo un poema.', '{escribir}'], // imperfect continuous
     ['Habrán llegado cuando tú regreses.', '{llegar}'], // future perfect
-    // ['Cuando era joven, leía mucho.', '{leer}'], // imperfect
+    ['Cuando era joven, leía mucho.', '{leer}'], // imperfect
     ['Quisiera que me ayudaras.', '{ayudar}'], // subjunctive
     ['Abre la puerta.', '{abrir}'], // imperative
     ['Ella está bailando salsa.', '{bailar}'], // present continuous
@@ -420,7 +420,7 @@ test('root-match:', function (t) {
     ['Escucha atentamente.', '{escuchar}'], // imperative
     ['Estaban comiendo en el restaurante.', '{comer}'], // imperfect continuous
     ['Tendrán una nueva casa.', '{tener}'], // simple future
-    // ['Antes jugábamos juntos todos los días.', '{jugar}'], // imperfect
+    ['Antes jugábamos juntos todos los días.', '{jugar}'], // imperfect
     ['Dudo que él sepa la dirección.', '{saber}'], // subjunctive
     ['No digas eso.', '{decir}'], // imperative
     ['Ella estaba tomando fotos.', '{tomar}'], // imperfect continuous
@@ -432,35 +432,35 @@ test('root-match:', function (t) {
     ['Ella hará una torta para el cumpleaños.', '{hacer}'], // simple future
 
     ['Nosotros nadamos en el lago.', '{nadar}'], // present-tense
-    // ['Si fueras más rápido, ganarías.', '{ser}'], // conditional
+    ['Si fueras más rápido, ganarías.', '{ser}'], // conditional
     ['No mires atrás.', '{mirar}'], // imperative
     ['Espero que llegue pronto.', '{llegar}'], // subjunctive
     ['Ellos habían ido al mercado.', '{ir}'], // past perfect
     ['Aprenderás de tus errores.', '{aprender}'], // simple future
-    // ['Cuando era pequeño, temía a la oscuridad.', '{temer}'], // imperfect
+    ['Cuando era pequeño, temía a la oscuridad.', '{temer}'], // imperfect
     ['Ella vendió su coche.', '{vender}'], // preterite
     ['Ojalá no trabajes mañana.', '{trabajar}'], // subjunctive
-    // ['Hazlo bien.', '{hacer}'], // imperative
+    ['Hazlo bien.', '{hacer}'], // imperative
     ['Él está nadando en la piscina.', '{nadar}'], // present continuous
-    // ['Si tuvieras más tiempo, ¿qué harías?', '{tener}'], // conditional
+    ['Si tuvieras más tiempo, ¿qué harías?', '{tener}'], // conditional
     ['Ella estaba jugando al tenis.', '{jugar}'], // imperfect continuous
     ['Habrán acabado antes de las diez.', '{acabar}'], // future perfect
-    // ['Espero que pueda ayudarte.', '{poder}'], // subjunctive
+    ['Espero que pueda ayudarte.', '{poder}'], // subjunctive
     ['Toma un descanso.', '{tomar}'], // imperative
-    // ['Ellos se encontraban en la plaza.', '{encontrar}'], // imperfect
+    ['Ellos se encontraban en la plaza.', '{encontrar}'], // imperfect
     ['Habíamos decidido no ir.', '{decidir}'], // past perfect
     ['Deseo que seas feliz.', '{ser}'], // subjunctive
     ['Sigue adelante.', '{seguir}'], // imperative
     ['Ella está preparando el desayuno.', '{preparar}'], // present continuous
-    // ['Si pudieras leer mentes, ¿lo harías?', '{poder}'], // conditional
-    // ['Nosotros bailábamos toda la noche.', '{bailar}'], // imperfect
+    ['Si pudieras leer mentes, ¿lo harías?', '{poder}'], // conditional
+    ['Nosotros bailábamos toda la noche.', '{bailar}'], // imperfect
     ['Me alegra que lo intentes.', '{intentar}'], // subjunctive
     ['Responde la pregunta.', '{responder}'], // imperative
     ['Él estaba estudiando matemáticas.', '{estudiar}'], // imperfect continuous
     ['Amarás este libro.', '{amar}'], // simple future
     ['El año pasado, fui a Italia.', '{ir}'], // preterite
     ['Ojalá él entienda.', '{entender}'], // subjunctive
-    // ['Siéntate aquí.', '{sentar}'], // imperative
+    ['Siéntate aquí.', '{sentar}'], // imperative
     ['Ellos estaban escuchando música clásica.', '{escuchar}'], // imperfect continuous
     ['Ella comprará un vestido nuevo.', '{comprar}'], // simple future
     ['Ellos visitaron la catedral.', '{visitar}'], // preterite
@@ -478,8 +478,8 @@ test('root-match:', function (t) {
     // ['Di la verdad.', '{decir}'], // imperative
     ['Ellos estaban caminando por el bosque.', '{caminar}'], // imperfect continuous
     ['Ellos regresarán a casa pronto.', '{regresar}'], // simple future
-    // ['Cuando era niña, jugaba con muñecas.', '{jugar}'], // imperfect
-    // ['Ojalá tú puedas venir.', '{poder}'], // subjunctive
+    ['Cuando era niña, jugaba con muñecas.', '{jugar}'], // imperfect
+    ['Ojalá tú puedas venir.', '{poder}'], // subjunctive
     ['Ríe a menudo.', '{reír}'], // imperative
     ['Ellos estaban mirando el atardecer.', '{mirar}'], // imperfect continuous
     ['Ella cantará en el concierto.', '{cantar}'], // simple future
