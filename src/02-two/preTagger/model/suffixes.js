@@ -7,7 +7,8 @@ const fut = 'FutureTense'
 // const inf = 'Infinitive'
 const g = 'Gerund'
 const ref = 'Reflexive'
-const first = 'FirstPerson'
+const imp = 'Imperfect'
+const pl = ['Noun', 'Plural']
 
 export default [
   null,
@@ -22,9 +23,9 @@ export default [
     // no: jj,
     // do: vb,
     // ar: vb,
-    an: vb,
+    // an: vb, - too greedy - 'pan', 'plan', 'capitán'
     'ió': vb,
-    en: vb,
+    // en: vb, - too greedy - 'examen', 'imagen', 'orden'
     ir: vb,
     er: vb,
     'tó': vb,
@@ -45,17 +46,17 @@ export default [
     ana: jj,
     eos: jj,
     // ado: vb,
-    ndo: first,
-    ada: vb,
+    // ndo: first, - 'ando'/'endo' gerund rules cover this
+    // ada: vb, - 'llegada', 'mirada' are nouns
     ron: vb,
     // ido: vb,
-    aba: vb,
+    aba: imp,
     tar: vb,
     gar: vb,
     nar: vb,
-    'ían': vb,
+    'ían': imp,
     rar: vb,
-    ría: cond,
+    // ría: cond, - 'librería', 'categoría' - see aría/ería/iría below
     aré: fut,
     iré: fut,
     eré: fut,
@@ -64,7 +65,7 @@ export default [
     ado: vb,
     pto: jj,
     osa: jj,
-    tos: jj,
+    tos: pl,
 
     // ida: vb,
   },
@@ -114,11 +115,18 @@ export default [
     // ados: vb,
     aron: vb,
     adas: vb,
-    tado: first,
-    rías: cond,
-    amos: cond,
-    íais: cond,
-    rían: cond,
+    // tado: first, - 'cantado' is a participle, not first-person
+    // amos: cond, - '-amos' is present/preterite, never conditional
+    // rías: cond, - 'librerías' - see arías/erías/irías below
+    // rían: cond,
+    abas: imp,
+    aban: imp,
+    'íais': imp,
+    'aría': cond,
+    // ería: cond, - 'librería', 'panadería' - too many -ería nouns
+    'iría': cond,
+    'dría': cond, // podría, tendría
+    'bría': cond, // habría, sabría
     réis: fut,
     arán: fut,
     // refexive verbs
@@ -138,8 +146,8 @@ export default [
     lero: jj,
     nero: jj,
     tero: jj,
-    ares: jj,
-    ores: jj,
+    ares: pl, // lugares, hogares
+    ores: pl, // profesores, flores
     rios: jj,
     ivos: jj,
   },
@@ -159,11 +167,24 @@ export default [
     remos: fut,
     iente: jj,
     entes: jj,
+    'íamos': imp,
+    'arías': cond,
+    // erías: cond, - 'librerías'
+    'irías': cond,
+    'drías': cond,
+    'brías': cond,
+    'arían': cond,
+    'erían': cond,
+    'irían': cond,
+    'drían': cond,
+    'brían': cond,
   },
   {
     // six-letter suffixes
     ística: jj,
     ciones: nn,
+    'ábamos': imp,
+    'ríamos': cond,
   },
   {
     // seven-letter suffixes
