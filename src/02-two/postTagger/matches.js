@@ -51,7 +51,7 @@ export default [
   { match: '[#Copula] #Infinitive', group: 0, tag: 'Auxiliary', reason: 'copula-inf' },
 
   // possessives - 'my taste'
-  { match: '(#Possessive && #Pronoun) [#FirstPerson]', group: 0, tag: 'Noun', reason: 'mi-gusto' },
+  { match: '(#Possessive && #Determiner) [#FirstPerson]', group: 0, tag: 'Noun', reason: 'mi-gusto' },
   //Los avances en
   { match: '(los|las) [#Verb] #Preposition', group: 0, tag: 'Plural', reason: 'los-advances' },
   //confundo los numbres

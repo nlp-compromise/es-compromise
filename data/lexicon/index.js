@@ -33,33 +33,36 @@ import places from './places/places.js'
 import regions from './places/regions.js'
 
 
+// listed in priority-order - the first list to claim a word wins.
+// closed-class function words go first, so noisy corpus-learned
+// lists (nouns, adjectives, names) can never overwrite them.
 const data = [
 
   [conjunctions, 'Conjunction'],
   [determiners, 'Determiner'],
   [prepositions, 'Preposition'],
-  [adverbs, 'Adverb'],
-  [adjectives, 'Adjective'],
-
-  [nouns, 'Noun'],
   [pronouns, 'Pronoun'],
+  [adverbs, 'Adverb'],
 
   [ordinals, 'Ordinal'],
   [cardinals, 'Cardinal'],
   [units, 'Unit'],
 
+  [months, 'Month'],
+  [weekdays, 'WeekDay'],
+
+  [copulas, 'Copula'],
+  [auxiliaries, 'Auxiliary'],
+  [modals, 'Modal'],
+  [infinitives, 'Infinitive'],
+
+  [nouns, 'Noun'],
+  [adjectives, 'Adjective'],
+
   [cities, 'City'],
   [countries, 'Country'],
   [places, 'Place'],
   [regions, 'Region'],
-
-  [infinitives, 'Infinitive'],
-  [modals, 'Modal'],
-  [auxiliaries, 'Auxiliary'],
-  [copulas, 'Copula'],
-
-  [months, 'Month'],
-  [weekdays, 'WeekDay'],
 
   [femaleNames, 'FemaleName'],
   [maleNames, 'MaleName'],
@@ -73,10 +76,10 @@ let lex = {}
 for (let i = 0; i < data.length; i++) {
   const list = data[i][0]
   for (let o = 0; o < list.length; o++) {
-    // log duplicates
-    // if (lex[list[o]]) {
-    //   console.log(list[o] + '  ' + lex[list[o]] + ' ' + data[i][1])
-    // }
+    // first-wins - do not let a lower-priority list overwrite
+    if (lex[list[o]] !== undefined) {
+      continue
+    }
     lex[list[o]] = data[i][1]
   }
 }

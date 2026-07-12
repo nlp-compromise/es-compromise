@@ -14,7 +14,7 @@ const {
   toSubjunctive,
   toReflexive
 } = methods.verb
-let lexicon = misc
+let lexicon = {}
 
 const tagMap = {
   first: 'FirstPerson',
@@ -100,6 +100,9 @@ Object.keys(lexData).forEach((tag) => {
     }
   })
 })
+
+// hand-curated entries always win
+Object.assign(lexicon, misc)
 // console.log(lexicon['ganado'])
 
 export default lexicon

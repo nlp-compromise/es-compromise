@@ -1,27 +1,55 @@
+// hand-curated entries that win over everything else in the lexicon.
+// spanish marks question-words with an accent - 'qué es' vs 'creo que es'
 let lex = {
-  se: 'Verb',
-  era: 'PastTense',
+  // reflexive/impersonal clitic - 'se habla español'
+  se: 'Pronoun',
+  // 'yo sé' (saber) + imperative of ser
+  'sé': ['Verb', 'PresentTense', 'FirstPerson'],
 
-  que: 'QuestionWord',
-  como: 'QuestionWord',
-  donde: 'QuestionWord',
-  cuando: 'QuestionWord',
+  // unaccented forms are conjunctions/relativizers
+  que: 'Conjunction',
+  como: 'Conjunction',
+  donde: 'Pronoun',
+  cuando: 'Conjunction',
+  // accented forms are question-words
+  'qué': 'QuestionWord',
+  'cómo': 'QuestionWord',
+  'dónde': 'QuestionWord',
+  'cuándo': 'QuestionWord',
+  'quién': 'QuestionWord',
+  'quiénes': 'QuestionWord',
+  'cuál': 'QuestionWord',
+  'cuáles': 'QuestionWord',
+  'cuánto': 'QuestionWord',
+  'cuánta': 'QuestionWord',
+  'cuántos': 'QuestionWord',
+  'cuántas': 'QuestionWord',
+  'por qué': 'QuestionWord',
 
   lo: 'Pronoun',
-  uno: 'Determiner',
+  algo: 'Pronoun',
+
   si: 'Condition',
-  hay: 'Adverb',
-  había: 'Verb',
-  sido: 'Verb',
+  'sí': 'Adverb', // yes
+
+  // impersonal 'there is/are' - present of haber
+  hay: ['Verb', 'PresentTense'],
 
   no: 'Negative',
   nunca: 'Negative', //never
 
+  // imperfect of ser
+  era: ['Copula', 'Imperfect'],
+  eras: ['Copula', 'Imperfect'],
+  'éramos': ['Copula', 'Imperfect'],
+  erais: ['Copula', 'Imperfect'],
+  eran: ['Copula', 'Imperfect'],
+
   irse: ['Reflexive', 'Infinitive']
 }
 
-//possessive pronouns
-const pps = [
+// possessive determiners - 'mi casa', not pronouns ('la mía')
+const possDet = [
   'mi', // singular  my (masculine and feminine)
   'mis', // plural my (masculine and feminine)
   'tu', // singular  your (informal singular, masculine and feminine)
@@ -37,7 +65,17 @@ const pps = [
   'vuestros', // plural masculine  your (informal plural)
   'vuestras' // plural feminine     your (informal plural)
 ]
-pps.forEach((str) => {
+possDet.forEach((str) => {
+  lex[str] = ['Determiner', 'Possessive']
+})
+
+// possessive pronouns - 'la casa es mía'
+const possPro = [
+  'mío', 'mía', 'míos', 'mías',
+  'tuyo', 'tuya', 'tuyos', 'tuyas',
+  'suyo', 'suya', 'suyos', 'suyas',
+]
+possPro.forEach((str) => {
   lex[str] = ['Pronoun', 'Possessive']
 })
 export default lex

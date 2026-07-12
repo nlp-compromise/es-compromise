@@ -77,24 +77,24 @@ test('match:', function (t) {
     ['querido', '#Adjective'], // dear
     ['encantador', '#Adjective'], // delightful
     ['aburrido', '#Adjective'], // dull
-    ['este', '#Adjective'], // east
+    ['este', '#Determiner'], // east/this
     ['grasiento', '#Adjective'], // greasy
     ['agitado', '#Adjective'], // hectic
     ['infame', '#Adjective'], // infamous
     ['alegre', '#Adjective'], // jolly
     ['alegre', '#Adjective'], // joyful
     ['chiflado', '#Adjective'], // kooky
-    ['menos', '#Adjective'], // least
-    ['más', '#Adjective'], // more
-    ['cerca', '#Adjective'], // near
+    ['menos', '#Adverb'], // least
+    ['más', '#Adverb'], // more
+    ['cerca', '#Adverb'], // near
     ['abrumador', '#Adjective'], // overwhelming
     ['depredador', '#Adjective'], // predatory
     ['prometedor', '#Adjective'], // promising
-    ['independientemente', '#Adjective'], // regardless
+    ['independientemente', '#Adverb'], // regardless
     ['podrido', '#Adjective'], // rotten
     ['triste', '#Adjective'], // sad
     ['egoísta', '#Adjective'], // selfish
-    ['mal', '#Adjective'], // shabby
+    ['mal', '#Adverb'], // badly
     ['hábil', '#Adjective'], // skillful
     ['triste', '#Adjective'], // sorrowful
     ['sutil', '#Adjective'], // subtle
@@ -114,7 +114,7 @@ test('match:', function (t) {
     ['aniversario', '#Noun'], // anniversary
     ['solicitante', '#Noun'], // applicant
     ['baño', '#Noun'], // bathroom
-    ['poco', '#Noun'], // bit
+    ['poco', '#Adverb'], // bit/little
     ['puente', '#Noun'], // bridge
     ['amigo', '#Noun'], // buddy
     ['ciudadano', '#Noun'], // citizen
@@ -126,8 +126,8 @@ test('match:', function (t) {
     ['sueño', '#Noun'], // dream
     ['empleado', '#Noun'], // employee
     ['inglés', '#Noun'], // english
-    ['todos', '#Noun'], // everyone
-    ['todo', '#Noun'], // everything
+    ['todos', '#Determiner'], // everyone/all
+    ['todo', '#Determiner'], // everything/all
     ['ejercicio', '#Noun'], // exercise
     ['hada', '#Noun'], // fairy
     ['amigo', '#Noun'], // friend
@@ -136,7 +136,7 @@ test('match:', function (t) {
     ['guante', '#Noun'], // glove
     ['invernadero', '#Noun'], // greenhouse
     ['daño', '#Noun'], // harm
-    ['aquí', '#Noun'], // here
+    ['aquí', '#Adverb'], // here
     ['reino', '#Noun'], // kingdom
     ['caballero', '#Noun'], // knight
     ['falta', '#Noun'], // lack
@@ -152,7 +152,7 @@ test('match:', function (t) {
     ['dinero', '#Noun'], // money
     ['mito', '#Noun'], // myth
     ['vecino', '#Noun'], // neighbour
-    ['ahora', '#Noun'], // now
+    ['ahora', '#Adverb'], // now
     ['resultado', '#Noun'], // outcome
     ['pasajero', '#Noun'], // passenger
     ['camino', '#Noun'], // path
@@ -189,7 +189,7 @@ test('match:', function (t) {
     ['vino', '#Noun'], // wine
     ['mago', '#Noun'], // wizard
     ['año', '#Noun'], // year
-    ['ayer', '#Noun'], // yesterday
+    ['ayer', '#Adverb'], // yesterday
     ['agregar', '#Verb'], //add
     ['promedio', '#Adjective'], //average
     ['quiebra', '#Noun'], //bankruptcy
@@ -233,7 +233,7 @@ test('match:', function (t) {
     ['periódico', '#Noun'], //newspaper
     ['nada', '#Noun'], //nothing
     ['ordenado', '#Adjective'], //orderly
-    ['otro', '#Noun'], //other
+    ['otro', '#Determiner'], //other
     ['resumen', '#Noun'], //overview
     ['patente', '#Noun'], //patent
     ['practico', '#Adjective'], //practical
@@ -334,7 +334,7 @@ test('match:', function (t) {
     ['sobreviviente', '#Noun'], //survival
     ['testificar', '#Verb'], //testify
     ['prosperando', '#Adjective'], //thriving
-    ['hoy', '#Noun'], //today
+    ['hoy', '#Adverb'], //today
     ['desencadenar', '#Verb'], //trigger
     ['socavar', '#Verb'], //undermine
     ['descargar', '#Verb'], //unload

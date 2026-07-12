@@ -97,9 +97,8 @@ export default {
     also: ['ProperNoun'],
     not: entity,
   },
-  Possessive: {
-    is: 'Noun',
-  },
+  // a feature-tag - applies to determiners ('mi casa') and pronouns ('es mío')
+  Possessive: {},
 
   FemaleNoun: {
     is: 'Noun',
