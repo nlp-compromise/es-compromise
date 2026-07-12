@@ -305,7 +305,7 @@ export default {
   "surgir": ["surgiría", "surgirías", "surgiría", "surgiríamos", "surgiríais", "surgirían"],
   "predecir": ["predeciría", "predecirías", "predeciría", "predeciríamos", "predeciríais", "predecirían"],
   "aguantar": ["aguantaría", "aguantarías", "aguantaría", "aguantaríamos", "aguantaríais", "aguantarían"],
-  "vomit": ["vomitaría", "vomitarías", "vomitaría", "vomitaríamos", "vomitaríais", "vomitarían"],
+  "vomitar": ["vomitaría", "vomitarías", "vomitaría", "vomitaríamos", "vomitaríais", "vomitarían"],
   "chocar": ["chocaría", "chocarías", "chocaría", "chocaríamos", "chocaríais", "chocarían"],
   "bañar": ["bañaría", "bañarías", "bañaría", "bañaríamos", "bañaríais", "bañarían"],
   "bañarse": ["bañaría", "bañarías", "bañaría", "bañaríamos", "bañaríais", "bañarían"],

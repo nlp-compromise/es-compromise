@@ -305,7 +305,7 @@ export default {
   "surgir": ["surgiré", "surgirás", "surgirá", "surgiremos", "surgiréis", "surgirán"],
   "predecir": ["predeciré", "predecirás", "predecirá", "predeciremos", "predeciréis", "predecirán"],
   "aguantar": ["aguantaré", "aguantarás", "aguantará", "aguantaremos", "aguantaréis", "aguantarán"],
-  "vomit": ["vomitaré", "vomitarás", "vomitará", "vomitaremos", "vomitaréis", "vomitarán"],
+  "vomitar": ["vomitaré", "vomitarás", "vomitará", "vomitaremos", "vomitaréis", "vomitarán"],
   "chocar": ["chocaré", "chocarás", "chocará", "chocaremos", "chocaréis", "chocarán"],
   "bañar": ["bañaré", "bañarás", "bañará", "bañaremos", "bañaréis", "bañarán"],
   "bañarse": ["bañaré", "bañarás", "bañará", "bañaremos", "bañaréis", "bañarán"],

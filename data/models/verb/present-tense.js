@@ -360,7 +360,7 @@ export default {
   surgir: ['surjo', 'surges', 'surge', 'surgimos', 'surgís', 'surgen'],
   predecir: ['predigo', 'predices', 'predice', 'predecimos', 'predecís', 'predicen'],
   aguantar: ['aguanto', 'aguantas', 'aguanta', 'aguantamos', 'aguantáis', 'aguantan'],
-  vomit: ['vomito', 'vomitas', 'vomita', 'vomitamos', 'vomitáis', 'vomitan'],
+  vomitar: ['vomito', 'vomitas', 'vomita', 'vomitamos', 'vomitáis', 'vomitan'],
   chocar: ['choco', 'chocas', 'choca', 'chocamos', 'chocáis', 'chocan'],
   bañar: ['baño', 'bañas', 'baña', 'bañamos', 'bañáis', 'bañan'],
   gruñir: ['gruño', 'gruñes', 'gruñe', 'gruñimos', 'gruñís', 'gruñen'],

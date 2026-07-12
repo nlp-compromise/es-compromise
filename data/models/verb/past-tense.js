@@ -1754,7 +1754,7 @@ export default {
     'aguantasteis',
     'aguantaron',
   ],
-  vomit: [
+  vomitar: [
     'vomité',
     'vomitaste',
     'vomitó',

@@ -8,6 +8,8 @@ import subjunctive from './subjunctive.js'
 import imperative from './imperative.js'
 
 const vbOrder = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural']
+// the imperative file's columns are laid out [_, tú, vosotros, _, usted, ustedes]
+const impOrder = ['first', 'second', 'secondPlural', 'firstPlural', 'third', 'thirdPlural']
 const todo = {
   presentTense: { data: presentTense, keys: vbOrder },
   pastTense: { data: pastTense, keys: vbOrder },
@@ -15,7 +17,7 @@ const todo = {
   futureTense: { data: futureTense, keys: vbOrder },
   conditional: { data: conditional, keys: vbOrder },
   subjunctive: { data: subjunctive, keys: vbOrder },
-  imperative: { data: imperative, keys: vbOrder },
+  imperative: { data: imperative, keys: impOrder },
 }
 
 // turn our conjugation data into word-pairs

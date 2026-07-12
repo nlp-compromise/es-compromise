@@ -13,7 +13,13 @@ export default [
   // la tarde
   { match: '#Determiner [#Adverb]$', group: 0, tag: 'Noun', reason: 'det-adv' },
   // el final de
-  { match: '#Determiner [#Adjective] (de|du)', group: 0, tag: 'Noun', reason: 'det-adj' },
+  { match: '#Determiner [#Adjective] (de|del)', group: 0, tag: 'Noun', reason: 'det-adj' },
+
+  // homographs - 'él vino a casa' (he came home)
+  { match: '#Pronoun [vino] (a|de|en|con)', group: 0, tag: ['Verb', 'PastTense', 'ThirdPerson'], reason: 'el-vino' },
+  // 'la cura', 'el canto' - determiner + verb-form is a noun
+  { match: '(el|la|un|una) [#PresentTense]$', group: 0, tag: 'Noun', reason: 'la-cura' },
+  { match: '(el|la|un|una) [#PresentTense] #Preposition', group: 0, tag: 'Noun', reason: 'el-canto-de' },
 
   // no exageres
   { match: 'no [#Noun]', group: 0, tag: 'Verb', reason: 'no-noun' },
