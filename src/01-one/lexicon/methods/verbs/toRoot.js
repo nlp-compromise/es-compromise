@@ -1,6 +1,6 @@
 import { convert, reverse } from 'suffix-thumb'
 import model from '../models.js'
-let { presentTense, pastTense, futureTense, conditional, subjunctive, imperative } = model
+let { presentTense, pastTense, imperfectTense, futureTense, conditional, subjunctive, imperative } = model
 
 // =-=-
 const revAll = function (m) {
@@ -12,6 +12,7 @@ const revAll = function (m) {
 
 let presentRev = revAll(presentTense)
 let pastRev = revAll(pastTense)
+let imperfectRev = revAll(imperfectTense)
 let futureRev = revAll(futureTense)
 let conditionalRev = revAll(conditional)
 let subjunctRev = revAll(subjunctive)
@@ -59,6 +60,22 @@ const fromPast = (str, form) => {
     return forms[form](str)
   }
   return stripReflexive(str)
+}
+
+const fromImperfect = (str, form) => {
+  let forms = {
+    'FirstPerson': (s) => convert(s, imperfectRev.first),
+    'SecondPerson': (s) => convert(s, imperfectRev.second),
+    'ThirdPerson': (s) => convert(s, imperfectRev.third),
+    'FirstPersonPlural': (s) => convert(s, imperfectRev.firstPlural),
+    'SecondPersonPlural': (s) => convert(s, imperfectRev.secondPlural),
+    'ThirdPersonPlural': (s) => convert(s, imperfectRev.thirdPlural),
+  }
+  if (forms.hasOwnProperty(form)) {
+    return forms[form](str)
+  }
+  // person-ambiguous forms ('hablaba' is 1st or 3rd) - try third-person
+  return convert(str, imperfectRev.third)
 }
 
 const fromFuture = (str, form) => {
@@ -125,6 +142,7 @@ const fromImperative = (str, form) => {
 export {
   fromPresent,
   fromPast,
+  fromImperfect,
   fromFuture,
   fromConditional,
   fromSubjunctive,

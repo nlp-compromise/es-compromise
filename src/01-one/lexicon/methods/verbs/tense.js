@@ -3,7 +3,7 @@ import model from '../models.js'
 import { toGerund } from './gerund.js'
 import { toPerfecto } from './perfecto.js'
 // import { addReflexive } from './reflexive.js'
-let { presentTense, pastTense, futureTense, conditional, subjunctive, imperative } = model
+let { presentTense, pastTense, imperfectTense, futureTense, conditional, subjunctive, imperative } = model
 
 const doEach = function (str, m) {
   return {
@@ -18,6 +18,7 @@ const doEach = function (str, m) {
 
 const toPresent = (str) => doEach(str, presentTense)
 const toPast = (str) => doEach(str, pastTense)
+const toImperfect = (str) => doEach(str, imperfectTense)
 const toFuture = (str) => doEach(str, futureTense)
 const toSubjunctive = (str) => doEach(str, subjunctive)
 const toConditional = (str) => doEach(str, conditional)
@@ -36,6 +37,7 @@ const all = function (str) {
     .concat(
       Object.values(toPresent(str)),
       Object.values(toPast(str)),
+      Object.values(toImperfect(str)),
       Object.values(toFuture(str)),
       Object.values(toConditional(str)),
       Object.values(toImperative(str)),
@@ -49,4 +51,4 @@ const all = function (str) {
   return Array.from(res)
 }
 
-export { all, toPresent, toPast, toFuture, toConditional, toSubjunctive, toImperative }
+export { all, toPresent, toPast, toImperfect, toFuture, toConditional, toSubjunctive, toImperative }

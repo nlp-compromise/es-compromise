@@ -1,6 +1,7 @@
 
 import presentTense from './present-tense.js'
 import pastTense from './past-tense.js'
+import imperfectTense from './imperfect-tense.js'
 import futureTense from './future-tense.js'
 import conditional from './conditional.js'
 import subjunctive from './subjunctive.js'
@@ -10,6 +11,7 @@ const vbOrder = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thi
 const todo = {
   presentTense: { data: presentTense, keys: vbOrder },
   pastTense: { data: pastTense, keys: vbOrder },
+  imperfectTense: { data: imperfectTense, keys: vbOrder },
   futureTense: { data: futureTense, keys: vbOrder },
   conditional: { data: conditional, keys: vbOrder },
   subjunctive: { data: subjunctive, keys: vbOrder },

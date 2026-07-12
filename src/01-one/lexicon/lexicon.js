@@ -6,6 +6,7 @@ import misc from './misc.js'
 const {
   toPresent,
   toPast,
+  toImperfect,
   toFuture,
   toConditional,
   toGerund,
@@ -26,9 +27,20 @@ const tagMap = {
 }
 
 const addWords = function (obj, tag, lex) {
+  // when two persons share a form ('hablaba' is 1st + 3rd person),
+  // don't pick one - just tag the tense
+  let counts = {}
+  Object.keys(obj).forEach((k) => {
+    counts[obj[k]] = (counts[obj[k]] || 0) + 1
+  })
   Object.keys(obj).forEach((k) => {
     let w = obj[k]
-    if (!lex[w]) {
+    if (!w || lex[w]) {
+      return
+    }
+    if (counts[w] > 1) {
+      lex[w] = [tag]
+    } else {
       lex[w] = [tag, tagMap[k]]
     }
   })
@@ -61,6 +73,9 @@ Object.keys(lexData).forEach((tag) => {
       // add past tense
       obj = toPast(w)
       addWords(obj, 'PastTense', lexicon)
+      // add imperfect
+      obj = toImperfect(w)
+      addWords(obj, 'Imperfect', lexicon)
       // add future tense
       obj = toFuture(w)
       addWords(obj, 'FutureTense', lexicon)

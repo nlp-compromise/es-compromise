@@ -35,6 +35,8 @@ const root = function (view) {
           term.root = verb.fromGerund(str, form)
         } else if (term.tags.has('Perfecto')) {
           term.root = verb.fromPerfecto(str, form)
+        } else if (term.tags.has('Imperfect')) {
+          term.root = verb.fromImperfect(str, form)
         } else if (term.tags.has('PresentTense')) {
           term.root = verb.fromPresent(str, form)
         } else if (term.tags.has('PastTense')) {

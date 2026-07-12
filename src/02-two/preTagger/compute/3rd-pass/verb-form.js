@@ -14,11 +14,21 @@ let rules = [
   ['mos', ['FirstPersonPlural', 'PastTense']],
   ['eis', ['SecondPersonPlural', 'PastTense']],
   ['on', ['ThirdPersonPlural', 'PastTense']],
+  // imperfect - 'hablaba' is 1st or 3rd person, so no person tag
+  ['aba', ['Imperfect']],
+  ['abas', ['SecondPerson', 'Imperfect']],
+  ['ábamos', ['FirstPersonPlural', 'Imperfect']],
+  ['abais', ['SecondPersonPlural', 'Imperfect']],
+  ['aban', ['ThirdPersonPlural', 'Imperfect']],
+  ['ías', ['SecondPerson', 'Imperfect']],
+  ['íamos', ['FirstPersonPlural', 'Imperfect']],
+  ['íais', ['SecondPersonPlural', 'Imperfect']],
+  ['ían', ['ThirdPersonPlural', 'Imperfect']],
   // future-tense
   ['ré', ['FirstPerson', 'FutureTense']],
   ['rás', ['SecondPerson', 'FutureTense']],
   ['rá', ['ThirdPerson', 'FutureTense']],
-  ['remos",', ['FirstPersonPlural', 'FutureTense']],
+  ['remos', ['FirstPersonPlural', 'FutureTense']],
   ['réis', ['SecondPersonPlural', 'FutureTense']],
   ['rán', ['ThirdPersonPlural', 'FutureTense']],
   // conditional-tense
@@ -48,6 +58,7 @@ let forms = [
   'ThirdPersonPlural',
   'PresentTense',
   'PastTense',
+  'Imperfect',
   'FutureTense',
   'Conditional'
 ]
