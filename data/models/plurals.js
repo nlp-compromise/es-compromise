@@ -2857,7 +2857,7 @@ export default [
   ],
   [
     "gato",
-    "gatitos"
+    "gatos"
   ],
   [
     "miniatura",
