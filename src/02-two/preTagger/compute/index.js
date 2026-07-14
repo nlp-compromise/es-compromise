@@ -23,7 +23,7 @@ const firstPass = function (terms, world) {
     //  is it titlecased?
     let found = titleCase(terms, i, world)
     // try look-like rules
-    found = found || checkRegex(terms, i, world)
+    found || checkRegex(terms, i, world)
     // turn '1993' into a year
     checkYear(terms, i, world)
   }
@@ -34,7 +34,7 @@ const secondPass = function (terms, world) {
     found = found || enclitic(terms, i, world)
     found = found || suffixCheck(terms, i, world)
     // found = found || neighbours(terms, i, world)
-    found = found || fallback(terms, i, world)
+    found || fallback(terms, i, world)
   }
 }
 

@@ -4,7 +4,7 @@ Object.keys(model).forEach((k) => {
   let s = new Set()
   model[k].forEach((str, i) => {
     if (s.has(str) || !str || str.match(/[- ']/)) {
-      console.log(k, str)
+      console.log(k, str) // eslint-disable-line no-console
     }
     if (i === 2) {
       s.add(str)

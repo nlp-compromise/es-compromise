@@ -37,7 +37,8 @@ const toMasculine = function (str) {
     let [suff, repl] = arr[i]
     if (str.endsWith(suff)) {
       str = str.substr(0, str.length - suff.length)
-      return str += repl
+      str += repl
+      return str
     }
   }
   return str

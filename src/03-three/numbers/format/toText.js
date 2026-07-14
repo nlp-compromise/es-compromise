@@ -65,7 +65,7 @@ const twoDigit = function (num) {
         words.push('y')
       }
       words.push(ones[i][1])
-      num -= ones[i][0]
+      // num -= ones[i][0]
       break
     }
   }

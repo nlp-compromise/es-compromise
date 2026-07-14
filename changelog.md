@@ -12,14 +12,12 @@
 - **[fix]** - haber conjugations are the Auxiliary list; tener is no longer a Modal
 - **[fix]** - imperative verb-model column misalignment + data cleanup ('vomit', 'mudar(se)', secarse row)
 - **[new]** - mood-in-context rules - subjunctive after 'que/ojalá' ('espero que tengas'), negative commands ('no hables tan alto'), exclamation commands ('¡corre más rápido!')
-- **[fix]** - nouns().toPlural() was a no-op; toPlural/toSingular now also flip articles and possessives ('el gato' → 'los gatos', 'nuestros amigos' → 'nuestro amigo')
-- **[fix]** - noun-gender guessing - exception words ('el día', 'la mano', 'la foto'), single-letter suffix rules now consulted ('el libro'), gender re-guessed after verb→noun homograph rules
-- **[fix]** - plural determiner + verb-form is a Plural noun ('las casas' is not the verb casar)
+- **[fix]** - toPlural/toSingular now also flip articles and possessives ('el gato' → 'los gatos')
+- **[fix]** - noun-gender guessing
 - **[fix]** - corrupt learned pair pluralized 'gato' to 'gatitos'
 - **[change]** - Infinitive and Gerund no longer imply PresentTense; Negative is a feature-tag, not a Verb
 - **[change]** - homograph rules - 'él vino' is a verb, 'el vino' a noun; copulas root to ser/estar
-- **[change]** - 45 previously-commented tests re-enabled (1141 → 1185 passing)
-- **[change]** - new test coverage for number methods, conjugation tables, contractions, tokenization and moods (1185 → 1334 passing)
+- **[update]** - dependencies
 
 ### 0.2.11 [Jan 2024]
 
