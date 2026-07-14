@@ -50,10 +50,35 @@ test('noun-conjugate-forms:', function (t) {
   t.end()
 })
 
+test('noun-toPlural:', function (t) {
+  let arr = [
+    ['el gato', 'los gatos'],
+    ['la ciudad', 'las ciudades'],
+    ['un lápiz', 'unos lápices'],
+    ['mi amigo', 'mis amigos'],
+  ]
+  arr.forEach(a => {
+    let [str, want] = a
+    let doc = nlp(str)
+    doc.nouns().toPlural()
+    t.equal(doc.text(), want, here + `'${str}' → '${want}'`)
+  })
+  t.end()
+})
+
 test('noun-toSingular:', function (t) {
-  let doc = nlp('los gatos')
-  doc.nouns().toSingular()
-  t.equal(doc.text(), 'el gato', here + 'los-gatos flips article')
+  let arr = [
+    ['los gatos', 'el gato'],
+    ['las casas', 'la casa'],
+    ['unas mesas', 'una mesa'],
+    ['nuestros amigos', 'nuestro amigo'],
+  ]
+  arr.forEach(a => {
+    let [str, want] = a
+    let doc = nlp(str)
+    doc.nouns().toSingular()
+    t.equal(doc.text(), want, here + `'${str}' → '${want}'`)
+  })
   t.end()
 })
 

@@ -96,6 +96,52 @@ test('word-class-tags:', function (t) {
   t.end()
 })
 
+test('noun-gender-exceptions:', function (t) {
+  let arr = [
+    // masculine despite -a ending
+    ['el día', '#MaleNoun'],
+    ['el mapa', '#MaleNoun'],
+    ['el planeta', '#MaleNoun'],
+    ['el problema', '#MaleNoun'],
+    // feminine despite -o / consonant ending
+    ['la mano', '#FemaleNoun'],
+    ['la foto', '#FemaleNoun'],
+    ['la moto', '#FemaleNoun'],
+    ['la flor', '#FemaleNoun'],
+    // regular suffix-guesses still work
+    ['la canción', '#FemaleNoun'],
+    ['el libro', '#MaleNoun'],
+  ]
+  arr.forEach(function (a) {
+    let [str, match] = a
+    t.equal(nlp(str).has(match), true, here + `'${str}' is ${match}`)
+  })
+  t.end()
+})
+
+test('mood-in-context:', function (t) {
+  let arr = [
+    // subjunctive after 'que' + trigger words
+    ['Espero que tengas un buen día', '#Subjunctive', true],
+    ['Es posible que llueva mañana', '#Subjunctive', true],
+    ['Ojalá llueva mañana', '#Subjunctive', true],
+    // negative commands
+    ['No hables tan alto', '#Imperative', true],
+    // exclamation commands
+    ['¡Corre más rápido!', '#Imperative', true],
+    ['¡Habla más claro!', '#Imperative', true],
+    // no false-positives
+    ['¡Qué sorpresa!', '#Imperative', false],
+    ['No trabaja', '#Imperative', false],
+    ['Ella corre por la mañana', '#Imperative', false],
+  ]
+  arr.forEach(function (a) {
+    let [str, match, want] = a
+    t.equal(nlp(str).has(match), want, here + `'${str}' ${want ? 'has' : 'lacks'} ${match}`)
+  })
+  t.end()
+})
+
 test('sentence-tags:', function (t) {
   let arr = [
     ['mi casa es grande', '#Possessive'],

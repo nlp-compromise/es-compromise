@@ -1,5 +1,17 @@
 import matches from './matches.js'
+import guessNounGender from '../preTagger/compute/3rd-pass/noun-gender.js'
 let net = null
+
+// rules like 'la-cura' flip a verb into a noun, after the preTagger's
+// gender-pass already ran - so give those new nouns a gender here
+const nounGender = function (view) {
+  const world = view.world
+  view.docs.forEach(terms => {
+    for (let i = 0; i < terms.length; i += 1) {
+      guessNounGender(terms, i, world)
+    }
+  })
+}
 
 const postTagger = function (view) {
   const { world } = view
@@ -16,6 +28,7 @@ const postTagger = function (view) {
   m.cache()
   m.sweep(net)
   view.uncache()
+  nounGender(view)
   // view.cache()
   return view
 }

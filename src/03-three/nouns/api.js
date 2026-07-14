@@ -1,14 +1,39 @@
 export const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc)
 
-// get root form of adjective
-const getRoot = function (m) {
-  let str = m.text('normal')
-  let isPlural = m.has('Plural')
-  if (isPlural) {
-    const transform = this.methods.two.transform
-    return transform.adjective.toSingular(str)
+const toPluralArt = {
+  el: 'los',
+  la: 'las',
+  un: 'unos',
+  una: 'unas',
+  mi: 'mis',
+  tu: 'tus',
+  nuestro: 'nuestros',
+  nuestra: 'nuestras',
+  vuestro: 'vuestros',
+  vuestra: 'vuestras',
+}
+const toSingularArt = {
+  los: 'el',
+  las: 'la',
+  unos: 'un',
+  unas: 'una',
+  mis: 'mi',
+  tus: 'tu',
+  nuestros: 'nuestro',
+  nuestras: 'nuestra',
+  vuestros: 'vuestro',
+  vuestras: 'vuestra',
+}
+
+// flip 'los' → 'el', etc
+const swapArticle = function (m, mapping) {
+  let art = m.before(`(${Object.keys(mapping).join('|')})$`)
+  if (art.found) {
+    let w = art.text('normal')
+    if (mapping.hasOwnProperty(w)) {
+      art.replaceWith(mapping[w])
+    }
   }
-  return str
 }
 
 
@@ -39,40 +64,23 @@ const api = function (View) {
     }
     toPlural(n) {
       const methods = this.methods.two.transform.noun
-      getNth(this, n).if('#Singular').forEach(m => {
-        let str = getRoot(m)
+      getNth(this, n).ifNo('#Plural').forEach(m => {
+        let str = m.text('normal')
         let plural = methods.toPlural(str)
-        return m.replaceWith(plural)
+        m.replaceWith(plural)
+        // flip article, too
+        swapArticle(m, toPluralArt)
       })
       return this
     }
     toSingular(n) {
       const methods = this.methods.two.transform.noun
       getNth(this, n).if('#Plural').forEach(m => {
-        let str = getRoot(m)
+        let str = m.text('normal')
         let singular = methods.toSingular(str)
         m.replaceWith(singular)
         // flip article, too
-        let art = m.before('(los|las|unos|unas|mis|tus|nuestro|nuestra|vuestro|vuestra)$')
-        if (art.found) {
-          let toPlur = {
-            los: 'el',
-            las: 'la',
-            unos: 'un',
-            unas: 'una',
-            mis: 'mi',
-            tus: 'tu',
-            // sus:'su',
-            nuestro: 'nuestros',
-            nuestra: 'nuestras',
-            vuestro: 'vuestros',
-            vuestra: 'vuestras',
-          }
-          let w = art.text('normal')
-          if (toPlur.hasOwnProperty(w)) {
-            art.replaceWith(toPlur[w])
-          }
-        }
+        swapArticle(m, toSingularArt)
       })
       return this
     }

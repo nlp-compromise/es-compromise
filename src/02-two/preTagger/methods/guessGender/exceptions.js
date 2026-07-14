@@ -10,6 +10,8 @@ const m = new Set([
   'catalán', 'deseo', 'alemán',
   'filósofo', 'huevo', 'tubo', 'géographique',
   'cráneo', 'reflejo', 'vértice', 'timbre',
+  'día', 'mapa', 'planeta', 'sofá', 'clima',
+  'tema', 'drama', 'programa', 'poema', 'tranvía',
 ])
 
 const f = new Set([
@@ -21,5 +23,7 @@ const f = new Set([
   'hija', 'lengua', 'imagen',
   'fecha', 'sede', 'sociedad', 'noche',
   'gente', 'calle', 'ley', 'clase',
+  'mano', 'foto', 'moto', 'flor', 'radio',
+  'sal', 'piel', 'miel', 'nube', 'sangre',
 ])
 export default { f, m }
