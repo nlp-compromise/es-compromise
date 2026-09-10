@@ -429,7 +429,7 @@
   }
   Object.assign(View.prototype, methods$n);
 
-  var version$1 = '14.16.0';
+  var version$1 = '14.17.0';
 
   const isObject$6 = function (item) {
     return item && typeof item === 'object' && !Array.isArray(item)
@@ -3549,9 +3549,9 @@
       if (reg.tag !== undefined && cache.has('#' + reg.tag) === false) {
         return true
       }
-      // perform a speedup for fast-or
-      if (reg.fastOr && anyIntersection(reg.fastOr, cache) === false) {
-        return false
+      // are all of the fast-or words missing?
+      if (reg.fastOr !== undefined && anyIntersection(reg.fastOr, cache) === false) {
+        return true
       }
     }
     return false
@@ -3711,10 +3711,6 @@
       if (term.machine !== null && term.machine === reg.word) {
         return true
       }
-      // term aliases for slashes and things
-      if (term.alias !== undefined && term.alias.hasOwnProperty(reg.word)) {
-        return true
-      }
       // support ~ fuzzy match
       if (reg.fuzzy === true) {
         if (reg.word === term.root) {
@@ -3812,11 +3808,14 @@
     const reg = Object.assign({}, state.regs[state.r], { start: false, end: false });
     const start = state.t;
     for (; state.t < state.terms.length; state.t += 1) {
-      //stop for next-reg match
-      if (endReg && wrapMatch(state.terms[state.t], endReg, state.start_i + state.t, state.phrase_length)) {
-        return state.t
-      }
+      // the number of terms we've matched, if we stop here
       const count = state.t - start + 1;
+      //stop for next-reg match - unless we're still under our min
+      if (endReg && wrapMatch(state.terms[state.t], endReg, state.start_i + state.t, state.phrase_length)) {
+        if (reg.min === undefined || count >= reg.min) {
+          return state.t
+        }
+      }
       // is it max-length now?
       if (reg.max !== undefined && count === reg.max) {
         return state.t
@@ -3829,6 +3828,10 @@
         }
         return state.t
       }
+    }
+    // we ran out of terms - did we reach our min?
+    if (reg.min !== undefined && state.t - start + 1 < reg.min) {
+      return null
     }
     return state.t
   };
@@ -3898,7 +3901,9 @@
     // set the group result
     if (state.hasGroup === true) {
       const g = getGroup$1(state, state.t);
-      g.length = skipto - state.t;
+      // accumulate onto any tokens already captured before the wildcard,
+      // so '[one .* after]' keeps its leading (and trailing) tokens
+      g.length += skipto - state.t;
     }
     state.t = skipto;
     // log(`✓ |greedy|`)
@@ -3909,48 +3914,64 @@
     return Object.prototype.toString.call(arr) === '[object Array]'
   };
 
-  const doOrBlock = function (state, skipN = 0) {
-    const block = state.regs[state.r];
-    let wasFound = false;
-    // do each multiword sequence
-    for (let c = 0; c < block.choices.length; c += 1) {
-      // try to match this list of tokens
-      const regs = block.choices[c];
-      if (!isArray$4(regs)) {
-        return false
+  // try to match a list of tokens, starting at state.t + skipN
+  // returns the number of terms it consumed, or 0 for no-match
+  const tryChoice = function (state, regs, skipN) {
+    let len = 0;
+    for (let w = 0; w < regs.length; w += 1) {
+      const cr = regs[w];
+      const t = state.t + skipN + len;
+      if (state.terms[t] === undefined) {
+        return 0
       }
-      wasFound = regs.every((cr, w_index) => {
-        let extra = 0;
-        const t = state.t + w_index + skipN + extra;
-        if (state.terms[t] === undefined) {
-          return false
-        }
-        const foundBlock = wrapMatch(state.terms[t], cr, t + state.start_i, state.phrase_length);
-        // this can be greedy - '(foo+ bar)'
-        if (foundBlock === true && cr.greedy === true) {
-          for (let i = 1; i < state.terms.length; i += 1) {
-            const term = state.terms[t + i];
-            if (term) {
-              const keepGoing = wrapMatch(term, cr, state.start_i + i, state.phrase_length);
-              if (keepGoing === true) {
-                extra += 1;
-              } else {
-                break
-              }
-            }
+      if (wrapMatch(state.terms[t], cr, state.start_i + t, state.phrase_length) !== true) {
+        return 0
+      }
+      len += 1;
+      // this can be greedy - '(foo+ bar)'
+      if (cr.greedy === true) {
+        // like getGreedy, anchors should not apply to the repeated terms
+        const gr = Object.assign({}, cr, { start: false, end: false });
+        for (let i = t + 1; i < state.terms.length; i += 1) {
+          if (wrapMatch(state.terms[i], gr, state.start_i + i, state.phrase_length) !== true) {
+            break
           }
+          len += 1;
         }
-        skipN += extra;
-        return foundBlock
-      });
-      if (wasFound) {
-        skipN += regs.length;
-        break
       }
     }
-    // we found a match -  is it greedy though?
-    if (wasFound && block.greedy === true) {
-      return doOrBlock(state, skipN) // try it again!
+    return len
+  };
+
+  // match the first choice that works - '(a b|c)'
+  const tryChoices = function (state, skipN) {
+    const block = state.regs[state.r];
+    for (let c = 0; c < block.choices.length; c += 1) {
+      const regs = block.choices[c];
+      if (!isArray$4(regs)) {
+        return 0
+      }
+      const len = tryChoice(state, regs, skipN);
+      if (len > 0) {
+        return len
+      }
+    }
+    return 0
+  };
+
+  const doOrBlock = function (state) {
+    const block = state.regs[state.r];
+    let skipN = tryChoices(state, 0);
+    if (skipN === 0) {
+      return 0
+    }
+    // greedy or-block - keep matching choices - '(a b|c)+'
+    if (block.greedy === true) {
+      let more = tryChoices(state, skipN);
+      while (more > 0) {
+        skipN += more;
+        more = tryChoices(state, skipN);
+      }
     }
     return skipN
   };
@@ -3966,7 +3987,7 @@
         if (state.terms[tryTerm] === undefined) {
           return false
         }
-        return wrapMatch(state.terms[tryTerm], cr, tryTerm, state.phrase_length)
+        return wrapMatch(state.terms[tryTerm], cr, state.start_i + tryTerm, state.phrase_length)
       });
       if (allWords === true && block.length > longest) {
         longest = block.length;
@@ -4005,7 +4026,16 @@
       state.t += skipNum;
       // log(`✓ |found-or|`)
       return true
-    } else if (!reg.optional) {
+    }
+    // we didn't find it - for a negative-block, that's good news
+    if (reg.negative === true) {
+      // a '!(a b)?' can pass-through without consuming anything
+      if (!reg.optional) {
+        state.t += 1;
+      }
+      return true
+    }
+    if (!reg.optional) {
       return null //die
     }
     return true
@@ -4028,15 +4058,24 @@
       }
       // ensure we're at the end
       if (reg.end === true) {
-        const end = state.phrase_length - 1;
-        if (state.t + state.start_i !== end) {
+        const end = state.phrase_length;
+        if (state.t + state.start_i + skipNum !== end) {
           return null
         }
       }
       state.t += skipNum;
       // log(`✓ |found-and|`)
       return true
-    } else if (!reg.optional) {
+    }
+    // we didn't find it - for a negative-block, that's good news
+    if (reg.negative === true) {
+      // a '!(a && b)?' can pass-through without consuming anything
+      if (!reg.optional) {
+        state.t += 1;
+      }
+      return true
+    }
+    if (!reg.optional) {
       return null //die
     }
     return true
@@ -4045,7 +4084,7 @@
   const negGreedy = function (state, reg, nextReg) {
     let skip = 0;
     for (let t = state.t; t < state.terms.length; t += 1) {
-      let found = wrapMatch(state.terms[t], reg, state.start_i + state.t, state.phrase_length);
+      let found = wrapMatch(state.terms[t], reg, state.start_i + t, state.phrase_length);
       // we don't want a match, here
       if (found) {
         break//stop going
@@ -4053,7 +4092,7 @@
       // are we doing 'greedy-to'?
       // - "!foo+ after"  should stop at 'after'
       if (nextReg) {
-        found = wrapMatch(state.terms[t], nextReg, state.start_i + state.t, state.phrase_length);
+        found = wrapMatch(state.terms[t], nextReg, state.start_i + t, state.phrase_length);
         if (found) {
           break
         }
@@ -4130,7 +4169,7 @@
       // but does the next reg match the next term??
       // only skip if it doesn't
       const nextTerm = state.terms[state.t + 1];
-      if (!nextTerm || !wrapMatch(nextTerm, regs[state.r + 1], state.start_i + state.t, state.phrase_length)) {
+      if (!nextTerm || !wrapMatch(nextTerm, regs[state.r + 1], state.start_i + state.t + 1, state.phrase_length)) {
         state.r += 1;
       }
     }
@@ -4140,12 +4179,9 @@
   const greedyMatch = function (state) {
     const { regs, phrase_length } = state;
     const reg = regs[state.r];
+    // foo{2,4} min-lengths are enforced inside getGreedy
     state.t = getGreedy(state, regs[state.r + 1]);
     if (state.t === null) {
-      return null //greedy was too short
-    }
-    // foo{2,4} - has a greed-minimum
-    if (reg.min && reg.min > state.t) {
       return null //greedy was too short
     }
     // 'foo+$' - if also an end-anchor, ensure we really reached the end
@@ -5288,6 +5324,7 @@
   };
 
   const lastBrace = /\{(?=[^{]*$)/; // split on the last { only
+  const comment = /\}[ \t]*#.*$/; // an optional '# comment' after the last {tags} block
 
   // parse the spec output
   const parseLine = function (line = '') {
@@ -5295,6 +5332,7 @@
     if (tags === undefined) {
       return { text, tags: [] } // no {tags} block on this line
     }
+    tags = tags.replace(comment, '}'); // drop the comment - only ever one, always last
     tags = tags.split(',').map(tag => tag.trim());
     let lastTag = tags[tags.length - 1];
     tags[tags.length - 1] = lastTag.replace(/\}$/, '');
@@ -6633,22 +6671,43 @@
   };
 
   // split by periods, question marks, unicode ⁇, etc
-  const initSplit = /([.!?\u203D\u2E18\u203C\u2047-\u2049\u3002]+\s)/g;
+  // also ।॥ (devanagari), ؟ (arabic), ۔ (urdu), ։ (armenian), ።፧ (ethiopic), ။ (burmese), ។ (khmer)
+  const initSplit = /([.!?\u203D\u2E18\u203C\u2047-\u2049\u0964\u0965\u061F\u06D4\u0589\u1362\u1367\u104B\u17D4\u3002]+\s)/g;
   // merge these back into prev sentence
-  const splitsOnly = /^[.!?\u203D\u2E18\u203C\u2047-\u2049\u3002]+\s$/;
+  const splitsOnly = /^[.!?\u203D\u2E18\u203C\u2047-\u2049\u0964\u0965\u061F\u06D4\u0589\u1362\u1367\u104B\u17D4\u3002]+\s$/;
   const newLine = /((?:\r?\n|\r)+)/; // Match different new-line formats
+
+  // CJK full-stops 。！？｡ are never used in numbers or abbreviations,
+  // so they can end a sentence without any whitespace after them.
+  // A full-stop followed by a closing bracket 」』）” only ends the sentence when the
+  // bracket is followed by whitespace, another opening bracket, or the end of the text
+  //  - '「行きません。」と言った' stays together,  '「はい。」「いいえ。」' splits
+  const hasCjkStop = /[\u3002\uFF01\uFF1F\uFF61]/;
+  const cjkStops = '\\u3002\\uFF01\\uFF1F\\uFF61'; // 。！？｡
+  const allStops = '.!?\\u203D\\u2E18\\u203C\\u2047-\\u2049' + '\u0964\u0965\u061F\u06D4\u0589\u1362\u1367\u104B\u17D4' + cjkStops;
+  const openers = '\\u300C\\u300E\\uFF08\\u3010\\u3014\\u300A\\u3008\\u201C'; // 「『（【〔《〈“
+  const closers = '\\u300D\\u300F\\uFF09\\u3011\\u3015\\u300B\\u3009\\u201D'; // 」』）】〕》〉”
+  const initSplitCjk = new RegExp(
+    `([${allStops}]+\\s|[${cjkStops}]+(?![${closers}${cjkStops}])|[${cjkStops}]+[${closers}]+(?=[\\s${openers}]|$))`,
+    'g'
+  );
+  const splitsOnlyCjk = new RegExp(`^(?:[${allStops}]+\\s|[${cjkStops}]+[${closers}]*)$`);
 
   // Start with a regex:
   const basicSplit = function (text) {
     const all = [];
+    // japanese/chinese text has no whitespace after its full-stops
+    const isCjk = hasCjkStop.test(text);
+    const splitReg = isCjk ? initSplitCjk : initSplit;
+    const onlyReg = isCjk ? splitsOnlyCjk : splitsOnly;
     //first, split by newline
     const lines = text.split(newLine);
     for (let i = 0; i < lines.length; i++) {
       //split by period, question-mark, and exclamation-mark
-      const arr = lines[i].split(initSplit);
+      const arr = lines[i].split(splitReg);
       for (let o = 0; o < arr.length; o++) {
         // merge 'foo' + '.'
-        if (arr[o + 1] && splitsOnly.test(arr[o + 1]) === true) {
+        if (arr[o + 1] && onlyReg.test(arr[o + 1]) === true) {
           arr[o] += arr[o + 1];
           arr[o + 1] = '';
         }
@@ -6660,7 +6719,8 @@
     return all
   };
 
-  const hasLetter$1 = /[a-z0-9\u00C0-\u00FF\u00a9\u00ae\u2000-\u3300\ud000-\udfff]/i;
+  // a letter, number, or symbol/emoji in any script - otherwise it's only punctuation
+  const hasLetter$1 = /[\p{L}\p{N}\p{So}]/u;
   const hasSomething$1 = /\S/;
 
   const notEmpty = function (splits) {
@@ -6738,6 +6798,8 @@
     '\u301D': '\u301E', // 'PrimeDoubleQuotes'
     // '\u0060': '\u00B4', // 'PrimeSingleQuotes'
     '\u301F': '\u301E', // 'LowPrimeDoubleQuotesReversed'
+    '\u300C': '\u300D', // 'CornerBrackets' 「」
+    '\u300E': '\u300F', // 'WhiteCornerBrackets' 『』
   };
   const openQuote = RegExp('[' + Object.keys(pairs).join('') + ']', 'g');
   const closeQuote = RegExp('[' + Object.values(pairs).join('') + ']', 'g');
@@ -6762,6 +6824,12 @@
       // do we have an open-quote and not a closed one?
       const m = split.match(openQuote);
       if (m !== null && m.length === 1) {
+        // is the quote already closed in this chunk? - '“Yes!” said Tom. “No!” said Ann.'
+        const closed = split.match(closeQuote);
+        if (closed !== null && closed[0] !== m[0]) {
+          arr.push(split);
+          continue
+        }
 
         // look at the next sentence for a closing quote,
         if (closesQuote(splits[i + 1]) && splits[i + 1].length < MAX_QUOTE) {
@@ -6794,8 +6862,8 @@
 
   // support unicode variants?
   // https://stackoverflow.com/questions/13535172/list-of-all-unicodes-open-close-brackets
-  const hasOpen = /\(/g;
-  const hasClosed = /\)/g;
+  const hasOpen = /[(\uFF08]/g;
+  const hasClosed = /[)\uFF09]/g;
   const mergeParens = function (splits) {
     const arr = [];
     for (let i = 0; i < splits.length; i += 1) {
@@ -6833,8 +6901,6 @@
     if (!text || typeof text !== 'string' || hasSomething.test(text) === false) {
       return []
     }
-    // cleanup unicode-spaces
-    text = text.replace('\xa0', ' ');
     // First do a greedy-split..
     const splits = basicSplit(text);
     // Filter-out the crap ones
@@ -7649,6 +7715,10 @@
       unicode$1[s] = k;
     });
   });
+  // fullwidth ascii - 'Ｈｅｌｌｏ ２０２４' to 'Hello 2024'
+  for (let i = 0x21; i <= 0x7E; i += 1) {
+    unicode$1[String.fromCharCode(i + 0xFEE0)] = String.fromCharCode(i);
+  }
 
   // https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5Cp%7Bpunctuation%7D
 
@@ -8380,15 +8450,15 @@
       },
       "secondPlural": {
         "fwd": "ondes:ôr¦1s:ír¦4áis:lvidar",
-        "both": "5is:igorar,acilar,rmizar,utelar,reinar,aficar,mperar,ufocar,bornar,bmeter,bjugar,letrar,pultar,abotar,otular,evidar,vender,etocar,tardar,elecer,ndecer,pudiar,emeter,gistar,efrear,uturar,ecusar,crutar,ebocar,ativar,biscar,ueimar,otelar,ofanar,eceder,liciar,tencer,rfurar,ndurar,elejar,entear,rasear,fuscar,ssitar,urchar,sturar,rtelar,bertar,evitar,radiar,nvejar,rceder,njetar,flamar,inerar,dratar,bituar,errear,vernar,guejar,rnicar,stejar,aturar,aditar,onerar,xercer,xcitar,aporar,tuprar,emecer,tragar,pionar,ecular,pantar,smagar,fregar,crever,coltar,barrar,xergar,nsinar,avidar,gasgar,nganar,forcar,riptar,rregar,purrar,mpatar,ebedar,grecer,fetuar,izimar,torcer,ssipar,eminar,cursar,plinar,vastar,vendar,travar,prezar,sonrar,sligar,sfilar,nrolar,dobrar,contar,pontar,animar,rochar,rreter,epilar,nstrar,eletar,apitar,metrar,rtejar,andear,ntatar,nsumar,atular,nfinar,omutar,oletar,agular,trizar,cotear,hatear,rimbar,arolar,aducar,uzinar,atizar,buciar,nturar,xiliar,nticar,uditar,opelar,ssinar,fixiar,rvorar,riscar,dondar,fundar,imorar,eender,drecer,etecer,ziguar,ecipar,ncorar,rtizar,olecer,enizar,marrar,maciar,lvejar,listar,larmar,uentar,gentar,rmecer,iantar,rretar,calmar,rrecer,bdicar,omitar¦5áis:sportar,uilizar,pificar,usurrar,uavizar,tetizar,etratar,esaltar,generar,dondear,eclamar,astrear,rcionar,ocionar,eocupar,tenciar,rientar,asionar,nimizar,morizar,ximizar,niobrar,lgastar,nstigar,esionar,usionar,malizar,cilitar,xagerar,timular,rilizar,squivar,nterrar,nmendar,nmarcar,fatizar,aquetar,uplicar,esticar,osticar,rdiciar,embocar,scifrar,emandar,rrestar,ncordar,ompilar,omentar,talizar,loquear,rorizar,rastrar,rrancar,umentar,lternar,ligerar,grandar,gilizar,ecentar,ccionar,nsuciar,vilizar,espetar,omendar,xplorar,bolizar,ntestar,riticar,galizar,espirar,ntentar,ealizar,rificar,etestar,ecordar,tumbrar,eplicar,municar,ganizar,asticar,xplicar,laticar,ublicar,reparar,cesitar,xportar,lanchar,onvidar,nmigrar,obernar,lonizar,spertar,estigar¦5ís:umergir,referir¦5éis:ocorrer,evolver,etender,isolver,talecer,ncender,iquecer,xtender,tenecer,esolver,ontecer,lorecer¦5s:fletir,gredir,evenir,ngerir,ncutir,igerir,mentir,iludir,rrigir,vergir,tingir,ssumir¦5ndes:tervir¦4áis:lnerar,ntilar,iturar,nsitar,amitar,olerar,ujetar,fragar,icitar,ocavar,botear,etirar,ucitar,mediar,rmular,flejar,uperar,opilar,cobrar,ecitar,caudar,anudar,rantar,piciar,mulgar,gramar,ipitar,stular,antear,petuar,rfilar,rdurar,netrar,padear,scilar,ulizar,bjetar,otivar,itigar,festar,lucrar,nundar,rrogar,nnovar,mnizar,rporar,ncitar,ntivar,ugurar,ustrar,tirpar,hortar,xcavar,cturar,ngular,stirar,scapar,adicar,trenar,uiciar,gordar,rentar,nfocar,erezar,ncajar,omizar,vulgar,sparar,isipar,amizar,spejar,montar,ntelar,slizar,adenar,barcar,aratar,rrocar,rramar,epurar,imitar,raudar,clinar,mbular,otejar,operar,statar,sagrar,igurar,cretar,certar,pletar,mparar,mbinar,entrar,pturar,ficiar,rrizar,esinar,ntalar,lastar,tiguar,llanar,justar,hondar,gravar,garrar,juntar,daptar,umular,ctivar,editar,entuar,riciar,rturar,horcar,scinar,fiscar,vantar,ecorar,vacuar,ltivar,ncelar,utizar,cticar,lestar,uistar,niciar,cantar,tudiar,nhelar,cortar,riguar,ventar,aludar,bortar,tregar,ndenar,uantar,cercar,edicar,enovar,legrar,ositar,eñalar,dornar,pretar,gociar,lentar,evorar,ndicar,bligar,egular,lantar,icipar,postar,horrar,rachar,ostrar,olocar,irizar,gustar,ayunar,rendar,gatear,nsejar,unciar,bricar¦4is:igiar,guear,rinar,remer,acear,fonar,atuar,segar,oprar,emear,ronar,vogar,virar,ousar,zijar,bolar,eatar,criar,ipiar,emiar,oupar,uisar,dalar,ssear,airar,omear,murar,torar,dular,sclar,horar,acrar,usear,hucar,impar,tunar,atrar,pedar,erdar,mpear,urtar,risar,matar,utuar,lsear,polar,xpiar,cizar,tudar,relar,ourar,irrar,gotar,folar,covar,xugar,aguar,nenar,gatar,gajar,rujar,ralar,rajar,cetar,cerar,cotar,beber,balar,leger,famar,iorar,sovar,ascar,uviar,sabar,colar,stear,solar,hecer,ceber,ungar,arear,hupar,ingar,eirar,efiar,hamar,algar,uflar,rigar,cejar,femar,hotar,obiar,nalar,rumar,ombar,fecer,cadar,batar,zenar,rovar,alpar,lugar,lisar,ienar,gemar,eijar,fogar,dotar,oecer,eitar,salar,eviar,banar¦4ís:irigir,esumir,rvenir,ringir,xpedir,nvenir,querir,nsumir,spedir¦4s:digir,abrir,oibir,serir,nibir,antir,oluir,urtir,lidir,obrir,ferir,derir¦4des:rover,tever¦4éis:oceder,llecer,ometer,fender,render,vencer,jercer,uceder,anecer,blecer,arecer,oteger¦3áis:arpar,ltear,gilar,engar,cunar,onear,sanar,rtear,ngrar,orear,odear,tomar,aldar,lajar,futar,lutar,cabar,zonar,uitar,dizar,curar,crear,egiar,cisar,anear,verar,forar,pinar,ldear,delar,digar,jorar,midar,aurar,nflar,dagar,ncoar,ndiar,ualar,bitar,rabar,lpear,ilmar,pular,tafar,spiar,calar,uipar,merar,aizar,ranar,ndrar,omiar,arnar,bezar,pujar,eorar,ogiar,tonar,sviar,pegar,satar,afiar,rivar,berar,latar,odiar,nstar,lidar,derar,jurar,ginar,olmar,borar,logar,mbiar,ibrar,rdear,vivar,rapar,tajar,sorar,uinar,esgar,hivar,itrar,ximar,echar,artar,nular,uilar,pliar,terar,labar,hogar,rupar,optar,catar,surar,vegar,iclar,dorar,rciar,escar,bajar,redar,uchar,ucear,opiar,ersar,timar,smear,ardar,ograr,uidar,velar,eciar,levar,bujar,husar,iviar,ampar,ctuar,uemar,hocar,yudar,ausar,vinar,zclar,robar,olgar,visar,vocar,mpiar,lenar,lotar,minar,tinar,mprar,mirar,ervar,donar,busar,legar,ultar,ebrar,ncear,nviar,indar,pezar,ailar,cular,intar,larar,eptar,bicar¦3ndes:ster,ovir,bter,nter¦3s:mbir,ctir,uvir,trir,odir,lpir,grir,spir,prir,agir,irir,olir¦3is:frer,snar,iver,spar,uvar,vrar,mber,juar,hear,ziar,aiar,ubar,scer,xear,roer,rter,hiar,ecar,gear,ifar,zear,efar,bear,njar,oiar,siar,muar,ncar,lhar,quar,nhar,ssar,rver,nger,ater,afar¦3ís:eunir,ximir,herir,audir,cibir,ubrir,hibir,urgir,ribir,cudir,rimir¦3is/heis:aver¦3éis:pecer,mover,jecer,onder,decer¦2áis:epar,niar,zgar,lcar,rjar,rbar,luar,osar,uzar,ozar,lsar,ibar,psar,jear,gnar,lzar,slar,plar,rgar,acar,glar,lvar,rzar,nuar,blar,smar,ojar,nzar,ctar,esar,lear,rmar,azar,adar,nfar,rlar,asar,llar,nsar,uiar,duar¦2s:sir,zir¦2ís/podrís:drir¦2is:xer,uer,zer,her,çar,oar,xar¦2éis:amer,rger,rber,ocer,rder,aber,oder,omer,oger,acer¦2ís:mpir,rnir,inir,ndir,ebir,arir,upir,adir,plir,llir,orir,rrir,alir,ubir,ivir,idir,rmir,frir,egir¦1éis:jer,ser,ñer,eer,ler,aer,ner¦1is:quir¦1ndes:or¦1ís:air,üir,ñir,uir,cir,tir¦1áis:yar,ñar¦s olvidáis:lvidarse",
+        "both": "5is:omitar,igorar,acilar,rmizar,utelar,reinar,aficar,mperar,ufocar,bornar,bmeter,bjugar,letrar,pultar,abotar,otular,evidar,vender,etocar,tardar,elecer,ndecer,querer,emeter,gistar,efrear,uturar,ecusar,crutar,ebocar,ativar,biscar,ueimar,otelar,ofanar,eceder,liciar,tencer,rfurar,ndurar,elejar,entear,rasear,fuscar,ssitar,urchar,sturar,rtelar,bertar,evitar,radiar,nvejar,rceder,njetar,flamar,inerar,dratar,bituar,errear,vernar,guejar,rnicar,stejar,aturar,aditar,onerar,xercer,xcitar,aporar,tuprar,emecer,tragar,pionar,ecular,pantar,smagar,fregar,crever,coltar,barrar,xergar,nsinar,avidar,gasgar,nganar,forcar,riptar,rregar,purrar,mpatar,ebedar,grecer,fetuar,izimar,torcer,ssipar,eminar,cursar,plinar,vastar,vendar,travar,prezar,sonrar,sligar,sfilar,nrolar,dobrar,contar,pontar,animar,rochar,rreter,epilar,nstrar,eletar,apitar,metrar,rtejar,andear,ntatar,nsumar,atular,nfinar,omutar,oletar,agular,trizar,cotear,hatear,rimbar,arolar,aducar,uzinar,atizar,buciar,nturar,xiliar,nticar,uditar,opelar,ssinar,fixiar,rvorar,riscar,dondar,fundar,imorar,eender,drecer,etecer,ziguar,ecipar,ncorar,rtizar,olecer,enizar,marrar,maciar,lvejar,listar,larmar,uentar,gentar,rmecer,iantar,rretar,calmar,rrecer,bdicar¦5áis:sportar,uilizar,pificar,usurrar,uavizar,tetizar,etratar,esaltar,ganizar,generar,dondear,eclamar,astrear,rcionar,ocionar,eocupar,tenciar,rientar,asionar,nimizar,morizar,ximizar,niobrar,lgastar,nstigar,esionar,usionar,malizar,cilitar,xagerar,timular,rilizar,squivar,nterrar,nmendar,nmarcar,fatizar,aquetar,uplicar,esticar,osticar,rdiciar,embocar,scifrar,emandar,rrestar,ncordar,ompilar,omentar,talizar,loquear,rorizar,rastrar,rrancar,umentar,lternar,ligerar,grandar,gilizar,ecentar,ccionar,nsuciar,vilizar,espetar,omendar,xplorar,bolizar,ntestar,riticar,galizar,espirar,ntentar,ealizar,rificar,etestar,ecordar,tumbrar,eplicar,municar,eguntar,xplicar,laticar,ublicar,reparar,cesitar,xportar,lanchar,onvidar,nmigrar,obernar,lonizar,spertar,estigar¦5ís:umergir,referir,equerir¦5éis:ocorrer,evolver,etender,isolver,talecer,ncender,iquecer,xtender,tenecer,esolver,ontecer,lorecer¦5s:fletir,gredir,evenir,ngerir,ncutir,igerir,mentir,iludir,rrigir,vergir,tingir,ssumir¦5ndes:tervir¦4áis:lnerar,ntilar,iturar,nsitar,amitar,olerar,ujetar,fragar,icitar,ocavar,botear,etirar,ucitar,mediar,rmular,flejar,uperar,opilar,cobrar,ecitar,caudar,anudar,rantar,piciar,mulgar,gramar,ipitar,stular,antear,petuar,rfilar,rdurar,netrar,padear,scilar,ulizar,bjetar,otivar,itigar,festar,lucrar,nundar,rrogar,nnovar,mnizar,rporar,ncitar,ntivar,ugurar,ustrar,tirpar,hortar,xcavar,cturar,ngular,stirar,scapar,adicar,trenar,uiciar,gordar,rentar,nfocar,erezar,ncajar,omizar,vulgar,sparar,isipar,amizar,spejar,montar,ntelar,slizar,adenar,barcar,aratar,rrocar,rramar,epurar,imitar,raudar,clinar,mbular,otejar,operar,statar,sagrar,igurar,cretar,certar,pletar,mparar,mbinar,entrar,pturar,ficiar,rrizar,esinar,ntalar,lastar,tiguar,llanar,justar,hondar,gravar,garrar,juntar,daptar,umular,ctivar,editar,entuar,riciar,rturar,horcar,scinar,fiscar,vantar,ecorar,vacuar,ltivar,ncelar,utizar,cticar,lestar,uistar,niciar,cantar,tudiar,nhelar,cortar,riguar,ventar,aludar,bortar,tregar,ndenar,trolar,uantar,cercar,edicar,enovar,legrar,ositar,eñalar,dornar,pretar,gociar,lentar,evorar,ndicar,bligar,egular,lantar,icipar,postar,horrar,rachar,ostrar,olocar,irizar,gustar,ayunar,rendar,gatear,nsejar,unciar,bricar¦4is:igiar,guear,rinar,remer,acear,fonar,atuar,segar,oprar,emear,ronar,vogar,virar,ousar,zijar,bolar,eatar,criar,ipiar,emiar,oupar,uisar,dalar,ssear,airar,omear,murar,torar,dular,sclar,horar,acrar,usear,hucar,impar,tunar,atrar,pedar,erdar,mpear,urtar,risar,matar,utuar,lsear,polar,xpiar,cizar,tudar,relar,ourar,irrar,gotar,folar,covar,xugar,aguar,nenar,gatar,gajar,rujar,ralar,rajar,cetar,cerar,cotar,beber,balar,leger,famar,iorar,sovar,ascar,uviar,sabar,colar,stear,solar,hecer,ceber,ungar,arear,hupar,ingar,eirar,efiar,hamar,algar,uflar,rigar,cejar,femar,hotar,obiar,nalar,rumar,ombar,fecer,cadar,batar,zenar,rovar,alpar,lugar,lisar,ienar,gemar,eijar,fogar,dotar,oecer,eitar,salar,eviar,banar¦4ís:irigir,esumir,rvenir,ringir,xpedir,nvenir,nsumir,spedir¦4s:digir,abrir,oibir,serir,nibir,antir,oluir,urtir,lidir,obrir,ferir,derir¦4des:rover,tever¦4éis:oceder,llecer,ometer,fender,render,vencer,jercer,uceder,anecer,blecer,arecer,oteger¦3áis:arpar,ltear,gilar,engar,cunar,onear,sanar,rtear,ngrar,orear,odear,tomar,aldar,lajar,futar,lutar,cabar,zonar,uitar,dizar,curar,crear,egiar,cisar,anear,verar,forar,pinar,ldear,delar,digar,jorar,midar,aurar,nflar,dagar,ncoar,ndiar,ualar,bitar,rabar,lpear,ilmar,pular,tafar,spiar,calar,uipar,merar,aizar,ranar,ndrar,omiar,arnar,bezar,pujar,eorar,ogiar,tonar,sviar,pegar,satar,afiar,rivar,berar,latar,odiar,nstar,lidar,derar,jurar,ginar,olmar,borar,logar,mbiar,ibrar,rdear,vivar,rapar,tajar,sorar,uinar,esgar,hivar,itrar,ximar,echar,artar,nular,uilar,pliar,terar,labar,hogar,rupar,optar,catar,surar,vegar,iclar,dorar,rciar,escar,bajar,redar,uchar,ucear,opiar,ersar,timar,smear,ardar,ograr,uidar,velar,eciar,levar,bujar,husar,iviar,ampar,ctuar,uemar,hocar,yudar,ausar,vinar,zclar,robar,olgar,visar,vocar,mpiar,lenar,lotar,minar,tinar,mprar,mirar,ervar,donar,busar,legar,ultar,ebrar,ncear,nviar,indar,pezar,ailar,cular,intar,larar,eptar,bicar¦3ndes:ster,ovir,bter,nter¦3s:mbir,ctir,uvir,trir,odir,lpir,grir,spir,prir,agir,irir,olir¦3is:frer,snar,iver,spar,uvar,vrar,mber,juar,hear,ziar,aiar,ubar,scer,xear,roer,rter,hiar,ecar,gear,ifar,zear,efar,bear,njar,oiar,siar,muar,ncar,lhar,quar,nhar,ssar,rver,nger,ater,afar¦3ís:eunir,ximir,herir,audir,cibir,ubrir,hibir,urgir,ribir,cudir,rimir¦3is/heis:aver¦3éis:pecer,mover,jecer,onder,decer¦2áis:epar,niar,zgar,lcar,rjar,rbar,luar,osar,uzar,ozar,lsar,ibar,psar,jear,gnar,lzar,slar,plar,rgar,acar,glar,lvar,rzar,nuar,blar,smar,ojar,nzar,ctar,esar,lear,rmar,azar,adar,nfar,rlar,asar,llar,nsar,uiar,duar¦2s:sir,zir¦2ís/podrís:drir¦2is:xer,uer,zer,her,çar,oar,xar¦2éis:amer,rger,rber,ocer,rder,aber,oder,omer,oger,acer¦2ís:mpir,rnir,inir,ndir,ebir,arir,upir,adir,plir,llir,orir,rrir,alir,ubir,ivir,idir,rmir,frir,egir¦1éis:jer,ser,ñer,eer,ler,aer,ner¦1is:quir¦1ndes:or¦1ís:air,üir,ñir,uir,cir,tir¦1áis:yar,ñar¦s olvidáis:lvidarse",
         "rev": "er:éis,ois¦r:ndes¦1ar:jáis,táis,gáis,cáis,ráis,náis,záis,iáis,páis,uáis,láis,háis,eáis,váis,báis,máis,sáis¦1ir:nís,vís,mís,dís,gís¦1r:ais,edes,ides¦2ar:ndáis,rdáis,edáis,ldáis¦2ir:erís¦2r:eís,veis,deis,ceis,gis,tis,dis,ris,reis,mis,geis¦3ar:modáis¦3r:ibis,mpeis,guis¦4ar:ucidáis",
-        "ex": "vais:ir¦os acostáis:acostarse¦os afiliáis:afiliarse¦os alejáis:alejarse¦os casáis:casarse¦os decidís:decidirse¦os levantáis:levantarse¦os movéis:moverse¦os preocupáis:preocuparse¦os quedáis:quedarse¦os quejáis:quejarse¦os retiráis:retirarse¦os sentáis:sentarse¦os suicidáis:suicidarse¦3áis:dejar,tapar,odiar,andar,negar,votar,secar,errar,criar,cenar,pagar,tocar,jugar,volar,notar,bajar,mudar,jurar,matar,rezar,picar,curar,tomar,echar,fijar,tirar,rogar,crear,dudar,durar,ganar,lavar,helar,sonar,regar,robar,mirar,parar,untar,estar,fumar,pegar,aunar,botar,cavar,citar,colar,donar,dotar,girar,idear,jalar,ligar,obrar,optar,pelar,pisar,remar,rodar,sanar,sudar,sumar,velar,virar¦3éis:beber,meter,temer,mover,deber,ceder¦4áis:gastar,mandar,educar,cerrar,costar,llorar,agorar,juntar,saltar,sentar,variar,ladrar,llamar,apagar,culpar,entrar,montar,desear,faltar,vaciar,situar,violar,calmar,tratar,evitar,peinar,buscar,quedar,gritar,cobrar,quejar,bordar,marcar,tragar,viajar,borrar,contar,cortar,reinar,gustar,abonar,acusar,afilar,afinar,agitar,alejar,animar,anotar,apelar,apilar,bastar,batear,brotar,cantar,captar,cifrar,cursar,editar,fregar,frenar,frotar,fundar,gotear,gravar,honrar,imitar,lidiar,mediar,obviar,ocupar,operar,paliar,pasear,patear,portar,rasgar,restar,rociar,saciar,serrar,soldar,soltar,tentar,tumbar¦1ois:ser¦8áis:clasificar,significar,crucificar,actualizar,certificar,conmemorar,contrastar,cuestionar,enmascarar,falsificar,fiscalizar,garantizar,justificar,modernizar,patrocinar,perjudicar,planificar,presenciar,rectificar,reintegrar,relacionar,reutilizar,secuestrar,sintonizar,socializar,solucionar,testificar,traicionar,vislumbrar,visualizar¦7áis:protestar,encontrar,modificar,controlar,preguntar,presentar,funcionar,registrar,disfrutar,adjudicar,alimentar,almacenar,apaciguar,armonizar,autorizar,blanquear,calificar,canalizar,capacitar,codificar,conciliar,contratar,coordinar,debilitar,despachar,dilucidar,disculpar,disimular,ejercitar,emparejar,enganchar,equiparar,finalizar,financiar,gestionar,habilitar,localizar,mencionar,notificar,optimizar,paralizar,penalizar,proclamar,prolongar,prosperar,ratificar,sancionar,sustentar,valorizar¦2áis:usar,amar,asar,atar,izar,orar¦5áis:confiar,invitar,acordar,manejar,reparar,asustar,abordar,cocinar,esperar,aspirar,afeitar,asociar,madurar,acostar,aplicar,visitar,regalar,emigrar,adecuar,agregar,alertar,alinear,aportar,apuntar,asaltar,asentar,demorar,denegar,derogar,encarar,enfriar,expirar,filtrar,generar,ignorar,imputar,manchar,marchar,militar,nombrar,ordenar,prestar,rebotar,saquear,sembrar,separar,simular,sofocar,titular,valorar,olvidar¦6áis:enamorar,reportar,importar,suspirar,conjugar,utilizar,soportar,instalar,lamentar,castigar,acarrear,acelerar,acomodar,afrontar,aminorar,analizar,asegurar,asimilar,congelar,derrotar,disputar,ejecutar,encerrar,implicar,insertar,inspirar,integrar,retornar,suscitar,unificar¦4éis:crecer,romper,torcer,barrer,querer,correr,prever,vender,volver,vencer,tender,verter¦2ís:unir¦4ís:exigir,servir,fingir,hervir,aludir,asumir,eludir,erigir¦7éis:descender,abastecer,corromper,endurecer,favorecer,oscurecer,suspender¦5éis:atrever,ofrecer,atender,merecer,acceder,exceder,perecer¦10áis:caracterizar,complementar,contabilizar,cumplimentar,distorsionar,diversificar,experimentar,intensificar,materializar,personalizar,racionalizar,sensibilizar,subcontratar¦3ís:medir,herir,venir,pedir,abrir,gemir,rugir¦6éis:entender,depender,ascender,conceder,envolver,recorrer¦9áis:entrevistar,generalizar,administrar,concienciar,cuantificar,diferenciar,especificar,estabilizar,evolucionar,fundamentar,identificar,implementar,incrementar,liberalizar,multiplicar,neutralizar,posibilitar,reflexionar,reglamentar,regularizar,rehabilitar,representar,simplificar,suministrar¦2is:dar,ver¦5ís:afligir,sugerir,impedir¦9éis:enflaquecer¦7is:abrandar,absolver,alastrar,angariar,aprontar,arquivar,arrastar,assaltar,assediar,assentar,associar,assustar,beliscar,cimentar,comandar,computar,decifrar,decorrer,deformar,delinear,deportar,desertar,deslocar,desnudar,destilar,edificar,elucidar,empregar,encostar,englobar,entornar,escorrer,esmurrar,esquecer,estender,executar,fornecer,germinar,guinchar,hibernar,implorar,incorrer,indiciar,internar,jardinar,lecionar,manobrar,mascarar,mastigar,oferecer,ostentar,otimizar,planejar,praticar,projetar,propagar,racionar,rebentar,remarcar,remendar,requerer,resfriar,retaliar,revistar,suportar,tributar¦5is:aceder,acenar,afetar,ajudar,alocar,aparar,apitar,apurar,arejar,atirar,ativar,aturar,basear,berrar,cercar,chegar,chutar,clamar,clicar,cremar,curvar,custar,discar,dobrar,drenar,drogar,ejetar,emular,enfiar,exumar,fechar,ferrar,fritar,gostar,inchar,inovar,jantar,jorrar,julgar,largar,listar,lucrar,migrar,moldar,morrer,narrar,obstar,pastar,peidar,piscar,planar,postar,pregar,rachar,raptar,recear,recuar,render,riscar,saudar,sediar,sondar,testar,tornar,tramar,travar,trocar,varrer,voltar,zangar¦6is:acender,acionar,afastar,alongar,amputar,apertar,aquecer,arrasar,arrotar,aterrar,atestar,atrasar,avaliar,avistar,castrar,chumbar,deparar,desejar,digitar,duvidar,emendar,encenar,envidar,escavar,escutar,esfriar,espetar,estalar,esticar,estocar,estrear,exaltar,exortar,falecer,farejar,flertar,fofocar,fuzilar,hesitar,imigrar,intimar,irritar,isentar,lanchar,lembrar,minorar,mutilar,namorar,ocorrer,pontuar,refinar,renegar,segurar,transar,usurpar,vacinar,venerar¦4is:achar,adiar,afiar,aliar,arcar,atuar,babar,cagar,calar,cegar,corar,datar,dever,ditar,domar,falar,feder,ficar,frear,furar,gabar,gelar,gemer,gerar,jogar,lesar,levar,lidar,lutar,mamar,mijar,mimar,minar,morar,nevar,ousar,pirar,podar,pular,rapar,reger,rimar,rolar,sarar,selar,socar,somar,sugar,sujar,tecer,uivar,vagar,vazar,vetar,visar,zelar¦10is:acrescentar,categorizar,centralizar,classificar,concretizar,decepcionar,decodificar,desacelerar,descongelar,desencadear,desenvolver,desinstalar,desintegrar,desmascarar,dimensionar,enfraquecer,enlouquecer,impulsionar,incapacitar,influenciar,inicializar,inspecionar,interromper,monitorizar,monopolizar,quantificar,reabastecer,recapitular,reconciliar,reencontrar,refinanciar,ressuscitar,sincronizar,solidificar,suplementar,transbordar,transcender¦8is:adicionar,alvorecer,amamentar,amortecer,apimentar,aposentar,apunhalar,assegurar,assimilar,assombrar,atualizar,branquear,cadastrar,capitular,comemorar,complicar,comportar,concorrer,confortar,congregar,consertar,conspirar,contornar,coordenar,danificar,desculpar,desfrutar,desmarcar,desocupar,despender,despistar,discordar,dissociar,dissolver,embelezar,emprestar,enfurecer,enquadrar,entabular,escurecer,esfaquear,etiquetar,exercitar,fermentar,flexionar,focalizar,gerenciar,humanizar,incomodar,infiltrar,licenciar,maltratar,ministrar,mobilizar,pacificar,percorrer,perguntar,reacender,rebobinar,relembrar,ressaltar,retificar,rivalizar,salientar,silenciar,sinalizar,subsidiar,sussurrar,tonificar,triplicar,vaporizar¦3s:agir¦9is:amadurecer,amedrontar,amplificar,apresentar,aprisionar,arrebentar,atormentar,cauterizar,colecionar,confrontar,contrariar,desapertar,desconfiar,desesperar,deslumbrar,desmembrar,dissimular,embalsamar,escravizar,estacionar,evidenciar,fertilizar,fortificar,harmonizar,hipnotizar,incriminar,interligar,lubrificar,movimentar,obscurecer,orquestrar,padronizar,pestanejar,posicionar,prejudicar,pressionar,profetizar,pulverizar,qualificar,questionar,raciocinar,reabilitar,reaprender,refrigerar,requisitar,santificar,selecionar,sequestrar,subordinar,transpirar¦3is:arar,moer,suar¦7s:assistir,infligir,investir¦6s:coligir,demitir,emergir,oprimir,redimir¦11áis:comercializar,desenmascarar¦13is:confraternizar,descentralizar¦12is:contra-atacar,correlacionar,desconsiderar,ridicularizar,supervisionar¦3des:crer¦11is:cumprimentar,desvalorizar,exemplificar,experienciar,familiarizar,impressionar,marginalizar,nacionalizar,negligenciar,possibilitar,providenciar,revolucionar,subvencionar¦12áis:desestabilizar,individualizar¦9s:desimpedir,pressentir,prosseguir¦4ndes:deter,reter¦8s:dissuadir,submergir¦7ndes:entreter¦5s:exibir,iludir,premir,tingir¦4s:ferir,fugir,gerir,punir,sumir,ungir¦15áis:institucionalizar¦2des:ler,rir¦8éis:prevalecer,trascender¦4des:reler,rever¦14is:responsabilizar¦2éis:roer¦5des:sorrir¦2ndes:ter,vir¦2s:oír¦1ondes:pôr"
+        "ex": "vais:ir¦os acostáis:acostarse¦os afiliáis:afiliarse¦os alejáis:alejarse¦os casáis:casarse¦os decidís:decidirse¦os levantáis:levantarse¦os movéis:moverse¦os preocupáis:preocuparse¦os quedáis:quedarse¦os quejáis:quejarse¦os retiráis:retirarse¦os sentáis:sentarse¦os suicidáis:suicidarse¦3áis:dejar,tapar,odiar,andar,negar,votar,secar,errar,criar,cenar,pagar,tocar,jugar,volar,notar,bajar,mudar,jurar,matar,rezar,picar,curar,tomar,echar,fijar,tirar,rogar,crear,dudar,durar,ganar,lavar,helar,sonar,regar,robar,mirar,parar,untar,estar,fumar,pegar,aunar,botar,cavar,citar,colar,donar,dotar,girar,idear,jalar,ligar,obrar,optar,pelar,pisar,remar,rodar,sanar,sudar,sumar,velar,virar¦3éis:beber,meter,temer,mover,deber,ceder¦4áis:gastar,mandar,educar,cerrar,costar,llorar,agorar,juntar,saltar,sentar,variar,ladrar,llamar,apagar,culpar,entrar,montar,desear,faltar,vaciar,situar,violar,calmar,tratar,evitar,peinar,buscar,quedar,gritar,cobrar,quejar,bordar,marcar,tragar,viajar,borrar,contar,cortar,reinar,gustar,abonar,acusar,afilar,afinar,agitar,alejar,animar,anotar,apelar,apilar,bastar,batear,brotar,cantar,captar,cifrar,cursar,editar,fregar,frenar,frotar,fundar,gotear,gravar,honrar,imitar,lidiar,mediar,obviar,ocupar,operar,paliar,pasear,patear,portar,rasgar,restar,rociar,saciar,serrar,soldar,soltar,tentar,tumbar¦1ois:ser¦8áis:clasificar,significar,crucificar,actualizar,certificar,conmemorar,contrastar,cuestionar,enmascarar,falsificar,fiscalizar,garantizar,justificar,modernizar,patrocinar,perjudicar,planificar,presenciar,rectificar,reintegrar,relacionar,reutilizar,secuestrar,sintonizar,socializar,solucionar,testificar,traicionar,vislumbrar,visualizar¦7áis:protestar,encontrar,modificar,presentar,funcionar,registrar,disfrutar,adjudicar,alimentar,almacenar,apaciguar,armonizar,autorizar,blanquear,calificar,canalizar,capacitar,codificar,conciliar,contratar,coordinar,debilitar,despachar,dilucidar,disculpar,disimular,ejercitar,emparejar,enganchar,equiparar,finalizar,financiar,gestionar,habilitar,localizar,mencionar,notificar,optimizar,paralizar,penalizar,proclamar,prolongar,prosperar,ratificar,sancionar,sustentar,valorizar¦2áis:usar,amar,asar,atar,izar,orar¦5áis:confiar,invitar,acordar,manejar,reparar,asustar,abordar,cocinar,esperar,aspirar,afeitar,asociar,madurar,acostar,aplicar,visitar,regalar,emigrar,adecuar,agregar,alertar,alinear,aportar,apuntar,asaltar,asentar,demorar,denegar,derogar,encarar,enfriar,expirar,filtrar,generar,ignorar,imputar,manchar,marchar,militar,nombrar,ordenar,prestar,rebotar,saquear,sembrar,separar,simular,sofocar,titular,valorar,olvidar¦6áis:enamorar,reportar,importar,suspirar,conjugar,utilizar,masticar,soportar,instalar,lamentar,castigar,acarrear,acelerar,acomodar,afrontar,aminorar,analizar,asegurar,asimilar,congelar,derrotar,disputar,ejecutar,encerrar,implicar,insertar,inspirar,integrar,retornar,suscitar,unificar¦4éis:crecer,romper,torcer,barrer,querer,correr,prever,vender,volver,vencer,tender,verter¦2ís:unir¦4ís:exigir,servir,fingir,hervir,aludir,asumir,eludir,erigir¦7éis:descender,abastecer,corromper,endurecer,favorecer,oscurecer,suspender¦5éis:atrever,ofrecer,atender,merecer,acceder,exceder,perecer¦10áis:caracterizar,complementar,contabilizar,cumplimentar,distorsionar,diversificar,experimentar,intensificar,materializar,personalizar,racionalizar,sensibilizar,subcontratar¦3ís:medir,herir,venir,pedir,abrir,gemir,rugir¦6éis:entender,depender,ascender,conceder,envolver,recorrer¦9áis:entrevistar,generalizar,administrar,concienciar,cuantificar,diferenciar,especificar,estabilizar,evolucionar,fundamentar,identificar,implementar,incrementar,liberalizar,multiplicar,neutralizar,posibilitar,reflexionar,reglamentar,regularizar,rehabilitar,representar,simplificar,suministrar¦2is:dar,ver¦5ís:afligir,sugerir,impedir¦9éis:enflaquecer¦7is:abrandar,absolver,alastrar,angariar,aprontar,arquivar,arrastar,assaltar,assediar,assentar,associar,assustar,beliscar,cimentar,comandar,computar,decifrar,decorrer,deformar,delinear,deportar,desertar,deslocar,desnudar,destilar,edificar,elucidar,empregar,encostar,englobar,entornar,escorrer,esmurrar,esquecer,estender,executar,fornecer,germinar,guinchar,hibernar,implorar,incorrer,indiciar,internar,jardinar,lecionar,manobrar,mascarar,mastigar,oferecer,ostentar,otimizar,planejar,praticar,projetar,propagar,racionar,rebentar,remarcar,remendar,repudiar,resfriar,retaliar,revistar,suportar,tributar¦5is:aceder,acenar,afetar,ajudar,alocar,aparar,apitar,apurar,arejar,atirar,ativar,aturar,basear,berrar,cercar,chegar,chutar,clamar,clicar,cremar,curvar,custar,discar,dobrar,drenar,drogar,ejetar,emular,enfiar,exumar,fechar,ferrar,fritar,gostar,inchar,inovar,jantar,jorrar,julgar,largar,listar,lucrar,migrar,moldar,morrer,narrar,obstar,pastar,peidar,piscar,planar,postar,pregar,rachar,raptar,recear,recuar,render,riscar,saudar,sediar,sondar,testar,tornar,tramar,travar,trocar,varrer,voltar,zangar¦6is:acender,acionar,afastar,alongar,amputar,apertar,aquecer,arrasar,arrotar,aterrar,atestar,atrasar,avaliar,avistar,castrar,chumbar,deparar,desejar,digitar,duvidar,emendar,encenar,envidar,escavar,escutar,esfriar,espetar,estalar,esticar,estocar,estrear,exaltar,exortar,falecer,farejar,flertar,fofocar,fuzilar,hesitar,imigrar,intimar,irritar,isentar,lanchar,lembrar,minorar,mutilar,namorar,ocorrer,pontuar,refinar,renegar,segurar,transar,usurpar,vacinar,venerar¦4is:achar,adiar,afiar,aliar,arcar,atuar,babar,cagar,calar,cegar,corar,datar,dever,ditar,domar,falar,feder,ficar,frear,furar,gabar,gelar,gemer,gerar,jogar,lesar,levar,lidar,lutar,mamar,mijar,mimar,minar,morar,nevar,ousar,pirar,podar,pular,rapar,reger,rimar,rolar,sarar,selar,socar,somar,sugar,sujar,tecer,uivar,vagar,vazar,vetar,visar,zelar¦10is:acrescentar,categorizar,centralizar,classificar,concretizar,decepcionar,decodificar,desacelerar,descongelar,desencadear,desenvolver,desinstalar,desintegrar,desmascarar,dimensionar,enfraquecer,enlouquecer,impulsionar,incapacitar,influenciar,inicializar,inspecionar,interromper,monitorizar,monopolizar,quantificar,reabastecer,recapitular,reconciliar,reencontrar,refinanciar,ressuscitar,sincronizar,solidificar,suplementar,transbordar,transcender¦8is:adicionar,alvorecer,amamentar,amortecer,apimentar,aposentar,apunhalar,assegurar,assimilar,assombrar,atualizar,branquear,cadastrar,capitular,comemorar,complicar,comportar,concorrer,confortar,congregar,consertar,conspirar,contornar,coordenar,danificar,desculpar,desfrutar,desmarcar,desocupar,despender,despistar,discordar,dissociar,dissolver,embelezar,emprestar,enfurecer,enquadrar,entabular,escurecer,esfaquear,etiquetar,exercitar,fermentar,flexionar,focalizar,gerenciar,humanizar,incomodar,infiltrar,licenciar,maltratar,ministrar,mobilizar,pacificar,percorrer,perguntar,reacender,rebobinar,relembrar,ressaltar,retificar,rivalizar,salientar,silenciar,sinalizar,subsidiar,sussurrar,tonificar,triplicar,vaporizar¦3s:agir¦9is:amadurecer,amedrontar,amplificar,apresentar,aprisionar,arrebentar,atormentar,cauterizar,colecionar,confrontar,contrariar,desapertar,desconfiar,desesperar,deslumbrar,desmembrar,dissimular,embalsamar,escravizar,estacionar,evidenciar,fertilizar,fortificar,harmonizar,hipnotizar,incriminar,interligar,lubrificar,movimentar,obscurecer,orquestrar,padronizar,pestanejar,posicionar,prejudicar,pressionar,profetizar,pulverizar,qualificar,questionar,raciocinar,reabilitar,reaprender,refrigerar,requisitar,santificar,selecionar,sequestrar,subordinar,transpirar¦3is:arar,moer,suar¦7s:assistir,infligir,investir¦6s:coligir,demitir,emergir,oprimir,redimir¦11áis:comercializar,desenmascarar¦13is:confraternizar,descentralizar¦12is:contra-atacar,correlacionar,desconsiderar,ridicularizar,supervisionar¦3des:crer¦11is:cumprimentar,desvalorizar,exemplificar,experienciar,familiarizar,impressionar,marginalizar,nacionalizar,negligenciar,possibilitar,providenciar,revolucionar,subvencionar¦12áis:desestabilizar,individualizar¦9s:desimpedir,pressentir,prosseguir¦4ndes:deter,reter¦8s:dissuadir,submergir¦7ndes:entreter¦5s:exibir,iludir,premir,tingir¦4s:ferir,fugir,gerir,punir,sumir,ungir¦15áis:institucionalizar¦2des:ler,rir¦8éis:prevalecer,trascender¦4des:reler,rever¦14is:responsabilizar¦2éis:roer¦5des:sorrir¦2ndes:ter,vir¦2s:oír¦1ondes:pôr"
       },
       "thirdPlural": {
         "fwd": "igen:egir¦uestran:ostrar¦ienen:ener¦uyen:üir¦iben:ebir¦õem:ôr¦inden:endir¦1ieren:uerir¦1em:zir¦2en:idir,itir,alir,rrir,rcir,mpir¦2n:ñer¦2m:zer,uer¦2em:mbir¦3n:eñar,aler,rger¦3en:cibir,indir¦3m:nger¦3em:remir¦4n:uedar¦4m:remer¦5n:entrar",
-        "both": "5n:lnerar,igilar,ntilar,alorar,iturar,nsitar,amitar,olerar,fonear,ujetar,ortear,ocavar,etirar,ucitar,mediar,doblar,uperar,opilar,clamar,caudar,ebotar,rantar,mulgar,gramar,oceder,stular,antear,rfilar,rdurar,padear,scilar,ulizar,bjetar,otivar,archar,iobrar,gastar,imitar,gislar,rrogar,rporar,ntivar,ugurar,gnorar,ustrar,rmular,cturar,xpirar,hortar,xcavar,agerar,trenar,stirar,scapar,adicar,iparar,uiciar,gordar,rentar,nfocar,ncajar,peorar,llecer,logiar,vulgar,sputar,isipar,etonar,spejar,montar,ntelar,adenar,mbocar,editar,rrocar,rramar,epurar,raudar,clinar,mbular,otejar,operar,statar,njurar,igurar,cretar,pletar,mpilar,mparar,mbinar,pturar,oquear,rrizar,esinar,ntalar,lastar,tiguar,acenar,justar,gravar,garrar,doptar,juntar,daptar,umular,ctivar,ometer,cceder,arrear,barcar,rturar,suciar,horcar,scinar,fiscar,vantar,ecorar,lebrar,vacuar,ltivar,lvidar,ncelar,utizar,cticar,lestar,uistar,niciar,cantar,tudiar,render,cansar,cortar,riguar,aludar,bortar,tregar,ndenar,trolar,uantar,vencer,cercar,edicar,icitar,legrar,ositar,jercer,dornar,gociar,blicar,uceder,evorar,ndicar,bligar,egular,lantar,icipar,horrar,enecer,njugar,anecer,olocar,irizar,gustar,ayunar,iunfar,blecer,arecer,gatear,nsejar,ntecer,unciar,bricar¦5m:acilar,rmizar,utelar,reinar,ransar,aficar,ufocar,bornar,bmeter,bjugar,letrar,pultar,abotar,otular,evidar,vender,tardar,ndecer,pudiar,emeter,gistar,efinar,uturar,crutar,obinar,animar,opagar,ofanar,eceder,ontuar,liciar,tencer,ndurar,elejar,fuscar,ssitar,urchar,itorar,sturar,prezar,rtelar,bertar,evitar,rritar,ntimar,rceder,njetar,flamar,inerar,dratar,bituar,inchar,vernar,guejar,rnicar,stejar,aturar,onerar,xercer,xcitar,aporar,tuprar,tragar,elecer,pionar,ecular,murrar,sfriar,crever,coltar,xergar,travar,nsinar,uadrar,gasgar,nganar,rralar,ncenar,purrar,grecer,fetuar,uvidar,ssipar,cursar,plinar,igitar,vendar,stilar,pistar,sonrar,slocar,sligar,sfilar,nrolar,dobrar,contar,rregar,ativar,rochar,epilar,nstrar,eletar,apitar,metrar,rtejar,rariar,ntatar,atular,fortar,omutar,oletar,agular,trizar,arolar,muflar,aducar,uzinar,atizar,buciar,nturar,xiliar,nticar,uditar,opelar,ssinar,rrumar,bentar,rrasar,fundar,imorar,eender,pontar,etecer,ziguar,ecipar,ncorar,olecer,enizar,marrar,maciar,listar,uentar,gentar,fastar,iantar,calmar,bdicar¦5en:umergir,ercutir¦5em:sseguir,ssentir,nvestir,deferir,ssuadir,iminuir,impedir,ssistir¦5iam:faquear,elinear,icotear¦5yen:sminuir¦4m:angar,igiar,rinar,fonar,atuar,segar,virar,zijar,criar,bolar,eatar,eimar,ipiar,emiar,oupar,uisar,horar,dalar,airar,bstar,murar,dular,sclar,acrar,hucar,impar,amber,solar,adiar,vejar,tunar,atrar,pedar,erdar,zilar,risar,matar,utuar,polar,xpiar,cizar,tudar,relar,tocar,irrar,gotar,folar,covar,xugar,aguar,nenar,lobar,gatar,gajar,rujar,urtar,iptar,cerar,patar,lezar,bedar,samar,leger,zimar,famar,iorar,sovar,ronar,rajar,cotar,ascar,uviar,sabar,colar,urvar,remar,sumar,hecer,ceber,ungar,hupar,ingar,eirar,efiar,hamar,algar,imbar,rigar,cejar,femar,hotar,iscar,obiar,nalar,ombar,fecer,cadar,batar,zenar,rovar,alpar,lugar,lisar,ienar,gemar,eijar,judar,fogar,fetar,vogar,mecer,oecer,eitar,salar,eviar,balar¦4n:ltear,engar,cunar,sanar,pesar,ngrar,aldar,odear,tomar,catar,posar,peler,lajar,futar,lutar,cabar,bajar,zonar,uitar,dizar,curar,crear,cesar,egiar,cisar,anear,verar,forar,pinar,ldear,delar,digar,jorar,midar,aurar,nflar,dagar,ulcar,ncoar,ndiar,ualar,bitar,rabar,lpear,ilmar,irpar,pular,tafar,calar,pecer,ablar,ranar,omiar,arnar,bezar,pujar,pegar,satar,rivar,berar,latar,odiar,echar,nstar,lidar,derar,agrar,ginar,orear,borar,logar,mbiar,ibrar,rdear,vivar,rapar,tajar,sorar,uinar,esgar,hivar,itrar,ximar,artar,nular,uilar,terar,labar,hogar,rupar,cosar,bonar,surar,vegar,iclar,dorar,rciar,resar,escar,nocer,redar,ucear,alvar,opiar,ersar,timar,smear,uchar,helar,jecer,ograr,uidar,velar,eciar,levar,bujar,iviar,ampar,ardar,uemar,anzar,hocar,yudar,ausar,vinar,zclar,ñalar,visar,onder,vocar,mpiar,lenar,lotar,minar,tinar,mprar,mirar,ervar,donar,busar,ultar,decer,ncear,indar,ailar,cular,intar,teger,larar,eptar,bicar¦4ienden:rascender¦4em:sferir,orrir,edimir,oferir,rferir,iferir,mentir,iludir,rrigir,vergir,nferir,oligir,tingir,ssumir¦4en:esumir,ringir,scutir,xhibir,irigir,nsumir¦4iam:entear,rasear,errear,andear¦4êm:tervir,treter¦3iam:guear,acear,emear,frear,ecear,ssear,omear,usear,mpear,lsear,stear,arear¦3em:fruir,letir,digir,abrir,serir,nibir,antir,xibir,oluir,golir,espir,urtir,lidir,obrir,bolir¦3n:epar,niar,rbar,amer,zgar,rjar,uzar,ozar,lsar,ibar,gnar,psar,jear,lzar,uñar,plar,rber,rlar,rgar,acar,glar,smar,omer,ojar,oger,ctar,lear,rmar,azar,adar,añar,asar,llar,oner,acer¦3m:frer,snar,iver,spar,uvar,vrar,juar,rver,ziar,aiar,ubar,scer,roer,rter,hiar,ecar,xiar,njar,oiar,siar,muar,ssar,ncar,lhar,quar,nhar,ater¦3êem:rover,tever¦3úan:petuar,entuar¦3ienen:ervenir¦3en:andir,undir,audir,artir,ubrir,urgir,ribir,cudir,istir,nguir,xigir,rimir¦3ían:nfriar¦3yen:iluir,cluir,fluir¦3úan/adecuan:decuar¦3iegan:splegar¦3ieren:referir¦2n:jer,ser,eer,aer,yar¦2êm:ster,ovir,bter,nter¦2isten:evestir¦2ientan:eventar,ecentar¦2iensan:epensar¦2em:ctir,suir,uvir,trir,odir,lpir,grir,prir,agir,irir¦2en:drir,inir,arir,upir,adir,plir,llir,atir,uñir,ivir,frir,ucir¦2inem:evenir¦2m:xer,xar,her,çar,oar,far¦2iam:hear,xear,gear,zear,bear¦2em/exturquem:quir¦2iden:xpedir,spedir¦2ían:spiar,sviar,afiar,pliar,nviar¦2iendan:nmendar,omendar¦2uelven:isolver,evolver,esolver¦2ierran:nterrar¦2uerdan:ncordar,ecordar¦2iguen:oseguir,rseguir,nseguir¦2ieren:ugerir¦2ienden:efender,ncender,ntender,xtender¦2íben:ohibir¦2ienen:nvenir¦2úan:ctuar¦2iesan:nfesar¦2uevan:enovar¦2iernan:obernar¦2yen:tuir,ruir¦2iertan:spertar¦2ienten:esentir,nsentir¦1em:sir,air¦1únen:eunir¦1íbem:oibir¦1iestan:festar¦1úan:luar,nuar,duar¦1ízan:aizar¦1uesan/engrosan:rosar¦1ierran:cerrar¦1ueven:mover¦1idem:redir¦1ieren:herir¦1iertan:certar¦1iesan:vesar¦1ienten:pentir¦1iten:petir,retir¦1úsan:husar¦1ueban:robar¦1ientan:lentar¦1uestan:postar¦1iebran:uebrar¦1iendan:rendar¦1iezan:pezar¦1ían:uiar¦uelcan:olcar¦iemblan:emblar¦e suicidan:uicidarse¦ sientan:ntarse¦uerden:order¦ão:aver¦iernen:ernir¦ospem:uspir¦õem:or¦üenzan:onzar¦uelen:oler¦ierden:erder¦uerzan:orzar¦ueden:oder¦ueren:orir¦uelgan:olgar¦icen:ecir¦ueñan:oñar¦iñen:eñir¦uermen:ormir¦íen:eír¦ierten:ertir¦ienzan:enzar",
-        "rev": "er:on,én,êem¦egar:iegan¦iar:ían,ían/palian¦ensar:iensan¦orcer:uercen¦ostar:uestan¦orar:üeran¦ender:ienden¦ordar:uerdan¦olar:uelan¦ontrar:uentran¦uar:úan¦over:ueven¦entir:ienten¦elar:ielan¦etar:ietan¦eguir:iguen¦onar:uenan¦olver:uelven¦ontar:uentan¦ar:án¦ervir:ierven¦islar:íslan¦unar:únan¦ugir:ogem¦oblar:ueblan¦olir:ulem¦udar:údam¦embrar:iembran¦errar:ierran¦oldar:ueldan¦oltar:ueltan¦1ener:tienen¦1ir:uyen¦1ostrar:muestran¦1üir:guyen¦1ar:eiam¦1er:têm¦1edir:piden¦1r:eem,iem¦2r:jan,han,man,pan,ean,tam,nam,cem,ham,mam,cam,zam,ram,lam,jam,vam,sam,bam,gam,pam,oem,uam,oen¦2ir:uben,ngen,bren,erem,uden,umen,uzem,item,rgem,udem,utem,igem,imem,unem,buem,tuem,umem¦2egir:rrigen¦2ebir:nciben¦3r:eben,igan,dian,ican,ucan,izan,otan,ecen,itan,gran,ecan,eten,agan,ocan,dran,aran,inan,udan,uran,olan,atan,iran,cian,aben,anan,onan,rcan,añen,oban,ncen,alan,oran,azem,lvem,ndem,usan,fiam,liam,riam,ilan,ncan,ndam,diam,ptan,fran,rrem,izem,ozem,rsan,ogan,udam,rdam,ciam,utan,idam,ivan,ulan,avan,odam,ovan,mpem,cran,ldam,vian,isan,ngan,sgan,egem,mban¦3ir:ciden,miten,urren,arcen,siden,salen,umbem,ingem¦4r:astan,andan,ansan,ortan,legan,orren,reven,untan,altan,ustan,ontan,señan,istan,uscan,oblan,ordan,orran,petan,angem,leran,regan,geran,iguan,antan,ceden,ilian,ompen,peñan,bebem,uetan,meran,ltran,renan,undan,neran,onran,peran,etran,fesan,obran,uerem,ornan,urran¦4ir:fligen,ividen,rumpen,cinden¦5r:testan,nvidan,pretan,mentan,sentan,umbran,tentan,penden,istran,omodan,hondan,ternan,astran,pensan,ngelan,rretem,ucidan,erezan,premem,sertan,ombran,rdenan,restan,ventan¦5ir:erciben",
-        "ex": "van:ir¦yerran:errar¦huelen:oler¦se acuestan:acostarse¦se afilian:afiliarse¦se alejan:alejarse¦se casan:casarse¦se deciden:decidirse¦se levantan:levantarse¦se mueven:moverse¦se olvidan:olvidarse¦se preocupan:preocuparse¦se quedan:quedarse¦se quejan:quejarse¦se retiran:retirarse¦4n:dejar,tapar,beber,odiar,andar,votar,secar,meter,cenar,pagar,tocar,notar,pesar,bajar,mudar,jurar,temer,matar,rezar,picar,curar,tomar,echar,fijar,tirar,crear,dudar,cesar,caber,durar,ganar,lavar,robar,mirar,saber,deber,parar,untar,fumar,besar,pegar,arder,botar,cavar,ceder,citar,colar,donar,dotar,girar,idear,jalar,ligar,obrar,optar,pelar,pisar,posar,remar,sanar,sudar,sumar,velar,virar,valer¦5n:gastar,mandar,educar,cansar,crecer,romper,barrer,llorar,llegar,correr,juntar,saltar,ladrar,llamar,apagar,culpar,entrar,montar,desear,faltar,violar,calmar,tratar,evitar,vender,peinar,buscar,doblar,gritar,cobrar,quejar,bordar,marcar,tragar,vencer,viajar,borrar,cortar,reinar,gustar,acusar,afilar,afinar,agitar,alegar,alejar,animar,anotar,apelar,apilar,bastar,batear,brotar,cantar,captar,cifrar,colmar,cursar,editar,frenar,frotar,fundar,gotear,gravar,honrar,imitar,lidiar,mediar,obviar,ocupar,operar,pasear,patear,portar,rasgar,restar,saciar,tensar,tumbar,zarpar,quedar¦9n:investigar,clasificar,enriquecer,significar,clarificar,sacrificar,glorificar,simbolizar,fortalecer,crucificar,actualizar,argumentar,beneficiar,certificar,conmemorar,contrastar,cuestionar,desbaratar,documentar,domesticar,economizar,empaquetar,enmascarar,falsificar,fiscalizar,formalizar,garantizar,indemnizar,involucrar,justificar,modernizar,normalizar,patrocinar,perjudicar,planificar,precipitar,presenciar,prevalecer,reaccionar,rectificar,reintegrar,reinventar,relacionar,reorientar,reutilizar,secuestrar,sintetizar,sintonizar,socializar,solucionar,testificar,traicionar,vislumbrar,visualizar,concentrar¦1on:ser¦7n:florecer,enamorar,reportar,importar,inmigrar,convidar,planchar,suspirar,exportar,preparar,platicar,utilizar,explicar,masticar,replicar,aumentar,inventar,detestar,realizar,intentar,soportar,respirar,depender,criticar,instalar,explorar,respetar,lamentar,castigar,accionar,acelerar,acomodar,afrontar,agilizar,agrandar,aligerar,alternar,aminorar,analizar,arrancar,arrestar,asegurar,asimilar,comentar,conceder,congelar,demandar,derrotar,deslizar,disparar,duplicar,ejecutar,enmarcar,enumerar,esquivar,fomentar,fusionar,implicar,insertar,inspirar,instigar,integrar,orientar,penetrar,profesar,rastrear,reanudar,recalcar,recobrar,recorrer,reflejar,resaltar,retornar,retratar,sabotear,socorrer,suavizar,sufragar,suplicar,suscitar,susurrar,unificar¦1iegan:negar,regar¦8n:protestar,colonizar,necesitar,modificar,preguntar,organizar,comunicar,presentar,funcionar,verificar,legalizar,purificar,contestar,registrar,disfrutar,civilizar,abastecer,acariciar,adjudicar,alimentar,apaciguar,armonizar,arrastrar,autorizar,blanquear,calificar,canalizar,capacitar,codificar,compensar,conciliar,contratar,coordinar,corromper,debilitar,descifrar,despachar,dilucidar,dinamizar,disculpar,disimular,dispensar,ejercitar,emparejar,enderezar,endurecer,enfatizar,enganchar,engendrar,ensamblar,estimular,facilitar,favorecer,finalizar,financiar,gestionar,habilitar,localizar,maximizar,memorizar,mencionar,minimizar,movilizar,notificar,ocasionar,optimizar,oscurecer,paralizar,penalizar,potenciar,preocupar,presionar,pretender,prolongar,propiciar,prosperar,ratificar,redondear,regenerar,sancionar,solventar,suspender,sustentar,tipificar,valorizar¦3n:usar,amar,asar,atar,izar,orar,roer¦4ían:confiar¦1iensan:pensar¦1uercen:torcer¦1ierran:cerrar,serrar¦1uestan:costar¦6n:invitar,atrever,manejar,reparar,asustar,abordar,cocinar,esperar,aspirar,ofrecer,afeitar,asociar,madurar,aplicar,ofender,visitar,regalar,emigrar,merecer,agregar,ahondar,alertar,alinear,allanar,aportar,apuntar,asaltar,delegar,demorar,derogar,encarar,equipar,exceder,filtrar,generar,imputar,incitar,innovar,inundar,manchar,militar,mitigar,nombrar,ordenar,perecer,prestar,recitar,saquear,separar,simular,sofocar,titular,centrar,emerger¦2en:unir¦2ieren:querer¦2üeran:agorar¦4ienden:descender¦2uerdan:acordar¦1irven:servir¦10n:emborrachar,interpretar,entrevistar,generalizar,acostumbrar,enflaquecer,administrar,aterrorizar,capitalizar,concienciar,cuantificar,diferenciar,digitalizar,especificar,estabilizar,esterilizar,estrangular,evolucionar,fundamentar,identificar,implementar,impresionar,incrementar,liberalizar,multiplicar,neutralizar,posibilitar,promocionar,pronosticar,recompensar,reflexionar,reglamentar,regularizar,rehabilitar,reorganizar,representar,revitalizar,seleccionar,simplificar,suministrar,transportar¦2ían:criar¦11n:caracterizar,complementar,confeccionar,contabilizar,cumplimentar,desperdiciar,diagnosticar,distorsionar,diversificar,experimentar,inspeccionar,intensificar,materializar,perfeccionar,personalizar,proporcionar,racionalizar,sensibilizar,subcontratar,tranquilizar¦1iden:medir,pedir¦2egan:jugar¦1ientan:sentar,tentar¦3ían:variar,vaciar,rociar¦1yen:oír¦1uelan:volar¦1ieren:herir¦3uentran:encontrar¦2yen:huir¦1ienen:venir,tener¦4én:prever¦3úan:situar¦6m:vomitar,acender,acionar,alarmar,alongar,amputar,apertar,aquecer,arrotar,arvorar,aterrar,atestar,atrasar,avaliar,avistar,castrar,chumbar,deparar,desejar,embeber,emendar,encetar,envidar,escavar,escutar,esmagar,espetar,estalar,esticar,exaltar,exortar,falecer,farejar,flertar,fofocar,hesitar,imigrar,isentar,lanchar,lembrar,minorar,mutilar,namorar,ocorrer,rebocar,recusar,renegar,segurar,usurpar,vacinar,venerar,vigorar¦3en:subir,abrir,rugir,salir¦1ueven:mover¦1uegan:rogar¦1ienten:sentir,mentir¦4en:fingir,aludir,asumir,eludir,erigir,eximir¦1ielan:helar¦2uestan:acostar¦3ietan:apretar¦1iguen:seguir¦2n:dar,ver,haber¦5en:afligir,recibir¦1uenan:sonar¦8yen:distribuir,contribuir¦1uelven:volver¦2ienden:atender¦1uentan:contar¦3án:estar¦1isten:vestir¦1ierven:hervir¦5m:abanar,aceder,acenar,adotar,alocar,aparar,apitar,apurar,arejar,atirar,ativar,aturar,berrar,cercar,chegar,chutar,clamar,clicar,custar,dobrar,drenar,drogar,ejetar,emular,enfiar,exumar,fechar,ferrar,fritar,gostar,inchar,inovar,jantar,jorrar,julgar,largar,listar,lucrar,migrar,moldar,morrer,narrar,pastar,peidar,planar,postar,pousar,pregar,rachar,raptar,recuar,render,sediar,sondar,soprar,testar,tornar,tramar,travar,trocar,varrer,voltar,erguer,tremer¦8m:aborrecer,acarretar,adicionar,alvorecer,amamentar,amortecer,amortizar,apimentar,apodrecer,aposentar,apunhalar,assegurar,assimilar,assombrar,atualizar,cadastrar,capitular,comemorar,complicar,comportar,concorrer,congregar,consertar,conspirar,contorcer,contornar,coordenar,danificar,desculpar,desfrutar,desmarcar,desocupar,despender,discordar,dissociar,dissolver,distorcer,emprestar,enfurecer,entabular,escurecer,etiquetar,exercitar,fermentar,flexionar,focalizar,gerenciar,humanizar,incomodar,infiltrar,licenciar,maltratar,ministrar,mobilizar,pacificar,percorrer,perguntar,reacender,relembrar,ressaltar,retificar,revigorar,rivalizar,salientar,silenciar,sinalizar,subsidiar,sussurrar,tonificar,triplicar,vaporizar¦7m:abrandar,absolver,alastrar,angariar,aprontar,arquivar,arrastar,assaltar,assediar,assentar,associar,assustar,cimentar,comandar,computar,confinar,decifrar,decorrer,deformar,deportar,derreter,desertar,desnudar,devastar,edificar,elucidar,empregar,encostar,enforcar,entornar,esbarrar,escorrer,esfregar,espantar,esquecer,estender,estourar,executar,fornecer,germinar,hibernar,implorar,incorrer,indiciar,internar,jardinar,lecionar,manobrar,mascarar,mastigar,oferecer,ostentar,otimizar,perfurar,planejar,praticar,projetar,protelar,racionar,remarcar,remendar,repousar,requerer,retaliar,revistar,suportar,temperar,tributar¦4m:achar,adiar,afiar,aliar,arcar,atuar,babar,cagar,calar,cegar,corar,datar,dever,ditar,domar,falar,feder,ficar,furar,gabar,gelar,gemer,gerar,jogar,lesar,levar,lidar,lutar,mamar,mijar,mimar,minar,morar,nevar,ousar,pirar,podar,pular,rapar,reger,rimar,rolar,sarar,selar,socar,somar,sugar,sujar,tecer,uivar,vagar,vazar,vetar,visar,zelar¦10m:acrescentar,categorizar,centralizar,classificar,concretizar,decepcionar,decodificar,desacelerar,descongelar,desenvolver,desinstalar,desintegrar,desmascarar,dimensionar,enfraquecer,enlouquecer,impulsionar,incapacitar,influenciar,inicializar,inspecionar,interromper,monitorizar,monopolizar,quantificar,reabastecer,recapitular,reconciliar,reencontrar,refinanciar,ressuscitar,sincronizar,solidificar,suplementar,transbordar,transcender¦4em:aderir,aferir,iludir,reler,tingir,premir¦2em:agir,ler,rir¦1íslan:aislar¦9m:amadurecer,amedrontar,amplificar,apresentar,aprisionar,arredondar,atormentar,cauterizar,colecionar,confrontar,desapertar,desconfiar,desesperar,deslumbrar,desmembrar,disseminar,dissimular,engravidar,escravizar,estacionar,evidenciar,extraditar,fertilizar,fortificar,harmonizar,hipnotizar,incriminar,interligar,lubrificar,movimentar,obscurecer,orquestrar,padronizar,pestanejar,posicionar,prejudicar,pressionar,profetizar,pulverizar,qualificar,questionar,raciocinar,reabilitar,reaprender,refrigerar,requisitar,santificar,selecionar,sequestrar,subordinar,transpirar¦3m:arar,moer,suar¦3ienden:ascender¦2ientan:asentar¦6yen:atribuir¦1únan:aunar¦4iam:basear¦7iam:branquear¦5iam:chatear,estrear¦1uecen:cocer¦12n:comercializar,contrarrestar,desenmascarar¦13m:confraternizar,descentralizar¦12m:contra-atacar,correlacionar,desconsiderar,ridicularizar,supervisionar¦2êem:crer¦11m:cumprimentar,desvalorizar,exemplificar,experienciar,familiarizar,impressionar,marginalizar,nacionalizar,negligenciar,possibilitar,providenciar,revolucionar,subvencionar¦5em:demitir,digerir,emergir,incutir,ingerir,oprimir,referir¦3iegan:denegar¦9iam:desencadear¦13n:desestabilizar,individualizar¦3êm:deter,reter¦3uelven:envolver¦3em:ferir,gerir,punir,sumir,ungir¦3yen:fluir¦3iam:frear¦2iegan:fregar,plegar¦1ogem:fugir¦1imen:gemir¦3iden:impedir¦6em:infligir¦16n:institucionalizar¦3ían/palian:paliar¦1ueblan:poblar¦1ulem:polir¦14m:responsabilizar¦7em:retribuir,submergir¦3êem:rever¦1uedan:rodar¦2údam:saudar¦1iembran:sembrar¦1ueldan:soldar¦1ueltan:soltar¦8em:substituir¦1ienden:tender¦1êm:ter,vir¦1ierten:verter¦1igen:regir¦1uestran:mostrar¦4ieren:requerir¦2igen:elegir¦1õem:pôr¦1inden:rendir"
+        "both": "5m:omitar,acilar,rmizar,utelar,reinar,ransar,aficar,ufocar,bornar,bmeter,bjugar,letrar,pultar,abotar,otular,evidar,vender,tardar,ndecer,pudiar,emeter,gistar,efinar,uturar,crutar,obinar,animar,opagar,ofanar,eceder,ontuar,liciar,tencer,ndurar,elejar,fuscar,ssitar,urchar,itorar,sturar,prezar,rtelar,bertar,evitar,rritar,ntimar,rceder,njetar,flamar,inerar,dratar,bituar,inchar,vernar,guejar,rnicar,stejar,aturar,onerar,xercer,xcitar,aporar,tuprar,tragar,elecer,pionar,ecular,murrar,sfriar,crever,coltar,xergar,travar,nsinar,uadrar,gasgar,nganar,rralar,ncenar,purrar,grecer,fetuar,uvidar,ssipar,cursar,plinar,igitar,vendar,stilar,pistar,sonrar,slocar,sligar,sfilar,nrolar,dobrar,contar,rregar,ativar,rochar,epilar,nstrar,eletar,apitar,metrar,rtejar,rariar,ntatar,atular,fortar,omutar,oletar,agular,trizar,arolar,muflar,aducar,uzinar,atizar,buciar,nturar,xiliar,nticar,uditar,opelar,ssinar,rrumar,bentar,rrasar,fundar,imorar,eender,pontar,etecer,ziguar,ecipar,ncorar,olecer,enizar,marrar,maciar,listar,uentar,gentar,fastar,iantar,calmar,bdicar¦5n:igilar,ntilar,alorar,iturar,nsitar,amitar,olerar,fonear,ujetar,ortear,ocavar,etirar,ucitar,mediar,doblar,uperar,opilar,clamar,caudar,ebotar,rantar,mulgar,gramar,oceder,stular,antear,rfilar,rdurar,padear,scilar,ulizar,bjetar,otivar,archar,iobrar,gastar,imitar,gislar,rrogar,rporar,ntivar,ugurar,gnorar,ustrar,rmular,cturar,xpirar,hortar,xcavar,agerar,trenar,stirar,scapar,adicar,iparar,uiciar,gordar,rentar,nfocar,ncajar,peorar,llecer,logiar,vulgar,sputar,isipar,etonar,spejar,montar,ntelar,adenar,mbocar,editar,rrocar,rramar,epurar,raudar,clinar,mbular,otejar,operar,statar,njurar,igurar,cretar,pletar,mpilar,mparar,mbinar,pturar,oquear,rrizar,esinar,ntalar,lastar,tiguar,acenar,justar,gravar,garrar,doptar,juntar,daptar,umular,ctivar,ometer,cceder,arrear,barcar,rturar,suciar,horcar,scinar,fiscar,vantar,ecorar,lebrar,vacuar,ltivar,lvidar,ncelar,utizar,cticar,lestar,uistar,niciar,cantar,tudiar,render,cansar,cortar,riguar,aludar,bortar,tregar,ndenar,uantar,vencer,cercar,edicar,icitar,legrar,ositar,jercer,dornar,gociar,blicar,uceder,evorar,ndicar,bligar,egular,lantar,icipar,horrar,enecer,njugar,anecer,olocar,irizar,gustar,ayunar,iunfar,blecer,arecer,gatear,nsejar,ntecer,unciar,bricar¦5en:umergir,ercutir¦5em:sseguir,ssentir,nvestir,deferir,ssuadir,iminuir,impedir,ssistir¦5iam:faquear,elinear,icotear¦5yen:sminuir¦4m:angar,igiar,rinar,fonar,atuar,segar,virar,zijar,criar,bolar,eatar,eimar,ipiar,emiar,oupar,uisar,horar,dalar,airar,bstar,murar,dular,sclar,acrar,hucar,impar,amber,solar,adiar,vejar,tunar,atrar,pedar,erdar,zilar,risar,matar,utuar,polar,xpiar,cizar,tudar,relar,tocar,irrar,gotar,folar,covar,xugar,aguar,nenar,lobar,gatar,gajar,rujar,urtar,iptar,cerar,patar,lezar,bedar,samar,leger,zimar,famar,iorar,sovar,ronar,rajar,cotar,ascar,uviar,sabar,colar,urvar,remar,sumar,hecer,ceber,ungar,hupar,ingar,eirar,efiar,hamar,algar,imbar,rigar,cejar,femar,hotar,iscar,obiar,nalar,ombar,fecer,cadar,batar,zenar,rovar,alpar,lugar,lisar,ienar,gemar,eijar,judar,fogar,fetar,vogar,mecer,oecer,eitar,salar,eviar,balar¦4n:ltear,engar,cunar,sanar,pesar,ngrar,aldar,odear,tomar,catar,posar,peler,lajar,futar,lutar,cabar,bajar,zonar,uitar,dizar,curar,crear,cesar,egiar,cisar,anear,verar,forar,pinar,ldear,delar,digar,jorar,midar,aurar,nflar,dagar,ulcar,ncoar,ndiar,ualar,bitar,rabar,lpear,ilmar,irpar,pular,tafar,calar,pecer,ablar,ranar,omiar,arnar,bezar,pujar,pegar,satar,rivar,berar,latar,odiar,echar,nstar,lidar,derar,agrar,ginar,orear,borar,logar,mbiar,ibrar,rdear,vivar,rapar,tajar,sorar,uinar,esgar,hivar,itrar,ximar,artar,nular,uilar,terar,labar,hogar,rupar,cosar,bonar,surar,vegar,iclar,dorar,rciar,resar,escar,nocer,redar,ucear,alvar,opiar,ersar,timar,smear,uchar,helar,jecer,ograr,uidar,velar,eciar,levar,bujar,iviar,ampar,ardar,uemar,anzar,hocar,yudar,ausar,vinar,zclar,ñalar,visar,onder,vocar,mpiar,lenar,lotar,minar,tinar,mprar,mirar,ervar,donar,busar,ultar,decer,ncear,indar,ailar,cular,intar,teger,larar,eptar,bicar¦4ienden:rascender¦4em:sferir,orrir,edimir,oferir,rferir,iferir,mentir,iludir,rrigir,vergir,nferir,oligir,tingir,ssumir¦4en:esumir,ringir,scutir,xhibir,irigir,nsumir¦4iam:entear,rasear,errear,andear¦4êm:tervir,treter¦3iam:guear,acear,emear,frear,ecear,ssear,omear,usear,mpear,lsear,stear,arear¦3em:fruir,letir,digir,abrir,serir,nibir,antir,xibir,oluir,golir,espir,urtir,lidir,obrir,bolir¦3n:epar,niar,rbar,amer,zgar,rjar,uzar,ozar,lsar,ibar,gnar,psar,jear,lzar,uñar,plar,rber,rlar,rgar,acar,glar,smar,omer,ojar,oger,ctar,lear,rmar,azar,adar,añar,asar,llar,oner,acer¦3m:frer,snar,iver,spar,uvar,vrar,juar,rver,ziar,aiar,ubar,scer,roer,rter,hiar,ecar,xiar,njar,oiar,siar,muar,ssar,ncar,lhar,quar,nhar,ater¦3êem:rover,tever¦3úan:petuar,entuar¦3ienen:ervenir¦3en:andir,undir,audir,artir,ubrir,urgir,ribir,cudir,istir,nguir,xigir,rimir¦3ían:nfriar¦3yen:iluir,cluir,fluir¦3úan/adecuan:decuar¦3iegan:splegar¦3ieren:referir¦2n:jer,ser,eer,aer,yar¦2êm:ster,ovir,bter,nter¦2isten:evestir¦2ientan:eventar,ecentar¦2iensan:epensar¦2em:ctir,suir,uvir,trir,odir,lpir,grir,prir,agir,irir¦2en:drir,inir,arir,upir,adir,plir,llir,atir,uñir,ivir,frir,ucir¦2inem:evenir¦2m:xer,xar,her,çar,oar,far¦2iam:hear,xear,gear,zear,bear¦2em/exturquem:quir¦2iden:xpedir,spedir¦2ían:spiar,sviar,afiar,pliar,nviar¦2iendan:nmendar,omendar¦2uelven:isolver,evolver,esolver¦2ierran:nterrar¦2uerdan:ncordar,ecordar¦2iguen:oseguir,rseguir,nseguir¦2ieren:ugerir¦2ienden:efender,ncender,ntender,xtender¦2íben:ohibir¦2ienen:nvenir¦2úan:ctuar¦2iesan:nfesar¦2uevan:enovar¦2iernan:obernar¦2yen:tuir,ruir¦2iertan:spertar¦2ienten:esentir,nsentir¦1em:sir,air¦1únen:eunir¦1íbem:oibir¦1iestan:festar¦1úan:luar,nuar,duar¦1ízan:aizar¦1uesan/engrosan:rosar¦1ierran:cerrar¦1ueven:mover¦1idem:redir¦1ieren:herir¦1iertan:certar¦1iesan:vesar¦1ienten:pentir¦1iten:petir,retir¦1úsan:husar¦1ueban:robar¦1ientan:lentar¦1uestan:postar¦1iebran:uebrar¦1iendan:rendar¦1iezan:pezar¦1ían:uiar¦uelcan:olcar¦iemblan:emblar¦e suicidan:uicidarse¦ sientan:ntarse¦uerden:order¦ão:aver¦iernen:ernir¦ospem:uspir¦õem:or¦üenzan:onzar¦uelen:oler¦ierden:erder¦uerzan:orzar¦ueden:oder¦ueren:orir¦uelgan:olgar¦icen:ecir¦ueñan:oñar¦iñen:eñir¦uermen:ormir¦íen:eír¦ierten:ertir¦ienzan:enzar",
+        "rev": "er:on,én,êem¦egar:iegan¦iar:ían,ían/palian¦ensar:iensan¦orcer:uercen¦ostar:uestan¦orar:üeran¦ender:ienden¦ordar:uerdan¦olar:uelan¦ontrar:uentran¦uar:úan¦over:ueven¦entir:ienten¦elar:ielan¦etar:ietan¦eguir:iguen¦onar:uenan¦olver:uelven¦ontar:uentan¦ar:án¦ervir:ierven¦islar:íslan¦unar:únan¦ugir:ogem¦oblar:ueblan¦olir:ulem¦udar:údam¦embrar:iembran¦errar:ierran¦oldar:ueldan¦oltar:ueltan¦1ener:tienen¦1ir:uyen¦1ostrar:muestran¦1üir:guyen¦1ar:eiam¦1er:têm¦1edir:piden¦1r:eem,iem¦2r:jan,han,man,pan,ean,nam,cem,tam,ham,mam,cam,zam,ram,lam,jam,vam,sam,bam,gam,pam,oem,uam,oen¦2erir:quieren¦2ir:uben,ngen,bren,erem,uden,umen,uzem,item,rgem,udem,utem,igem,imem,unem,buem,tuem,umem¦2egir:rrigen¦2ebir:nciben¦3r:eben,igan,dian,ican,ucan,izan,otan,ecen,itan,gran,ecan,eten,agan,ocan,dran,aran,inan,udan,uran,olan,atan,iran,cian,aben,anan,onan,rcan,añen,oban,ncen,alan,oran,azem,lvem,ndem,usan,fiam,liam,riam,ilan,ncan,ndam,diam,ptan,fran,rrem,izem,ozem,rsan,ogan,udam,rdam,ciam,utan,idam,ivan,ulan,avan,odam,ovan,mpem,cran,ldam,vian,isan,ngan,sgan,egem,mban¦3ir:ciden,miten,urren,arcen,siden,salen,umbem,ingem¦4r:astan,andan,ansan,ortan,legan,orren,reven,untan,altan,ustan,ontan,señan,istan,uscan,oblan,ordan,orran,petan,angem,leran,regan,geran,iguan,antan,ceden,ilian,ompen,peñan,bebem,uetan,meran,ltran,renan,undan,neran,onran,peran,etran,fesan,obran,uerem,ornan,urran¦4ir:fligen,ividen,rumpen,cinden¦5r:testan,nvidan,pretan,mentan,sentan,umbran,tentan,penden,istran,omodan,hondan,ternan,astran,pensan,ngelan,rretem,ucidan,erezan,premem,sertan,ombran,rdenan,restan,ventan¦5ir:erciben",
+        "ex": "van:ir¦yerran:errar¦huelen:oler¦se acuestan:acostarse¦se afilian:afiliarse¦se alejan:alejarse¦se casan:casarse¦se deciden:decidirse¦se levantan:levantarse¦se mueven:moverse¦se olvidan:olvidarse¦se preocupan:preocuparse¦se quedan:quedarse¦se quejan:quejarse¦se retiran:retirarse¦4n:dejar,tapar,beber,odiar,andar,votar,secar,meter,cenar,pagar,tocar,notar,pesar,bajar,mudar,jurar,temer,matar,rezar,picar,curar,tomar,echar,fijar,tirar,crear,dudar,cesar,caber,durar,ganar,lavar,robar,mirar,saber,deber,parar,untar,fumar,besar,pegar,arder,botar,cavar,ceder,citar,colar,donar,dotar,girar,idear,jalar,ligar,obrar,optar,pelar,pisar,posar,remar,sanar,sudar,sumar,velar,virar,valer¦5n:gastar,mandar,educar,cansar,crecer,romper,barrer,llorar,llegar,correr,juntar,saltar,ladrar,llamar,apagar,culpar,entrar,montar,desear,faltar,violar,calmar,tratar,evitar,vender,peinar,buscar,doblar,gritar,cobrar,quejar,bordar,marcar,tragar,vencer,viajar,borrar,cortar,reinar,gustar,acusar,afilar,afinar,agitar,alegar,alejar,animar,anotar,apelar,apilar,bastar,batear,brotar,cantar,captar,cifrar,colmar,cursar,editar,frenar,frotar,fundar,gotear,gravar,honrar,imitar,lidiar,mediar,obviar,ocupar,operar,pasear,patear,portar,rasgar,restar,saciar,tensar,tumbar,zarpar,quedar¦9n:investigar,clasificar,enriquecer,significar,clarificar,sacrificar,glorificar,simbolizar,fortalecer,crucificar,actualizar,argumentar,beneficiar,certificar,conmemorar,contrastar,cuestionar,desbaratar,documentar,domesticar,economizar,empaquetar,enmascarar,falsificar,fiscalizar,formalizar,garantizar,indemnizar,involucrar,justificar,modernizar,normalizar,patrocinar,perjudicar,planificar,precipitar,presenciar,prevalecer,reaccionar,rectificar,reintegrar,reinventar,relacionar,reorientar,reutilizar,secuestrar,sintetizar,sintonizar,socializar,solucionar,testificar,traicionar,vislumbrar,visualizar,concentrar¦1on:ser¦7n:florecer,enamorar,reportar,importar,inmigrar,convidar,planchar,suspirar,exportar,preparar,platicar,utilizar,explicar,masticar,replicar,aumentar,inventar,detestar,realizar,intentar,soportar,respirar,depender,criticar,instalar,explorar,respetar,lamentar,castigar,accionar,acelerar,acomodar,afrontar,agilizar,agrandar,aligerar,alternar,aminorar,analizar,arrancar,arrestar,asegurar,asimilar,comentar,conceder,congelar,demandar,derrotar,deslizar,disparar,duplicar,ejecutar,enmarcar,enumerar,esquivar,fomentar,fusionar,implicar,insertar,inspirar,instigar,integrar,orientar,penetrar,profesar,rastrear,reanudar,recalcar,recobrar,recorrer,reflejar,resaltar,retornar,retratar,sabotear,socorrer,suavizar,sufragar,suplicar,suscitar,susurrar,unificar,vulnerar¦1iegan:negar,regar¦8n:protestar,colonizar,necesitar,modificar,controlar,preguntar,organizar,comunicar,presentar,funcionar,verificar,legalizar,purificar,contestar,registrar,disfrutar,civilizar,abastecer,acariciar,adjudicar,alimentar,apaciguar,armonizar,arrastrar,autorizar,blanquear,calificar,canalizar,capacitar,codificar,compensar,conciliar,contratar,coordinar,corromper,debilitar,descifrar,despachar,dilucidar,dinamizar,disculpar,disimular,dispensar,ejercitar,emparejar,enderezar,endurecer,enfatizar,enganchar,engendrar,ensamblar,estimular,facilitar,favorecer,finalizar,financiar,gestionar,habilitar,localizar,maximizar,memorizar,mencionar,minimizar,movilizar,notificar,ocasionar,optimizar,oscurecer,paralizar,penalizar,potenciar,preocupar,presionar,pretender,prolongar,propiciar,prosperar,ratificar,redondear,regenerar,sancionar,solventar,suspender,sustentar,tipificar,valorizar¦3n:usar,amar,asar,atar,izar,orar,roer¦4ían:confiar¦1iensan:pensar¦1uercen:torcer¦1ierran:cerrar,serrar¦1uestan:costar¦6n:invitar,atrever,manejar,reparar,asustar,abordar,cocinar,esperar,aspirar,ofrecer,afeitar,asociar,madurar,aplicar,ofender,visitar,regalar,emigrar,merecer,agregar,ahondar,alertar,alinear,allanar,aportar,apuntar,asaltar,delegar,demorar,derogar,encarar,equipar,exceder,filtrar,generar,imputar,incitar,innovar,inundar,manchar,militar,mitigar,nombrar,ordenar,perecer,prestar,recitar,saquear,separar,simular,sofocar,titular,centrar,emerger¦2en:unir¦2ieren:querer¦2üeran:agorar¦4ienden:descender¦2uerdan:acordar¦1irven:servir¦10n:emborrachar,interpretar,entrevistar,generalizar,acostumbrar,enflaquecer,administrar,aterrorizar,capitalizar,concienciar,cuantificar,diferenciar,digitalizar,especificar,estabilizar,esterilizar,estrangular,evolucionar,fundamentar,identificar,implementar,impresionar,incrementar,liberalizar,multiplicar,neutralizar,posibilitar,promocionar,pronosticar,recompensar,reflexionar,reglamentar,regularizar,rehabilitar,reorganizar,representar,revitalizar,seleccionar,simplificar,suministrar,transportar¦2ían:criar¦11n:caracterizar,complementar,confeccionar,contabilizar,cumplimentar,desperdiciar,diagnosticar,distorsionar,diversificar,experimentar,inspeccionar,intensificar,materializar,perfeccionar,personalizar,proporcionar,racionalizar,sensibilizar,subcontratar,tranquilizar¦1iden:medir,pedir¦2egan:jugar¦1ientan:sentar,tentar¦3ían:variar,vaciar,rociar¦1yen:oír¦1uelan:volar¦1ieren:herir¦3uentran:encontrar¦2yen:huir¦1ienen:venir,tener¦4én:prever¦3úan:situar¦3en:subir,abrir,rugir,salir¦1ueven:mover¦1uegan:rogar¦1ienten:sentir,mentir¦4en:fingir,aludir,asumir,eludir,erigir,eximir¦1ielan:helar¦2uestan:acostar¦3ietan:apretar¦1iguen:seguir¦2n:dar,ver,haber¦5en:afligir,recibir¦1uenan:sonar¦8yen:distribuir,contribuir¦1uelven:volver¦2ienden:atender¦1uentan:contar¦3án:estar¦1isten:vestir¦1ierven:hervir¦5m:abanar,aceder,acenar,adotar,alocar,aparar,apitar,apurar,arejar,atirar,ativar,aturar,berrar,cercar,chegar,chutar,clamar,clicar,custar,dobrar,drenar,drogar,ejetar,emular,enfiar,exumar,fechar,ferrar,fritar,gostar,inchar,inovar,jantar,jorrar,julgar,largar,listar,lucrar,migrar,moldar,morrer,narrar,pastar,peidar,planar,postar,pousar,pregar,rachar,raptar,recuar,render,sediar,sondar,soprar,testar,tornar,tramar,travar,trocar,varrer,voltar,erguer,tremer¦8m:aborrecer,acarretar,adicionar,alvorecer,amamentar,amortecer,amortizar,apimentar,apodrecer,aposentar,apunhalar,assegurar,assimilar,assombrar,atualizar,cadastrar,capitular,comemorar,complicar,comportar,concorrer,congregar,consertar,conspirar,contorcer,contornar,coordenar,danificar,desculpar,desfrutar,desmarcar,desocupar,despender,discordar,dissociar,dissolver,distorcer,emprestar,enfurecer,entabular,escurecer,etiquetar,exercitar,fermentar,flexionar,focalizar,gerenciar,humanizar,incomodar,infiltrar,licenciar,maltratar,ministrar,mobilizar,pacificar,percorrer,perguntar,reacender,relembrar,ressaltar,retificar,revigorar,rivalizar,salientar,silenciar,sinalizar,subsidiar,sussurrar,tonificar,triplicar,vaporizar¦7m:abrandar,absolver,alastrar,angariar,aprontar,arquivar,arrastar,assaltar,assediar,assentar,associar,assustar,cimentar,comandar,computar,confinar,decifrar,decorrer,deformar,deportar,derreter,desertar,desnudar,devastar,edificar,elucidar,empregar,encostar,enforcar,entornar,esbarrar,escorrer,esfregar,espantar,esquecer,estender,estourar,executar,fornecer,germinar,hibernar,implorar,incorrer,indiciar,internar,jardinar,lecionar,manobrar,mascarar,mastigar,oferecer,ostentar,otimizar,perfurar,planejar,praticar,projetar,protelar,racionar,remarcar,remendar,repousar,requerer,retaliar,revistar,suportar,temperar,tributar¦6m:acender,acionar,alarmar,alongar,amputar,apertar,aquecer,arrotar,arvorar,aterrar,atestar,atrasar,avaliar,avistar,castrar,chumbar,deparar,desejar,embeber,emendar,encetar,envidar,escavar,escutar,esmagar,espetar,estalar,esticar,exaltar,exortar,falecer,farejar,flertar,fofocar,hesitar,imigrar,isentar,lanchar,lembrar,minorar,mutilar,namorar,ocorrer,rebocar,recusar,renegar,segurar,usurpar,vacinar,venerar,vigorar¦4m:achar,adiar,afiar,aliar,arcar,atuar,babar,cagar,calar,cegar,corar,datar,dever,ditar,domar,falar,feder,ficar,furar,gabar,gelar,gemer,gerar,jogar,lesar,levar,lidar,lutar,mamar,mijar,mimar,minar,morar,nevar,ousar,pirar,podar,pular,rapar,reger,rimar,rolar,sarar,selar,socar,somar,sugar,sujar,tecer,uivar,vagar,vazar,vetar,visar,zelar¦10m:acrescentar,categorizar,centralizar,classificar,concretizar,decepcionar,decodificar,desacelerar,descongelar,desenvolver,desinstalar,desintegrar,desmascarar,dimensionar,enfraquecer,enlouquecer,impulsionar,incapacitar,influenciar,inicializar,inspecionar,interromper,monitorizar,monopolizar,quantificar,reabastecer,recapitular,reconciliar,reencontrar,refinanciar,ressuscitar,sincronizar,solidificar,suplementar,transbordar,transcender¦4em:aderir,aferir,iludir,reler,tingir,premir¦2em:agir,ler,rir¦1íslan:aislar¦9m:amadurecer,amedrontar,amplificar,apresentar,aprisionar,arredondar,atormentar,cauterizar,colecionar,confrontar,desapertar,desconfiar,desesperar,deslumbrar,desmembrar,disseminar,dissimular,engravidar,escravizar,estacionar,evidenciar,extraditar,fertilizar,fortificar,harmonizar,hipnotizar,incriminar,interligar,lubrificar,movimentar,obscurecer,orquestrar,padronizar,pestanejar,posicionar,prejudicar,pressionar,profetizar,pulverizar,qualificar,questionar,raciocinar,reabilitar,reaprender,refrigerar,requisitar,santificar,selecionar,sequestrar,subordinar,transpirar¦3m:arar,moer,suar¦3ienden:ascender¦2ientan:asentar¦6yen:atribuir¦1únan:aunar¦4iam:basear¦7iam:branquear¦5iam:chatear,estrear¦1uecen:cocer¦12n:comercializar,contrarrestar,desenmascarar¦13m:confraternizar,descentralizar¦12m:contra-atacar,correlacionar,desconsiderar,ridicularizar,supervisionar¦2êem:crer¦11m:cumprimentar,desvalorizar,exemplificar,experienciar,familiarizar,impressionar,marginalizar,nacionalizar,negligenciar,possibilitar,providenciar,revolucionar,subvencionar¦5em:demitir,digerir,emergir,incutir,ingerir,oprimir,referir¦3iegan:denegar¦9iam:desencadear¦13n:desestabilizar,individualizar¦3êm:deter,reter¦3uelven:envolver¦3em:ferir,gerir,punir,sumir,ungir¦3yen:fluir¦3iam:frear¦2iegan:fregar,plegar¦1ogem:fugir¦1imen:gemir¦3iden:impedir¦6em:infligir¦16n:institucionalizar¦3ían/palian:paliar¦1ueblan:poblar¦1ulem:polir¦14m:responsabilizar¦7em:retribuir,submergir¦3êem:rever¦1uedan:rodar¦2údam:saudar¦1iembran:sembrar¦1ueldan:soldar¦1ueltan:soltar¦8em:substituir¦1ienden:tender¦1êm:ter,vir¦1ierten:verter¦1igen:regir¦1uestran:mostrar¦2igen:elegir¦1õem:pôr¦1inden:rendir"
       }
     },
     "pastTense": {
@@ -12100,7 +12170,7 @@
     api,
   };
 
-  var version = '0.3.0';
+  var version = '0.3.1';
 
   nlp.plugin(tokenizer);
   nlp.plugin(tagset);
