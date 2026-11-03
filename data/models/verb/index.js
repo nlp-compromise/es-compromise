@@ -23,14 +23,17 @@ const todo = {
 }
 
 // turn our conjugation data into word-pairs
-let model = {}
+const model = {}
 Object.keys(todo).forEach(k => {
   model[k] = {}
-  let { data, keys } = todo[k]
+  const { data, keys } = todo[k]
   keys.forEach((form, i) => {
-    let pairs = []
+    const pairs = []
     Object.keys(data).forEach(inf => {
-      pairs.push([inf, data[inf][i]])
+      // some forms don't exist, like a first-person imperative
+      if (data[inf][i]) {
+        pairs.push([inf, data[inf][i]])
+      }
     })
     model[k][form] = pairs
     // console.log(k, form, pairs.length)

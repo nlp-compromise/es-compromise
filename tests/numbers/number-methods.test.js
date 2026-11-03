@@ -1,6 +1,6 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[number-methods] '
+const here = '[number-methods] '
 nlp.verbose(false)
 
 test('numbers-get:', function (t) {
@@ -13,12 +13,12 @@ test('numbers-get:', function (t) {
 })
 
 test('numbers-parse:', function (t) {
-  let obj = nlp('veintidós').numbers().parse()[0]
+  const obj = nlp('veintidós').numbers().parse()[0]
   t.equal(obj.num, 22, here + 'parse num')
   t.equal(obj.isText, true, here + 'parse isText')
   t.equal(obj.isOrdinal, false, here + 'parse isOrdinal')
 
-  let json = nlp('veintidós').numbers().json()[0]
+  const json = nlp('veintidós').numbers().json()[0]
   t.equal(json.number.num, 22, here + 'json num')
   t.end()
 })
@@ -58,7 +58,7 @@ test('numbers-arithmetic:', function (t) {
 })
 
 test('numbers-compare:', function (t) {
-  let doc = nlp('tres perros, cinco gatos y nueve patos')
+  const doc = nlp('tres perros, cinco gatos y nueve patos')
   t.equal(doc.numbers().greaterThan(4).length, 2, here + 'greaterThan')
   t.equal(doc.numbers().lessThan(4).text(), 'tres', here + 'lessThan')
   t.equal(doc.numbers().between(1, 6).length, 2, here + 'between')

@@ -1,9 +1,9 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[number-parse] '
+const here = '[number-parse] '
 nlp.verbose(false)
 
-let arr = [
+const arr = [
   [1, 'uno'],
   [2, 'dos'],
   [3, 'tres'],
@@ -144,9 +144,9 @@ let arr = [
 ]
 test('number-parse:', function (t) {
   arr.forEach(a => {
-    let [want, str] = a
-    let doc = nlp(str)
-    let n = doc.numbers().get()[0]
+    const [want, str] = a
+    const doc = nlp(str)
+    const n = doc.numbers().get()[0]
     t.equal(n, want, here + '[toNumber] ' + str)
   })
   t.end()
@@ -154,8 +154,8 @@ test('number-parse:', function (t) {
 
 test('number-create:', function (t) {
   arr.forEach(a => {
-    let [num, str] = a
-    let doc = nlp(String(num))
+    const [num, str] = a
+    const doc = nlp(String(num))
     doc.numbers().toText()
     t.equal(doc.text(), str, here + '[toText] ' + num)
   })
@@ -163,15 +163,15 @@ test('number-create:', function (t) {
 })
 
 test('number-one-way:', function (t) {
-  let toNum = [
+  const toNum = [
     [5000000, '5 millones'],
     [59000000, '59 millones'],
     // [5900000, '5,9 millones']
   ]
   toNum.forEach(a => {
-    let [num, str] = a
-    let doc = nlp(str)
-    let n = doc.numbers().get()[0]
+    const [num, str] = a
+    const doc = nlp(str)
+    const n = doc.numbers().get()[0]
     t.equal(n, num, here + '[toNumber] ' + str)
   })
   t.end()

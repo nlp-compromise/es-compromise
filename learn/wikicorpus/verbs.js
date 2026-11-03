@@ -1,9 +1,9 @@
 import parse from './parse.js'
-import fs from 'fs'
+import fs from 'node:fs'
 
 const want = 'Gerund'
 
-let lemmas = {}
+const lemmas = {}
 
 for (let i = 1; i < 3; i += 1) {
   parse(i).forEach(s => {
@@ -16,7 +16,7 @@ for (let i = 1; i < 3; i += 1) {
   })
 }
 // console.log(lemmas)
-let all = Object.entries(lemmas)
+const all = Object.entries(lemmas)
 // console.log(all)
 // all = all.map(a => [a[0], a[2]])
 

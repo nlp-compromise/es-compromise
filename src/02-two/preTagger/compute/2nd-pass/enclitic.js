@@ -27,12 +27,12 @@ const isVerb = function (entry) {
   if (!entry) {
     return false
   }
-  let tags = typeof entry === 'string' ? [entry] : entry
+  const tags = typeof entry === 'string' ? [entry] : entry
   return tags.some(t => verbish.includes(t))
 }
 
 const tryStem = function (stem, ending, lexicon) {
-  let plain = deAccent(stem)
+  const plain = deAccent(stem)
   // 'levantándose', 'diciéndomelo'
   if (isGerund.test(plain)) {
     return { tags: ['Gerund'], stem: plain }
@@ -59,16 +59,16 @@ const tryStem = function (stem, ending, lexicon) {
 const checkEnclitic = function (terms, i, world) {
   const setTag = world.methods.one.setTag
   const lexicon = world.model.one.lexicon
-  let term = terms[i]
+  const term = terms[i]
   if (term.tags.size > 0) {
     return null
   }
-  let str = term.machine || term.normal
+  const str = term.machine || term.normal
   for (let k = 0; k < endings.length; k += 1) {
-    let e = endings[k]
+    const e = endings[k]
     if (str.length - e.length >= 2 && str.endsWith(e)) {
-      let stem = str.slice(0, str.length - e.length)
-      let found = tryStem(stem, e, lexicon)
+      const stem = str.slice(0, str.length - e.length)
+      const found = tryStem(stem, e, lexicon)
       if (found !== null) {
         // let the root-computation see through the clitics
         term.machine = found.stem

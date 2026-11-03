@@ -1,7 +1,7 @@
 import data from './es-conjugations.js'
 // import { learn, convert } from 'suffix-thumb'
 
-let pairs = []
+const pairs = []
 // let already = new Set()
 Object.keys(data).forEach(k => {
   pairs.push([k, data[k]['Past Perfect'].first])

@@ -1,9 +1,9 @@
 import data from '../data.js'
-let ones = data.ones.reverse()
-let tens = data.tens.reverse()
-let hundreds = data.hundreds.reverse()
+const ones = data.ones.reverse()
+const tens = data.tens.reverse()
+const hundreds = data.hundreds.reverse()
 
-let multiples = [
+const multiples = [
   [1000000000, 'billones', 'billones'],
   [1000000, 'millón', 'millones'],
   [1000, 'mil', 'mil'],
@@ -14,10 +14,10 @@ let multiples = [
 //turn number into an array of magnitudes, like [[5, million], [2, hundred]]
 const getMagnitudes = function (num) {
   let working = num
-  let have = []
+  const have = []
   multiples.forEach(a => {
     if (num >= a[0]) {
-      let howmany = Math.floor(working / a[0])
+      const howmany = Math.floor(working / a[0])
       working -= howmany * a[0]
       if (howmany) {
         let str = a[1]
@@ -35,7 +35,7 @@ const getMagnitudes = function (num) {
 }
 
 const twoDigit = function (num) {
-  let words = []
+  const words = []
   let addAnd = false
   // 100-900
   for (let i = 0; i < hundreds.length; i += 1) {
@@ -85,9 +85,9 @@ const toText = function (num) {
     num = Math.abs(num)
   }
   // handle multiples
-  let found = getMagnitudes(num)
+  const found = getMagnitudes(num)
   found.forEach(obj => {
-    let res = twoDigit(obj.num)
+    const res = twoDigit(obj.num)
     words = words.concat(res)
     if (obj.unit !== 'one') {
       words.push(obj.unit)

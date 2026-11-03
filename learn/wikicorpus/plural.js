@@ -1,9 +1,9 @@
 import parse from './parse.js'
-import fs from 'fs'
+import fs from 'node:fs'
 
 const want = 'Noun'
 
-let lemmas = {}
+const lemmas = {}
 
 for (let i = 1; i < 30; i += 1) {
   parse(i).forEach(s => {

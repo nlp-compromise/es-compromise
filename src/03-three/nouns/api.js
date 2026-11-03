@@ -27,9 +27,9 @@ const toSingularArt = {
 
 // flip 'los' → 'el', etc
 const swapArticle = function (m, mapping) {
-  let art = m.before(`(${Object.keys(mapping).join('|')})$`)
+  const art = m.before(`(${Object.keys(mapping).join('|')})$`)
   if (art.found) {
-    let w = art.text('normal')
+    const w = art.text('normal')
     if (mapping.hasOwnProperty(w)) {
       art.replaceWith(mapping[w])
     }
@@ -46,7 +46,7 @@ const api = function (View) {
     conjugate(n) {
       const methods = this.methods.two.transform.noun
       return getNth(this, n).map(m => {
-        let str = m.text()
+        const str = m.text()
         if (m.has('#PluralNoun')) {
           return {
             plural: str,
@@ -65,8 +65,8 @@ const api = function (View) {
     toPlural(n) {
       const methods = this.methods.two.transform.noun
       getNth(this, n).ifNo('#Plural').forEach(m => {
-        let str = m.text('normal')
-        let plural = methods.toPlural(str)
+        const str = m.text('normal')
+        const plural = methods.toPlural(str)
         m.replaceWith(plural)
         // flip article, too
         swapArticle(m, toPluralArt)
@@ -76,8 +76,8 @@ const api = function (View) {
     toSingular(n) {
       const methods = this.methods.two.transform.noun
       getNth(this, n).if('#Plural').forEach(m => {
-        let str = m.text('normal')
-        let singular = methods.toSingular(str)
+        const str = m.text('normal')
+        const singular = methods.toSingular(str)
         m.replaceWith(singular)
         // flip article, too
         swapArticle(m, toSingularArt)

@@ -3,7 +3,7 @@ import model from '../models.js'
 import { toGerund } from './gerund.js'
 import { toPerfecto } from './perfecto.js'
 import { toReflexive } from './reflexive.js'
-let { presentTense, pastTense, imperfectTense, futureTense, conditional, subjunctive, imperfectSubjunctive, imperative } = model
+const { presentTense, pastTense, imperfectTense, futureTense, conditional, subjunctive, imperfectSubjunctive, imperative } = model
 
 const doEach = function (str, m) {
   return {
@@ -25,7 +25,7 @@ const toSubjunctive = (str) => doEach(str, subjunctive)
 const toImperfectSubjunctive = (str) => doEach(str, imperfectSubjunctive)
 // 'si pudiese...' - the -se series is a regular respelling of the -ra one
 const toImperfectSubjunctiveSe = (str) => {
-  let obj = toImperfectSubjunctive(str)
+  const obj = toImperfectSubjunctive(str)
   return {
     first: obj.first ? obj.first.replace(/ra$/, 'se') : obj.first,
     second: obj.second ? obj.second.replace(/ras$/, 'ses') : obj.second,
@@ -37,7 +37,7 @@ const toImperfectSubjunctiveSe = (str) => {
 }
 const toConditional = (str) => doEach(str, conditional)
 const toImperative = (str) => {
-  let obj = doEach(str, imperative)
+  const obj = doEach(str, imperative)
   // imperative has no first-person
   // because ...you can't tell yourself to do something.
   obj.first = ''

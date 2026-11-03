@@ -19,10 +19,10 @@ const api = function (View) {
       return getNth(this, n).map(parse).map(o => o.num)
     }
     json(n) {
-      let doc = getNth(this, n)
+      const doc = getNth(this, n)
       return doc.map(p => {
-        let json = p.toView().json(n)[0]
-        let parsed = parse(p)
+        const json = p.toView().json(n)[0]
+        const parsed = parse(p)
         json.number = {
           prefix: parsed.prefix,
           num: parsed.num,
@@ -47,14 +47,14 @@ const api = function (View) {
 
     /** convert to numeric form like '8' or '8th' */
     toNumber() {
-      let m = this.if('#TextValue')
-      let res = m.map(val => {
-        let obj = parse(val)
+      const m = this.if('#TextValue')
+      const res = m.map(val => {
+        const obj = parse(val)
         if (obj.num === null) {
           return val
         }
-        let fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal'
-        let str = format(obj, fmt)
+        const fmt = val.has('#Ordinal') ? 'Ordinal' : 'Cardinal'
+        const str = format(obj, fmt)
         if (str) {
           val.replaceWith(str, { tags: true })
           val.tag('NumericValue')
@@ -65,17 +65,17 @@ const api = function (View) {
     }
     /** convert to numeric form like 'eight' or 'eighth' */
     toText() {
-      let m = this
-      let res = m.map(val => {
+      const m = this
+      const res = m.map(val => {
         if (val.has('#TextValue')) {
           return val
         }
-        let obj = parse(val)
+        const obj = parse(val)
         if (obj.num === null) {
           return val
         }
-        let fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal'
-        let str = format(obj, fmt)
+        const fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal'
+        const str = format(obj, fmt)
         if (str) {
           val.replaceWith(str, { tags: true })
           val.tag('TextValue')
@@ -86,17 +86,17 @@ const api = function (View) {
     }
     /** convert ordinal to cardinal form, like 'eight', or '8' */
     toCardinal() {
-      let m = this
-      let res = m.map(val => {
+      const m = this
+      const res = m.map(val => {
         if (!val.has('#Ordinal')) {
           return val
         }
-        let obj = parse(val)
+        const obj = parse(val)
         if (obj.num === null) {
           return val
         }
-        let fmt = val.has('#TextValue') ? 'TextCardinal' : 'Cardinal'
-        let str = format(obj, fmt)
+        const fmt = val.has('#TextValue') ? 'TextCardinal' : 'Cardinal'
+        const str = format(obj, fmt)
         if (str) {
           val.replaceWith(str, { tags: true })
           val.tag('Cardinal')
@@ -107,17 +107,17 @@ const api = function (View) {
     }
     /** convert cardinal to ordinal form, like 'eighth', or '8th' */
     toOrdinal() {
-      let m = this
-      let res = m.map(val => {
+      const m = this
+      const res = m.map(val => {
         if (val.has('#Ordinal')) {
           return val
         }
-        let obj = parse(val)
+        const obj = parse(val)
         if (obj.num === null) {
           return val
         }
-        let fmt = val.has('#TextValue') ? 'TextOrdinal' : 'Ordinal'
-        let str = format(obj, fmt)
+        const fmt = val.has('#TextValue') ? 'TextOrdinal' : 'Ordinal'
+        const str = format(obj, fmt)
         if (str) {
           val.replaceWith(str, { tags: true })
           val.tag('Ordinal')
@@ -130,28 +130,28 @@ const api = function (View) {
     /** return only numbers that are == n */
     isEqual(n) {
       return this.filter((val) => {
-        let num = parse(val).num
+        const num = parse(val).num
         return num === n
       })
     }
     /** return only numbers that are > n*/
     greaterThan(n) {
       return this.filter((val) => {
-        let num = parse(val).num
+        const num = parse(val).num
         return num > n
       })
     }
     /** return only numbers that are < n*/
     lessThan(n) {
       return this.filter((val) => {
-        let num = parse(val).num
+        const num = parse(val).num
         return num < n
       })
     }
     /** return only numbers > min and < max */
     between(min, max) {
       return this.filter((val) => {
-        let num = parse(val).num
+        const num = parse(val).num
         return num > min && num < max
       })
     }
@@ -163,9 +163,9 @@ const api = function (View) {
       if (typeof n === 'string') {
         n = parse(n).num
       }
-      let m = this
-      let res = m.map((val) => {
-        let obj = parse(val)
+      const m = this
+      const res = m.map((val) => {
+        const obj = parse(val)
         obj.num = n
         if (obj.num === null) {
           return val
@@ -196,9 +196,9 @@ const api = function (View) {
       if (typeof n === 'string') {
         n = parse(n).num
       }
-      let m = this
-      let res = m.map((val) => {
-        let obj = parse(val)
+      const m = this
+      const res = m.map((val) => {
+        const obj = parse(val)
         if (obj.num === null) {
           return val
         }
@@ -207,7 +207,7 @@ const api = function (View) {
         if (obj.isText) {
           fmt = val.has('#Ordinal') ? 'TextOrdinal' : 'TextCardinal'
         }
-        let str = format(obj, fmt)
+        const str = format(obj, fmt)
         if (str) {
           val.replaceWith(str, { tags: true })
           // handle plural/singular unit
@@ -231,7 +231,7 @@ const api = function (View) {
     }
     // overloaded - keep Numbers class
     update(pointer) {
-      let m = new Numbers(this.document, pointer)
+      const m = new Numbers(this.document, pointer)
       m._cache = this._cache // share this full thing
       return m
     }

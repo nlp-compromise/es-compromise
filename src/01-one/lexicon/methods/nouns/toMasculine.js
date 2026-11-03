@@ -1,5 +1,5 @@
 const toMasculine = function (str) {
-  let arr = [
+  const arr = [
     ['ieta', 'ieto'],
     ['erra', 'erro'],
     ['rica', 'rico'],
@@ -34,7 +34,7 @@ const toMasculine = function (str) {
     ['as', 'os'],
   ]
   for (let i = 0; i < arr.length; i += 1) {
-    let [suff, repl] = arr[i]
+    const [suff, repl] = arr[i]
     if (str.endsWith(suff)) {
       str = str.substr(0, str.length - suff.length)
       str += repl

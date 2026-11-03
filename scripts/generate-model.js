@@ -1,7 +1,7 @@
 import { learn, compress } from 'suffix-thumb'
 import data from '../data/models/adjectives.js'
 
-let out = {}
+const out = {}
 let pairs = data.map(a => [a[0], a[1]])
 let model = learn(pairs)
 model = compress(model)

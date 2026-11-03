@@ -12,20 +12,20 @@ const irregular = {
   ver: ['veía', 'veías', 'veía', 'veíamos', 'veíais', 'veían'],
 }
 
-let data = {}
+const data = {}
 Object.keys(presentTense).forEach(inf => {
   // reflexive keys store plain conjugations, like the other files
-  let stem = inf.replace(/se$/, '')
+  const stem = inf.replace(/se$/, '')
   if (irregular.hasOwnProperty(stem)) {
     data[inf] = irregular[stem]
     return
   }
-  let m = stem.match(/(ar|er|ir|ír)$/)
+  const m = stem.match(/(ar|er|ir|ír)$/)
   if (!m) {
     return
   }
-  let root = stem.slice(0, stem.length - 2)
-  let ends = m[0] === 'ar' ? arEndings : erEndings
+  const root = stem.slice(0, stem.length - 2)
+  const ends = m[0] === 'ar' ? arEndings : erEndings
   data[inf] = ends.map(e => root + e)
 })
 

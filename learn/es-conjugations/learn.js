@@ -3,10 +3,10 @@ import { learn } from 'suffix-thumb'
 // https://github.com/ghidinelli/fred-jehle-spanish-verbs
 
 
-let tense = 'Future'
+const tense = 'Future'
 
-let subj = 'first'
-let all = {}
+const subj = 'first'
+const all = {}
 const vbOrder = ['first', 'second', 'third', 'firstPlural', 'secondPlural', 'thirdPlural']
 Object.keys(data).forEach(inf => {
   all[inf] = []

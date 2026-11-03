@@ -1,25 +1,25 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[tokenizer] '
+const here = '[tokenizer] '
 nlp.verbose(false)
 
 test('sentence-splitting:', function (t) {
-  let arr = [
+  const arr = [
     ['Fui a Madrid. Luego volví.', 2],
     ['¿Cómo estás? ¡Muy bien! Gracias.', 3],
     ['Hola.', 1],
     ['Me gusta el café', 1],
   ]
   arr.forEach(a => {
-    let [str, want] = a
-    let doc = nlp(str)
+    const [str, want] = a
+    const doc = nlp(str)
     t.equal(doc.fullSentences().length, want, here + `'${str}' → ${want} sentences`)
   })
   t.end()
 })
 
 test('text-roundtrip:', function (t) {
-  let arr = [
+  const arr = [
     '¿Cómo estás?',
     '¡Qué sorpresa!',
     '¿Dónde está la biblioteca?',
@@ -27,7 +27,7 @@ test('text-roundtrip:', function (t) {
     'dámelo',
   ]
   arr.forEach(str => {
-    let doc = nlp(str)
+    const doc = nlp(str)
     t.equal(doc.text(), str, here + `roundtrip '${str}'`)
   })
   t.end()

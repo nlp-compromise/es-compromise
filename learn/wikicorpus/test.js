@@ -9,22 +9,22 @@ const percent = (part, total) => {
 
 let right = 0
 let wrong = 0
-let oops = []
+const oops = []
 
 let bad = {}
 for (let i = 1; i < 2; i += 1) {
   parse(i).forEach(s => {
-    let doc = nlp(s.txt)
-    let want = {}
+    const doc = nlp(s.txt)
+    const want = {}
     s.words.forEach(t => {
-      let str = t.word.toLowerCase()
+      const str = t.word.toLowerCase()
       if (t.tag === 'Punctuation') {
         return
       }
       want[str] = t.tag
     })
     doc.terms().forEach(t => {
-      let str = t.text('normal')
+      const str = t.text('normal')
       if (want[str]) {
         if (t.has('@hasContraction') || t.has('#QuestionWord')) {
           return
@@ -65,15 +65,15 @@ console.log(wrong, ' wrong ' + percent(wrong, right + wrong) + '%')
 
 
 const topk = function (arr) {
-  let obj = {}
+  const obj = {}
   arr.forEach(a => {
     obj[a] = obj[a] || 0
     obj[a] += 1
   })
-  let res = Object.keys(obj).map(k => [k, obj[k]])
+  const res = Object.keys(obj).map(k => [k, obj[k]])
   return res.sort((a, b) => (a[1] > b[1] ? -1 : 0))
 }
 
 
-let todo = topk(oops).slice(0, 100)//.map(a => a[0])
+const todo = topk(oops).slice(0, 100)//.map(a => a[0])
 console.log(JSON.stringify(todo, null, 2))
