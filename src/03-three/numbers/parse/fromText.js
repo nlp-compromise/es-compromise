@@ -1,7 +1,7 @@
 import { toCardinal, toNumber } from './_data.js'
 const isNumber = /^[0-9,$.+-]+$/
 
-let multiples = {
+const multiples = {
   // ciento: 100,
   mil: 1000,
   millones: 1000000,
@@ -14,7 +14,7 @@ const fromText = function (terms) {
   let carry = 0
   let minus = false
   for (let i = 0; i < terms.length; i += 1) {
-    let { tags, normal } = terms[i]
+    const { tags, normal } = terms[i]
     let w = normal || ''
     // ... y-ocho
     if (w === 'y') {
@@ -31,7 +31,7 @@ const fromText = function (terms) {
     }
     // 'cent'
     if (multiples.hasOwnProperty(w)) {
-      let mult = multiples[w] || 1
+      const mult = multiples[w] || 1
       if (carry === 0) {
         carry = 1
       }
@@ -45,7 +45,7 @@ const fromText = function (terms) {
       carry += toNumber[w]
     } else if (isNumber.test(w)) {
       w = w.replace(/[,$+-]/g, '')
-      let num = Number(w) || 0
+      const num = Number(w) || 0
       carry += num
     } else {
       // console.log('missing', w)

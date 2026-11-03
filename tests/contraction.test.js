@@ -1,6 +1,6 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[contraction] '
+const here = '[contraction] '
 nlp.verbose(false)
 
 test('contraction-expand:', function (t) {
@@ -17,13 +17,13 @@ test('contraction-expand:', function (t) {
 })
 
 test('contraction-preserve-text:', function (t) {
-  let arr = [
+  const arr = [
     'Vamos al mercado del pueblo',
     'Ella va al cine',
     'el final del partido',
   ]
   arr.forEach(str => {
-    let doc = nlp(str)
+    const doc = nlp(str)
     t.equal(doc.text(), str, here + `text preserved: '${str}'`)
   })
   t.end()
@@ -31,7 +31,7 @@ test('contraction-preserve-text:', function (t) {
 
 test('contraction-match-both:', function (t) {
   // matching either the surface or expanded form should work
-  let doc = nlp('Te espero al final de la cola')
+  const doc = nlp('Te espero al final de la cola')
   t.equal(doc.has('al'), true, here + 'surface form matches')
   t.equal(doc.has('a el final'), true, here + 'expanded form matches')
   t.end()

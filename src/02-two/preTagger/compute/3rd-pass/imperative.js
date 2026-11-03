@@ -2,7 +2,7 @@
 // tú/usted commands share their form with the present-tense, so they need this context to disambiguate
 const checkImperative = function (terms, i, world) {
   const setTag = world.methods.one.setTag
-  let term = terms[i]
+  const term = terms[i]
   if (i !== 0 || !term.pre.includes('¡')) {
     return
   }

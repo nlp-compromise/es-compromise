@@ -17,7 +17,7 @@ const {
   toImperfectSubjunctiveSe,
   toReflexive
 } = methods.verb
-let lexicon = {}
+const lexicon = {}
 
 const tagMap = {
   first: 'FirstPerson',
@@ -31,12 +31,12 @@ const tagMap = {
 const addWords = function (obj, tag, lex) {
   // when two persons share a form ('hablaba' is 1st + 3rd person),
   // don't pick one - just tag the tense
-  let counts = {}
+  const counts = {}
   Object.keys(obj).forEach((k) => {
     counts[obj[k]] = (counts[obj[k]] || 0) + 1
   })
   Object.keys(obj).forEach((k) => {
-    let w = obj[k]
+    const w = obj[k]
     if (!w || lex[w]) {
       return
     }
@@ -50,7 +50,7 @@ const addWords = function (obj, tag, lex) {
 
 // attach the reflexive clitic to affirmative imperatives - 'lávate', 'lávese'
 const toImperativeReflexive = function (obj) {
-  let out = {}
+  const out = {}
   if (obj.second) {
     out.second = obj.second + 'te'
   }
@@ -67,7 +67,7 @@ const toImperativeReflexive = function (obj) {
 }
 
 Object.keys(lexData).forEach((tag) => {
-  let wordsObj = unpack(lexData[tag])
+  const wordsObj = unpack(lexData[tag])
   Object.keys(wordsObj).forEach((w) => {
     lexicon[w] = tag
 
@@ -113,9 +113,9 @@ Object.keys(lexData).forEach((tag) => {
       addWords(obj, 'Subjunctive', lexicon)
     }
     if (tag === 'Adjective') {
-      let f = methods.adjective.toFemale(w)
+      const f = methods.adjective.toFemale(w)
       lexicon[f] = lexicon[f] || ['Adjective', 'FemaleAdjective', 'SingularAdjective']
-      let fs = methods.adjective.toFemalePlural(w)
+      const fs = methods.adjective.toFemalePlural(w)
       lexicon[fs] = lexicon[fs] || ['Adjective', 'FemaleAdjective', 'PluralAdjective']
     }
     if (tag === 'Cardinal') {

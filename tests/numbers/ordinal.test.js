@@ -1,9 +1,9 @@
 import test from 'tape'
 import nlp from '../_lib.js'
-let here = '[number-parse] '
+const here = '[number-parse] '
 nlp.verbose(false)
 
-let arr = [
+const arr = [
   [1, 'uno', 'primero'],
   [2, 'dos', 'segundo'],
   [3, 'tres', 'tercero'],
@@ -59,8 +59,8 @@ let arr = [
 
 test('toOrdinal:', function (t) {
   arr.forEach(a => {
-    let [, card, ord] = a
-    let doc = nlp(card)
+    const [, card, ord] = a
+    const doc = nlp(card)
     doc.numbers().toOrdinal()
     t.equal(doc.text(), ord, here + ' [toOrdinal] ' + card)
   })
@@ -69,8 +69,8 @@ test('toOrdinal:', function (t) {
 
 test('toCardinal:', function (t) {
   arr.forEach(a => {
-    let [, card, ord] = a
-    let doc = nlp(ord)
+    const [, card, ord] = a
+    const doc = nlp(ord)
     doc.numbers().toCardinal()
     t.equal(doc.text(), card, here + ' [toCardinal] ' + card)
   })

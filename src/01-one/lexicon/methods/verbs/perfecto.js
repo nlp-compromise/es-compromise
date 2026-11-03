@@ -1,10 +1,10 @@
 import { convert, reverse } from 'suffix-thumb'
 import model from '../models.js'
 
-let { perfecto } = model
+const { perfecto } = model
 
 // =-=-
-let m = {
+const m = {
   fromPerfecto: reverse(perfecto.perfecto),
   toPerfecto: perfecto.perfecto,
 }

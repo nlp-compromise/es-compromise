@@ -1,6 +1,6 @@
 import { convert, reverse } from 'suffix-thumb'
 import model from '../models.js'
-let { presentTense, pastTense, imperfectTense, futureTense, conditional, subjunctive, imperative } = model
+const { presentTense, pastTense, imperfectTense, futureTense, conditional, subjunctive, imperative } = model
 
 // =-=-
 const revAll = function (m) {
@@ -10,13 +10,13 @@ const revAll = function (m) {
   }, {})
 }
 
-let presentRev = revAll(presentTense)
-let pastRev = revAll(pastTense)
-let imperfectRev = revAll(imperfectTense)
-let futureRev = revAll(futureTense)
-let conditionalRev = revAll(conditional)
-let subjunctRev = revAll(subjunctive)
-let imperativeRev = revAll(imperative)
+const presentRev = revAll(presentTense)
+const pastRev = revAll(pastTense)
+const imperfectRev = revAll(imperfectTense)
+const futureRev = revAll(futureTense)
+const conditionalRev = revAll(conditional)
+const subjunctRev = revAll(subjunctive)
+const imperativeRev = revAll(imperative)
 
 //relajarse -> relajar
 const stripReflexive = function (str) {
@@ -33,7 +33,7 @@ const stripReflexive = function (str) {
 }
 
 const fromPresent = (str, form) => {
-  let forms = {
+  const forms = {
     'FirstPerson': (s) => convert(s, presentRev.first),
     'SecondPerson': (s) => convert(s, presentRev.second),
     'ThirdPerson': (s) => convert(s, presentRev.third),
@@ -48,7 +48,7 @@ const fromPresent = (str, form) => {
 }
 
 const fromPast = (str, form) => {
-  let forms = {
+  const forms = {
     'FirstPerson': (s) => convert(s, pastRev.first),
     'SecondPerson': (s) => convert(s, pastRev.second),
     'ThirdPerson': (s) => convert(s, pastRev.third),
@@ -63,7 +63,7 @@ const fromPast = (str, form) => {
 }
 
 const fromImperfect = (str, form) => {
-  let forms = {
+  const forms = {
     'FirstPerson': (s) => convert(s, imperfectRev.first),
     'SecondPerson': (s) => convert(s, imperfectRev.second),
     'ThirdPerson': (s) => convert(s, imperfectRev.third),
@@ -79,7 +79,7 @@ const fromImperfect = (str, form) => {
 }
 
 const fromFuture = (str, form) => {
-  let forms = {
+  const forms = {
     'FirstPerson': (s) => convert(s, futureRev.first),
     'SecondPerson': (s) => convert(s, futureRev.second),
     'ThirdPerson': (s) => convert(s, futureRev.third),
@@ -94,7 +94,7 @@ const fromFuture = (str, form) => {
 }
 
 const fromConditional = (str, form) => {
-  let forms = {
+  const forms = {
     'FirstPerson': (s) => convert(s, conditionalRev.first),
     'SecondPerson': (s) => convert(s, conditionalRev.second),
     'ThirdPerson': (s) => convert(s, conditionalRev.third),
@@ -109,7 +109,7 @@ const fromConditional = (str, form) => {
 }
 
 const fromSubjunctive = (str, form) => {
-  let forms = {
+  const forms = {
     'FirstPerson': (s) => convert(s, subjunctRev.first),
     'SecondPerson': (s) => convert(s, subjunctRev.second),
     'ThirdPerson': (s) => convert(s, subjunctRev.third),
@@ -124,7 +124,7 @@ const fromSubjunctive = (str, form) => {
 }
 
 const fromImperative = (str, form) => {
-  let forms = {
+  const forms = {
     'FirstPerson': (s) => convert(s, imperativeRev.first),
     'SecondPerson': (s) => convert(s, imperativeRev.second),
     'ThirdPerson': (s) => convert(s, imperativeRev.third),

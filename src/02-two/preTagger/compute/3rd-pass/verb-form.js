@@ -49,7 +49,7 @@ rules = rules.sort((a, b) => {
   return 0
 })
 
-let forms = [
+const forms = [
   'FirstPerson',
   'SecondPerson',
   'ThirdPerson',
@@ -74,7 +74,7 @@ const stripReflexive = function (str) {
 // deduce gender of an adjective, but it's suffix
 const guessVerbForm = function (terms, i, world) {
   const setTag = world.methods.one.setTag
-  let term = terms[i]
+  const term = terms[i]
   if (term.tags.has('Verb')) {
     // skip non-finite forms and moods - 'comprado' ends in -o but is not first-person
     if (
@@ -99,7 +99,7 @@ const guessVerbForm = function (terms, i, world) {
     //relajarse -> relajar
     str = stripReflexive(str)
     for (let k = 0; k < rules.length; k += 1) {
-      let [suff, tag] = rules[k]
+      const [suff, tag] = rules[k]
       if (str.endsWith(suff)) {
         setTag([term], tag, world, true, '3-guessForm')
         break

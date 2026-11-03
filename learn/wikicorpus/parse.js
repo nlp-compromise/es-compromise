@@ -1,9 +1,9 @@
 // https://www.cs.upc.edu/~nlp/wikicorpus/
 const path = `/Users/spencer/data/tagged.es`
 // const path = `/Volumes/5tb/corpus/tagged.es`
-import fs from 'fs'
+import fs from 'node:fs'
 
-let files = [
+const files = [
   '10000_15000',
   '15000_20000',
   '20000_25000',
@@ -79,7 +79,7 @@ const mapping = {
 }
 // https://freeling-user-manual.readthedocs.io/en/latest/tagsets/
 const parseTag = function (str = '') {
-  let tag = mapping[str.substring(0, 1)]
+  const tag = mapping[str.substring(0, 1)]
   let plural, gender = null
   if (tag === 'Noun') {
     plural = str.substring(3, 4).toLowerCase() === 'p' ? true : false
@@ -104,8 +104,8 @@ const parseTag = function (str = '') {
 const parse = function (num) {
   const file = `${path}/spanishEtiquetado_${files[num]}`
 
-  let lines = fs.readFileSync(file, 'latin1').toString().split(/\n/)
-  let out = []
+  const lines = fs.readFileSync(file, 'latin1').toString().split(/\n/)
+  const out = []
   let tmp = []
   lines.forEach(line => {
     if (!line) {
@@ -118,7 +118,7 @@ const parse = function (num) {
       tmp = []
       return
     }
-    let a = line.split(/ /g)
+    const a = line.split(/ /g)
     let { tag, gender, plural } = parseTag(a[2])
     if (tag === 'Verb') {
       if (a[2].startsWith('VMG')) {

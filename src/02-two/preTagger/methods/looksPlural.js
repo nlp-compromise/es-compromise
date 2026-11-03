@@ -1,6 +1,6 @@
 
 // singular words that end in -s
-let exceptions = new Set([
+const exceptions = new Set([
   'análisis',
   'jueves',
   'ciempiés',

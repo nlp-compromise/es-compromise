@@ -21,7 +21,7 @@ import checkImperative from './3rd-pass/imperative.js'
 const firstPass = function (terms, world) {
   for (let i = 0; i < terms.length; i += 1) {
     //  is it titlecased?
-    let found = titleCase(terms, i, world)
+    const found = titleCase(terms, i, world)
     // try look-like rules
     found || checkRegex(terms, i, world)
     // turn '1993' into a year
@@ -51,7 +51,7 @@ const thirdPass = function (terms, world) {
 }
 
 const tagger = function (view) {
-  let world = view.world
+  const world = view.world
   view.docs.forEach((terms) => {
     firstPass(terms, world)
     secondPass(terms, world)

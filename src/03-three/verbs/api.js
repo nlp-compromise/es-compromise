@@ -3,7 +3,7 @@ export const getNth = (doc, n) => (typeof n === 'number' ? doc.eq(n) : doc)
 // get root form of adjective
 const getRoot = function (m) {
   m.compute('root')
-  let str = m.text('root')
+  const str = m.text('root')
   return str
 }
 
@@ -17,7 +17,7 @@ const api = function (View) {
       const methods = this.methods.two.transform.verb
       const { toPresent, toPast, toFuture, toConditional, toGerund, toPerfecto, toImperative, toSubjunctive } = methods
       return getNth(this, n).map(m => {
-        let str = getRoot(m, methods)
+        const str = getRoot(m, methods)
         return {
           presentTense: toPresent(str),
           pastTense: toPast(str),

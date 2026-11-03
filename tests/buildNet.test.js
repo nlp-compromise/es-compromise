@@ -1,14 +1,14 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[es-buildNet] '
+const here = '[es-buildNet] '
 
 test('buildNet:', function (t) {
-  let matches = [
+  const matches = [
     { match: '{odiar/Verb}' },
     { match: '{armonioso/Adjective}' },
     { match: '{peligro/Noun}' }
   ]
-  let net = nlp.buildNet(matches)
+  const net = nlp.buildNet(matches)
   t.ok(net.hooks.odiar, here + 'odiar')
   t.ok(net.hooks.odiamos, here + 'odiamos')
   t.ok(net.hooks.armonioso, here + 'armonioso')

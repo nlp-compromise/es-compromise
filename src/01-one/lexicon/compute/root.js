@@ -1,5 +1,5 @@
 const verbForm = function (term) {
-  let want = [
+  const want = [
     'FirstPerson',
     'SecondPerson',
     'ThirdPerson',
@@ -36,7 +36,7 @@ const root = function (view) {
           term.root = stripReflexive(str)
           return
         }
-        let form = verbForm(term)
+        const form = verbForm(term)
         if (term.tags.has('Gerund')) {
           term.root = verb.fromGerund(str, form)
         } else if (term.tags.has('Perfecto')) {

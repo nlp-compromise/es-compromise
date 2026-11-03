@@ -1,9 +1,9 @@
 import { convert, reverse } from 'suffix-thumb'
 import model from '../models.js'
 
-let { gerunds } = model
+const { gerunds } = model
 // =-=-
-let m = {
+const m = {
   fromGerund: reverse(gerunds.gerunds),
   toGerund: gerunds.gerunds,
 }

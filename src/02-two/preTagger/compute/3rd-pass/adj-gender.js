@@ -13,10 +13,10 @@ const guessGender = function (str) {
 // deduce gender of an adjective, by its suffix
 const guessAdjGender = function (terms, i, world) {
   const setTag = world.methods.one.setTag
-  let term = terms[i]
+  const term = terms[i]
   if (term.tags.has('Adjective') && !term.tags.has('FemaleAdjective') && !term.tags.has('MaleAdjective')) {
-    let str = term.machine || term.normal
-    let found = guessGender(str)
+    const str = term.machine || term.normal
+    const found = guessGender(str)
     if (found === 'f') {
       setTag([term], 'FemaleAdjective', world, false, '3-guessGender')
     } else if (found === 'm') {

@@ -1,9 +1,9 @@
 import parse from './parse.js'
-import fs from 'fs'
+import fs from 'node:fs'
 
 const want = 'Noun'
 
-let lemmas = {}
+const lemmas = {}
 
 for (let i = 1; i < 30; i += 1) {
   parse(i).forEach(s => {
@@ -12,7 +12,7 @@ for (let i = 1; i < 30; i += 1) {
         t.lemma = t.lemma.toLowerCase()
         t.word = t.word.toLowerCase()
         if (t.plural === true && t.lemma !== t.word) {
-          if (t.word.match(/('|\.|·)/)) {
+          if (/('|\.|·)/.test(t.word)) {
             return
           }
           lemmas[t.lemma] = t.word
@@ -22,6 +22,6 @@ for (let i = 1; i < 30; i += 1) {
   })
 }
 
-let all = Object.entries(lemmas)
+const all = Object.entries(lemmas)
 fs.writeFileSync('./plurals.js', 'export default ' + JSON.stringify(all, null, 2))
 

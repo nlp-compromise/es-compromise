@@ -1,10 +1,10 @@
 import test from 'tape'
 import nlp from './_lib.js'
-let here = '[conjugate] '
+const here = '[conjugate] '
 nlp.verbose(false)
 
 test('adj-conjugate:', function (t) {
-  let all = ["pseudocientífico", "pseudocientífica", "pseudocientíficos", "pseudocientíficas"]
+  const all = ["pseudocientífico", "pseudocientífica", "pseudocientíficos", "pseudocientíficas"]
   t.deepEqual(Object.values(nlp(all[0]).adjectives().conjugate()[0]), all, here + 'from-male')
   t.deepEqual(Object.values(nlp(all[1]).adjectives().conjugate()[0]), all, here + 'from-female')
   t.deepEqual(Object.values(nlp(all[2]).adjectives().conjugate()[0]), all, here + 'from-plural')
@@ -26,7 +26,7 @@ test('adj-conjugate-forms:', function (t) {
 })
 
 test('noun-conjugate:', function (t) {
-  let all = ["atenuación", "atenuaciones"]
+  const all = ["atenuación", "atenuaciones"]
   let o = nlp(all[0]).nouns().conjugate()[0]
   t.deepEqual([o.singular, o.plural], all, here + 'from-sing')
 
@@ -36,30 +36,30 @@ test('noun-conjugate:', function (t) {
 })
 
 test('noun-conjugate-forms:', function (t) {
-  let arr = [
+  const arr = [
     ['lápiz', 'lápices'], // -z becomes -ces
     ['la luz', 'luces'],
     ['la ciudad', 'ciudades'], // consonant adds -es
     ['el gato', 'gatos'], // vowel adds -s
   ]
   arr.forEach(a => {
-    let [str, plural] = a
-    let o = nlp(str).nouns().conjugate()[0]
+    const [str, plural] = a
+    const o = nlp(str).nouns().conjugate()[0]
     t.equal(o.plural, plural, here + `plural of '${str}'`)
   })
   t.end()
 })
 
 test('noun-toPlural:', function (t) {
-  let arr = [
+  const arr = [
     ['el gato', 'los gatos'],
     ['la ciudad', 'las ciudades'],
     ['un lápiz', 'unos lápices'],
     ['mi amigo', 'mis amigos'],
   ]
   arr.forEach(a => {
-    let [str, want] = a
-    let doc = nlp(str)
+    const [str, want] = a
+    const doc = nlp(str)
     doc.nouns().toPlural()
     t.equal(doc.text(), want, here + `'${str}' → '${want}'`)
   })
@@ -67,15 +67,15 @@ test('noun-toPlural:', function (t) {
 })
 
 test('noun-toSingular:', function (t) {
-  let arr = [
+  const arr = [
     ['los gatos', 'el gato'],
     ['las casas', 'la casa'],
     ['unas mesas', 'una mesa'],
     ['nuestros amigos', 'nuestro amigo'],
   ]
   arr.forEach(a => {
-    let [str, want] = a
-    let doc = nlp(str)
+    const [str, want] = a
+    const doc = nlp(str)
     doc.nouns().toSingular()
     t.equal(doc.text(), want, here + `'${str}' → '${want}'`)
   })
@@ -83,7 +83,7 @@ test('noun-toSingular:', function (t) {
 })
 
 test('verb-conjugate:', function (t) {
-  let all = ["reporto", "reportas", "reporta", "reportamos", "reportáis", "reportan"]
+  const all = ["reporto", "reportas", "reporta", "reportamos", "reportáis", "reportan"]
   t.deepEqual(Object.values(nlp(all[0]).verbs().conjugate()[0].presentTense), all, here + 'from-first')
   t.deepEqual(Object.values(nlp(all[1]).verbs().conjugate()[0].presentTense), all, here + 'from-2nd')
   t.deepEqual(Object.values(nlp(all[2]).verbs().conjugate()[0].presentTense), all, here + 'from-3d')
@@ -94,7 +94,7 @@ test('verb-conjugate:', function (t) {
 })
 
 test('verb-conjugate-ar:', function (t) {
-  let o = nlp('hablar').verbs().conjugate()[0]
+  const o = nlp('hablar').verbs().conjugate()[0]
   t.deepEqual(Object.values(o.presentTense),
     ['hablo', 'hablas', 'habla', 'hablamos', 'habláis', 'hablan'], here + 'hablar-present')
   t.deepEqual(Object.values(o.pastTense),
@@ -126,7 +126,7 @@ test('verb-conjugate-er-ir:', function (t) {
 
 test('verb-conjugate-from-sentence:', function (t) {
   // conjugating an inflected verb should find its root first
-  let o = nlp('ella habló ayer').verbs().conjugate()[0]
+  const o = nlp('ella habló ayer').verbs().conjugate()[0]
   t.equal(o.presentTense.first, 'hablo', here + 'from-past-3rd')
   t.equal(o.futureTense.third, 'hablará', here + 'from-past-to-future')
   t.equal(o.gerund, 'hablando', here + 'from-past-to-gerund')

@@ -1,6 +1,6 @@
 // hand-curated entries that win over everything else in the lexicon.
 // spanish marks question-words with an accent - 'qué es' vs 'creo que es'
-let lex = {
+const lex = {
   // reflexive/impersonal clitic - 'se habla español'
   se: 'Pronoun',
   // 'yo sé' (saber) + imperative of ser
