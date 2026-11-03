@@ -1,3 +1,8 @@
+### 0.3.2 [Nov 2026]
+
+- **[update]** - smaller suffix-thumb format
+- **[update]** - dependencies
+
 ### 0.3.0 [July 2026]
 
 - **[new]** - imperfect tense (pretérito imperfecto) - conjugation, tagging + toRoot ('trabajaba', 'vivíamos')
