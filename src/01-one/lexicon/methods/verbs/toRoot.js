@@ -10,6 +10,14 @@ const revAll = function (m) {
   }, {})
 }
 
+// suffix-thumb v6 applies its closest rule to any input, so a word the model
+// never saw still comes back changed - only accept a root that conjugates
+// back into the word we started with
+const safe = (str, rev, fwd) => {
+  const out = convert(str, rev)
+  return convert(out, fwd) === str ? out : str
+}
+
 const presentRev = revAll(presentTense)
 const pastRev = revAll(pastTense)
 const imperfectRev = revAll(imperfectTense)
@@ -34,12 +42,12 @@ const stripReflexive = function (str) {
 
 const fromPresent = (str, form) => {
   const forms = {
-    'FirstPerson': (s) => convert(s, presentRev.first),
-    'SecondPerson': (s) => convert(s, presentRev.second),
-    'ThirdPerson': (s) => convert(s, presentRev.third),
-    'FirstPersonPlural': (s) => convert(s, presentRev.firstPlural),
-    'SecondPersonPlural': (s) => convert(s, presentRev.secondPlural),
-    'ThirdPersonPlural': (s) => convert(s, presentRev.thirdPlural),
+    'FirstPerson': (s) => safe(s, presentRev.first, presentTense.first),
+    'SecondPerson': (s) => safe(s, presentRev.second, presentTense.second),
+    'ThirdPerson': (s) => safe(s, presentRev.third, presentTense.third),
+    'FirstPersonPlural': (s) => safe(s, presentRev.firstPlural, presentTense.firstPlural),
+    'SecondPersonPlural': (s) => safe(s, presentRev.secondPlural, presentTense.secondPlural),
+    'ThirdPersonPlural': (s) => safe(s, presentRev.thirdPlural, presentTense.thirdPlural),
   }
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
@@ -49,12 +57,12 @@ const fromPresent = (str, form) => {
 
 const fromPast = (str, form) => {
   const forms = {
-    'FirstPerson': (s) => convert(s, pastRev.first),
-    'SecondPerson': (s) => convert(s, pastRev.second),
-    'ThirdPerson': (s) => convert(s, pastRev.third),
-    'FirstPersonPlural': (s) => convert(s, pastRev.firstPlural),
-    'SecondPersonPlural': (s) => convert(s, pastRev.secondPlural),
-    'ThirdPersonPlural': (s) => convert(s, pastRev.thirdPlural),
+    'FirstPerson': (s) => safe(s, pastRev.first, pastTense.first),
+    'SecondPerson': (s) => safe(s, pastRev.second, pastTense.second),
+    'ThirdPerson': (s) => safe(s, pastRev.third, pastTense.third),
+    'FirstPersonPlural': (s) => safe(s, pastRev.firstPlural, pastTense.firstPlural),
+    'SecondPersonPlural': (s) => safe(s, pastRev.secondPlural, pastTense.secondPlural),
+    'ThirdPersonPlural': (s) => safe(s, pastRev.thirdPlural, pastTense.thirdPlural),
   }
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
@@ -64,28 +72,28 @@ const fromPast = (str, form) => {
 
 const fromImperfect = (str, form) => {
   const forms = {
-    'FirstPerson': (s) => convert(s, imperfectRev.first),
-    'SecondPerson': (s) => convert(s, imperfectRev.second),
-    'ThirdPerson': (s) => convert(s, imperfectRev.third),
-    'FirstPersonPlural': (s) => convert(s, imperfectRev.firstPlural),
-    'SecondPersonPlural': (s) => convert(s, imperfectRev.secondPlural),
-    'ThirdPersonPlural': (s) => convert(s, imperfectRev.thirdPlural),
+    'FirstPerson': (s) => safe(s, imperfectRev.first, imperfectTense.first),
+    'SecondPerson': (s) => safe(s, imperfectRev.second, imperfectTense.second),
+    'ThirdPerson': (s) => safe(s, imperfectRev.third, imperfectTense.third),
+    'FirstPersonPlural': (s) => safe(s, imperfectRev.firstPlural, imperfectTense.firstPlural),
+    'SecondPersonPlural': (s) => safe(s, imperfectRev.secondPlural, imperfectTense.secondPlural),
+    'ThirdPersonPlural': (s) => safe(s, imperfectRev.thirdPlural, imperfectTense.thirdPlural),
   }
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
   }
   // person-ambiguous forms ('hablaba' is 1st or 3rd) - try third-person
-  return convert(str, imperfectRev.third)
+  return safe(str, imperfectRev.third, imperfectTense.third)
 }
 
 const fromFuture = (str, form) => {
   const forms = {
-    'FirstPerson': (s) => convert(s, futureRev.first),
-    'SecondPerson': (s) => convert(s, futureRev.second),
-    'ThirdPerson': (s) => convert(s, futureRev.third),
-    'FirstPersonPlural': (s) => convert(s, futureRev.firstPlural),
-    'SecondPersonPlural': (s) => convert(s, futureRev.secondPlural),
-    'ThirdPersonPlural': (s) => convert(s, futureRev.thirdPlural),
+    'FirstPerson': (s) => safe(s, futureRev.first, futureTense.first),
+    'SecondPerson': (s) => safe(s, futureRev.second, futureTense.second),
+    'ThirdPerson': (s) => safe(s, futureRev.third, futureTense.third),
+    'FirstPersonPlural': (s) => safe(s, futureRev.firstPlural, futureTense.firstPlural),
+    'SecondPersonPlural': (s) => safe(s, futureRev.secondPlural, futureTense.secondPlural),
+    'ThirdPersonPlural': (s) => safe(s, futureRev.thirdPlural, futureTense.thirdPlural),
   }
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
@@ -95,12 +103,12 @@ const fromFuture = (str, form) => {
 
 const fromConditional = (str, form) => {
   const forms = {
-    'FirstPerson': (s) => convert(s, conditionalRev.first),
-    'SecondPerson': (s) => convert(s, conditionalRev.second),
-    'ThirdPerson': (s) => convert(s, conditionalRev.third),
-    'FirstPersonPlural': (s) => convert(s, conditionalRev.firstPlural),
-    'SecondPersonPlural': (s) => convert(s, conditionalRev.secondPlural),
-    'ThirdPersonPlural': (s) => convert(s, conditionalRev.thirdPlural),
+    'FirstPerson': (s) => safe(s, conditionalRev.first, conditional.first),
+    'SecondPerson': (s) => safe(s, conditionalRev.second, conditional.second),
+    'ThirdPerson': (s) => safe(s, conditionalRev.third, conditional.third),
+    'FirstPersonPlural': (s) => safe(s, conditionalRev.firstPlural, conditional.firstPlural),
+    'SecondPersonPlural': (s) => safe(s, conditionalRev.secondPlural, conditional.secondPlural),
+    'ThirdPersonPlural': (s) => safe(s, conditionalRev.thirdPlural, conditional.thirdPlural),
   }
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
@@ -110,12 +118,12 @@ const fromConditional = (str, form) => {
 
 const fromSubjunctive = (str, form) => {
   const forms = {
-    'FirstPerson': (s) => convert(s, subjunctRev.first),
-    'SecondPerson': (s) => convert(s, subjunctRev.second),
-    'ThirdPerson': (s) => convert(s, subjunctRev.third),
-    'FirstPersonPlural': (s) => convert(s, subjunctRev.firstPlural),
-    'SecondPersonPlural': (s) => convert(s, subjunctRev.secondPlural),
-    'ThirdPersonPlural': (s) => convert(s, subjunctRev.thirdPlural),
+    'FirstPerson': (s) => safe(s, subjunctRev.first, subjunctive.first),
+    'SecondPerson': (s) => safe(s, subjunctRev.second, subjunctive.second),
+    'ThirdPerson': (s) => safe(s, subjunctRev.third, subjunctive.third),
+    'FirstPersonPlural': (s) => safe(s, subjunctRev.firstPlural, subjunctive.firstPlural),
+    'SecondPersonPlural': (s) => safe(s, subjunctRev.secondPlural, subjunctive.secondPlural),
+    'ThirdPersonPlural': (s) => safe(s, subjunctRev.thirdPlural, subjunctive.thirdPlural),
   }
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)
@@ -125,12 +133,12 @@ const fromSubjunctive = (str, form) => {
 
 const fromImperative = (str, form) => {
   const forms = {
-    'FirstPerson': (s) => convert(s, imperativeRev.first),
-    'SecondPerson': (s) => convert(s, imperativeRev.second),
-    'ThirdPerson': (s) => convert(s, imperativeRev.third),
-    'FirstPersonPlural': (s) => convert(s, imperativeRev.firstPlural),
-    'SecondPersonPlural': (s) => convert(s, imperativeRev.secondPlural),
-    'ThirdPersonPlural': (s) => convert(s, imperativeRev.thirdPlural),
+    'FirstPerson': (s) => safe(s, imperativeRev.first, imperative.first),
+    'SecondPerson': (s) => safe(s, imperativeRev.second, imperative.second),
+    'ThirdPerson': (s) => safe(s, imperativeRev.third, imperative.third),
+    'FirstPersonPlural': (s) => safe(s, imperativeRev.firstPlural, imperative.firstPlural),
+    'SecondPersonPlural': (s) => safe(s, imperativeRev.secondPlural, imperative.secondPlural),
+    'ThirdPersonPlural': (s) => safe(s, imperativeRev.thirdPlural, imperative.thirdPlural),
   }
   if (forms.hasOwnProperty(form)) {
     return forms[form](str)

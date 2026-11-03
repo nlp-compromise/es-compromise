@@ -30,7 +30,10 @@ Object.keys(todo).forEach(k => {
   keys.forEach((form, i) => {
     const pairs = []
     Object.keys(data).forEach(inf => {
-      pairs.push([inf, data[inf][i]])
+      // some forms don't exist, like a first-person imperative
+      if (data[inf][i]) {
+        pairs.push([inf, data[inf][i]])
+      }
     })
     model[k][form] = pairs
     // console.log(k, form, pairs.length)
